@@ -1,6 +1,9 @@
 import { prisma } from './prismaClient';
 import { addTokens, TIER_CONFIG, TierName } from './tokens';
 
+// Re-export TIER_CONFIG for convenience
+export { TIER_CONFIG, TierName };
+
 // Get or create user rewards profile
 export async function getOrCreateUserRewards(userId: string) {
   let rewards = await prisma.userRewards.findUnique({
