@@ -86,6 +86,16 @@ model User {
   fileUploads           FileUpload[]
   auditLogs             AuditLog[]
   
+  // Blog
+  blogPosts             BlogPost[] @relation("BlogPostAuthor")
+  
+  // CRM
+  crmContacts           CrmContact[] @relation("ContactOwner")
+  crmDeals              CrmDeal[] @relation("DealOwner")
+  crmNotes              CrmNote[] @relation("NoteAuthor")
+  crmActivities         CrmActivity[] @relation("ActivityOwner")
+  crmEmails             CrmEmail[] @relation("EmailSender")
+  
   // Status flags
   isSuspended           Boolean   @default(false) @map("is_suspended")
   isVerified            Boolean   @default(false) @map("is_verified")
@@ -1992,4 +2002,636 @@ enum SettingType {
   NUMBER
   BOOLEAN
   JSON
+}
+
+// =============================================================================
+// BLOG & CONTENT MANAGEMENT SYSTEM
+// =============================================================================
+
+model BlogPost {
+  id              String        @id @default(cuid())
+  title           String
+  slug            String        @unique
+  excerpt         String?       @db.Text
+  content         String        @db.Text
+  contentHtml     String?       @map("content_html") @db.Text
+  featuredImage   String?       @map("featured_image")
+  
+  // SEO
+  metaTitle       String?       @map("meta_title")
+  metaDescription String?       @map("meta_description") @db.Text
+  metaKeywords    String[]      @map("meta_keywords")
+  canonicalUrl    String?       @map("canonical_url")
+  ogImage         String?       @map("og_image")
+  
+  // Status
+  status          BlogPostStatus @default(DRAFT)
+  publishedAt     DateTime?     @map("published_at")
+  scheduledAt     DateTime?     @map("scheduled_at")
+  
+  // Author
+  authorId        String        @map("author_id")
+  author          User          @relation("BlogPostAuthor", fields: [authorId], references: [id])
+  
+  // Categories & Tags
+  categoryId      String?       @map("category_id")
+  category        BlogCategory? @relation(fields: [categoryId], references: [id])
+  tags            BlogPostTag[]
+  
+  // AI Generated
+  isAiGenerated   Boolean       @default(false) @map("is_ai_generated")
+  aiPrompt        String?       @map("ai_prompt") @db.Text
+  
+  // Stats
+  viewCount       Int           @default(0) @map("view_count")
+  likeCount       Int           @default(0) @map("like_count")
+  shareCount      Int           @default(0) @map("share_count")
+  readingTime     Int?          @map("reading_time") // in minutes
+  
+  // Related
+  relatedPosts    BlogPost[]    @relation("RelatedPosts")
+  relatedTo       BlogPost[]    @relation("RelatedPosts")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([slug])
+  @@index([status])
+  @@index([authorId])
+  @@index([categoryId])
+  @@index([publishedAt])
+  @@map("blog_posts")
+}
+
+model BlogCategory {
+  id              String      @id @default(cuid())
+  name            String
+  slug            String      @unique
+  description     String?     @db.Text
+  color           String?     // hex color for UI
+  icon            String?
+  
+  // SEO
+  metaTitle       String?     @map("meta_title")
+  metaDescription String?     @map("meta_description") @db.Text
+  
+  // Hierarchy
+  parentId        String?     @map("parent_id")
+  parent          BlogCategory? @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children        BlogCategory[] @relation("CategoryHierarchy")
+  
+  posts           BlogPost[]
+  sortOrder       Int         @default(0) @map("sort_order")
+  isActive        Boolean     @default(true) @map("is_active")
+  
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@index([slug])
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  id              String        @id @default(cuid())
+  name            String
+  slug            String        @unique
+  description     String?
+  color           String?
+  
+  posts           BlogPostTag[]
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([slug])
+  @@map("blog_tags")
+}
+
+model BlogPostTag {
+  id        String   @id @default(cuid())
+  postId    String   @map("post_id")
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tagId     String   @map("tag_id")
+  tag       BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([postId, tagId])
+  @@map("blog_post_tags")
+}
+
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+// =============================================================================
+// CRM - CUSTOMER RELATIONSHIP MANAGEMENT
+// =============================================================================
+
+model CrmContact {
+  id              String        @id @default(cuid())
+  
+  // Basic Info
+  firstName       String        @map("first_name")
+  lastName        String?       @map("last_name")
+  email           String?
+  phone           String?
+  company         String?
+  jobTitle        String?       @map("job_title")
+  avatar          String?
+  
+  // Address
+  address         String?
+  city            String?
+  state           String?
+  country         String?
+  postalCode      String?       @map("postal_code")
+  
+  // Social
+  website         String?
+  linkedin        String?
+  twitter         String?
+  
+  // Status
+  status          ContactStatus @default(LEAD)
+  source          ContactSource @default(OTHER)
+  
+  // Owner
+  ownerId         String        @map("owner_id")
+  owner           User          @relation("ContactOwner", fields: [ownerId], references: [id])
+  
+  // Relations
+  deals           CrmDeal[]
+  notes           CrmNote[]
+  activities      CrmActivity[]
+  emails          CrmEmail[]
+  
+  // Custom fields
+  customFields    Json?         @map("custom_fields")
+  tags            String[]
+  
+  // Scoring
+  leadScore       Int           @default(0) @map("lead_score")
+  lastContactedAt DateTime?     @map("last_contacted_at")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([email])
+  @@index([ownerId])
+  @@index([status])
+  @@map("crm_contacts")
+}
+
+model CrmPipeline {
+  id              String      @id @default(cuid())
+  name            String
+  description     String?
+  
+  stages          CrmStage[]
+  deals           CrmDeal[]
+  
+  isDefault       Boolean     @default(false) @map("is_default")
+  isActive        Boolean     @default(true) @map("is_active")
+  
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@map("crm_pipelines")
+}
+
+model CrmStage {
+  id              String      @id @default(cuid())
+  name            String
+  color           String?
+  
+  pipelineId      String      @map("pipeline_id")
+  pipeline        CrmPipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  
+  deals           CrmDeal[]
+  
+  probability     Int         @default(0) // 0-100%
+  sortOrder       Int         @default(0) @map("sort_order")
+  
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@unique([pipelineId, name])
+  @@map("crm_stages")
+}
+
+model CrmDeal {
+  id              String      @id @default(cuid())
+  name            String
+  description     String?     @db.Text
+  
+  // Value
+  value           Decimal     @default(0) @db.Decimal(19, 2)
+  currency        String      @default("USD")
+  
+  // Pipeline & Stage
+  pipelineId      String      @map("pipeline_id")
+  pipeline        CrmPipeline @relation(fields: [pipelineId], references: [id])
+  stageId         String      @map("stage_id")
+  stage           CrmStage    @relation(fields: [stageId], references: [id])
+  
+  // Contact
+  contactId       String      @map("contact_id")
+  contact         CrmContact  @relation(fields: [contactId], references: [id])
+  
+  // Owner
+  ownerId         String      @map("owner_id")
+  owner           User        @relation("DealOwner", fields: [ownerId], references: [id])
+  
+  // Status
+  status          DealStatus  @default(OPEN)
+  probability     Int         @default(0) // 0-100%
+  
+  // Dates
+  expectedCloseDate DateTime? @map("expected_close_date")
+  closedAt        DateTime?   @map("closed_at")
+  
+  // Relations
+  notes           CrmNote[]
+  activities      CrmActivity[]
+  
+  // Custom
+  customFields    Json?       @map("custom_fields")
+  tags            String[]
+  
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@index([pipelineId])
+  @@index([stageId])
+  @@index([contactId])
+  @@index([ownerId])
+  @@index([status])
+  @@map("crm_deals")
+}
+
+model CrmNote {
+  id              String      @id @default(cuid())
+  content         String      @db.Text
+  
+  // Relations
+  contactId       String?     @map("contact_id")
+  contact         CrmContact? @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  dealId          String?     @map("deal_id")
+  deal            CrmDeal?    @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  
+  // Author
+  authorId        String      @map("author_id")
+  author          User        @relation("NoteAuthor", fields: [authorId], references: [id])
+  
+  isPinned        Boolean     @default(false) @map("is_pinned")
+  
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@index([contactId])
+  @@index([dealId])
+  @@map("crm_notes")
+}
+
+model CrmActivity {
+  id              String        @id @default(cuid())
+  type            CrmActivityType
+  subject         String
+  description     String?       @db.Text
+  
+  // Relations
+  contactId       String?       @map("contact_id")
+  contact         CrmContact?   @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  dealId          String?       @map("deal_id")
+  deal            CrmDeal?      @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  
+  // Owner
+  ownerId         String        @map("owner_id")
+  owner           User          @relation("ActivityOwner", fields: [ownerId], references: [id])
+  
+  // Scheduling
+  dueDate         DateTime?     @map("due_date")
+  completedAt     DateTime?     @map("completed_at")
+  isCompleted     Boolean       @default(false) @map("is_completed")
+  
+  // Reminder
+  reminderAt      DateTime?     @map("reminder_at")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([contactId])
+  @@index([dealId])
+  @@index([ownerId])
+  @@index([dueDate])
+  @@map("crm_activities")
+}
+
+model CrmEmail {
+  id              String        @id @default(cuid())
+  
+  // Email details
+  subject         String
+  body            String        @db.Text
+  bodyHtml        String?       @map("body_html") @db.Text
+  
+  // Addresses
+  fromEmail       String        @map("from_email")
+  toEmail         String        @map("to_email")
+  ccEmails        String[]      @map("cc_emails")
+  bccEmails       String[]      @map("bcc_emails")
+  
+  // Contact
+  contactId       String        @map("contact_id")
+  contact         CrmContact    @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  
+  // Sender
+  senderId        String        @map("sender_id")
+  sender          User          @relation("EmailSender", fields: [senderId], references: [id])
+  
+  // Status
+  status          CrmEmailStatus @default(DRAFT)
+  sentAt          DateTime?     @map("sent_at")
+  
+  // Tracking
+  openedAt        DateTime?     @map("opened_at")
+  openCount       Int           @default(0) @map("open_count")
+  clickedAt       DateTime?     @map("clicked_at")
+  clickCount      Int           @default(0) @map("click_count")
+  
+  // Thread
+  threadId        String?       @map("thread_id")
+  parentId        String?       @map("parent_id")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([contactId])
+  @@index([senderId])
+  @@index([threadId])
+  @@map("crm_emails")
+}
+
+enum ContactStatus {
+  LEAD
+  PROSPECT
+  CUSTOMER
+  CHURNED
+  INACTIVE
+}
+
+enum ContactSource {
+  WEBSITE
+  REFERRAL
+  SOCIAL
+  COLD_OUTREACH
+  EVENT
+  ADVERTISEMENT
+  OTHER
+}
+
+enum DealStatus {
+  OPEN
+  WON
+  LOST
+}
+
+enum CrmActivityType {
+  CALL
+  EMAIL
+  MEETING
+  TASK
+  NOTE
+  FOLLOW_UP
+}
+
+enum CrmEmailStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  FAILED
+}
+
+// =============================================================================
+// AUTOMATION & WEBHOOKS
+// =============================================================================
+
+model Webhook {
+  id              String        @id @default(cuid())
+  name            String
+  url             String
+  secret          String?
+  
+  // Events to trigger
+  events          String[]
+  
+  // Status
+  isActive        Boolean       @default(true) @map("is_active")
+  
+  // Stats
+  lastTriggeredAt DateTime?     @map("last_triggered_at")
+  successCount    Int           @default(0) @map("success_count")
+  failureCount    Int           @default(0) @map("failure_count")
+  
+  // Logs
+  logs            WebhookLog[]
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@map("webhooks")
+}
+
+model WebhookLog {
+  id              String        @id @default(cuid())
+  webhookId       String        @map("webhook_id")
+  webhook         Webhook       @relation(fields: [webhookId], references: [id], onDelete: Cascade)
+  
+  event           String
+  payload         Json
+  
+  // Response
+  statusCode      Int?          @map("status_code")
+  response        String?       @db.Text
+  
+  // Status
+  success         Boolean       @default(false)
+  error           String?
+  
+  executedAt      DateTime      @default(now()) @map("executed_at")
+
+  @@index([webhookId])
+  @@index([executedAt])
+  @@map("webhook_logs")
+}
+
+model AutomationRule {
+  id              String        @id @default(cuid())
+  name            String
+  description     String?
+  
+  // Trigger
+  triggerType     TriggerType   @map("trigger_type")
+  triggerConfig   Json          @map("trigger_config")
+  
+  // Actions
+  actions         Json          // Array of action configs
+  
+  // Conditions
+  conditions      Json?         // Optional conditions
+  
+  // Status
+  isActive        Boolean       @default(true) @map("is_active")
+  
+  // Stats
+  runCount        Int           @default(0) @map("run_count")
+  lastRunAt       DateTime?     @map("last_run_at")
+  
+  // Logs
+  logs            AutomationLog[]
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@map("automation_rules")
+}
+
+model AutomationLog {
+  id              String          @id @default(cuid())
+  ruleId          String          @map("rule_id")
+  rule            AutomationRule  @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  
+  // Execution
+  triggerData     Json            @map("trigger_data")
+  actionsExecuted Json            @map("actions_executed")
+  
+  // Status
+  success         Boolean         @default(false)
+  error           String?
+  
+  executedAt      DateTime        @default(now()) @map("executed_at")
+  duration        Int?            // milliseconds
+
+  @@index([ruleId])
+  @@index([executedAt])
+  @@map("automation_logs")
+}
+
+model ScheduledTask {
+  id              String        @id @default(cuid())
+  name            String
+  description     String?
+  
+  // Schedule (cron expression)
+  cronExpression  String        @map("cron_expression")
+  timezone        String        @default("UTC")
+  
+  // Task
+  taskType        String        @map("task_type")
+  taskConfig      Json          @map("task_config")
+  
+  // Status
+  isActive        Boolean       @default(true) @map("is_active")
+  
+  // Execution
+  lastRunAt       DateTime?     @map("last_run_at")
+  nextRunAt       DateTime?     @map("next_run_at")
+  runCount        Int           @default(0) @map("run_count")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@map("scheduled_tasks")
+}
+
+enum TriggerType {
+  WEBHOOK
+  SCHEDULE
+  EVENT
+  MANUAL
+}
+
+// =============================================================================
+// NEWSLETTER & EMAIL MARKETING
+// =============================================================================
+
+model NewsletterSubscriber {
+  id              String        @id @default(cuid())
+  email           String        @unique
+  name            String?
+  
+  // Status
+  status          SubscriberStatus @default(PENDING)
+  confirmedAt     DateTime?     @map("confirmed_at")
+  unsubscribedAt  DateTime?     @map("unsubscribed_at")
+  
+  // Source
+  source          String?
+  
+  // Preferences
+  preferences     Json?
+  tags            String[]
+  
+  // Token for confirmation/unsubscribe
+  token           String        @unique @default(cuid())
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([email])
+  @@index([status])
+  @@map("newsletter_subscribers")
+}
+
+model NewsletterCampaign {
+  id              String        @id @default(cuid())
+  name            String
+  subject         String
+  previewText     String?       @map("preview_text")
+  
+  // Content
+  content         String        @db.Text
+  contentHtml     String?       @map("content_html") @db.Text
+  
+  // Status
+  status          CampaignStatus @default(DRAFT)
+  
+  // Schedule
+  scheduledAt     DateTime?     @map("scheduled_at")
+  sentAt          DateTime?     @map("sent_at")
+  
+  // Stats
+  recipientCount  Int           @default(0) @map("recipient_count")
+  openCount       Int           @default(0) @map("open_count")
+  clickCount      Int           @default(0) @map("click_count")
+  unsubscribeCount Int          @default(0) @map("unsubscribe_count")
+  bounceCount     Int           @default(0) @map("bounce_count")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@map("newsletter_campaigns")
+}
+
+enum SubscriberStatus {
+  PENDING
+  CONFIRMED
+  UNSUBSCRIBED
+  BOUNCED
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  CANCELED
 }
