@@ -152,7 +152,7 @@ export async function getAvailableSlots(params: {
   }
 
   // Get facility operating hours for the day
-  const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'lowercase' });
+  const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
   const operatingHours = device.facility.operatingHours as Record<
     string,
     { open: string; close: string }
