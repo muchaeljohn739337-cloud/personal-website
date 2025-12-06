@@ -7,12 +7,12 @@ import { Resend } from 'resend';
 
 import { prisma } from './prismaClient';
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY!;
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 const FROM_EMAIL = process.env.EMAIL_FROM || 'noreply@example.com';
 const FROM_NAME = process.env.EMAIL_FROM_NAME || 'Personal Website';
 
-// Initialize Resend client
-const resend = new Resend(RESEND_API_KEY);
+// Initialize Resend client (will be null if no API key)
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 // =============================================================================
 // EMAIL TEMPLATES
@@ -141,6 +141,12 @@ export async function sendEmail(options: SendEmailOptions) {
 
   const toAddresses = Array.isArray(to) ? to : [to];
   const fromAddress = from || `${FROM_NAME} <${FROM_EMAIL}>`;
+
+  // Check if Resend is configured
+  if (!resend) {
+    console.warn('Resend not configured - email not sent');
+    return { success: false, error: 'Email service not configured' };
+  }
 
   try {
     const response = await resend.emails.send({
