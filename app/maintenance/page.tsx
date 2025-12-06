@@ -102,9 +102,9 @@ export default function MaintenancePage() {
           </h1>
 
           <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-            We&apos;re building the future of digital payments. Get ready for a revolutionary
-            fintech platform with AI-powered analytics, crypto support, and enterprise-grade
-            security.
+            We&apos;re building the ultimate all-in-one SaaS platform. AI-powered CRM, automated
+            workflows, crypto payments, health monitoring, and enterprise-grade security — all in
+            one place.
           </p>
 
           {/* Countdown Timer */}
@@ -163,18 +163,18 @@ export default function MaintenancePage() {
             {[
               {
                 icon: FiShield,
-                title: 'Bank-Grade Security',
-                desc: 'SOC 2 certified with end-to-end encryption',
+                title: 'Enterprise Security',
+                desc: 'Bank-grade encryption with SOC 2 compliance',
               },
               {
                 icon: FiTrendingUp,
-                title: 'AI Analytics',
-                desc: 'Real-time insights powered by machine learning',
+                title: 'AI-Powered CRM',
+                desc: 'Smart automation and predictive analytics',
               },
               {
                 icon: FiZap,
-                title: 'Instant Payments',
-                desc: 'Process transactions in under 2 seconds',
+                title: 'Multi-Payment Support',
+                desc: 'Stripe, crypto, and global payment rails',
               },
             ].map((feature, i) => (
               <div
