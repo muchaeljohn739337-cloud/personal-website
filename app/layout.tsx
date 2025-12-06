@@ -14,9 +14,17 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Michael John | Software Developer Portfolio',
+  title: 'Advancia PayLedger | The Future of Digital Payments',
   description:
-    'Professional portfolio of Michael John - Software Developer specializing in modern web applications, React, Next.js, and TypeScript.',
+    'Advancia PayLedger is your all-in-one fintech solution for managing payments, crypto transactions, health rewards, and more. Secure, fast, and built for modern businesses.',
+  keywords: ['fintech', 'payments', 'crypto', 'digital payments', 'financial platform', 'payment processing'],
+  openGraph: {
+    title: 'Advancia PayLedger | The Future of Digital Payments',
+    description: 'Seamless payments, powerful analytics, unlimited possibilities.',
+    url: 'https://advanciapayledger.com',
+    siteName: 'Advancia PayLedger',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
