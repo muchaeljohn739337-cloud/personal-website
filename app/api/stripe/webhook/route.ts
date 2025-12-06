@@ -8,6 +8,10 @@ import { stripe } from '@/lib/stripe';
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: NextRequest) {
+  if (!stripe) {
+    return NextResponse.json({ error: 'Stripe is not configured' }, { status: 500 });
+  }
+
   const body = await req.text();
   const signature = headers().get('stripe-signature')!;
 
@@ -26,7 +30,7 @@ export async function POST(req: NextRequest) {
         const session = event.data.object as Stripe.Checkout.Session;
         const organizationId = session.metadata?.organizationId;
 
-        if (organizationId && session.subscription) {
+        if (organizationId && session.subscription && stripe) {
           const subscription = await stripe.subscriptions.retrieve(
             session.subscription as string
           );

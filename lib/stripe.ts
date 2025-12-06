@@ -102,6 +102,7 @@ export function formatPrice(priceInCents: number): string {
 }
 
 export async function createStripeCustomer(email: string, name?: string) {
+  if (!stripe) throw new Error('Stripe is not configured');
   return stripe.customers.create({
     email,
     name: name || undefined,
@@ -123,6 +124,7 @@ export async function createCheckoutSession({
   organizationId: string;
   trialDays?: number;
 }) {
+  if (!stripe) throw new Error('Stripe is not configured');
   return stripe.checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
@@ -154,6 +156,7 @@ export async function createBillingPortalSession({
   customerId: string;
   returnUrl: string;
 }) {
+  if (!stripe) throw new Error('Stripe is not configured');
   return stripe.billingPortal.sessions.create({
     customer: customerId,
     return_url: returnUrl,
@@ -161,14 +164,17 @@ export async function createBillingPortalSession({
 }
 
 export async function cancelSubscription(subscriptionId: string) {
+  if (!stripe) throw new Error('Stripe is not configured');
   return stripe.subscriptions.cancel(subscriptionId);
 }
 
 export async function getSubscription(subscriptionId: string) {
+  if (!stripe) throw new Error('Stripe is not configured');
   return stripe.subscriptions.retrieve(subscriptionId);
 }
 
 export async function updateSubscription(subscriptionId: string, priceId: string) {
+  if (!stripe) throw new Error('Stripe is not configured');
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
   return stripe.subscriptions.update(subscriptionId, {
     items: [
@@ -182,6 +188,7 @@ export async function updateSubscription(subscriptionId: string, priceId: string
 }
 
 export async function getInvoices(customerId: string, limit = 10) {
+  if (!stripe) throw new Error('Stripe is not configured');
   return stripe.invoices.list({
     customer: customerId,
     limit,
@@ -189,6 +196,7 @@ export async function getInvoices(customerId: string, limit = 10) {
 }
 
 export async function getUpcomingInvoice(customerId: string) {
+  if (!stripe) throw new Error('Stripe is not configured');
   try {
     return await stripe.invoices.createPreview({
       customer: customerId,
