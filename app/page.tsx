@@ -1,31 +1,72 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Head from 'next/head';
-import { FiGithub, FiLinkedin, FiMail, FiTwitter, FiArrowRight } from 'react-icons/fi';
+import {
+  FiGithub,
+  FiLinkedin,
+  FiMail,
+  FiTwitter,
+  FiArrowRight,
+  FiSun,
+  FiMoon,
+} from 'react-icons/fi';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
+
+    // Check for saved dark mode preference
+    const savedMode = localStorage.getItem('darkMode');
+    if (
+      savedMode === 'true' ||
+      (!savedMode && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('darkMode', (!darkMode).toString());
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus('sending');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setFormStatus('sent');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setFormStatus('idle'), 3000);
+      } else {
+        setFormStatus('error');
+      }
+    } catch {
+      setFormStatus('error');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <Head>
-        <title>Michael John | Professional Portfolio</title>
-        <meta
-          name="description"
-          content="Personal portfolio of Michael John - Software Developer"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       {/* Navigation */}
       <nav
         className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}
@@ -44,6 +85,17 @@ export default function Home() {
               >
                 About
               </a>
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                aria-label="Toggle dark mode"
+              >
+                {darkMode ? (
+                  <FiSun className="w-5 h-5 text-yellow-400" />
+                ) : (
+                  <FiMoon className="w-5 h-5 text-gray-700" />
+                )}
+              </button>
               <a
                 href="#experience"
                 className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -192,19 +244,22 @@ export default function Home() {
                 description:
                   'A full-stack e-commerce platform with payment integration and admin dashboard.',
                 tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-                link: '#',
+                link: 'https://github.com/muchaeljohn739337-cloud',
+                demo: 'https://example.com',
               },
               {
                 title: 'Task Management App',
                 description: 'A collaborative task management application with real-time updates.',
                 tags: ['Next.js', 'TypeScript', 'Firebase'],
-                link: '#',
+                link: 'https://github.com/muchaeljohn739337-cloud',
+                demo: 'https://example.com',
               },
               {
                 title: 'Portfolio Website',
                 description: 'A modern portfolio website built with Next.js and Tailwind CSS.',
                 tags: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
-                link: '#',
+                link: 'https://github.com/muchaeljohn739337-cloud/personal-website',
+                demo: 'https://example.com',
               },
             ].map((project, index) => (
               <div
@@ -227,13 +282,24 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                  <a
-                    href={project.link}
-                    className="text-blue-600 dark:text-blue-400 font-medium hover:underline inline-flex items-center"
-                  >
-                    View Project
-                    <FiArrowRight className="ml-1" />
-                  </a>
+                  <div className="flex gap-4">
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 dark:text-blue-400 font-medium hover:underline inline-flex items-center"
+                    >
+                      <FiGithub className="mr-1" /> Code
+                    </a>
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 dark:text-blue-400 font-medium hover:underline inline-flex items-center"
+                    >
+                      View Demo <FiArrowRight className="ml-1" />
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
@@ -252,7 +318,7 @@ export default function Home() {
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-10">
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label
@@ -265,6 +331,9 @@ export default function Home() {
                     type="text"
                     id="name"
                     name="name"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     placeholder="Your name"
                   />
@@ -280,6 +349,9 @@ export default function Home() {
                     type="email"
                     id="email"
                     name="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     placeholder="your.email@example.com"
                   />
@@ -296,6 +368,9 @@ export default function Home() {
                   type="text"
                   id="subject"
                   name="subject"
+                  required
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   placeholder="How can I help you?"
                 />
@@ -311,6 +386,9 @@ export default function Home() {
                   id="message"
                   name="message"
                   rows={5}
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   placeholder="Your message here..."
                 ></textarea>
@@ -318,10 +396,18 @@ export default function Home() {
               <div>
                 <button
                   type="submit"
-                  className="w-full md:w-auto px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  disabled={formStatus === 'sending'}
+                  className="w-full md:w-auto px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400"
                 >
-                  Send Message
+                  {formStatus === 'sending'
+                    ? 'Sending...'
+                    : formStatus === 'sent'
+                      ? 'Message Sent!'
+                      : 'Send Message'}
                 </button>
+                {formStatus === 'error' && (
+                  <p className="mt-2 text-red-500 text-sm">Failed to send. Please try again.</p>
+                )}
               </div>
             </form>
           </div>
