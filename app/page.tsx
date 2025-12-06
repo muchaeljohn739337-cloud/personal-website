@@ -24,7 +24,9 @@ import {
   FiHexagon,
   FiMenu,
   FiX,
+  FiStar,
 } from 'react-icons/fi';
+import { SiStripe, SiVisa, SiMastercard, SiPaypal, SiCoinbase, SiSquare } from 'react-icons/si';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -62,7 +64,7 @@ export default function Home() {
       description:
         'SOC 2 Type II certified. End-to-end encryption with quantum-resistant algorithms.',
       stats: 'Zero breaches since 2020',
-      gradient: 'from-violet-500 to-teal-600',
+      gradient: 'from-purple-500 to-violet-600',
     },
     {
       icon: FiTrendingUp,
@@ -70,7 +72,7 @@ export default function Home() {
       description:
         'Live dashboards with predictive analytics. Make data-driven decisions in milliseconds.',
       stats: '< 50ms latency',
-      gradient: 'from-orange-500 to-red-600',
+      gradient: 'from-violet-600 to-purple-500',
     },
     {
       icon: FiGlobe,
@@ -78,7 +80,7 @@ export default function Home() {
       description:
         'Edge computing across 200+ locations. Process payments in 135+ currencies instantly.',
       stats: '99.999% uptime SLA',
-      gradient: 'from-blue-500 to-cyan-600',
+      gradient: 'from-purple-600 to-violet-500',
     },
   ];
 
@@ -86,10 +88,10 @@ export default function Home() {
     <div className="min-h-screen bg-[#0a0a12] text-white overflow-x-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-transparent to-blue-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-transparent to-purple-950/30" />
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-[100px] animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-violet-600/10 rounded-full blur-[80px] animate-pulse delay-500" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-violet-600/15 rounded-full blur-[100px] animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-purple-600/10 rounded-full blur-[80px] animate-pulse delay-500" />
         {/* Grid Pattern */}
         <div
           className="absolute inset-0 opacity-[0.02]"
@@ -364,13 +366,70 @@ export default function Home() {
           <p className="text-center text-xs md:text-sm text-gray-500 mb-6 md:mb-8 uppercase tracking-wider">
             Trusted by Industry Leaders
           </p>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-8 items-center justify-items-center">
-            {['Stripe', 'Visa', 'Mastercard', 'PayPal', 'Coinbase', 'Square'].map((brand) => (
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center">
+            {[
+              { icon: SiStripe, name: 'Stripe' },
+              { icon: SiVisa, name: 'Visa' },
+              { icon: SiMastercard, name: 'Mastercard' },
+              { icon: SiPaypal, name: 'PayPal' },
+              { icon: SiCoinbase, name: 'Coinbase' },
+              { icon: SiSquare, name: 'Square' },
+            ].map((brand) => (
               <div
-                key={brand}
-                className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-600 hover:text-gray-400 transition-colors cursor-default"
+                key={brand.name}
+                className="group flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-all duration-300"
               >
-                {brand}
+                <brand.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-400 group-hover:text-violet-400 transition-colors" />
+                <span className="text-xs text-gray-600 group-hover:text-gray-400 transition-colors hidden sm:block">
+                  {brand.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Badges Section */}
+      <section className="relative z-10 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              {
+                icon: FiShield,
+                title: 'SOC 2 Type II',
+                desc: 'Certified',
+                color: 'from-violet-500 to-purple-600',
+              },
+              {
+                icon: FiLock,
+                title: 'PCI DSS',
+                desc: 'Level 1 Compliant',
+                color: 'from-violet-500 to-blue-600',
+              },
+              {
+                icon: FiDatabase,
+                title: 'GDPR',
+                desc: 'Compliant',
+                color: 'from-purple-500 to-violet-600',
+              },
+              {
+                icon: FiAward,
+                title: 'ISO 27001',
+                desc: 'Certified',
+                color: 'from-blue-500 to-violet-600',
+              },
+            ].map((badge, i) => (
+              <div
+                key={i}
+                className="group relative bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10 p-6 hover:border-violet-500/30 transition-all duration-300"
+              >
+                <div
+                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${badge.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                >
+                  <badge.icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-bold text-lg mb-1">{badge.title}</h3>
+                <p className="text-sm text-gray-500">{badge.desc}</p>
               </div>
             ))}
           </div>
@@ -695,10 +754,95 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="relative z-10 py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+              <FiStar className="w-4 h-4 text-violet-400" />
+              <span className="text-sm text-gray-400">Customer Stories</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                Trusted by
+              </span>{' '}
+              <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
+                Thousands
+              </span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              See what industry leaders say about Advancia PayLedger
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                quote:
+                  'Advancia reduced our payment processing costs by 40% while improving our fraud detection. The AI-powered analytics are game-changing.',
+                author: 'Sarah Chen',
+                role: 'CTO',
+                company: 'TechFlow Inc.',
+                avatar: 'SC',
+                rating: 5,
+              },
+              {
+                quote:
+                  'The integration was seamless. We went from legacy systems to a modern payment infrastructure in just 2 weeks. Outstanding support team.',
+                author: 'Marcus Johnson',
+                role: 'VP of Engineering',
+                company: 'FinanceHub',
+                avatar: 'MJ',
+                rating: 5,
+              },
+              {
+                quote:
+                  'Best-in-class security with SOC 2 compliance gave us the confidence to scale globally. Our transaction volume grew 10x in 6 months.',
+                author: 'Elena Rodriguez',
+                role: 'CEO',
+                company: 'GlobalPay Solutions',
+                avatar: 'ER',
+                rating: 5,
+              },
+            ].map((testimonial, i) => (
+              <div
+                key={i}
+                className="group bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10 p-8 hover:border-violet-500/30 transition-all duration-300"
+              >
+                {/* Stars */}
+                <div className="flex gap-1 mb-6">
+                  {[...Array(testimonial.rating)].map((_, j) => (
+                    <FiStar key={j} className="w-5 h-5 text-violet-400 fill-violet-400" />
+                  ))}
+                </div>
+
+                {/* Quote */}
+                <p className="text-gray-300 mb-8 leading-relaxed">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <p className="font-semibold">{testimonial.author}</p>
+                    <p className="text-sm text-gray-500">
+                      {testimonial.role}, {testimonial.company}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="relative z-10 py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-gradient-to-r from-violet-500/20 via-blue-500/20 to-violet-500/20 rounded-3xl border border-white/10 p-12 md:p-16 relative overflow-hidden">
+          <div className="bg-gradient-to-r from-violet-500/20 via-purple-500/20 to-violet-500/20 rounded-3xl border border-white/10 p-12 md:p-16 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(52,211,153,0.1),transparent_50%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(59,130,246,0.1),transparent_50%)]" />
             <div className="relative z-10">
