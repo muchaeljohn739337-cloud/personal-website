@@ -8,42 +8,115 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-// User model for authentication
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  password      String
-  role          UserRole  @default(USER)
-  accounts      Account[]
-  sessions      Session[]
-  posts         Post[]
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+// =============================================================================
+// USER & AUTHENTICATION
+// =============================================================================
 
+model User {
+  id                    String    @id @default(cuid())
+  name                  String?
+  email                 String    @unique
+  emailVerified         DateTime? @map("email_verified")
+  image                 String?
+  password              String?
+  role                  UserRole  @default(USER)
+  phone                 String?
+  twoFactorEnabled      Boolean   @default(false) @map("two_factor_enabled")
+  twoFactorSecret       String?   @map("two_factor_secret")
+  
+  // Stripe
+  stripeCustomerId      String?   @unique @map("stripe_customer_id")
+  
+  // Referral
+  referralCode          String?   @unique @map("referral_code")
+  referredBy            String?   @map("referred_by")
+  
+  // Relations
+  accounts              Account[]
+  sessions              Session[]
+  posts                 Post[]
+  passwordResetTokens   PasswordResetToken[]
+  
+  // Organization relations
+  ownedOrganizations    Organization[] @relation("OrganizationOwner")
+  memberships           OrganizationMember[]
+  sentInvitations       Invitation[] @relation("InvitationSender")
+  
+  // Activity & Audit
+  activityLogs          ActivityLog[]
+  notifications         Notification[]
+  
+  // Fintech relations
+  wallets               Wallet[]
+  sentTransactions      Transaction[] @relation("TransactionSender")
+  receivedTransactions  Transaction[] @relation("TransactionReceiver")
+  
+  // Token & Rewards (Advancia)
+  tokenWallet           TokenWallet?
+  userRewards           UserRewards?
+  leaderboardEntries    Leaderboard[]
+  
+  // Health (MedBed)
+  healthProfile         HealthProfile?
+  
+  // Referrals
+  referralsMade         Referral[] @relation("ReferralsMade")
+  referralsReceived     Referral[] @relation("ReferralsReceived")
+  
+  // Debit Cards
+  debitCards            DebitCard[]
+  
+  // Crypto Payments
+  cryptoPayments        CryptoPayment[]
+  cryptoWithdrawals     CryptoWithdrawal[]
+  
+  // MedBed
+  medBedBookings        MedBedBooking[]
+  medBedSessions        MedBedSession[]
+  medBedStaff           MedBedStaff[]
+  
+  // Admin & Management
+  adminActions          AdminAction[] @relation("AdminActions")
+  actionsReceived       AdminAction[] @relation("UserActions")
+  suspensions           UserSuspension[]
+  suspensionsGiven      UserSuspension[] @relation("SuspensionsByAdmin")
+  emailLogs             EmailLog[]
+  fileUploads           FileUpload[]
+  auditLogs             AuditLog[]
+  
+  // Status flags
+  isSuspended           Boolean   @default(false) @map("is_suspended")
+  isVerified            Boolean   @default(false) @map("is_verified")
+  lastLoginAt           DateTime? @map("last_login_at")
+  lastLoginIp           String?   @map("last_login_ip")
+  
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@index([email])
+  @@index([stripeCustomerId])
+  @@index([referralCode])
+  @@index([role])
+  @@index([isSuspended])
   @@map("users")
 }
 
-// Account model for OAuth
 model Account {
-  id                String  @id @default(cuid())
-  userId            String  @map("user_id")
+  id                String   @id @default(cuid())
+  userId            String   @map("user_id")
   type              String
   provider          String
-  providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  providerAccountId String   @map("provider_account_id")
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?  @db.Text
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt @map("updated_at")
 
@@ -51,7 +124,6 @@ model Account {
   @@map("accounts")
 }
 
-// Session model
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique @map("session_token")
@@ -64,7 +136,6 @@ model Session {
   @@map("sessions")
 }
 
-// Verification token model
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -74,15 +145,377 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-// User roles
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires   DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([token])
+  @@map("password_reset_tokens")
+}
+
 enum UserRole {
   USER
   ADMIN
   SUPER_ADMIN
 }
 
-// Add more models as needed for your application
-// Example: Posts, Comments, Products, etc.
+// =============================================================================
+// MULTI-TENANCY: ORGANIZATIONS & TEAMS
+// =============================================================================
+
+model Organization {
+  id                String   @id @default(cuid())
+  name              String
+  slug              String   @unique
+  logo              String?
+  description       String?  @db.Text
+  website           String?
+  
+  // Billing
+  stripeCustomerId  String?  @unique @map("stripe_customer_id")
+  subscriptionId    String?  @map("subscription_id")
+  subscriptionStatus SubscriptionStatus @default(TRIALING) @map("subscription_status")
+  planId            String?  @map("plan_id")
+  plan              Plan?    @relation(fields: [planId], references: [id])
+  trialEndsAt       DateTime? @map("trial_ends_at")
+  billingEmail      String?  @map("billing_email")
+  
+  // Limits based on plan
+  maxMembers        Int      @default(5) @map("max_members")
+  maxProjects       Int      @default(10) @map("max_projects")
+  
+  // Owner
+  ownerId           String   @map("owner_id")
+  owner             User     @relation("OrganizationOwner", fields: [ownerId], references: [id])
+  
+  // Relations
+  members           OrganizationMember[]
+  invitations       Invitation[]
+  teams             Team[]
+  projects          Project[]
+  wallets           Wallet[]
+  invoices          Invoice[]
+  activityLogs      ActivityLog[]
+  apiKeys           ApiKey[]
+  
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@index([slug])
+  @@index([ownerId])
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String           @id @default(cuid())
+  organizationId String           @map("organization_id")
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String           @map("user_id")
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           OrganizationRole @default(MEMBER)
+  
+  // Team memberships within org
+  teamMemberships TeamMember[]
+  
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  @@unique([organizationId, userId])
+  @@map("organization_members")
+}
+
+model Team {
+  id             String       @id @default(cuid())
+  name           String
+  description    String?
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  members        TeamMember[]
+  projects       Project[]
+  
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@unique([organizationId, name])
+  @@map("teams")
+}
+
+model TeamMember {
+  id         String             @id @default(cuid())
+  teamId     String             @map("team_id")
+  team       Team               @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  memberId   String             @map("member_id")
+  member     OrganizationMember @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  role       TeamRole           @default(MEMBER)
+  
+  createdAt  DateTime           @default(now()) @map("created_at")
+  updatedAt  DateTime           @updatedAt @map("updated_at")
+
+  @@unique([teamId, memberId])
+  @@map("team_members")
+}
+
+model Invitation {
+  id             String           @id @default(cuid())
+  email          String
+  token          String           @unique
+  organizationId String           @map("organization_id")
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role           OrganizationRole @default(MEMBER)
+  invitedById    String           @map("invited_by_id")
+  invitedBy      User             @relation("InvitationSender", fields: [invitedById], references: [id])
+  status         InvitationStatus @default(PENDING)
+  expiresAt      DateTime         @map("expires_at")
+  
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  @@index([token])
+  @@index([email])
+  @@map("invitations")
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum TeamRole {
+  LEAD
+  MEMBER
+  VIEWER
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REVOKED
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  UNPAID
+  INCOMPLETE
+}
+
+// =============================================================================
+// BILLING & SUBSCRIPTIONS
+// =============================================================================
+
+model Plan {
+  id                String         @id @default(cuid())
+  name              String
+  slug              String         @unique
+  description       String?        @db.Text
+  
+  // Pricing
+  priceMonthly      Int            @map("price_monthly") // in cents
+  priceYearly       Int            @map("price_yearly")  // in cents
+  stripePriceIdMonthly String?     @map("stripe_price_id_monthly")
+  stripePriceIdYearly  String?     @map("stripe_price_id_yearly")
+  stripeProductId   String?        @map("stripe_product_id")
+  
+  // Features & Limits
+  maxMembers        Int            @default(5) @map("max_members")
+  maxProjects       Int            @default(10) @map("max_projects")
+  maxStorage        Int            @default(5120) @map("max_storage") // in MB
+  maxApiCalls       Int            @default(10000) @map("max_api_calls")
+  features          Json?          // JSON array of feature flags
+  
+  // Plan metadata
+  isPopular         Boolean        @default(false) @map("is_popular")
+  isEnterprise      Boolean        @default(false) @map("is_enterprise")
+  sortOrder         Int            @default(0) @map("sort_order")
+  active            Boolean        @default(true)
+  
+  organizations     Organization[]
+  
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
+
+  @@map("plans")
+}
+
+model Invoice {
+  id               String        @id @default(cuid())
+  stripeInvoiceId  String?       @unique @map("stripe_invoice_id")
+  organizationId   String        @map("organization_id")
+  organization     Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  amount           Int           // in cents
+  currency         String        @default("usd")
+  status           InvoiceStatus @default(DRAFT)
+  
+  invoiceNumber    String?       @map("invoice_number")
+  invoiceUrl       String?       @map("invoice_url")
+  pdfUrl           String?       @map("pdf_url")
+  
+  periodStart      DateTime?     @map("period_start")
+  periodEnd        DateTime?     @map("period_end")
+  dueDate          DateTime?     @map("due_date")
+  paidAt           DateTime?     @map("paid_at")
+  
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+
+  @@index([organizationId])
+  @@map("invoices")
+}
+
+enum InvoiceStatus {
+  DRAFT
+  OPEN
+  PAID
+  VOID
+  UNCOLLECTIBLE
+}
+
+// =============================================================================
+// FINTECH FEATURES
+// =============================================================================
+
+model Wallet {
+  id             String       @id @default(cuid())
+  name           String
+  currency       String       @default("USD")
+  balance        Decimal      @default(0) @db.Decimal(19, 4)
+  availableBalance Decimal    @default(0) @map("available_balance") @db.Decimal(19, 4)
+  pendingBalance Decimal      @default(0) @map("pending_balance") @db.Decimal(19, 4)
+  
+  // Owner (either user or organization)
+  userId         String?      @map("user_id")
+  user           User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String?      @map("organization_id")
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  type           WalletType   @default(PERSONAL)
+  status         WalletStatus @default(ACTIVE)
+  
+  // Transactions
+  outgoingTransactions Transaction[] @relation("WalletOutgoing")
+  incomingTransactions Transaction[] @relation("WalletIncoming")
+  
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([organizationId])
+  @@map("wallets")
+}
+
+model Transaction {
+  id              String            @id @default(cuid())
+  referenceId     String            @unique @default(cuid()) @map("reference_id")
+  
+  // Amount
+  amount          Decimal           @db.Decimal(19, 4)
+  fee             Decimal           @default(0) @db.Decimal(19, 4)
+  currency        String            @default("USD")
+  
+  // Type & Status
+  type            TransactionType
+  status          TransactionStatus @default(PENDING)
+  
+  // Description
+  description     String?
+  metadata        Json?
+  
+  // Wallets
+  fromWalletId    String?           @map("from_wallet_id")
+  fromWallet      Wallet?           @relation("WalletOutgoing", fields: [fromWalletId], references: [id])
+  toWalletId      String?           @map("to_wallet_id")
+  toWallet        Wallet?           @relation("WalletIncoming", fields: [toWalletId], references: [id])
+  
+  // Users (for P2P)
+  senderId        String?           @map("sender_id")
+  sender          User?             @relation("TransactionSender", fields: [senderId], references: [id])
+  receiverId      String?           @map("receiver_id")
+  receiver        User?             @relation("TransactionReceiver", fields: [receiverId], references: [id])
+  
+  // External references
+  stripePaymentId String?           @map("stripe_payment_id")
+  
+  processedAt     DateTime?         @map("processed_at")
+  failedAt        DateTime?         @map("failed_at")
+  failureReason   String?           @map("failure_reason")
+  
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  @@index([referenceId])
+  @@index([fromWalletId])
+  @@index([toWalletId])
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("transactions")
+}
+
+enum WalletType {
+  PERSONAL
+  BUSINESS
+  SAVINGS
+}
+
+enum WalletStatus {
+  ACTIVE
+  FROZEN
+  CLOSED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  PAYMENT
+  REFUND
+  FEE
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELED
+  REFUNDED
+}
+
+// =============================================================================
+// PROJECTS & CONTENT
+// =============================================================================
+
+model Project {
+  id             String       @id @default(cuid())
+  name           String
+  slug           String
+  description    String?      @db.Text
+  
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  teamId         String?      @map("team_id")
+  team           Team?        @relation(fields: [teamId], references: [id])
+  
+  status         ProjectStatus @default(ACTIVE)
+  
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@unique([organizationId, slug])
+  @@map("projects")
+}
 
 model Post {
   id        String   @id @default(cuid())
@@ -94,10 +527,1469 @@ model Post {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([authorId])
   @@map("posts")
 }
 
-// Add indexes for better query performance
-// @@index([email])
-// @@index([createdAt])
-// @@index([role])
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+  DELETED
+}
+
+// =============================================================================
+// ACTIVITY & NOTIFICATIONS
+// =============================================================================
+
+model ActivityLog {
+  id             String        @id @default(cuid())
+  action         String
+  entityType     String        @map("entity_type")
+  entityId       String        @map("entity_id")
+  metadata       Json?
+  ipAddress      String?       @map("ip_address")
+  userAgent      String?       @map("user_agent")
+  
+  userId         String?       @map("user_id")
+  user           User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  organizationId String?       @map("organization_id")
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([organizationId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
+
+model Notification {
+  id        String             @id @default(cuid())
+  userId    String             @map("user_id")
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type      NotificationType
+  title     String
+  message   String             @db.Text
+  data      Json?
+  read      Boolean            @default(false)
+  readAt    DateTime?          @map("read_at")
+  
+  createdAt DateTime           @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([read])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  SYSTEM
+  BILLING
+  TEAM
+  SECURITY
+  TRANSACTION
+}
+
+// =============================================================================
+// API KEYS
+// =============================================================================
+
+model ApiKey {
+  id             String       @id @default(cuid())
+  name           String
+  key            String       @unique
+  hashedKey      String       @map("hashed_key")
+  
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  scopes         String[]     @default([])
+  lastUsedAt     DateTime?    @map("last_used_at")
+  expiresAt      DateTime?    @map("expires_at")
+  active         Boolean      @default(true)
+  
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@index([key])
+  @@index([organizationId])
+  @@map("api_keys")
+}
+
+// =============================================================================
+// TOKEN WALLET SYSTEM (ADVANCIA)
+// =============================================================================
+
+model TokenWallet {
+  id              String   @id @default(cuid())
+  userId          String   @unique @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Balances
+  balance         Decimal  @default(0) @db.Decimal(19, 4)
+  lockedBalance   Decimal  @default(0) @map("locked_balance") @db.Decimal(19, 4)
+  lifetimeEarned  Decimal  @default(0) @map("lifetime_earned") @db.Decimal(19, 4)
+  lifetimeSpent   Decimal  @default(0) @map("lifetime_spent") @db.Decimal(19, 4)
+  
+  // Token info
+  tokenSymbol     String   @default("ADV") @map("token_symbol")
+  exchangeRate    Decimal  @default(0.10) @map("exchange_rate") @db.Decimal(10, 4) // 1 ADV = $0.10
+  
+  // Transactions
+  transactions    TokenTransaction[]
+  
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("token_wallets")
+}
+
+model TokenTransaction {
+  id              String               @id @default(cuid())
+  walletId        String               @map("wallet_id")
+  wallet          TokenWallet          @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  
+  type            TokenTransactionType
+  amount          Decimal              @db.Decimal(19, 4)
+  fee             Decimal              @default(0) @db.Decimal(19, 4)
+  balanceAfter    Decimal              @map("balance_after") @db.Decimal(19, 4)
+  
+  // For transfers
+  toUserId        String?              @map("to_user_id")
+  fromUserId      String?              @map("from_user_id")
+  
+  // Reference to rewards/achievements
+  rewardId        String?              @map("reward_id")
+  achievementId   String?              @map("achievement_id")
+  
+  description     String?
+  metadata        Json?
+  status          TokenTxStatus        @default(COMPLETED)
+  
+  createdAt       DateTime             @default(now()) @map("created_at")
+
+  @@index([walletId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("token_transactions")
+}
+
+enum TokenTransactionType {
+  EARN           // Earned from transactions/activities
+  BONUS          // 15% bonus on credits
+  REWARD_CLAIM   // Claimed from rewards
+  ACHIEVEMENT    // Achievement bonus
+  TIER_BONUS     // Tier upgrade bonus
+  STREAK_BONUS   // Daily streak bonus
+  REFERRAL       // Referral bonus
+  WITHDRAW       // Withdraw to external
+  CASH_OUT       // Convert to USD
+  TRANSFER_IN    // Received from another user
+  TRANSFER_OUT   // Sent to another user
+  PURCHASE       // Spent on platform
+  FEE            // Platform fees
+}
+
+enum TokenTxStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
+// =============================================================================
+// REWARDS & GAMIFICATION SYSTEM
+// =============================================================================
+
+model UserRewards {
+  id              String   @id @default(cuid())
+  userId          String   @unique @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Points & Tier
+  totalPoints     Int      @default(0) @map("total_points")
+  currentTier     UserTier @default(BRONZE) @map("current_tier")
+  tierMultiplier  Decimal  @default(1.0) @map("tier_multiplier") @db.Decimal(3, 2)
+  
+  // Streaks
+  currentStreak   Int      @default(0) @map("current_streak")
+  longestStreak   Int      @default(0) @map("longest_streak")
+  lastCheckIn     DateTime? @map("last_check_in")
+  
+  // Stats
+  totalRewardsClaimed Int   @default(0) @map("total_rewards_claimed")
+  totalAchievements   Int   @default(0) @map("total_achievements")
+  
+  // Relations
+  achievements    UserAchievement[]
+  claimedRewards  ClaimedReward[]
+  milestones      UserMilestone[]
+  
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("user_rewards")
+}
+
+model Achievement {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String
+  icon            String?
+  
+  // Requirements
+  category        AchievementCategory
+  requirement     Int      // e.g., 10 transactions, 7 day streak
+  requirementType String   @map("requirement_type") // transactions, streak, referrals, etc.
+  
+  // Rewards
+  pointsReward    Int      @default(0) @map("points_reward")
+  tokenReward     Decimal  @default(0) @map("token_reward") @db.Decimal(19, 4)
+  badgeUrl        String?  @map("badge_url")
+  
+  // Metadata
+  isSecret        Boolean  @default(false) @map("is_secret")
+  isActive        Boolean  @default(true) @map("is_active")
+  sortOrder       Int      @default(0) @map("sort_order")
+  
+  // Relations
+  userAchievements UserAchievement[]
+  
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("achievements")
+}
+
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String      @map("user_id")
+  userRewards   UserRewards @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  achievementId String      @map("achievement_id")
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  
+  progress      Int         @default(0)
+  completed     Boolean     @default(false)
+  completedAt   DateTime?   @map("completed_at")
+  claimed       Boolean     @default(false)
+  claimedAt     DateTime?   @map("claimed_at")
+  
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+model Reward {
+  id              String       @id @default(cuid())
+  name            String
+  slug            String       @unique
+  description     String
+  icon            String?
+  
+  // Reward details
+  type            RewardType
+  tokenAmount     Decimal      @default(0) @map("token_amount") @db.Decimal(19, 4)
+  pointsAmount    Int          @default(0) @map("points_amount")
+  
+  // Requirements
+  requiredTier    UserTier?    @map("required_tier")
+  requiredPoints  Int          @default(0) @map("required_points")
+  
+  // Limits
+  maxClaims       Int?         @map("max_claims") // null = unlimited
+  claimCooldown   Int?         @map("claim_cooldown") // hours between claims
+  expiresAt       DateTime?    @map("expires_at")
+  
+  // Status
+  isActive        Boolean      @default(true) @map("is_active")
+  sortOrder       Int          @default(0) @map("sort_order")
+  
+  // Relations
+  claimedRewards  ClaimedReward[]
+  
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  @@map("rewards")
+}
+
+model ClaimedReward {
+  id          String      @id @default(cuid())
+  userId      String      @map("user_id")
+  userRewards UserRewards @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  rewardId    String      @map("reward_id")
+  reward      Reward      @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+  
+  tokenAmount Decimal     @map("token_amount") @db.Decimal(19, 4)
+  pointsAmount Int        @map("points_amount")
+  
+  claimedAt   DateTime    @default(now()) @map("claimed_at")
+
+  @@index([userId])
+  @@index([rewardId])
+  @@map("claimed_rewards")
+}
+
+model Milestone {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String
+  icon            String?
+  
+  // Milestone requirements
+  type            MilestoneType
+  targetValue     Int      @map("target_value")
+  
+  // Rewards
+  tokenReward     Decimal  @default(0) @map("token_reward") @db.Decimal(19, 4)
+  pointsReward    Int      @default(0) @map("points_reward")
+  
+  isActive        Boolean  @default(true) @map("is_active")
+  sortOrder       Int      @default(0) @map("sort_order")
+  
+  // Relations
+  userMilestones  UserMilestone[]
+  
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("milestones")
+}
+
+model UserMilestone {
+  id          String      @id @default(cuid())
+  userId      String      @map("user_id")
+  userRewards UserRewards @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  milestoneId String      @map("milestone_id")
+  milestone   Milestone   @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  
+  progress    Int         @default(0)
+  completed   Boolean     @default(false)
+  completedAt DateTime?   @map("completed_at")
+  claimed     Boolean     @default(false)
+  claimedAt   DateTime?   @map("claimed_at")
+  
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@unique([userId, milestoneId])
+  @@map("user_milestones")
+}
+
+model Leaderboard {
+  id          String          @id @default(cuid())
+  userId      String          @map("user_id")
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  period      LeaderboardPeriod
+  periodStart DateTime        @map("period_start")
+  periodEnd   DateTime        @map("period_end")
+  
+  totalPoints Int             @default(0) @map("total_points")
+  totalTokens Decimal         @default(0) @map("total_tokens") @db.Decimal(19, 4)
+  rank        Int?
+  
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  @@unique([userId, period, periodStart])
+  @@index([period, periodStart])
+  @@index([totalPoints])
+  @@map("leaderboards")
+}
+
+enum UserTier {
+  BRONZE      // 0 points, 1.0x multiplier
+  SILVER      // 1,000 points, 1.2x multiplier
+  GOLD        // 5,000 points, 1.5x multiplier
+  PLATINUM    // 15,000 points, 2.0x multiplier
+  DIAMOND     // 50,000 points, 3.0x multiplier
+}
+
+enum AchievementCategory {
+  TRANSACTIONS
+  STREAKS
+  REFERRALS
+  MILESTONES
+  SPECIAL
+  SOCIAL
+}
+
+enum RewardType {
+  DAILY
+  WEEKLY
+  MONTHLY
+  TIER_BONUS
+  SPECIAL
+  PROMOTIONAL
+}
+
+enum MilestoneType {
+  TOTAL_TRANSACTIONS
+  TOTAL_VOLUME
+  TOTAL_TOKENS
+  REFERRALS
+  STREAK_DAYS
+  ACCOUNT_AGE
+}
+
+enum LeaderboardPeriod {
+  DAILY
+  WEEKLY
+  MONTHLY
+  ALL_TIME
+}
+
+// =============================================================================
+// HEALTH MONITORING SYSTEM (MEDBED)
+// =============================================================================
+
+model HealthProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Basic info
+  dateOfBirth     DateTime? @map("date_of_birth")
+  gender          Gender?
+  height          Decimal?  @db.Decimal(5, 2) // cm
+  bloodType       String?   @map("blood_type")
+  
+  // Health goals
+  targetWeight    Decimal?  @map("target_weight") @db.Decimal(5, 2) // kg
+  targetSteps     Int       @default(10000) @map("target_steps")
+  targetSleepHours Decimal  @default(8) @map("target_sleep_hours") @db.Decimal(3, 1)
+  targetCalories  Int?      @map("target_calories")
+  
+  // Current health score (calculated)
+  healthScore     Int       @default(70) @map("health_score")
+  lastScoreUpdate DateTime? @map("last_score_update")
+  
+  // Relations
+  readings        HealthReading[]
+  goals           HealthGoal[]
+  alerts          HealthAlert[]
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("health_profiles")
+}
+
+model HealthReading {
+  id              String        @id @default(cuid())
+  profileId       String        @map("profile_id")
+  profile         HealthProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  // Vital signs
+  heartRate       Int?          @map("heart_rate") // BPM
+  bloodPressureSystolic  Int?   @map("bp_systolic")
+  bloodPressureDiastolic Int?   @map("bp_diastolic")
+  oxygenSaturation Decimal?     @map("oxygen_saturation") @db.Decimal(4, 1) // SpO2%
+  temperature     Decimal?      @db.Decimal(4, 1) // Celsius
+  
+  // Activity
+  steps           Int?
+  caloriesBurned  Int?          @map("calories_burned")
+  activeMinutes   Int?          @map("active_minutes")
+  distance        Decimal?      @db.Decimal(8, 2) // km
+  
+  // Sleep
+  sleepHours      Decimal?      @map("sleep_hours") @db.Decimal(4, 2)
+  sleepQuality    SleepQuality? @map("sleep_quality")
+  
+  // Body
+  weight          Decimal?      @db.Decimal(5, 2) // kg
+  bodyFat         Decimal?      @map("body_fat") @db.Decimal(4, 1) // %
+  
+  // Mental
+  mood            MoodLevel?
+  stressLevel     Int?          @map("stress_level") // 1-10
+  
+  // Source
+  source          ReadingSource @default(MANUAL)
+  deviceId        String?       @map("device_id")
+  
+  notes           String?
+  recordedAt      DateTime      @default(now()) @map("recorded_at")
+  createdAt       DateTime      @default(now()) @map("created_at")
+
+  @@index([profileId])
+  @@index([recordedAt])
+  @@map("health_readings")
+}
+
+model HealthGoal {
+  id              String        @id @default(cuid())
+  profileId       String        @map("profile_id")
+  profile         HealthProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  type            HealthGoalType
+  targetValue     Decimal       @map("target_value") @db.Decimal(10, 2)
+  currentValue    Decimal       @default(0) @map("current_value") @db.Decimal(10, 2)
+  unit            String
+  
+  startDate       DateTime      @map("start_date")
+  endDate         DateTime?     @map("end_date")
+  
+  status          GoalStatus    @default(ACTIVE)
+  completedAt     DateTime?     @map("completed_at")
+  
+  // Rewards for completion
+  tokenReward     Decimal       @default(0) @map("token_reward") @db.Decimal(19, 4)
+  pointsReward    Int           @default(0) @map("points_reward")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([profileId])
+  @@index([status])
+  @@map("health_goals")
+}
+
+model HealthAlert {
+  id              String        @id @default(cuid())
+  profileId       String        @map("profile_id")
+  profile         HealthProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  type            HealthAlertType
+  severity        AlertSeverity
+  title           String
+  message         String
+  
+  metric          String?       // Which metric triggered the alert
+  value           Decimal?      @db.Decimal(10, 2)
+  threshold       Decimal?      @db.Decimal(10, 2)
+  
+  acknowledged    Boolean       @default(false)
+  acknowledgedAt  DateTime?     @map("acknowledged_at")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+
+  @@index([profileId])
+  @@index([severity])
+  @@index([acknowledged])
+  @@map("health_alerts")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+enum SleepQuality {
+  POOR
+  FAIR
+  GOOD
+  EXCELLENT
+}
+
+enum MoodLevel {
+  GREAT
+  GOOD
+  OKAY
+  BAD
+  TERRIBLE
+}
+
+enum ReadingSource {
+  MANUAL
+  APPLE_WATCH
+  FITBIT
+  GARMIN
+  SAMSUNG_HEALTH
+  GOOGLE_FIT
+  OTHER_DEVICE
+}
+
+enum HealthGoalType {
+  WEIGHT_LOSS
+  WEIGHT_GAIN
+  STEPS
+  SLEEP
+  HEART_RATE
+  BLOOD_PRESSURE
+  CALORIES
+  EXERCISE_MINUTES
+  WATER_INTAKE
+  CUSTOM
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  FAILED
+  PAUSED
+  CANCELED
+}
+
+enum HealthAlertType {
+  HIGH_HEART_RATE
+  LOW_HEART_RATE
+  HIGH_BLOOD_PRESSURE
+  LOW_BLOOD_PRESSURE
+  LOW_OXYGEN
+  HIGH_TEMPERATURE
+  GOAL_ACHIEVED
+  STREAK_REMINDER
+  INACTIVITY
+  CUSTOM
+}
+
+enum AlertSeverity {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+// =============================================================================
+// REFERRAL SYSTEM
+// =============================================================================
+
+model Referral {
+  id              String        @id @default(cuid())
+  referrerId      String        @map("referrer_id")
+  referrer        User          @relation("ReferralsMade", fields: [referrerId], references: [id], onDelete: Cascade)
+  referredId      String?       @map("referred_id")
+  referred        User?         @relation("ReferralsReceived", fields: [referredId], references: [id], onDelete: SetNull)
+  
+  code            String        @unique
+  email           String?       // Email invited (before signup)
+  
+  status          ReferralStatus @default(PENDING)
+  
+  // Rewards
+  referrerReward  Decimal       @default(0) @map("referrer_reward") @db.Decimal(19, 4)
+  referredReward  Decimal       @default(0) @map("referred_reward") @db.Decimal(19, 4)
+  rewardsPaid     Boolean       @default(false) @map("rewards_paid")
+  paidAt          DateTime?     @map("paid_at")
+  
+  expiresAt       DateTime?     @map("expires_at")
+  completedAt     DateTime?     @map("completed_at")
+  
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([referrerId])
+  @@index([code])
+  @@map("referrals")
+}
+
+enum ReferralStatus {
+  PENDING
+  SIGNED_UP
+  COMPLETED
+  EXPIRED
+  CANCELED
+}
+
+// =============================================================================
+// DEBIT CARD SYSTEM
+// =============================================================================
+
+model DebitCard {
+  id              String       @id @default(cuid())
+  userId          String       @map("user_id")
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Card details (masked)
+  cardNumber      String       @map("card_number") // Last 4 digits only
+  cardType        CardType     @default(VIRTUAL) @map("card_type")
+  expiryMonth     Int          @map("expiry_month")
+  expiryYear      Int          @map("expiry_year")
+  
+  // Limits
+  dailyLimit      Decimal      @default(1000) @map("daily_limit") @db.Decimal(19, 4)
+  monthlyLimit    Decimal      @default(10000) @map("monthly_limit") @db.Decimal(19, 4)
+  singleTxLimit   Decimal      @default(500) @map("single_tx_limit") @db.Decimal(19, 4)
+  
+  // Usage tracking
+  dailySpent      Decimal      @default(0) @map("daily_spent") @db.Decimal(19, 4)
+  monthlySpent    Decimal      @default(0) @map("monthly_spent") @db.Decimal(19, 4)
+  lastResetDate   DateTime     @default(now()) @map("last_reset_date")
+  
+  // Status
+  status          CardStatus   @default(ACTIVE)
+  frozenAt        DateTime?    @map("frozen_at")
+  frozenReason    String?      @map("frozen_reason")
+  
+  // Linked wallet
+  walletId        String?      @map("wallet_id")
+  
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("debit_cards")
+}
+
+enum CardType {
+  VIRTUAL
+  PHYSICAL
+}
+
+enum CardStatus {
+  PENDING
+  ACTIVE
+  FROZEN
+  EXPIRED
+  CANCELED
+}
+
+// =============================================================================
+// CRYPTO PAYMENTS (NOWPayments.io & Alchemy Pay)
+// =============================================================================
+
+model CryptoPayment {
+  id                String              @id @default(cuid())
+  userId            String              @map("user_id")
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Payment details
+  provider          PaymentProvider
+  externalId        String?             @unique @map("external_id") // NOWPayments payment_id or Alchemy order_id
+  
+  // Amounts
+  amount            Decimal             @db.Decimal(19, 8) // Crypto amount
+  amountUsd         Decimal             @map("amount_usd") @db.Decimal(19, 4)
+  currency          String              // BTC, ETH, USDT, etc.
+  
+  // Fiat conversion (for Alchemy Pay)
+  fiatAmount        Decimal?            @map("fiat_amount") @db.Decimal(19, 4)
+  fiatCurrency      String?             @map("fiat_currency") // USD, EUR, etc.
+  exchangeRate      Decimal?            @map("exchange_rate") @db.Decimal(19, 8)
+  
+  // Payment addresses
+  payAddress        String?             @map("pay_address")
+  payinAddress      String?             @map("payin_address")
+  
+  // Status
+  status            CryptoPaymentStatus @default(WAITING)
+  
+  // Metadata
+  description       String?
+  metadata          Json?
+  ipnCallbackUrl    String?             @map("ipn_callback_url")
+  
+  // Timestamps
+  expiresAt         DateTime?           @map("expires_at")
+  confirmedAt       DateTime?           @map("confirmed_at")
+  
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([externalId])
+  @@index([status])
+  @@map("crypto_payments")
+}
+
+model CryptoWithdrawal {
+  id                String                  @id @default(cuid())
+  userId            String                  @map("user_id")
+  user              User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Withdrawal details
+  provider          PaymentProvider
+  externalId        String?                 @unique @map("external_id")
+  
+  // Amounts
+  amount            Decimal                 @db.Decimal(19, 8)
+  amountUsd         Decimal                 @map("amount_usd") @db.Decimal(19, 4)
+  currency          String
+  fee               Decimal                 @default(0) @db.Decimal(19, 8)
+  
+  // Destination
+  address           String
+  network           String?                 // ETH, BSC, TRC20, etc.
+  
+  // Status
+  status            WithdrawalStatus        @default(PENDING)
+  txHash            String?                 @map("tx_hash")
+  
+  // Metadata
+  metadata          Json?
+  
+  processedAt       DateTime?               @map("processed_at")
+  failedAt          DateTime?               @map("failed_at")
+  failureReason     String?                 @map("failure_reason")
+  
+  createdAt         DateTime                @default(now()) @map("created_at")
+  updatedAt         DateTime                @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([status])
+  @@map("crypto_withdrawals")
+}
+
+enum PaymentProvider {
+  NOWPAYMENTS
+  ALCHEMY_PAY
+  STRIPE
+  MANUAL
+}
+
+enum CryptoPaymentStatus {
+  WAITING
+  CONFIRMING
+  CONFIRMED
+  SENDING
+  PARTIALLY_PAID
+  FINISHED
+  FAILED
+  REFUNDED
+  EXPIRED
+}
+
+enum WithdrawalStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
+// =============================================================================
+// MEDBED SYSTEM
+// =============================================================================
+
+model MedBedDevice {
+  id                String          @id @default(cuid())
+  name              String
+  serialNumber      String          @unique @map("serial_number")
+  model             MedBedModel
+  
+  // Location
+  facilityId        String          @map("facility_id")
+  facility          MedBedFacility  @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  roomNumber        String?         @map("room_number")
+  
+  // Status
+  status            DeviceStatus    @default(OFFLINE)
+  lastOnline        DateTime?       @map("last_online")
+  lastMaintenance   DateTime?       @map("last_maintenance")
+  nextMaintenance   DateTime?       @map("next_maintenance")
+  
+  // Capabilities
+  capabilities      Json?           // Array of supported treatments
+  maxSessionMinutes Int             @default(60) @map("max_session_minutes")
+  
+  // Pricing
+  pricePerMinute    Decimal         @default(1) @map("price_per_minute") @db.Decimal(10, 4)
+  pricePerSession   Decimal?        @map("price_per_session") @db.Decimal(10, 4)
+  
+  // Relations
+  sessions          MedBedSession[]
+  bookings          MedBedBooking[]
+  maintenanceLogs   MedBedMaintenance[]
+  
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@index([facilityId])
+  @@index([status])
+  @@map("medbed_devices")
+}
+
+model MedBedFacility {
+  id                String          @id @default(cuid())
+  name              String
+  slug              String          @unique
+  description       String?         @db.Text
+  
+  // Location
+  address           String
+  city              String
+  state             String?
+  country           String
+  postalCode        String?         @map("postal_code")
+  latitude          Decimal?        @db.Decimal(10, 8)
+  longitude         Decimal?        @db.Decimal(11, 8)
+  timezone          String          @default("UTC")
+  
+  // Contact
+  phone             String?
+  email             String?
+  website           String?
+  
+  // Operating hours (JSON: { "monday": { "open": "09:00", "close": "18:00" }, ... })
+  operatingHours    Json?           @map("operating_hours")
+  
+  // Status
+  isActive          Boolean         @default(true) @map("is_active")
+  
+  // Relations
+  devices           MedBedDevice[]
+  bookings          MedBedBooking[]
+  staff             MedBedStaff[]
+  
+  // Organization (if multi-tenant)
+  organizationId    String?         @map("organization_id")
+  
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@index([slug])
+  @@index([city, country])
+  @@map("medbed_facilities")
+}
+
+model MedBedBooking {
+  id                String          @id @default(cuid())
+  bookingNumber     String          @unique @map("booking_number")
+  
+  // User
+  userId            String          @map("user_id")
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Device & Facility
+  deviceId          String          @map("device_id")
+  device            MedBedDevice    @relation(fields: [deviceId], references: [id])
+  facilityId        String          @map("facility_id")
+  facility          MedBedFacility  @relation(fields: [facilityId], references: [id])
+  
+  // Timing
+  scheduledStart    DateTime        @map("scheduled_start")
+  scheduledEnd      DateTime        @map("scheduled_end")
+  durationMinutes   Int             @map("duration_minutes")
+  
+  // Treatment
+  treatmentType     TreatmentType   @map("treatment_type")
+  treatmentNotes    String?         @map("treatment_notes") @db.Text
+  
+  // Pricing
+  priceTotal        Decimal         @map("price_total") @db.Decimal(19, 4)
+  priceCurrency     String          @default("USD") @map("price_currency")
+  tokensCost        Decimal?        @map("tokens_cost") @db.Decimal(19, 4) // If paid with ADV tokens
+  
+  // Payment
+  paymentStatus     PaymentStatus   @default(PENDING) @map("payment_status")
+  paymentMethod     String?         @map("payment_method")
+  paymentId         String?         @map("payment_id") // Reference to CryptoPayment or Stripe
+  
+  // Status
+  status            BookingStatus   @default(PENDING)
+  
+  // Session (created when booking starts)
+  session           MedBedSession?
+  
+  // Cancellation
+  canceledAt        DateTime?       @map("canceled_at")
+  cancelReason      String?         @map("cancel_reason")
+  refundAmount      Decimal?        @map("refund_amount") @db.Decimal(19, 4)
+  
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([deviceId])
+  @@index([facilityId])
+  @@index([scheduledStart])
+  @@index([status])
+  @@map("medbed_bookings")
+}
+
+model MedBedSession {
+  id                String          @id @default(cuid())
+  
+  // Booking reference
+  bookingId         String          @unique @map("booking_id")
+  booking           MedBedBooking   @relation(fields: [bookingId], references: [id])
+  
+  // Device
+  deviceId          String          @map("device_id")
+  device            MedBedDevice    @relation(fields: [deviceId], references: [id])
+  
+  // User
+  userId            String          @map("user_id")
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Timing
+  startedAt         DateTime        @map("started_at")
+  endedAt           DateTime?       @map("ended_at")
+  actualDuration    Int?            @map("actual_duration") // minutes
+  
+  // Treatment data
+  treatmentType     TreatmentType   @map("treatment_type")
+  treatmentSettings Json?           @map("treatment_settings")
+  
+  // Health readings during session
+  readings          MedBedReading[]
+  
+  // Results
+  status            SessionStatus   @default(IN_PROGRESS)
+  completionNotes   String?         @map("completion_notes") @db.Text
+  
+  // Staff who supervised
+  supervisorId      String?         @map("supervisor_id")
+  supervisor        MedBedStaff?    @relation(fields: [supervisorId], references: [id])
+  
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@index([deviceId])
+  @@index([userId])
+  @@map("medbed_sessions")
+}
+
+model MedBedReading {
+  id                String          @id @default(cuid())
+  sessionId         String          @map("session_id")
+  session           MedBedSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  // Timestamp within session
+  timestamp         DateTime        @default(now())
+  minutesMark       Int             @map("minutes_mark") // Minutes since session start
+  
+  // Vital signs
+  heartRate         Int?            @map("heart_rate")
+  bloodPressureSys  Int?            @map("bp_systolic")
+  bloodPressureDia  Int?            @map("bp_diastolic")
+  oxygenSaturation  Decimal?        @map("oxygen_saturation") @db.Decimal(4, 1)
+  temperature       Decimal?        @db.Decimal(4, 1)
+  
+  // MedBed-specific readings
+  brainwaveAlpha    Decimal?        @map("brainwave_alpha") @db.Decimal(6, 2)
+  brainwaveBeta     Decimal?        @map("brainwave_beta") @db.Decimal(6, 2)
+  brainwaveTheta    Decimal?        @map("brainwave_theta") @db.Decimal(6, 2)
+  brainwaveDelta    Decimal?        @map("brainwave_delta") @db.Decimal(6, 2)
+  
+  // Energy readings
+  bioFieldStrength  Decimal?        @map("bio_field_strength") @db.Decimal(8, 2)
+  cellularResonance Decimal?        @map("cellular_resonance") @db.Decimal(8, 2)
+  
+  // Device settings at this point
+  devicePowerLevel  Int?            @map("device_power_level")
+  frequencyHz       Decimal?        @map("frequency_hz") @db.Decimal(10, 4)
+  
+  createdAt         DateTime        @default(now()) @map("created_at")
+
+  @@index([sessionId])
+  @@index([timestamp])
+  @@map("medbed_readings")
+}
+
+model MedBedStaff {
+  id                String          @id @default(cuid())
+  userId            String?         @map("user_id")
+  user              User?           @relation(fields: [userId], references: [id])
+  
+  facilityId        String          @map("facility_id")
+  facility          MedBedFacility  @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  
+  // Staff info
+  name              String
+  email             String
+  phone             String?
+  role              StaffRole
+  
+  // Certifications
+  certifications    Json?           // Array of certification objects
+  certifiedUntil    DateTime?       @map("certified_until")
+  
+  // Status
+  isActive          Boolean         @default(true) @map("is_active")
+  
+  // Sessions supervised
+  sessions          MedBedSession[]
+  
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@unique([facilityId, email])
+  @@index([facilityId])
+  @@map("medbed_staff")
+}
+
+model MedBedMaintenance {
+  id                String          @id @default(cuid())
+  deviceId          String          @map("device_id")
+  device            MedBedDevice    @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  
+  type              MaintenanceType
+  description       String          @db.Text
+  
+  // Timing
+  scheduledDate     DateTime        @map("scheduled_date")
+  completedDate     DateTime?       @map("completed_date")
+  
+  // Technician
+  technicianName    String?         @map("technician_name")
+  technicianNotes   String?         @map("technician_notes") @db.Text
+  
+  // Parts replaced
+  partsReplaced     Json?           @map("parts_replaced")
+  cost              Decimal?        @db.Decimal(10, 2)
+  
+  status            MaintenanceStatus @default(SCHEDULED)
+  
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@index([deviceId])
+  @@index([scheduledDate])
+  @@map("medbed_maintenance")
+}
+
+enum MedBedModel {
+  STANDARD
+  ADVANCED
+  PREMIUM
+  RESEARCH
+}
+
+enum DeviceStatus {
+  ONLINE
+  OFFLINE
+  IN_USE
+  MAINTENANCE
+  ERROR
+}
+
+enum TreatmentType {
+  GENERAL_WELLNESS
+  CELLULAR_REGENERATION
+  PAIN_MANAGEMENT
+  SLEEP_OPTIMIZATION
+  MENTAL_CLARITY
+  DETOXIFICATION
+  IMMUNE_BOOST
+  ANTI_AGING
+  INJURY_RECOVERY
+  CHRONIC_CONDITION
+  DIAGNOSTIC_SCAN
+  CUSTOM
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CHECKED_IN
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum SessionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  INTERRUPTED
+  CANCELED
+}
+
+enum StaffRole {
+  TECHNICIAN
+  SUPERVISOR
+  MEDICAL_OFFICER
+  ADMIN
+}
+
+enum MaintenanceType {
+  ROUTINE
+  CALIBRATION
+  REPAIR
+  UPGRADE
+  INSPECTION
+}
+
+enum MaintenanceStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
+// =============================================================================
+// ADMIN & USER MANAGEMENT
+// =============================================================================
+
+model AdminAction {
+  id              String          @id @default(cuid())
+  adminId         String          @map("admin_id")
+  admin           User            @relation("AdminActions", fields: [adminId], references: [id])
+  
+  targetUserId    String?         @map("target_user_id")
+  targetUser      User?           @relation("UserActions", fields: [targetUserId], references: [id])
+  
+  action          AdminActionType
+  resourceType    String?         @map("resource_type") // User, Organization, Payment, etc.
+  resourceId      String?         @map("resource_id")
+  
+  description     String          @db.Text
+  metadata        Json?
+  
+  ipAddress       String?         @map("ip_address")
+  userAgent       String?         @map("user_agent")
+  
+  createdAt       DateTime        @default(now()) @map("created_at")
+
+  @@index([adminId])
+  @@index([targetUserId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("admin_actions")
+}
+
+model UserSuspension {
+  id              String          @id @default(cuid())
+  userId          String          @map("user_id")
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  adminId         String          @map("admin_id")
+  admin           User            @relation("SuspensionsByAdmin", fields: [adminId], references: [id])
+  
+  reason          String          @db.Text
+  type            SuspensionType
+  
+  startDate       DateTime        @default(now()) @map("start_date")
+  endDate         DateTime?       @map("end_date") // null = permanent
+  
+  isActive        Boolean         @default(true) @map("is_active")
+  liftedAt        DateTime?       @map("lifted_at")
+  liftedBy        String?         @map("lifted_by")
+  liftReason      String?         @map("lift_reason")
+  
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([adminId])
+  @@index([isActive])
+  @@map("user_suspensions")
+}
+
+model EmailTemplate {
+  id              String          @id @default(cuid())
+  name            String          @unique
+  slug            String          @unique
+  subject         String
+  htmlContent     String          @map("html_content") @db.Text
+  textContent     String?         @map("text_content") @db.Text
+  
+  // Variables available in template
+  variables       Json?           // ["userName", "resetLink", etc.]
+  
+  category        EmailCategory
+  isActive        Boolean         @default(true) @map("is_active")
+  
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  @@map("email_templates")
+}
+
+model EmailLog {
+  id              String          @id @default(cuid())
+  
+  // Recipient
+  toEmail         String          @map("to_email")
+  toUserId        String?         @map("to_user_id")
+  toUser          User?           @relation(fields: [toUserId], references: [id])
+  
+  // Email details
+  fromEmail       String          @map("from_email")
+  subject         String
+  templateId      String?         @map("template_id")
+  
+  // Provider info
+  provider        EmailProvider   @default(RESEND)
+  externalId      String?         @unique @map("external_id") // Resend message ID
+  
+  // Status
+  status          EmailStatus     @default(PENDING)
+  sentAt          DateTime?       @map("sent_at")
+  deliveredAt     DateTime?       @map("delivered_at")
+  openedAt        DateTime?       @map("opened_at")
+  clickedAt       DateTime?       @map("clicked_at")
+  bouncedAt       DateTime?       @map("bounced_at")
+  
+  // Error tracking
+  errorMessage    String?         @map("error_message")
+  
+  // Metadata
+  metadata        Json?
+  
+  createdAt       DateTime        @default(now()) @map("created_at")
+
+  @@index([toEmail])
+  @@index([toUserId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("email_logs")
+}
+
+model FileUpload {
+  id              String          @id @default(cuid())
+  
+  userId          String?         @map("user_id")
+  user            User?           @relation(fields: [userId], references: [id])
+  
+  // File info
+  filename        String
+  originalName    String          @map("original_name")
+  mimeType        String          @map("mime_type")
+  size            Int             // bytes
+  
+  // Storage
+  provider        StorageProvider @default(CLOUDFLARE_R2)
+  bucket          String
+  key             String          // Full path in bucket
+  url             String?         // Public URL if available
+  
+  // Metadata
+  metadata        Json?
+  isPublic        Boolean         @default(false) @map("is_public")
+  
+  // Soft delete
+  deletedAt       DateTime?       @map("deleted_at")
+  
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([bucket, key])
+  @@map("file_uploads")
+}
+
+model SystemSetting {
+  id              String          @id @default(cuid())
+  key             String          @unique
+  value           String          @db.Text
+  type            SettingType     @default(STRING)
+  
+  category        String          @default("general")
+  description     String?
+  
+  isPublic        Boolean         @default(false) @map("is_public")
+  
+  updatedBy       String?         @map("updated_by")
+  
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  @@index([category])
+  @@map("system_settings")
+}
+
+model AuditLog {
+  id              String          @id @default(cuid())
+  
+  userId          String?         @map("user_id")
+  user            User?           @relation(fields: [userId], references: [id])
+  
+  action          String
+  entityType      String          @map("entity_type")
+  entityId        String?         @map("entity_id")
+  
+  oldValues       Json?           @map("old_values")
+  newValues       Json?           @map("new_values")
+  
+  ipAddress       String?         @map("ip_address")
+  userAgent       String?         @map("user_agent")
+  
+  createdAt       DateTime        @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+enum AdminActionType {
+  // User management
+  USER_CREATE
+  USER_UPDATE
+  USER_DELETE
+  USER_SUSPEND
+  USER_UNSUSPEND
+  USER_VERIFY
+  USER_RESET_PASSWORD
+  USER_IMPERSONATE
+  USER_ROLE_CHANGE
+  
+  // Financial
+  WALLET_ADJUST
+  PAYMENT_REFUND
+  PAYMENT_VOID
+  SUBSCRIPTION_CANCEL
+  SUBSCRIPTION_MODIFY
+  
+  // Content
+  CONTENT_DELETE
+  CONTENT_HIDE
+  CONTENT_RESTORE
+  
+  // System
+  SETTING_CHANGE
+  FEATURE_TOGGLE
+  MAINTENANCE_MODE
+  
+  // Security
+  IP_BAN
+  IP_UNBAN
+  RATE_LIMIT_OVERRIDE
+}
+
+enum SuspensionType {
+  WARNING
+  TEMPORARY
+  PERMANENT
+  REVIEW
+}
+
+enum EmailCategory {
+  TRANSACTIONAL
+  MARKETING
+  NOTIFICATION
+  SECURITY
+  SYSTEM
+}
+
+enum EmailProvider {
+  RESEND
+  SENDGRID
+  SES
+  SMTP
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  FAILED
+  SPAM
+}
+
+enum StorageProvider {
+  CLOUDFLARE_R2
+  AWS_S3
+  LOCAL
+}
+
+enum SettingType {
+  STRING
+  NUMBER
+  BOOLEAN
+  JSON
+}
