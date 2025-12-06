@@ -337,7 +337,7 @@ export async function sendBulkEmail(
     try {
       const variables = { ...baseVariables, ...recipient.variables };
       const result = await sendTemplatedEmail(templateKey, recipient.email, variables, recipient.userId);
-      results.push({ email: recipient.email, success: true, ...result });
+      results.push({ email: recipient.email, ...result });
     } catch (error) {
       results.push({
         email: recipient.email,
