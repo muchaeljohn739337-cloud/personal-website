@@ -1,8 +1,11 @@
 import { prisma } from './prismaClient';
-import { addTokens, TIER_CONFIG, TierName } from './tokens';
+import { addTokens, TIER_CONFIG } from './tokens';
+
+// Tier name type
+export type TierName = keyof typeof TIER_CONFIG;
 
 // Re-export TIER_CONFIG for convenience
-export { TIER_CONFIG, TierName };
+export { TIER_CONFIG };
 
 // Get or create user rewards profile
 export async function getOrCreateUserRewards(userId: string) {

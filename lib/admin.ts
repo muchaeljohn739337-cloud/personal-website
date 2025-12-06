@@ -467,7 +467,7 @@ export async function logAdminAction(adminId: string, params: LogActionParams) {
       resourceType: params.resourceType,
       resourceId: params.resourceId,
       description: params.description,
-      metadata: params.metadata,
+      metadata: params.metadata as object | undefined,
       ipAddress: params.ipAddress,
       userAgent: params.userAgent,
     },
