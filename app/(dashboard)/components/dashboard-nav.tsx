@@ -31,7 +31,7 @@ export function DashboardNav({ user }: DashboardNavProps) {
             <Menu className="h-6 w-6 text-slate-400" />
           </button>
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-blue-500 shadow-lg shadow-emerald-500/25">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-400 to-blue-500 shadow-lg shadow-violet-500/25">
               <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -47,7 +47,7 @@ export function DashboardNav({ user }: DashboardNavProps) {
           {/* Notifications */}
           <Button variant="ghost" size="icon" className="relative hover:bg-slate-800">
             <Bell className="h-5 w-5 text-slate-400" />
-            <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-emerald-500" />
+            <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-violet-500" />
           </Button>
 
           {/* Profile Dropdown */}
@@ -56,7 +56,7 @@ export function DashboardNav({ user }: DashboardNavProps) {
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               className="flex items-center gap-2 rounded-xl p-2 hover:bg-slate-800"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-blue-500 text-sm font-medium text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-400 to-blue-500 text-sm font-medium text-white">
                 {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
               </div>
               <div className="hidden text-left sm:block">

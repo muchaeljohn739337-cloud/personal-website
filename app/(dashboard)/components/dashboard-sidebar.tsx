@@ -49,11 +49,11 @@ export function DashboardSidebar() {
               className={cn(
                 'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all',
                 isActive
-                  ? 'bg-gradient-to-r from-emerald-500/20 to-blue-500/20 text-white border border-emerald-500/30'
+                  ? 'bg-gradient-to-r from-violet-500/20 to-blue-500/20 text-white border border-violet-500/30'
                   : 'text-slate-400 hover:bg-slate-800 hover:text-white'
               )}
             >
-              <item.icon className={cn('h-5 w-5', isActive ? 'text-emerald-400' : '')} />
+              <item.icon className={cn('h-5 w-5', isActive ? 'text-violet-400' : '')} />
               {item.name}
             </Link>
           );
@@ -61,14 +61,14 @@ export function DashboardSidebar() {
       </nav>
 
       {/* Upgrade Card */}
-      <div className="mx-4 mt-auto rounded-xl bg-gradient-to-br from-emerald-500/20 to-blue-500/20 border border-emerald-500/30 p-4">
+      <div className="mx-4 mt-auto rounded-xl bg-gradient-to-br from-violet-500/20 to-blue-500/20 border border-violet-500/30 p-4">
         <h4 className="font-semibold text-white">Upgrade to Pro</h4>
         <p className="mt-1 text-sm text-slate-400">
           Unlock all features and unlimited transactions.
         </p>
         <Link
           href="/dashboard/billing"
-          className="mt-3 inline-block rounded-lg bg-gradient-to-r from-emerald-500 to-blue-500 px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+          className="mt-3 inline-block rounded-lg bg-gradient-to-r from-violet-500 to-blue-500 px-4 py-2 text-sm font-medium text-white hover:opacity-90"
         >
           Upgrade now
         </Link>

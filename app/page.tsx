@@ -61,7 +61,7 @@ export default function Home() {
       title: 'Military-Grade Security',
       description: 'SOC 2 Type II certified. End-to-end encryption with quantum-resistant algorithms.',
       stats: 'Zero breaches since 2020',
-      gradient: 'from-emerald-500 to-teal-600',
+      gradient: 'from-violet-500 to-teal-600',
     },
     {
       icon: FiTrendingUp,
@@ -80,13 +80,13 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0a12] text-white overflow-x-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/20 via-transparent to-emerald-950/20" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl animate-pulse delay-500" />
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-transparent to-blue-950/30" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-[100px] animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-violet-600/10 rounded-full blur-[80px] animate-pulse delay-500" />
         {/* Grid Pattern */}
         <div 
           className="absolute inset-0 opacity-[0.02]"
@@ -109,7 +109,7 @@ export default function Home() {
           <div className="flex justify-between h-20">
             <div className="flex items-center">
               <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-blue-500 flex items-center justify-center transform group-hover:scale-110 transition-transform">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-400 to-blue-500 flex items-center justify-center transform group-hover:scale-110 transition-transform">
                   <FiHexagon className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
@@ -142,8 +142,8 @@ export default function Home() {
                 href="/auth/register"
                 className="group relative px-6 py-2.5 text-sm font-medium overflow-hidden rounded-xl"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-blue-500 transition-transform group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 transition-transform group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="relative text-white flex items-center gap-2">
                   Get Started <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -180,7 +180,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="block px-4 py-3 text-center bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl text-white font-medium"
+                  className="block px-4 py-3 text-center bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl text-white font-medium"
                 >
                   Get Started
                 </Link>
@@ -196,9 +196,9 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-sm text-emerald-400 font-medium">Now with AI-Powered Analytics</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-500/10 to-blue-500/10 border border-violet-500/20">
+                <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
+                <span className="text-sm text-violet-400 font-medium">Now with AI-Powered Analytics</span>
               </div>
 
               {/* Heading */}
@@ -207,7 +207,7 @@ export default function Home() {
                   The Future of
                 </span>
                 <br />
-                <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-violet-400 bg-clip-text text-transparent animate-gradient">
+                <span className="bg-gradient-to-r from-violet-400 via-blue-400 to-violet-400 bg-clip-text text-transparent animate-gradient">
                   Digital Finance
                 </span>
               </h1>
@@ -224,8 +224,8 @@ export default function Home() {
                   href="/auth/register"
                   className="group relative px-8 py-4 text-lg font-semibold overflow-hidden rounded-2xl"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-blue-500" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,white,transparent_70%)]" />
                   </div>
@@ -246,15 +246,15 @@ export default function Home() {
               {/* Trust Badges */}
               <div className="flex flex-wrap items-center gap-6 pt-4">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <FiCheck className="w-4 h-4 text-emerald-400" />
+                  <FiCheck className="w-4 h-4 text-violet-400" />
                   No credit card required
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <FiCheck className="w-4 h-4 text-emerald-400" />
+                  <FiCheck className="w-4 h-4 text-violet-400" />
                   14-day free trial
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <FiCheck className="w-4 h-4 text-emerald-400" />
+                  <FiCheck className="w-4 h-4 text-violet-400" />
                   Cancel anytime
                 </div>
               </div>
@@ -272,14 +272,14 @@ export default function Home() {
                       <p className="text-sm text-gray-400">Total Revenue</p>
                       <p className="text-3xl font-bold">$2,847,392</p>
                     </div>
-                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-sm">
+                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/20 text-violet-400 text-sm">
                       <FiTrendingUp className="w-4 h-4" />
                       +24.5%
                     </div>
                   </div>
 
                   {/* Chart Placeholder */}
-                  <div className="h-40 bg-gradient-to-t from-emerald-500/20 to-transparent rounded-xl relative overflow-hidden">
+                  <div className="h-40 bg-gradient-to-t from-violet-500/20 to-transparent rounded-xl relative overflow-hidden">
                     <svg className="w-full h-full" viewBox="0 0 400 160" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -330,10 +330,10 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute -bottom-4 -left-8 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 backdrop-blur-xl rounded-2xl border border-white/10 p-4 shadow-xl animate-float-delayed">
+              <div className="absolute -bottom-4 -left-8 bg-gradient-to-br from-violet-500/20 to-teal-500/20 backdrop-blur-xl rounded-2xl border border-white/10 p-4 shadow-xl animate-float-delayed">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                    <FiShield className="w-5 h-5 text-emerald-400" />
+                  <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center">
+                    <FiShield className="w-5 h-5 text-violet-400" />
                   </div>
                   <div>
                     <p className="text-sm font-medium">Fraud Blocked</p>
@@ -371,7 +371,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
-              <FiCpu className="w-4 h-4 text-emerald-400" />
+              <FiCpu className="w-4 h-4 text-violet-400" />
               <span className="text-sm text-gray-400">Powered by Advanced AI</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -379,7 +379,7 @@ export default function Home() {
                 Built for Scale,
               </span>
               <br />
-              <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                 Designed for Speed
               </span>
             </h2>
@@ -408,7 +408,7 @@ export default function Home() {
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold mb-1">{feature.title}</h3>
                       <p className="text-sm text-gray-400 mb-2">{feature.description}</p>
-                      <span className="text-xs text-emerald-400 font-medium">{feature.stats}</span>
+                      <span className="text-xs text-violet-400 font-medium">{feature.stats}</span>
                     </div>
                   </div>
                 </button>
@@ -432,7 +432,7 @@ export default function Home() {
                   {/* Feature Stats */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/5 rounded-xl p-4">
-                      <p className="text-2xl font-bold text-emerald-400">99.99%</p>
+                      <p className="text-2xl font-bold text-violet-400">99.99%</p>
                       <p className="text-sm text-gray-500">Accuracy Rate</p>
                     </div>
                     <div className="bg-white/5 rounded-xl p-4">
@@ -450,7 +450,7 @@ export default function Home() {
       {/* Stats Section */}
       <section className="relative z-10 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-violet-500/10 rounded-3xl border border-white/10 p-12">
+          <div className="bg-gradient-to-r from-violet-500/10 via-blue-500/10 to-violet-500/10 rounded-3xl border border-white/10 p-12">
             <div className="grid md:grid-cols-4 gap-8">
               {[
                 { value: '$50B+', label: 'Processed Annually', icon: FiBarChart2 },
@@ -459,7 +459,7 @@ export default function Home() {
                 { value: '200+', label: 'Edge Locations', icon: FiGlobe },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
-                  <stat.icon className="w-8 h-8 mx-auto mb-4 text-emerald-400" />
+                  <stat.icon className="w-8 h-8 mx-auto mb-4 text-violet-400" />
                   <p className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-2">
                     {stat.value}
                   </p>
@@ -476,7 +476,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
-              <FiLayers className="w-4 h-4 text-emerald-400" />
+              <FiLayers className="w-4 h-4 text-violet-400" />
               <span className="text-sm text-gray-400">Flexible Plans</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -484,7 +484,7 @@ export default function Home() {
                 Simple, Transparent
               </span>
               <br />
-              <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                 Pricing
               </span>
             </h2>
@@ -527,12 +527,12 @@ export default function Home() {
                 key={index}
                 className={`relative rounded-3xl border transition-all duration-300 hover:scale-105 ${
                   plan.popular
-                    ? 'bg-gradient-to-b from-emerald-500/20 to-blue-500/20 border-emerald-500/50'
+                    ? 'bg-gradient-to-b from-violet-500/20 to-blue-500/20 border-violet-500/50'
                     : 'bg-white/5 border-white/10 hover:border-white/20'
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full text-sm font-medium">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-violet-500 to-blue-500 rounded-full text-sm font-medium">
                     Most Popular
                   </div>
                 )}
@@ -546,7 +546,7 @@ export default function Home() {
                   <ul className="space-y-4 mb-8">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-center gap-3 text-sm text-gray-300">
-                        <FiCheck className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                        <FiCheck className="w-5 h-5 text-violet-400 flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -555,7 +555,7 @@ export default function Home() {
                     href="/auth/register"
                     className={`block w-full py-4 text-center rounded-xl font-medium transition-all ${
                       plan.popular
-                        ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white hover:opacity-90'
+                        ? 'bg-gradient-to-r from-violet-500 to-blue-500 text-white hover:opacity-90'
                         : 'bg-white/10 text-white hover:bg-white/20'
                     }`}
                   >
@@ -574,7 +574,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
-                <FiAward className="w-4 h-4 text-emerald-400" />
+                <FiAward className="w-4 h-4 text-violet-400" />
                 <span className="text-sm text-gray-400">About Us</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -582,7 +582,7 @@ export default function Home() {
                   Building the Future
                 </span>
                 <br />
-                <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                   of Finance
                 </span>
               </h2>
@@ -594,8 +594,8 @@ export default function Home() {
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                    <FiShield className="w-6 h-6 text-emerald-400" />
+                  <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center">
+                    <FiShield className="w-6 h-6 text-violet-400" />
                   </div>
                   <div>
                     <p className="font-semibold">SOC 2 Type II</p>
@@ -625,7 +625,7 @@ export default function Home() {
                     { title: 'Enterprise Support', desc: '24/7 dedicated support with 15-minute response SLA' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-4">
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-blue-500 flex items-center justify-center flex-shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center flex-shrink-0">
                         <FiCheck className="w-4 h-4 text-white" />
                       </div>
                       <div>
@@ -644,14 +644,14 @@ export default function Home() {
       {/* CTA Section */}
       <section className="relative z-10 py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-violet-500/20 rounded-3xl border border-white/10 p-12 md:p-16 relative overflow-hidden">
+          <div className="bg-gradient-to-r from-violet-500/20 via-blue-500/20 to-violet-500/20 rounded-3xl border border-white/10 p-12 md:p-16 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(52,211,153,0.1),transparent_50%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(59,130,246,0.1),transparent_50%)]" />
             <div className="relative z-10">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 Ready to Transform Your
                 <br />
-                <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                   Payment Infrastructure?
                 </span>
               </h2>
@@ -661,7 +661,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/auth/register"
-                  className="group px-8 py-4 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl text-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                  className="group px-8 py-4 bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl text-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                 >
                   Get Started Free
                   <FiArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -684,7 +684,7 @@ export default function Home() {
           <div className="grid md:grid-cols-5 gap-12 mb-12">
             <div className="md:col-span-2">
               <Link href="/" className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-blue-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-400 to-blue-500 flex items-center justify-center">
                   <FiHexagon className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold">Advancia</span>

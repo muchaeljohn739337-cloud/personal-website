@@ -60,7 +60,7 @@ const topAccounts = [
 
 const paymentMethods = [
   { name: 'Credit Card', percentage: 45, color: 'bg-blue-500' },
-  { name: 'Bank Transfer', percentage: 28, color: 'bg-emerald-500' },
+  { name: 'Bank Transfer', percentage: 28, color: 'bg-violet-500' },
   { name: 'Crypto', percentage: 15, color: 'bg-violet-500' },
   { name: 'Digital Wallet', percentage: 12, color: 'bg-amber-500' },
 ];
@@ -112,7 +112,7 @@ export default function DashboardPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-blue-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-400 to-blue-500 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <h1 className="text-2xl lg:text-3xl font-bold">
@@ -136,7 +136,7 @@ export default function DashboardPage() {
           </button>
           <Link
             href="/dashboard/billing"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-blue-500 hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-violet-500 to-blue-500 hover:opacity-90 transition-opacity"
           >
             <Zap className="w-4 h-4" />
             <span>Upgrade</span>
@@ -147,17 +147,17 @@ export default function DashboardPage() {
       {/* Main Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {/* Total Balance */}
-        <div className="col-span-2 lg:col-span-1 bg-gradient-to-br from-emerald-500/20 to-blue-500/20 rounded-2xl border border-emerald-500/30 p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl" />
+        <div className="col-span-2 lg:col-span-1 bg-gradient-to-br from-violet-500/20 to-blue-500/20 rounded-2xl border border-violet-500/30 p-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl" />
           <div className="relative">
-            <div className="flex items-center gap-2 text-emerald-400 mb-2">
+            <div className="flex items-center gap-2 text-violet-400 mb-2">
               <Wallet className="w-5 h-5" />
               <span className="text-sm font-medium">Total Balance</span>
             </div>
             <p className="text-3xl lg:text-4xl font-bold mb-2">{formatCurrency(data.totalBalance)}</p>
             <div className="flex items-center gap-1 text-sm">
-              <ArrowUpRight className="w-4 h-4 text-emerald-400" />
-              <span className="text-emerald-400">+{data.growthRate}%</span>
+              <ArrowUpRight className="w-4 h-4 text-violet-400" />
+              <span className="text-violet-400">+{data.growthRate}%</span>
               <span className="text-slate-400">vs last month</span>
             </div>
           </div>
@@ -171,8 +171,8 @@ export default function DashboardPage() {
           </div>
           <p className="text-2xl lg:text-3xl font-bold mb-2">{formatCurrency(data.monthlyRevenue)}</p>
           <div className="flex items-center gap-1 text-sm">
-            <ArrowUpRight className="w-4 h-4 text-emerald-400" />
-            <span className="text-emerald-400">+18.2%</span>
+            <ArrowUpRight className="w-4 h-4 text-violet-400" />
+            <span className="text-violet-400">+18.2%</span>
           </div>
         </div>
 
@@ -184,8 +184,8 @@ export default function DashboardPage() {
           </div>
           <p className="text-2xl lg:text-3xl font-bold mb-2">{formatNumber(data.transactionVolume)}</p>
           <div className="flex items-center gap-1 text-sm">
-            <ArrowUpRight className="w-4 h-4 text-emerald-400" />
-            <span className="text-emerald-400">+342</span>
+            <ArrowUpRight className="w-4 h-4 text-violet-400" />
+            <span className="text-violet-400">+342</span>
             <span className="text-slate-400">today</span>
           </div>
         </div>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
           <p className="text-2xl lg:text-3xl font-bold mb-2">{data.successRate}%</p>
           <div className="w-full bg-slate-800 rounded-full h-2">
             <div 
-              className="bg-gradient-to-r from-amber-400 to-emerald-400 h-2 rounded-full transition-all"
+              className="bg-gradient-to-r from-amber-400 to-violet-400 h-2 rounded-full transition-all"
               style={{ width: `${data.successRate}%` }}
             />
           </div>
@@ -236,8 +236,8 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="bg-slate-900/50 rounded-xl border border-slate-800 p-4 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-            <TrendingUp className="w-6 h-6 text-emerald-400" />
+          <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center">
+            <TrendingUp className="w-6 h-6 text-violet-400" />
           </div>
           <div>
             <p className="text-sm text-slate-400">Growth Rate</p>
@@ -256,7 +256,7 @@ export default function DashboardPage() {
               <p className="text-sm text-slate-400">Monthly revenue performance</p>
             </div>
             <div className="flex items-center gap-2">
-              <button className="px-3 py-1 text-sm rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <button className="px-3 py-1 text-sm rounded-lg bg-violet-500/20 text-violet-400 border border-violet-500/30">
                 12M
               </button>
               <button className="px-3 py-1 text-sm rounded-lg bg-slate-800 text-slate-400 hover:bg-slate-700">
@@ -418,7 +418,7 @@ export default function DashboardPage() {
               <h3 className="text-lg font-semibold">Recent Transactions</h3>
               <p className="text-sm text-slate-400">Latest payment activities</p>
             </div>
-            <Link href="/dashboard/billing" className="text-sm text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
+            <Link href="/dashboard/billing" className="text-sm text-violet-400 hover:text-violet-300 flex items-center gap-1">
               View all <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
@@ -439,10 +439,10 @@ export default function DashboardPage() {
                     <td className="py-4">
                       <div className="flex items-center gap-3">
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          tx.type === 'credit' ? 'bg-emerald-500/20' : 'bg-red-500/20'
+                          tx.type === 'credit' ? 'bg-violet-500/20' : 'bg-red-500/20'
                         }`}>
                           {tx.type === 'credit' ? (
-                            <ArrowDownRight className="w-5 h-5 text-emerald-400" />
+                            <ArrowDownRight className="w-5 h-5 text-violet-400" />
                           ) : (
                             <ArrowUpRight className="w-5 h-5 text-red-400" />
                           )}
@@ -454,13 +454,13 @@ export default function DashboardPage() {
                       </div>
                     </td>
                     <td className="py-4">
-                      <span className={`font-semibold ${tx.type === 'credit' ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <span className={`font-semibold ${tx.type === 'credit' ? 'text-violet-400' : 'text-red-400'}`}>
                         {tx.type === 'credit' ? '+' : '-'}{formatCurrency(tx.amount)}
                       </span>
                     </td>
                     <td className="py-4">
                       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                        tx.status === 'completed' ? 'bg-emerald-500/20 text-emerald-400' :
+                        tx.status === 'completed' ? 'bg-violet-500/20 text-violet-400' :
                         tx.status === 'pending' ? 'bg-amber-500/20 text-amber-400' :
                         'bg-red-500/20 text-red-400'
                       }`}>
@@ -500,7 +500,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="w-full bg-slate-800 rounded-full h-2">
                   <div 
-                    className="bg-gradient-to-r from-emerald-500 to-blue-500 h-2 rounded-full transition-all"
+                    className="bg-gradient-to-r from-violet-500 to-blue-500 h-2 rounded-full transition-all"
                     style={{ width: `${region.percentage}%` }}
                   />
                 </div>
@@ -512,9 +512,9 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Link href="/dashboard/billing" className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-emerald-500/50 transition-all">
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <Banknote className="w-6 h-6 text-emerald-400" />
+        <Link href="/dashboard/billing" className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-violet-500/50 transition-all">
+          <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <Banknote className="w-6 h-6 text-violet-400" />
           </div>
           <h4 className="font-semibold mb-1">Send Payment</h4>
           <p className="text-sm text-slate-400">Transfer funds instantly</p>
