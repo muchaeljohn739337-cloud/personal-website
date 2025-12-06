@@ -16,6 +16,14 @@ import {
   ChevronRight,
   ArrowUpRight,
   ArrowDownRight,
+  Sparkles,
+  Target,
+  Zap,
+  Clock,
+  MessageSquare,
+  Video,
+  CheckCircle2,
+  BarChart3,
 } from 'lucide-react';
 
 // Mock data
@@ -87,84 +95,123 @@ const upcomingActivities = [
 ];
 
 const statusColors: Record<string, string> = {
-  LEAD: 'bg-slate-500/20 text-slate-400',
-  PROSPECT: 'bg-blue-500/20 text-blue-400',
-  CUSTOMER: 'bg-green-500/20 text-green-400',
-  CHURNED: 'bg-red-500/20 text-red-400',
+  LEAD: 'bg-slate-500/20 text-slate-300 border-slate-500/30',
+  PROSPECT: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+  CUSTOMER: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+  CHURNED: 'bg-red-500/20 text-red-300 border-red-500/30',
 };
 
-const activityIcons: Record<string, string> = {
-  CALL: '📞',
-  MEETING: '📅',
-  EMAIL: '✉️',
-  TASK: '✅',
+const activityIcons: Record<string, React.ElementType> = {
+  CALL: Phone,
+  MEETING: Video,
+  EMAIL: Mail,
+  TASK: CheckCircle2,
 };
 
 export default function CRMDashboardPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <div className="space-y-6">
+    <div className="relative space-y-8">
+      {/* Background Effects */}
+      <div className="pointer-events-none absolute -left-64 -top-32 h-[400px] w-[400px] rounded-full bg-violet-600/10 blur-[100px]" />
+      <div className="pointer-events-none absolute -right-32 top-1/3 h-[300px] w-[300px] rounded-full bg-blue-600/10 blur-[80px]" />
+
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="relative flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">CRM Dashboard</h1>
-          <p className="text-slate-400">Manage your contacts, deals, and pipeline</p>
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1">
+            <Sparkles className="h-3.5 w-3.5 text-violet-400" />
+            <span className="text-xs font-medium text-violet-300">AI-Powered CRM</span>
+          </div>
+          <h1 className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-3xl font-bold text-transparent">
+            Customer Relationships
+          </h1>
+          <p className="mt-1 text-slate-400">Manage contacts, deals, and your sales pipeline</p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800">
-            <Filter className="h-4 w-4" />
+          <button className="group flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10">
+            <Filter className="h-4 w-4 text-slate-400 transition-colors group-hover:text-white" />
             Filter
           </button>
-          <button className="flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-violet-700">
-            <Plus className="h-4 w-4" />
-            Add Contact
+          <button className="group relative flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:shadow-lg hover:shadow-violet-500/25">
+            <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-purple-500 opacity-0 transition-opacity group-hover:opacity-100" />
+            <Plus className="relative h-4 w-4" />
+            <span className="relative">Add Contact</span>
           </button>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
-            <div className="flex items-center justify-between">
-              <div className="rounded-lg bg-violet-500/20 p-2">
+        {stats.map((stat, index) => (
+          <div
+            key={stat.label}
+            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-all duration-300 hover:border-violet-500/30 hover:bg-white/10"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-gradient-to-br from-violet-500/20 to-transparent blur-2xl transition-all group-hover:scale-150" />
+            <div className="relative flex items-center justify-between">
+              <div className="rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 p-3">
                 <stat.icon className="h-5 w-5 text-violet-400" />
               </div>
               <span
-                className={`flex items-center gap-1 text-sm ${stat.trend === 'up' ? 'text-green-400' : 'text-red-400'}`}
+                className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
+                  stat.trend === 'up'
+                    ? 'bg-emerald-500/20 text-emerald-400'
+                    : 'bg-red-500/20 text-red-400'
+                }`}
               >
                 {stat.trend === 'up' ? (
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowUpRight className="h-3 w-3" />
                 ) : (
-                  <ArrowDownRight className="h-4 w-4" />
+                  <ArrowDownRight className="h-3 w-3" />
                 )}
                 {stat.change}
               </span>
             </div>
-            <p className="mt-3 text-2xl font-bold text-white">{stat.value}</p>
-            <p className="text-sm text-slate-500">{stat.label}</p>
+            <p className="relative mt-4 text-3xl font-bold text-white">{stat.value}</p>
+            <p className="relative text-sm text-slate-400">{stat.label}</p>
           </div>
         ))}
       </div>
 
       {/* Pipeline */}
-      <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
-        <h2 className="mb-4 text-lg font-semibold text-white">Sales Pipeline</h2>
-        <div className="flex gap-4">
-          {pipelineStages.map((stage) => (
-            <div key={stage.name} className="flex-1">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-300">{stage.name}</span>
-                <span className="text-xs text-slate-500">{stage.count}</span>
+      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-white">Sales Pipeline</h2>
+            <p className="text-sm text-slate-400">Track deals through your sales process</p>
+          </div>
+          <div className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-1.5">
+            <BarChart3 className="h-4 w-4 text-violet-400" />
+            <span className="text-sm text-slate-300">$1.35M Total</span>
+          </div>
+        </div>
+        <div className="flex gap-3">
+          {pipelineStages.map((stage, index) => (
+            <div
+              key={stage.name}
+              className="group flex-1 rounded-xl border border-white/5 bg-white/5 p-4 transition-all hover:border-white/10 hover:bg-white/10"
+            >
+              <div className="mb-3 flex items-center justify-between">
+                <span className="font-medium text-white">{stage.name}</span>
+                <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs font-medium text-slate-300">
+                  {stage.count}
+                </span>
               </div>
-              <div className="h-2 rounded-full bg-slate-800">
+              <div className="mb-2 h-2 overflow-hidden rounded-full bg-slate-800/50">
                 <div
-                  className={`h-full rounded-full ${stage.color}`}
-                  style={{ width: `${(stage.value / 500000) * 100}%` }}
+                  className={`h-full rounded-full ${stage.color} transition-all duration-500`}
+                  style={{
+                    width: `${(stage.value / 500000) * 100}%`,
+                    transitionDelay: `${index * 100}ms`,
+                  }}
                 />
               </div>
-              <p className="mt-1 text-xs text-slate-500">${(stage.value / 1000).toFixed(0)}K</p>
+              <p className="text-lg font-semibold text-white">
+                ${(stage.value / 1000).toFixed(0)}K
+              </p>
             </div>
           ))}
         </div>
@@ -173,9 +220,12 @@ export default function CRMDashboardPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Recent Contacts */}
         <div className="lg:col-span-2">
-          <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-white">Recent Contacts</h2>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-white">Recent Contacts</h2>
+                <p className="text-sm text-slate-400">Your latest customer interactions</p>
+              </div>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 <input
@@ -183,48 +233,54 @@ export default function CRMDashboardPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search contacts..."
-                  className="rounded-lg border border-slate-700 bg-slate-950/50 py-2 pl-9 pr-4 text-sm text-white placeholder-slate-500 focus:border-violet-500 focus:outline-none"
+                  className="rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 transition-all focus:border-violet-500/50 focus:bg-white/10 focus:outline-none"
                 />
               </div>
             </div>
 
             <div className="space-y-3">
-              {recentContacts.map((contact) => (
+              {recentContacts.map((contact, index) => (
                 <div
                   key={contact.id}
-                  className="flex items-center justify-between rounded-lg border border-slate-800 p-4 transition-colors hover:bg-slate-800/50"
+                  className="group flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-4 transition-all hover:border-violet-500/30 hover:bg-white/10"
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-purple-600 text-sm font-medium text-white">
-                      {contact.name.charAt(0)}
+                    <div className="relative">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 text-lg font-bold text-white shadow-lg shadow-violet-500/20">
+                        {contact.name.charAt(0)}
+                      </div>
+                      <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full border-2 border-slate-900 bg-emerald-500" />
                     </div>
                     <div>
-                      <p className="font-medium text-white">{contact.name}</p>
-                      <div className="flex items-center gap-3 text-sm text-slate-500">
-                        <span className="flex items-center gap-1">
-                          <Building className="h-3 w-3" />
+                      <p className="font-semibold text-white">{contact.name}</p>
+                      <div className="mt-1 flex items-center gap-3 text-sm text-slate-400">
+                        <span className="flex items-center gap-1.5">
+                          <Building className="h-3.5 w-3.5" />
                           {contact.company}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Mail className="h-3 w-3" />
-                          {contact.email}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-5">
                     <div className="text-right">
                       <span
-                        className={`inline-block rounded-full px-2.5 py-1 text-xs font-medium ${statusColors[contact.status]}`}
+                        className={`inline-block rounded-lg border px-2.5 py-1 text-xs font-semibold ${statusColors[contact.status]}`}
                       >
                         {contact.status}
                       </span>
-                      <p className="mt-1 text-sm text-slate-500">{contact.lastContact}</p>
+                      <p className="mt-1.5 flex items-center justify-end gap-1 text-xs text-slate-500">
+                        <Clock className="h-3 w-3" />
+                        {contact.lastContact}
+                      </p>
                     </div>
-                    <p className="font-semibold text-white">
-                      ${contact.dealValue.toLocaleString()}
-                    </p>
-                    <button className="rounded-lg p-2 text-slate-400 hover:bg-slate-700 hover:text-white">
+                    <div className="text-right">
+                      <p className="text-lg font-bold text-white">
+                        ${contact.dealValue.toLocaleString()}
+                      </p>
+                      <p className="text-xs text-slate-500">Deal Value</p>
+                    </div>
+                    <button className="rounded-lg border border-white/10 p-2 text-slate-400 opacity-0 transition-all group-hover:opacity-100 hover:bg-white/10 hover:text-white">
                       <MoreHorizontal className="h-4 w-4" />
                     </button>
                   </div>
@@ -232,7 +288,7 @@ export default function CRMDashboardPage() {
               ))}
             </div>
 
-            <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-slate-700 py-2.5 text-sm text-slate-400 hover:bg-slate-800 hover:text-white">
+            <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white">
               View All Contacts
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -240,32 +296,49 @@ export default function CRMDashboardPage() {
         </div>
 
         {/* Upcoming Activities */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
-          <h2 className="mb-4 text-lg font-semibold text-white">Today&apos;s Activities</h2>
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+          <div className="mb-6 flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-white">Today&apos;s Activities</h2>
+              <p className="text-sm text-slate-400">4 tasks scheduled</p>
+            </div>
+            <div className="rounded-lg bg-violet-500/20 px-2.5 py-1">
+              <span className="text-xs font-medium text-violet-300">Live</span>
+            </div>
+          </div>
           <div className="space-y-3">
-            {upcomingActivities.map((activity) => (
-              <div
-                key={activity.id}
-                className="flex items-start gap-3 rounded-lg border border-slate-800 p-3"
-              >
-                <span className="text-xl">{activityIcons[activity.type]}</span>
-                <div className="flex-1">
-                  <p className="font-medium text-white">{activity.subject}</p>
-                  <div className="mt-1 flex items-center gap-2 text-sm text-slate-500">
-                    <span>{activity.time}</span>
-                    {activity.contact && (
-                      <>
-                        <span>•</span>
-                        <span>{activity.contact}</span>
-                      </>
-                    )}
+            {upcomingActivities.map((activity, index) => {
+              const IconComponent = activityIcons[activity.type];
+              return (
+                <div
+                  key={activity.id}
+                  className="group flex items-start gap-4 rounded-xl border border-white/5 bg-white/5 p-4 transition-all hover:border-white/10 hover:bg-white/10"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className="rounded-lg bg-gradient-to-br from-violet-500/20 to-purple-500/10 p-2.5">
+                    <IconComponent className="h-4 w-4 text-violet-400" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-white">{activity.subject}</p>
+                    <div className="mt-1.5 flex items-center gap-2 text-sm text-slate-400">
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {activity.time}
+                      </span>
+                      {activity.contact && (
+                        <>
+                          <span className="text-slate-600">•</span>
+                          <span>{activity.contact}</span>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-slate-700 py-2.5 text-sm text-slate-400 hover:bg-slate-800 hover:text-white">
+          <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white">
             View Calendar
             <ChevronRight className="h-4 w-4" />
           </button>
@@ -275,17 +348,44 @@ export default function CRMDashboardPage() {
       {/* Quick Actions */}
       <div className="grid grid-cols-4 gap-4">
         {[
-          { label: 'New Contact', icon: Users, color: 'from-violet-600 to-purple-600' },
-          { label: 'New Deal', icon: DollarSign, color: 'from-blue-600 to-cyan-600' },
-          { label: 'Schedule Call', icon: Phone, color: 'from-green-600 to-emerald-600' },
-          { label: 'Send Email', icon: Mail, color: 'from-amber-600 to-orange-600' },
+          {
+            label: 'New Contact',
+            icon: Users,
+            color: 'from-violet-600 to-purple-600',
+            shadow: 'shadow-violet-500/25',
+          },
+          {
+            label: 'New Deal',
+            icon: Target,
+            color: 'from-blue-600 to-cyan-600',
+            shadow: 'shadow-blue-500/25',
+          },
+          {
+            label: 'Schedule Call',
+            icon: Phone,
+            color: 'from-emerald-600 to-teal-600',
+            shadow: 'shadow-emerald-500/25',
+          },
+          {
+            label: 'Send Email',
+            icon: MessageSquare,
+            color: 'from-amber-600 to-orange-600',
+            shadow: 'shadow-amber-500/25',
+          },
         ].map((action) => (
           <button
             key={action.label}
-            className={`flex items-center gap-3 rounded-xl bg-gradient-to-r ${action.color} p-4 text-white transition-transform hover:scale-[1.02]`}
+            className={`group relative flex items-center gap-3 overflow-hidden rounded-xl bg-gradient-to-r ${action.color} p-5 text-white transition-all hover:scale-[1.02] hover:shadow-xl ${action.shadow}`}
           >
-            <action.icon className="h-5 w-5" />
-            <span className="font-medium">{action.label}</span>
+            <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity group-hover:opacity-100" />
+            <div className="relative rounded-lg bg-white/20 p-2">
+              <action.icon className="h-5 w-5" />
+            </div>
+            <div className="relative text-left">
+              <span className="font-semibold">{action.label}</span>
+              <p className="text-xs text-white/70">Click to create</p>
+            </div>
+            <Zap className="relative ml-auto h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
           </button>
         ))}
       </div>
