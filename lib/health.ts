@@ -342,9 +342,7 @@ async function updateGoalProgress(
 
     const targetValue = Number(goal.targetValue);
     const completed =
-      goal.type === 'WEIGHT_LOSS'
-        ? newValue <= targetValue
-        : newValue >= targetValue;
+      goal.type === 'WEIGHT_LOSS' ? newValue <= targetValue : newValue >= targetValue;
 
     await prisma.healthGoal.update({
       where: { id: goal.id },
@@ -468,9 +466,10 @@ export async function getHealthStats(userId: string, days: number = 7) {
   }
 
   if (heartRateCount > 0) stats.avgHeartRate = Math.round(stats.avgHeartRate / heartRateCount);
-  if (sleepCount > 0) stats.avgSleepHours = Math.round(stats.avgSleepHours / sleepCount * 10) / 10;
+  if (sleepCount > 0)
+    stats.avgSleepHours = Math.round((stats.avgSleepHours / sleepCount) * 10) / 10;
   if (stepsCount > 0) stats.avgSteps = Math.round(stats.avgSteps / stepsCount);
-  if (oxygenCount > 0) stats.avgOxygen = Math.round(stats.avgOxygen / oxygenCount * 10) / 10;
+  if (oxygenCount > 0) stats.avgOxygen = Math.round((stats.avgOxygen / oxygenCount) * 10) / 10;
 
   return stats;
 }

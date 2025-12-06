@@ -84,7 +84,10 @@ export async function POST(req: NextRequest) {
       });
     } else if (provider === 'ALCHEMY_PAY') {
       if (!walletAddress) {
-        return NextResponse.json({ error: 'Wallet address required for Alchemy Pay' }, { status: 400 });
+        return NextResponse.json(
+          { error: 'Wallet address required for Alchemy Pay' },
+          { status: 400 }
+        );
       }
 
       const user = await prisma.user.findUnique({

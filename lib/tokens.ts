@@ -6,7 +6,7 @@ import { prisma } from './prismaClient';
 export const TOKEN_CONFIG = {
   symbol: 'ADV',
   name: 'Advancia Token',
-  exchangeRate: 0.10, // 1 ADV = $0.10 USD
+  exchangeRate: 0.1, // 1 ADV = $0.10 USD
   bonusRate: 0.15, // 15% bonus on credits
   fees: {
     withdraw: 0.01, // 1% withdraw fee
@@ -63,7 +63,15 @@ export async function getOrCreateTokenWallet(userId: string) {
 export async function addTokens(
   userId: string,
   amount: number,
-  type: 'EARN' | 'BONUS' | 'REWARD_CLAIM' | 'ACHIEVEMENT' | 'TIER_BONUS' | 'STREAK_BONUS' | 'REFERRAL' | 'TRANSFER_IN',
+  type:
+    | 'EARN'
+    | 'BONUS'
+    | 'REWARD_CLAIM'
+    | 'ACHIEVEMENT'
+    | 'TIER_BONUS'
+    | 'STREAK_BONUS'
+    | 'REFERRAL'
+    | 'TRANSFER_IN',
   description?: string,
   metadata?: Record<string, unknown>
 ) {
@@ -109,8 +117,12 @@ export async function deductTokens(
     throw new Error('Insufficient balance');
   }
 
-  const fee = type === 'WITHDRAW' ? amount * TOKEN_CONFIG.fees.withdraw :
-              type === 'CASH_OUT' ? amount * TOKEN_CONFIG.fees.cashOut : 0;
+  const fee =
+    type === 'WITHDRAW'
+      ? amount * TOKEN_CONFIG.fees.withdraw
+      : type === 'CASH_OUT'
+        ? amount * TOKEN_CONFIG.fees.cashOut
+        : 0;
   const totalDeduction = amount + fee;
   const newBalance = Number(wallet.balance) - totalDeduction;
 

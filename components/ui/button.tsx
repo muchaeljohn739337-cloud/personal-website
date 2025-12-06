@@ -19,8 +19,7 @@ const buttonVariants = cva(
           'border-2 border-slate-200 bg-white text-slate-900 hover:bg-slate-50 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800',
         secondary:
           'bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700',
-        ghost:
-          'text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800',
+        ghost: 'text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800',
         link: 'text-blue-600 underline-offset-4 hover:underline dark:text-blue-400',
         success:
           'bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg hover:from-emerald-700 hover:to-green-700 focus-visible:ring-emerald-500',
@@ -41,8 +40,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
   asChild?: boolean;
 }

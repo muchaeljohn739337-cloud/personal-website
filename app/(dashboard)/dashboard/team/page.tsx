@@ -9,10 +9,38 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 const mockMembers = [
-  { id: '1', name: 'John Doe', email: 'john@example.com', role: 'OWNER', avatar: 'J', joinedAt: '2024-01-15' },
-  { id: '2', name: 'Jane Smith', email: 'jane@example.com', role: 'ADMIN', avatar: 'J', joinedAt: '2024-02-20' },
-  { id: '3', name: 'Bob Wilson', email: 'bob@example.com', role: 'MEMBER', avatar: 'B', joinedAt: '2024-03-10' },
-  { id: '4', name: 'Alice Brown', email: 'alice@example.com', role: 'MEMBER', avatar: 'A', joinedAt: '2024-04-05' },
+  {
+    id: '1',
+    name: 'John Doe',
+    email: 'john@example.com',
+    role: 'OWNER',
+    avatar: 'J',
+    joinedAt: '2024-01-15',
+  },
+  {
+    id: '2',
+    name: 'Jane Smith',
+    email: 'jane@example.com',
+    role: 'ADMIN',
+    avatar: 'J',
+    joinedAt: '2024-02-20',
+  },
+  {
+    id: '3',
+    name: 'Bob Wilson',
+    email: 'bob@example.com',
+    role: 'MEMBER',
+    avatar: 'B',
+    joinedAt: '2024-03-10',
+  },
+  {
+    id: '4',
+    name: 'Alice Brown',
+    email: 'alice@example.com',
+    role: 'MEMBER',
+    avatar: 'A',
+    joinedAt: '2024-04-05',
+  },
 ];
 
 const pendingInvites = [
@@ -109,7 +137,10 @@ export default function TeamPage() {
         <CardContent>
           <div className="divide-y divide-slate-200 dark:divide-slate-700">
             {mockMembers.map((member) => (
-              <div key={member.id} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
+              <div
+                key={member.id}
+                className="flex items-center justify-between py-4 first:pt-0 last:pb-0"
+              >
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-sm font-medium text-white">
                     {member.avatar}
@@ -120,7 +151,9 @@ export default function TeamPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${roleColors[member.role]}`}>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${roleColors[member.role]}`}
+                  >
                     {member.role}
                   </span>
                   {member.role !== 'OWNER' && (
@@ -147,7 +180,10 @@ export default function TeamPage() {
           <CardContent>
             <div className="divide-y divide-slate-200 dark:divide-slate-700">
               {pendingInvites.map((invite) => (
-                <div key={invite.id} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
+                <div
+                  key={invite.id}
+                  className="flex items-center justify-between py-4 first:pt-0 last:pb-0"
+                >
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
                       <Mail className="h-5 w-5 text-slate-400" />
@@ -158,7 +194,9 @@ export default function TeamPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${roleColors[invite.role]}`}>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-xs font-medium ${roleColors[invite.role]}`}
+                    >
                       {invite.role}
                     </span>
                     <Button variant="outline" size="sm">
@@ -188,7 +226,9 @@ export default function TeamPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-lg border border-slate-200 p-4 dark:border-slate-700">
               <h4 className="font-semibold text-purple-600 dark:text-purple-400">Owner</h4>
-              <p className="mt-1 text-sm text-slate-500">Full access including billing and deletion</p>
+              <p className="mt-1 text-sm text-slate-500">
+                Full access including billing and deletion
+              </p>
             </div>
             <div className="rounded-lg border border-slate-200 p-4 dark:border-slate-700">
               <h4 className="font-semibold text-blue-600 dark:text-blue-400">Admin</h4>

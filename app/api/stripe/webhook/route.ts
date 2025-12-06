@@ -31,9 +31,7 @@ export async function POST(req: NextRequest) {
         const organizationId = session.metadata?.organizationId;
 
         if (organizationId && session.subscription && stripe) {
-          const subscription = await stripe.subscriptions.retrieve(
-            session.subscription as string
-          );
+          const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
 
           await prisma.organization.update({
             where: { id: organizationId },

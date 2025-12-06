@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 export default function OrganizationPage() {
-  const [isCreating, setIsCreating] = useState(false);
+  const [, setIsCreating] = useState(false);
 
   // Mock organization data
   const organization = {
@@ -77,7 +77,11 @@ export default function OrganizationPage() {
                   <Label htmlFor="billingEmail">Billing Email</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                    <Input id="billingEmail" className="pl-10" defaultValue={organization.billingEmail} />
+                    <Input
+                      id="billingEmail"
+                      className="pl-10"
+                      defaultValue={organization.billingEmail}
+                    />
                   </div>
                 </div>
               </div>
@@ -115,7 +119,9 @@ export default function OrganizationPage() {
             {/* Danger Zone */}
             <Card className="border-red-200 dark:border-red-900">
               <CardHeader>
-                <CardTitle className="text-lg text-red-600 dark:text-red-400">Danger Zone</CardTitle>
+                <CardTitle className="text-lg text-red-600 dark:text-red-400">
+                  Danger Zone
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-sm text-slate-600 dark:text-slate-400">

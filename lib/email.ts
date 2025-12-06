@@ -227,31 +227,46 @@ export async function sendTemplatedEmail(
 // =============================================================================
 
 export async function sendWelcomeEmail(user: { id: string; email: string; name?: string | null }) {
-  return sendTemplatedEmail('WELCOME', user.email, {
-    userName: user.name || 'there',
-    appName: FROM_NAME,
-    dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
-  }, user.id);
+  return sendTemplatedEmail(
+    'WELCOME',
+    user.email,
+    {
+      userName: user.name || 'there',
+      appName: FROM_NAME,
+      dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+    },
+    user.id
+  );
 }
 
 export async function sendPasswordResetEmail(
   user: { id: string; email: string; name?: string | null },
   resetToken: string
 ) {
-  return sendTemplatedEmail('PASSWORD_RESET', user.email, {
-    userName: user.name || 'there',
-    resetUrl: `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${resetToken}`,
-  }, user.id);
+  return sendTemplatedEmail(
+    'PASSWORD_RESET',
+    user.email,
+    {
+      userName: user.name || 'there',
+      resetUrl: `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${resetToken}`,
+    },
+    user.id
+  );
 }
 
 export async function sendVerificationEmail(
   user: { id: string; email: string; name?: string | null },
   verifyToken: string
 ) {
-  return sendTemplatedEmail('EMAIL_VERIFICATION', user.email, {
-    userName: user.name || 'there',
-    verifyUrl: `${process.env.NEXT_PUBLIC_APP_URL}/auth/verify?token=${verifyToken}`,
-  }, user.id);
+  return sendTemplatedEmail(
+    'EMAIL_VERIFICATION',
+    user.email,
+    {
+      userName: user.name || 'there',
+      verifyUrl: `${process.env.NEXT_PUBLIC_APP_URL}/auth/verify?token=${verifyToken}`,
+    },
+    user.id
+  );
 }
 
 export async function sendSuspensionEmail(
@@ -260,19 +275,33 @@ export async function sendSuspensionEmail(
   suspensionType: string,
   endDate?: Date
 ) {
-  return sendTemplatedEmail('ACCOUNT_SUSPENDED', user.email, {
-    userName: user.name || 'there',
-    reason,
-    suspensionType,
-    endDate: endDate ? endDate.toLocaleDateString() : '',
-  }, user.id);
+  return sendTemplatedEmail(
+    'ACCOUNT_SUSPENDED',
+    user.email,
+    {
+      userName: user.name || 'there',
+      reason,
+      suspensionType,
+      endDate: endDate ? endDate.toLocaleDateString() : '',
+    },
+    user.id
+  );
 }
 
-export async function sendUnsuspensionEmail(user: { id: string; email: string; name?: string | null }) {
-  return sendTemplatedEmail('ACCOUNT_UNSUSPENDED', user.email, {
-    userName: user.name || 'there',
-    dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
-  }, user.id);
+export async function sendUnsuspensionEmail(user: {
+  id: string;
+  email: string;
+  name?: string | null;
+}) {
+  return sendTemplatedEmail(
+    'ACCOUNT_UNSUSPENDED',
+    user.email,
+    {
+      userName: user.name || 'there',
+      dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+    },
+    user.id
+  );
 }
 
 export async function sendPaymentReceivedEmail(
@@ -281,13 +310,18 @@ export async function sendPaymentReceivedEmail(
   transactionId: string,
   tokensEarned: number
 ) {
-  return sendTemplatedEmail('PAYMENT_RECEIVED', user.email, {
-    userName: user.name || 'there',
-    amount,
-    transactionId,
-    tokensEarned: tokensEarned.toString(),
-    walletUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/tokens`,
-  }, user.id);
+  return sendTemplatedEmail(
+    'PAYMENT_RECEIVED',
+    user.email,
+    {
+      userName: user.name || 'there',
+      amount,
+      transactionId,
+      tokensEarned: tokensEarned.toString(),
+      walletUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/tokens`,
+    },
+    user.id
+  );
 }
 
 export async function sendBookingConfirmationEmail(
@@ -300,16 +334,21 @@ export async function sendBookingConfirmationEmail(
     facilityName: string;
   }
 ) {
-  return sendTemplatedEmail('BOOKING_CONFIRMATION', user.email, {
-    userName: user.name || 'there',
-    bookingNumber: booking.bookingNumber,
-    date: booking.scheduledStart.toLocaleDateString(),
-    time: booking.scheduledStart.toLocaleTimeString(),
-    duration: booking.durationMinutes.toString(),
-    treatmentType: booking.treatmentType.replace(/_/g, ' '),
-    facilityName: booking.facilityName,
-    bookingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/medbed`,
-  }, user.id);
+  return sendTemplatedEmail(
+    'BOOKING_CONFIRMATION',
+    user.email,
+    {
+      userName: user.name || 'there',
+      bookingNumber: booking.bookingNumber,
+      date: booking.scheduledStart.toLocaleDateString(),
+      time: booking.scheduledStart.toLocaleTimeString(),
+      duration: booking.durationMinutes.toString(),
+      treatmentType: booking.treatmentType.replace(/_/g, ' '),
+      facilityName: booking.facilityName,
+      bookingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/medbed`,
+    },
+    user.id
+  );
 }
 
 export async function sendAdminAlert(
@@ -342,7 +381,12 @@ export async function sendBulkEmail(
   for (const recipient of recipients) {
     try {
       const variables = { ...baseVariables, ...recipient.variables };
-      const result = await sendTemplatedEmail(templateKey, recipient.email, variables, recipient.userId);
+      const result = await sendTemplatedEmail(
+        templateKey,
+        recipient.email,
+        variables,
+        recipient.userId
+      );
       results.push({ email: recipient.email, ...result });
     } catch (error) {
       results.push({

@@ -98,9 +98,7 @@ export function TokenWallet() {
                 <span className="text-4xl font-bold">{wallet.balance.toLocaleString()}</span>
                 <span className="text-xl font-medium text-white/80">{wallet.tokenSymbol}</span>
               </div>
-              <p className="mt-1 text-sm text-white/70">
-                ≈ ${wallet.usdValue.toFixed(2)} USD
-              </p>
+              <p className="mt-1 text-sm text-white/70">≈ ${wallet.usdValue.toFixed(2)} USD</p>
             </div>
             <div className="rounded-full bg-white/20 p-4">
               <Coins className="h-8 w-8" />
@@ -216,11 +214,10 @@ export function TokenWallet() {
                         tx.amount > 0 ? 'text-emerald-600' : 'text-red-600'
                       }`}
                     >
-                      {tx.amount > 0 ? '+' : ''}{tx.amount.toLocaleString()} ADV
+                      {tx.amount > 0 ? '+' : ''}
+                      {tx.amount.toLocaleString()} ADV
                     </p>
-                    {tx.fee > 0 && (
-                      <p className="text-xs text-slate-500">Fee: {tx.fee} ADV</p>
-                    )}
+                    {tx.fee > 0 && <p className="text-xs text-slate-500">Fee: {tx.fee} ADV</p>}
                   </div>
                 </div>
               ))}

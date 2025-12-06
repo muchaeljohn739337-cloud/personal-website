@@ -37,8 +37,12 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20');
     const search = searchParams.get('search') || undefined;
     const role = searchParams.get('role') || undefined;
-    const isSuspended = searchParams.get('suspended') === 'true' ? true : 
-                        searchParams.get('suspended') === 'false' ? false : undefined;
+    const isSuspended =
+      searchParams.get('suspended') === 'true'
+        ? true
+        : searchParams.get('suspended') === 'false'
+          ? false
+          : undefined;
     const sortBy = searchParams.get('sortBy') || 'createdAt';
     const sortOrder = (searchParams.get('sortOrder') || 'desc') as 'asc' | 'desc';
 

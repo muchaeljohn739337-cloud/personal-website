@@ -268,7 +268,7 @@ export async function handleWebhook(data: {
       amount: data.cryptoAmount,
       confirmedAt: newStatus === 'FINISHED' ? new Date() : undefined,
       metadata: {
-        ...(payment.metadata as object || {}),
+        ...((payment.metadata as object) || {}),
         txHash: data.txHash,
         finalCryptoAmount: data.cryptoAmount,
         finalFiatAmount: data.fiatAmount,

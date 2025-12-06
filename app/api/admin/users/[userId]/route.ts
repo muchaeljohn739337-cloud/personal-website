@@ -35,10 +35,7 @@ async function checkAdminAccess() {
 }
 
 // GET /api/admin/users/[userId] - Get user details
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
+export async function GET(_req: NextRequest, { params }: { params: { userId: string } }) {
   try {
     const auth = await checkAdminAccess();
     if ('error' in auth) {
@@ -58,10 +55,7 @@ export async function GET(
 }
 
 // PATCH /api/admin/users/[userId] - Update user
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
+export async function PATCH(req: NextRequest, { params }: { params: { userId: string } }) {
   try {
     const auth = await checkAdminAccess();
     if ('error' in auth) {
@@ -71,7 +65,8 @@ export async function PATCH(
     const body = await req.json();
     const { action, ...data } = body;
 
-    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || undefined;
+    const ipAddress =
+      req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || undefined;
 
     let result;
 
@@ -148,10 +143,7 @@ export async function PATCH(
 }
 
 // DELETE /api/admin/users/[userId] - Delete user
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
+export async function DELETE(req: NextRequest, { params }: { params: { userId: string } }) {
   try {
     const auth = await checkAdminAccess();
     if ('error' in auth) {
@@ -163,7 +155,8 @@ export async function DELETE(
       return NextResponse.json({ error: 'Cannot delete your own account' }, { status: 400 });
     }
 
-    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || undefined;
+    const ipAddress =
+      req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || undefined;
 
     await deleteUser(auth.userId, params.userId, ipAddress);
 

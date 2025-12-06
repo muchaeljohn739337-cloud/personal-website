@@ -176,7 +176,9 @@ export default function AdminUsersPage() {
             <Users className="h-5 w-5" />
             Users ({pagination?.total || 0})
           </CardTitle>
-          <CardDescription>Click on a user to view details and manage their account</CardDescription>
+          <CardDescription>
+            Click on a user to view details and manage their account
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -192,22 +194,35 @@ export default function AdminUsersPage() {
                   <tr className="border-b dark:border-slate-700">
                     <th className="px-4 py-3 text-left text-sm font-medium text-slate-500">User</th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-slate-500">Role</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500">Status</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500">Activity</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500">Joined</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-slate-500">Actions</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500">
+                      Status
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500">
+                      Activity
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500">
+                      Joined
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-slate-500">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((user) => (
-                    <tr key={user.id} className="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                    <tr
+                      key={user.id}
+                      className="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800"
+                    >
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
                             {user.image ? (
                               <img src={user.image} alt="" className="h-10 w-10 rounded-full" />
                             ) : (
-                              <span className="text-sm font-medium">{user.name?.[0] || user.email[0].toUpperCase()}</span>
+                              <span className="text-sm font-medium">
+                                {user.name?.[0] || user.email[0].toUpperCase()}
+                              </span>
                             )}
                           </div>
                           <div>
@@ -217,7 +232,9 @@ export default function AdminUsersPage() {
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${roleColors[user.role]}`}>
+                        <span
+                          className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${roleColors[user.role]}`}
+                        >
                           {user.role}
                         </span>
                       </td>
@@ -252,7 +269,9 @@ export default function AdminUsersPage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => setShowActionMenu(showActionMenu === user.id ? null : user.id)}
+                            onClick={() =>
+                              setShowActionMenu(showActionMenu === user.id ? null : user.id)
+                            }
                           >
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
@@ -302,7 +321,11 @@ export default function AdminUsersPage() {
                                 <button
                                   onClick={() => {
                                     const reason = prompt('Reason for suspension:');
-                                    if (reason) handleAction(user.id, 'suspend', { reason, type: 'TEMPORARY' });
+                                    if (reason)
+                                      handleAction(user.id, 'suspend', {
+                                        reason,
+                                        type: 'TEMPORARY',
+                                      });
                                   }}
                                   className="flex w-full items-center gap-2 px-4 py-2 text-sm text-amber-600 hover:bg-slate-100 dark:hover:bg-slate-700"
                                 >
@@ -312,7 +335,11 @@ export default function AdminUsersPage() {
                               )}
                               <button
                                 onClick={() => {
-                                  if (confirm('Are you sure you want to delete this user? This cannot be undone.')) {
+                                  if (
+                                    confirm(
+                                      'Are you sure you want to delete this user? This cannot be undone.'
+                                    )
+                                  ) {
                                     handleAction(user.id, 'delete');
                                   }
                                 }}
@@ -337,7 +364,8 @@ export default function AdminUsersPage() {
             <div className="mt-4 flex items-center justify-between">
               <p className="text-sm text-slate-500">
                 Showing {(pagination.page - 1) * pagination.limit + 1} to{' '}
-                {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total}
+                {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
+                {pagination.total}
               </p>
               <div className="flex gap-2">
                 <Button

@@ -106,7 +106,8 @@ export async function createPayment(params: {
       pay_currency: payCurrency,
       order_id: orderId,
       order_description: orderDescription,
-      ipn_callback_url: ipnCallbackUrl || `${process.env.NEXT_PUBLIC_APP_URL}/api/payments/nowpayments/webhook`,
+      ipn_callback_url:
+        ipnCallbackUrl || `${process.env.NEXT_PUBLIC_APP_URL}/api/payments/nowpayments/webhook`,
     }),
   });
 
@@ -154,12 +155,12 @@ export async function getPaymentStatus(paymentId: string) {
 // Verify IPN signature
 export function verifyIPNSignature(payload: string, signature: string): boolean {
   if (!NOWPAYMENTS_IPN_SECRET) return false;
-  
+
   const crypto = require('crypto');
   const hmac = crypto.createHmac('sha512', NOWPAYMENTS_IPN_SECRET);
   hmac.update(JSON.stringify(JSON.parse(payload)));
   const calculatedSignature = hmac.digest('hex');
-  
+
   return calculatedSignature === signature;
 }
 
@@ -209,7 +210,7 @@ export async function handleIPNWebhook(data: {
       amount: data.actually_paid || data.pay_amount,
       confirmedAt: newStatus === 'FINISHED' ? new Date() : undefined,
       metadata: {
-        ...(payment.metadata as object || {}),
+        ...((payment.metadata as object) || {}),
         outcomeAmount: data.outcome_amount,
         outcomeCurrency: data.outcome_currency,
         actuallyPaid: data.actually_paid,
@@ -220,7 +221,7 @@ export async function handleIPNWebhook(data: {
   // If payment is finished, credit user's token wallet
   if (newStatus === 'FINISHED') {
     const tokenAmount = data.price_amount * 10; // $1 = 10 ADV tokens
-    
+
     // Add tokens to user's wallet
     const wallet = await prisma.tokenWallet.findUnique({
       where: { userId: payment.userId },

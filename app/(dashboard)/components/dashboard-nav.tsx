@@ -24,21 +24,26 @@ export function DashboardNav({ user }: DashboardNavProps) {
       <div className="flex h-16 items-center justify-between px-4 lg:px-8">
         {/* Logo & Mobile Menu */}
         <div className="flex items-center gap-4">
-          <button
-            className="lg:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
+          <button className="lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             <Menu className="h-6 w-6 text-slate-400" />
           </button>
           <Link href="/dashboard" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-400 to-blue-500 shadow-lg shadow-violet-500/25">
-              <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              <svg
+                className="h-5 w-5 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
               </svg>
             </div>
-            <span className="hidden text-xl font-bold text-white sm:block">
-              Advancia
-            </span>
+            <span className="hidden text-xl font-bold text-white sm:block">Advancia</span>
           </Link>
         </div>
 
@@ -60,9 +65,7 @@ export function DashboardNav({ user }: DashboardNavProps) {
                 {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
               </div>
               <div className="hidden text-left sm:block">
-                <p className="text-sm font-medium text-white">
-                  {user.name || 'User'}
-                </p>
+                <p className="text-sm font-medium text-white">{user.name || 'User'}</p>
                 <p className="text-xs text-slate-400">{user.email}</p>
               </div>
               <ChevronDown className="h-4 w-4 text-slate-400" />
@@ -70,10 +73,7 @@ export function DashboardNav({ user }: DashboardNavProps) {
 
             {isProfileOpen && (
               <>
-                <div
-                  className="fixed inset-0 z-10"
-                  onClick={() => setIsProfileOpen(false)}
-                />
+                <div className="fixed inset-0 z-10" onClick={() => setIsProfileOpen(false)} />
                 <div className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-slate-700 bg-slate-900 p-2 shadow-xl">
                   <Link
                     href="/dashboard/settings"

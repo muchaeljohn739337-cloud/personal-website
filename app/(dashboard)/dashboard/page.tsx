@@ -17,12 +17,10 @@ import {
   Activity,
   BarChart3,
   PieChart,
-  ArrowRight,
   RefreshCw,
   Clock,
   CheckCircle2,
   XCircle,
-  AlertCircle,
   ChevronRight,
   Sparkles,
   Target,
@@ -36,27 +34,76 @@ const generateMockData = () => ({
   transactionVolume: 2847,
   activeUsers: 12453,
   growthRate: 24.5,
-  pendingPayouts: 45678.90,
-  fraudBlocked: 12340.00,
+  pendingPayouts: 45678.9,
+  fraudBlocked: 12340.0,
   successRate: 99.2,
 });
 
 const recentTransactions = [
-  { id: 1, merchant: 'Stripe Payment', amount: 2450.00, status: 'completed', type: 'credit', time: '2 min ago', currency: 'USD' },
-  { id: 2, merchant: 'Wire Transfer', amount: 15000.00, status: 'pending', type: 'credit', time: '15 min ago', currency: 'USD' },
-  { id: 3, merchant: 'Subscription Renewal', amount: 99.00, status: 'completed', type: 'debit', time: '1 hour ago', currency: 'USD' },
-  { id: 4, merchant: 'Crypto Exchange', amount: 5230.00, status: 'completed', type: 'credit', time: '2 hours ago', currency: 'BTC' },
-  { id: 5, merchant: 'Refund - Order #4521', amount: 189.00, status: 'completed', type: 'debit', time: '3 hours ago', currency: 'USD' },
-  { id: 6, merchant: 'API Payment', amount: 890.00, status: 'failed', type: 'credit', time: '4 hours ago', currency: 'EUR' },
+  {
+    id: 1,
+    merchant: 'Stripe Payment',
+    amount: 2450.0,
+    status: 'completed',
+    type: 'credit',
+    time: '2 min ago',
+    currency: 'USD',
+  },
+  {
+    id: 2,
+    merchant: 'Wire Transfer',
+    amount: 15000.0,
+    status: 'pending',
+    type: 'credit',
+    time: '15 min ago',
+    currency: 'USD',
+  },
+  {
+    id: 3,
+    merchant: 'Subscription Renewal',
+    amount: 99.0,
+    status: 'completed',
+    type: 'debit',
+    time: '1 hour ago',
+    currency: 'USD',
+  },
+  {
+    id: 4,
+    merchant: 'Crypto Exchange',
+    amount: 5230.0,
+    status: 'completed',
+    type: 'credit',
+    time: '2 hours ago',
+    currency: 'BTC',
+  },
+  {
+    id: 5,
+    merchant: 'Refund - Order #4521',
+    amount: 189.0,
+    status: 'completed',
+    type: 'debit',
+    time: '3 hours ago',
+    currency: 'USD',
+  },
+  {
+    id: 6,
+    merchant: 'API Payment',
+    amount: 890.0,
+    status: 'failed',
+    type: 'credit',
+    time: '4 hours ago',
+    currency: 'EUR',
+  },
 ];
 
-const topAccounts = [
-  { name: 'TechCorp Inc.', volume: 245000, growth: 15.2 },
-  { name: 'Global Retail', volume: 189000, growth: 8.7 },
-  { name: 'StartupXYZ', volume: 156000, growth: 32.1 },
-  { name: 'Enterprise Co.', volume: 134000, growth: -2.3 },
-  { name: 'Digital Agency', volume: 98000, growth: 18.9 },
-];
+// Top accounts data - can be used for leaderboard widget
+// const topAccounts = [
+//   { name: 'TechCorp Inc.', volume: 245000, growth: 15.2 },
+//   { name: 'Global Retail', volume: 189000, growth: 8.7 },
+//   { name: 'StartupXYZ', volume: 156000, growth: 32.1 },
+//   { name: 'Enterprise Co.', volume: 134000, growth: -2.3 },
+//   { name: 'Digital Agency', volume: 98000, growth: 18.9 },
+// ];
 
 const paymentMethods = [
   { name: 'Credit Card', percentage: 45, color: 'bg-blue-500' },
@@ -120,7 +167,12 @@ export default function DashboardPage() {
             </h1>
           </div>
           <p className="text-slate-400">
-            {currentTime.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            {currentTime.toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
             {' • '}
             {currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
           </p>
@@ -154,7 +206,9 @@ export default function DashboardPage() {
               <Wallet className="w-5 h-5" />
               <span className="text-sm font-medium">Total Balance</span>
             </div>
-            <p className="text-3xl lg:text-4xl font-bold mb-2">{formatCurrency(data.totalBalance)}</p>
+            <p className="text-3xl lg:text-4xl font-bold mb-2">
+              {formatCurrency(data.totalBalance)}
+            </p>
             <div className="flex items-center gap-1 text-sm">
               <ArrowUpRight className="w-4 h-4 text-violet-400" />
               <span className="text-violet-400">+{data.growthRate}%</span>
@@ -169,7 +223,9 @@ export default function DashboardPage() {
             <DollarSign className="w-5 h-5" />
             <span className="text-sm font-medium">Monthly Revenue</span>
           </div>
-          <p className="text-2xl lg:text-3xl font-bold mb-2">{formatCurrency(data.monthlyRevenue)}</p>
+          <p className="text-2xl lg:text-3xl font-bold mb-2">
+            {formatCurrency(data.monthlyRevenue)}
+          </p>
           <div className="flex items-center gap-1 text-sm">
             <ArrowUpRight className="w-4 h-4 text-violet-400" />
             <span className="text-violet-400">+18.2%</span>
@@ -182,7 +238,9 @@ export default function DashboardPage() {
             <Activity className="w-5 h-5" />
             <span className="text-sm font-medium">Transactions</span>
           </div>
-          <p className="text-2xl lg:text-3xl font-bold mb-2">{formatNumber(data.transactionVolume)}</p>
+          <p className="text-2xl lg:text-3xl font-bold mb-2">
+            {formatNumber(data.transactionVolume)}
+          </p>
           <div className="flex items-center gap-1 text-sm">
             <ArrowUpRight className="w-4 h-4 text-violet-400" />
             <span className="text-violet-400">+342</span>
@@ -198,7 +256,7 @@ export default function DashboardPage() {
           </div>
           <p className="text-2xl lg:text-3xl font-bold mb-2">{data.successRate}%</p>
           <div className="w-full bg-slate-800 rounded-full h-2">
-            <div 
+            <div
               className="bg-gradient-to-r from-amber-400 to-violet-400 h-2 rounded-full transition-all"
               style={{ width: `${data.successRate}%` }}
             />
@@ -267,7 +325,7 @@ export default function DashboardPage() {
               </button>
             </div>
           </div>
-          
+
           {/* Chart Visualization */}
           <div className="h-64 relative">
             <svg className="w-full h-full" viewBox="0 0 800 250" preserveAspectRatio="none">
@@ -337,7 +395,7 @@ export default function DashboardPage() {
               <span>$0</span>
             </div>
           </div>
-          
+
           {/* X-axis Labels */}
           <div className="flex justify-between text-xs text-slate-500 mt-2 px-8">
             <span>Jan</span>
@@ -359,16 +417,18 @@ export default function DashboardPage() {
             </div>
             <PieChart className="w-5 h-5 text-slate-400" />
           </div>
-          
+
           {/* Donut Chart */}
           <div className="relative w-48 h-48 mx-auto mb-6">
             <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
               {paymentMethods.reduce((acc, method, index) => {
-                const prevTotal = paymentMethods.slice(0, index).reduce((sum, m) => sum + m.percentage, 0);
+                const prevTotal = paymentMethods
+                  .slice(0, index)
+                  .reduce((sum, m) => sum + m.percentage, 0);
                 const circumference = 2 * Math.PI * 35;
                 const strokeDasharray = `${(method.percentage / 100) * circumference} ${circumference}`;
                 const strokeDashoffset = -((prevTotal / 100) * circumference);
-                
+
                 acc.push(
                   <circle
                     key={method.name}
@@ -393,7 +453,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-          
+
           {/* Legend */}
           <div className="space-y-3">
             {paymentMethods.map((method) => (
@@ -418,11 +478,14 @@ export default function DashboardPage() {
               <h3 className="text-lg font-semibold">Recent Transactions</h3>
               <p className="text-sm text-slate-400">Latest payment activities</p>
             </div>
-            <Link href="/dashboard/billing" className="text-sm text-violet-400 hover:text-violet-300 flex items-center gap-1">
+            <Link
+              href="/dashboard/billing"
+              className="text-sm text-violet-400 hover:text-violet-300 flex items-center gap-1"
+            >
               View all <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -435,12 +498,17 @@ export default function DashboardPage() {
               </thead>
               <tbody>
                 {recentTransactions.map((tx) => (
-                  <tr key={tx.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
+                  <tr
+                    key={tx.id}
+                    className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors"
+                  >
                     <td className="py-4">
                       <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          tx.type === 'credit' ? 'bg-violet-500/20' : 'bg-red-500/20'
-                        }`}>
+                        <div
+                          className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                            tx.type === 'credit' ? 'bg-violet-500/20' : 'bg-red-500/20'
+                          }`}
+                        >
                           {tx.type === 'credit' ? (
                             <ArrowDownRight className="w-5 h-5 text-violet-400" />
                           ) : (
@@ -454,19 +522,30 @@ export default function DashboardPage() {
                       </div>
                     </td>
                     <td className="py-4">
-                      <span className={`font-semibold ${tx.type === 'credit' ? 'text-violet-400' : 'text-red-400'}`}>
-                        {tx.type === 'credit' ? '+' : '-'}{formatCurrency(tx.amount)}
+                      <span
+                        className={`font-semibold ${tx.type === 'credit' ? 'text-violet-400' : 'text-red-400'}`}
+                      >
+                        {tx.type === 'credit' ? '+' : '-'}
+                        {formatCurrency(tx.amount)}
                       </span>
                     </td>
                     <td className="py-4">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                        tx.status === 'completed' ? 'bg-violet-500/20 text-violet-400' :
-                        tx.status === 'pending' ? 'bg-amber-500/20 text-amber-400' :
-                        'bg-red-500/20 text-red-400'
-                      }`}>
-                        {tx.status === 'completed' ? <CheckCircle2 className="w-3 h-3" /> :
-                         tx.status === 'pending' ? <Clock className="w-3 h-3" /> :
-                         <XCircle className="w-3 h-3" />}
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                          tx.status === 'completed'
+                            ? 'bg-violet-500/20 text-violet-400'
+                            : tx.status === 'pending'
+                              ? 'bg-amber-500/20 text-amber-400'
+                              : 'bg-red-500/20 text-red-400'
+                        }`}
+                      >
+                        {tx.status === 'completed' ? (
+                          <CheckCircle2 className="w-3 h-3" />
+                        ) : tx.status === 'pending' ? (
+                          <Clock className="w-3 h-3" />
+                        ) : (
+                          <XCircle className="w-3 h-3" />
+                        )}
                         {tx.status}
                       </span>
                     </td>
@@ -487,7 +566,7 @@ export default function DashboardPage() {
             </div>
             <Globe className="w-5 h-5 text-slate-400" />
           </div>
-          
+
           <div className="space-y-4">
             {geographicData.map((region) => (
               <div key={region.country}>
@@ -499,7 +578,7 @@ export default function DashboardPage() {
                   <span className="text-sm font-medium">{formatCurrency(region.amount)}</span>
                 </div>
                 <div className="w-full bg-slate-800 rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-violet-500 to-blue-500 h-2 rounded-full transition-all"
                     style={{ width: `${region.percentage}%` }}
                   />
@@ -512,28 +591,40 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Link href="/dashboard/billing" className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-violet-500/50 transition-all">
+        <Link
+          href="/dashboard/billing"
+          className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-violet-500/50 transition-all"
+        >
           <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Banknote className="w-6 h-6 text-violet-400" />
           </div>
           <h4 className="font-semibold mb-1">Send Payment</h4>
           <p className="text-sm text-slate-400">Transfer funds instantly</p>
         </Link>
-        <Link href="/dashboard/tokens" className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-blue-500/50 transition-all">
+        <Link
+          href="/dashboard/tokens"
+          className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-blue-500/50 transition-all"
+        >
           <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <CreditCard className="w-6 h-6 text-blue-400" />
           </div>
           <h4 className="font-semibold mb-1">Manage Cards</h4>
           <p className="text-sm text-slate-400">View payment methods</p>
         </Link>
-        <Link href="/dashboard/team" className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-violet-500/50 transition-all">
+        <Link
+          href="/dashboard/team"
+          className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-violet-500/50 transition-all"
+        >
           <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Users className="w-6 h-6 text-violet-400" />
           </div>
           <h4 className="font-semibold mb-1">Team Access</h4>
           <p className="text-sm text-slate-400">Manage permissions</p>
         </Link>
-        <Link href="/dashboard/settings" className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-amber-500/50 transition-all">
+        <Link
+          href="/dashboard/settings"
+          className="group bg-slate-900/50 rounded-2xl border border-slate-800 p-6 hover:border-amber-500/50 transition-all"
+        >
           <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <BarChart3 className="w-6 h-6 text-amber-400" />
           </div>

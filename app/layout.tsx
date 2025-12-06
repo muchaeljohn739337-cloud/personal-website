@@ -17,7 +17,14 @@ export const metadata: Metadata = {
   title: 'Advancia PayLedger | The Future of Digital Payments',
   description:
     'Advancia PayLedger is your all-in-one fintech solution for managing payments, crypto transactions, health rewards, and more. Secure, fast, and built for modern businesses.',
-  keywords: ['fintech', 'payments', 'crypto', 'digital payments', 'financial platform', 'payment processing'],
+  keywords: [
+    'fintech',
+    'payments',
+    'crypto',
+    'digital payments',
+    'financial platform',
+    'payment processing',
+  ],
   openGraph: {
     title: 'Advancia PayLedger | The Future of Digital Payments',
     description: 'Seamless payments, powerful analytics, unlimited possibilities.',

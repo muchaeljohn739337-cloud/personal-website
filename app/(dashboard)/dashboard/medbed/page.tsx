@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  Activity,
-  Calendar,
-  Clock,
-  Heart,
-  MapPin,
-  RefreshCw,
-  Sparkles,
-  Zap,
-} from 'lucide-react';
+import { Activity, Calendar, Clock, Heart, MapPin, RefreshCw, Sparkles, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -108,11 +99,11 @@ export default function MedBedPage() {
     );
   }
 
-  const upcomingBookings = bookings.filter(
-    (b) => ['PENDING', 'CONFIRMED', 'CHECKED_IN'].includes(b.status)
+  const upcomingBookings = bookings.filter((b) =>
+    ['PENDING', 'CONFIRMED', 'CHECKED_IN'].includes(b.status)
   );
-  const pastBookings = bookings.filter(
-    (b) => ['COMPLETED', 'CANCELED', 'NO_SHOW'].includes(b.status)
+  const pastBookings = bookings.filter((b) =>
+    ['COMPLETED', 'CANCELED', 'NO_SHOW'].includes(b.status)
   );
 
   return (
@@ -177,7 +168,9 @@ export default function MedBedPage() {
               <Sparkles className="h-6 w-6 text-emerald-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold">{pastBookings.filter((b) => b.status === 'COMPLETED').length}</p>
+              <p className="text-2xl font-bold">
+                {pastBookings.filter((b) => b.status === 'COMPLETED').length}
+              </p>
               <p className="text-sm text-slate-500">Completed Sessions</p>
             </div>
           </CardContent>
@@ -213,9 +206,7 @@ export default function MedBedPage() {
                         <TreatmentIcon className="h-6 w-6 text-teal-600" />
                       </div>
                       <div>
-                        <p className="font-medium">
-                          {booking.treatmentType.replace(/_/g, ' ')}
-                        </p>
+                        <p className="font-medium">{booking.treatmentType.replace(/_/g, ' ')}</p>
                         <p className="text-sm text-slate-500">
                           {booking.facility.name} • {booking.device.name}
                         </p>
@@ -263,10 +254,7 @@ export default function MedBedPage() {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {facilities.map((facility) => (
-                <div
-                  key={facility.id}
-                  className="rounded-lg border p-4 dark:border-slate-700"
-                >
+                <div key={facility.id} className="rounded-lg border p-4 dark:border-slate-700">
                   <h4 className="font-semibold">{facility.name}</h4>
                   <p className="text-sm text-slate-500">
                     {facility.city}, {facility.country}
@@ -304,9 +292,7 @@ export default function MedBedPage() {
                   className="flex items-center justify-between rounded-lg bg-slate-50 p-3 dark:bg-slate-800"
                 >
                   <div>
-                    <p className="font-medium">
-                      {booking.treatmentType.replace(/_/g, ' ')}
-                    </p>
+                    <p className="font-medium">{booking.treatmentType.replace(/_/g, ' ')}</p>
                     <p className="text-sm text-slate-500">
                       {new Date(booking.scheduledStart).toLocaleDateString()} •{' '}
                       {booking.durationMinutes} min

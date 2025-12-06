@@ -145,12 +145,17 @@ export function RewardsDashboard() {
   const currentTierIndex = tiers.findIndex(([key]) => key === profile.currentTier);
   const nextTier = tiers[currentTierIndex + 1];
   const progressToNextTier = nextTier
-    ? Math.min(100, ((profile.totalPoints - tierConfig[profile.currentTier].points) /
-        (nextTier[1].points - tierConfig[profile.currentTier].points)) * 100)
+    ? Math.min(
+        100,
+        ((profile.totalPoints - tierConfig[profile.currentTier].points) /
+          (nextTier[1].points - tierConfig[profile.currentTier].points)) *
+          100
+      )
     : 100;
 
   // Check if can check in today
-  const canCheckIn = !profile.lastCheckIn || 
+  const canCheckIn =
+    !profile.lastCheckIn ||
     new Date(profile.lastCheckIn).toDateString() !== new Date().toDateString();
 
   return (
@@ -323,7 +328,9 @@ export function RewardsDashboard() {
                     <div className="mt-2">
                       <div className="flex justify-between text-xs text-slate-500">
                         <span>Progress</span>
-                        <span>{achievement.progress}/{achievement.requirement}</span>
+                        <span>
+                          {achievement.progress}/{achievement.requirement}
+                        </span>
                       </div>
                       <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                         <div

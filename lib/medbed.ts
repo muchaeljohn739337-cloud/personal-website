@@ -447,9 +447,7 @@ export async function recordSessionReading(
     throw new Error('Session not found');
   }
 
-  const minutesMark = Math.floor(
-    (Date.now() - session.startedAt.getTime()) / 60000
-  );
+  const minutesMark = Math.floor((Date.now() - session.startedAt.getTime()) / 60000);
 
   return prisma.medBedReading.create({
     data: {
@@ -484,9 +482,7 @@ export async function endSession(sessionId: string, completionNotes?: string) {
   }
 
   const endedAt = new Date();
-  const actualDuration = Math.floor(
-    (endedAt.getTime() - session.startedAt.getTime()) / 60000
-  );
+  const actualDuration = Math.floor((endedAt.getTime() - session.startedAt.getTime()) / 60000);
 
   // Update session
   const updatedSession = await prisma.medBedSession.update({

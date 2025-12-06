@@ -189,7 +189,9 @@ export function HealthDashboard() {
       )}
 
       {/* Health Score */}
-      <Card className={`overflow-hidden bg-gradient-to-br ${getScoreGradient(profile.healthScore)}`}>
+      <Card
+        className={`overflow-hidden bg-gradient-to-br ${getScoreGradient(profile.healthScore)}`}
+      >
         <CardContent className="p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
@@ -235,7 +237,9 @@ export function HealthDashboard() {
             </div>
             <div>
               <p className="text-2xl font-bold">
-                {latestReading?.steps?.toLocaleString() || stats?.avgSteps?.toLocaleString() || '--'}
+                {latestReading?.steps?.toLocaleString() ||
+                  stats?.avgSteps?.toLocaleString() ||
+                  '--'}
               </p>
               <p className="text-sm text-slate-500">Steps Today</p>
             </div>
@@ -282,13 +286,17 @@ export function HealthDashboard() {
           <CardContent>
             <div className="space-y-4">
               {activeGoals.map((goal) => {
-                const progress = Math.min(100, (Number(goal.currentValue) / Number(goal.targetValue)) * 100);
+                const progress = Math.min(
+                  100,
+                  (Number(goal.currentValue) / Number(goal.targetValue)) * 100
+                );
                 return (
                   <div key={goal.id}>
                     <div className="flex justify-between text-sm">
                       <span className="font-medium">{goal.type.replace(/_/g, ' ')}</span>
                       <span className="text-slate-500">
-                        {Number(goal.currentValue).toLocaleString()} / {Number(goal.targetValue).toLocaleString()} {goal.unit}
+                        {Number(goal.currentValue).toLocaleString()} /{' '}
+                        {Number(goal.targetValue).toLocaleString()} {goal.unit}
                       </span>
                     </div>
                     <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">

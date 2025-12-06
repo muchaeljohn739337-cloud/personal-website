@@ -21,7 +21,6 @@ import {
   FiBarChart2,
   FiCpu,
   FiDatabase,
-  FiGrid,
   FiHexagon,
   FiMenu,
   FiX,
@@ -52,28 +51,32 @@ export default function Home() {
     {
       icon: FiCreditCard,
       title: 'Smart Payment Processing',
-      description: 'AI-powered fraud detection with 99.99% accuracy. Process payments via Stripe, crypto, and 50+ payment methods.',
+      description:
+        'AI-powered fraud detection with 99.99% accuracy. Process payments via Stripe, crypto, and 50+ payment methods.',
       stats: '2.5M+ transactions/day',
       gradient: 'from-violet-500 to-purple-600',
     },
     {
       icon: FiLock,
       title: 'Military-Grade Security',
-      description: 'SOC 2 Type II certified. End-to-end encryption with quantum-resistant algorithms.',
+      description:
+        'SOC 2 Type II certified. End-to-end encryption with quantum-resistant algorithms.',
       stats: 'Zero breaches since 2020',
       gradient: 'from-violet-500 to-teal-600',
     },
     {
       icon: FiTrendingUp,
       title: 'Real-Time Intelligence',
-      description: 'Live dashboards with predictive analytics. Make data-driven decisions in milliseconds.',
+      description:
+        'Live dashboards with predictive analytics. Make data-driven decisions in milliseconds.',
       stats: '< 50ms latency',
       gradient: 'from-orange-500 to-red-600',
     },
     {
       icon: FiGlobe,
       title: 'Global Infrastructure',
-      description: 'Edge computing across 200+ locations. Process payments in 135+ currencies instantly.',
+      description:
+        'Edge computing across 200+ locations. Process payments in 135+ currencies instantly.',
       stats: '99.999% uptime SLA',
       gradient: 'from-blue-500 to-cyan-600',
     },
@@ -88,7 +91,7 @@ export default function Home() {
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-[100px] animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-violet-600/10 rounded-full blur-[80px] animate-pulse delay-500" />
         {/* Grid Pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02]"
           style={{
             backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
@@ -100,9 +103,7 @@ export default function Home() {
       {/* Navigation */}
       <nav
         className={`fixed w-full z-50 transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/5' 
-            : 'bg-transparent'
+          isScrolled ? 'bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,7 +118,7 @@ export default function Home() {
                 </span>
               </Link>
             </div>
-            
+
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-1">
               {['Features', 'Pricing', 'About', 'Docs'].map((item) => (
@@ -145,7 +146,8 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 transition-transform group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="relative text-white flex items-center gap-2">
-                  Get Started <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  Get Started{' '}
+                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
             </div>
@@ -198,7 +200,9 @@ export default function Home() {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-500/10 to-blue-500/10 border border-violet-500/20">
                 <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
-                <span className="text-sm text-violet-400 font-medium">Now with AI-Powered Analytics</span>
+                <span className="text-sm text-violet-400 font-medium">
+                  Now with AI-Powered Analytics
+                </span>
               </div>
 
               {/* Heading */}
@@ -214,8 +218,8 @@ export default function Home() {
 
               {/* Description */}
               <p className="text-xl text-gray-400 max-w-xl leading-relaxed">
-                Enterprise-grade payment infrastructure with AI-powered fraud detection, 
-                real-time analytics, and seamless multi-currency support.
+                Enterprise-grade payment infrastructure with AI-powered fraud detection, real-time
+                analytics, and seamless multi-currency support.
               </p>
 
               {/* CTA Buttons */}
@@ -360,7 +364,9 @@ export default function Home() {
           <p className="text-center text-sm text-gray-500 mb-8">TRUSTED BY INDUSTRY LEADERS</p>
           <div className="flex flex-wrap justify-center items-center gap-12 opacity-50">
             {['Stripe', 'Visa', 'Mastercard', 'PayPal', 'Coinbase', 'Square'].map((brand) => (
-              <div key={brand} className="text-2xl font-bold text-gray-600">{brand}</div>
+              <div key={brand} className="text-2xl font-bold text-gray-600">
+                {brand}
+              </div>
             ))}
           </div>
         </div>
@@ -384,7 +390,8 @@ export default function Home() {
               </span>
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Enterprise infrastructure that handles millions of transactions while maintaining sub-50ms latency.
+              Enterprise infrastructure that handles millions of transactions while maintaining
+              sub-50ms latency.
             </p>
           </div>
 
@@ -402,7 +409,9 @@ export default function Home() {
                   }`}
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center flex-shrink-0`}>
+                    <div
+                      className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center flex-shrink-0`}
+                    >
                       <feature.icon className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
@@ -418,7 +427,9 @@ export default function Home() {
             {/* Feature Visual */}
             <div className="relative">
               <div className="sticky top-32 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-8 overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-br ${features[activeFeature].gradient} opacity-10`} />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${features[activeFeature].gradient} opacity-10`}
+                />
                 <div className="relative z-10">
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center mb-6">
                     {(() => {
@@ -428,7 +439,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-2xl font-bold mb-4">{features[activeFeature].title}</h3>
                   <p className="text-gray-400 mb-6">{features[activeFeature].description}</p>
-                  
+
                   {/* Feature Stats */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/5 rounded-xl p-4">
@@ -500,7 +511,13 @@ export default function Home() {
                 price: '$0',
                 period: '/month',
                 description: 'Perfect for side projects and MVPs',
-                features: ['1,000 transactions/mo', 'Basic analytics', 'Email support', '2 team members', 'Standard API'],
+                features: [
+                  '1,000 transactions/mo',
+                  'Basic analytics',
+                  'Email support',
+                  '2 team members',
+                  'Standard API',
+                ],
                 cta: 'Start Free',
                 popular: false,
               },
@@ -509,7 +526,15 @@ export default function Home() {
                 price: '$99',
                 period: '/month',
                 description: 'For growing businesses',
-                features: ['Unlimited transactions', 'Advanced analytics', 'Priority support', '25 team members', 'Full API access', 'Custom webhooks', 'White-label options'],
+                features: [
+                  'Unlimited transactions',
+                  'Advanced analytics',
+                  'Priority support',
+                  '25 team members',
+                  'Full API access',
+                  'Custom webhooks',
+                  'White-label options',
+                ],
                 cta: 'Start Free Trial',
                 popular: true,
               },
@@ -518,7 +543,15 @@ export default function Home() {
                 price: 'Custom',
                 period: '',
                 description: 'For large-scale operations',
-                features: ['Everything in Pro', 'Dedicated infrastructure', '24/7 phone support', 'Unlimited team', 'Custom SLA', 'On-premise option', 'Dedicated CSM'],
+                features: [
+                  'Everything in Pro',
+                  'Dedicated infrastructure',
+                  '24/7 phone support',
+                  'Unlimited team',
+                  'Custom SLA',
+                  'On-premise option',
+                  'Dedicated CSM',
+                ],
                 cta: 'Contact Sales',
                 popular: false,
               },
@@ -587,10 +620,14 @@ export default function Home() {
                 </span>
               </h2>
               <p className="text-lg text-gray-400 mb-6 leading-relaxed">
-                Advancia PayLedger was founded with a singular vision: to democratize access to enterprise-grade financial infrastructure. We believe every business, regardless of size, deserves the same powerful tools that Fortune 500 companies use.
+                Advancia PayLedger was founded with a singular vision: to democratize access to
+                enterprise-grade financial infrastructure. We believe every business, regardless of
+                size, deserves the same powerful tools that Fortune 500 companies use.
               </p>
               <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                Our team of fintech veterans and AI researchers has built a platform that processes billions in transactions while maintaining the highest security standards in the industry.
+                Our team of fintech veterans and AI researchers has built a platform that processes
+                billions in transactions while maintaining the highest security standards in the
+                industry.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="flex items-center gap-4">
@@ -619,10 +656,22 @@ export default function Home() {
                 <h3 className="text-2xl font-bold mb-6">Why Choose Advancia?</h3>
                 <div className="space-y-6">
                   {[
-                    { title: 'AI-First Approach', desc: 'Machine learning models trained on billions of transactions' },
-                    { title: 'Global Infrastructure', desc: 'Edge computing across 200+ locations worldwide' },
-                    { title: 'Developer Experience', desc: 'Beautiful APIs, comprehensive SDKs, and detailed docs' },
-                    { title: 'Enterprise Support', desc: '24/7 dedicated support with 15-minute response SLA' },
+                    {
+                      title: 'AI-First Approach',
+                      desc: 'Machine learning models trained on billions of transactions',
+                    },
+                    {
+                      title: 'Global Infrastructure',
+                      desc: 'Edge computing across 200+ locations worldwide',
+                    },
+                    {
+                      title: 'Developer Experience',
+                      desc: 'Beautiful APIs, comprehensive SDKs, and detailed docs',
+                    },
+                    {
+                      title: 'Enterprise Support',
+                      desc: '24/7 dedicated support with 15-minute response SLA',
+                    },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-4">
                       <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center flex-shrink-0">
@@ -656,7 +705,8 @@ export default function Home() {
                 </span>
               </h2>
               <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-                Join thousands of businesses already using Advancia to power their financial operations.
+                Join thousands of businesses already using Advancia to power their financial
+                operations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
@@ -693,13 +743,26 @@ export default function Home() {
                 Enterprise-grade payment infrastructure for the modern economy.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors"
+                >
                   <FiTwitter className="w-5 h-5 text-gray-400" />
                 </a>
-                <a href="#" className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors"
+                >
                   <FiLinkedin className="w-5 h-5 text-gray-400" />
                 </a>
-                <a href="#" className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <a
+                  href="mailto:contact@advanciapayledger.com"
+                  className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors"
+                >
                   <FiMail className="w-5 h-5 text-gray-400" />
                 </a>
               </div>
@@ -714,9 +777,9 @@ export default function Home() {
                 <ul className="space-y-3">
                   {section.links.map((link, j) => (
                     <li key={j}>
-                      <a href="#" className="text-gray-500 hover:text-white transition-colors text-sm">
+                      <span className="text-gray-500 hover:text-white transition-colors text-sm cursor-pointer">
                         {link}
-                      </a>
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -724,44 +787,21 @@ export default function Home() {
             ))}
           </div>
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-500">
-              © 2024 Advancia PayLedger. All rights reserved.
-            </p>
+            <p className="text-sm text-gray-500">© 2024 Advancia PayLedger. All rights reserved.</p>
             <div className="flex items-center gap-6 text-sm text-gray-500">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
+              <Link href="/privacy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="hover:text-white transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="/cookies" className="hover:text-white transition-colors">
+                Cookie Policy
+              </Link>
             </div>
           </div>
         </div>
       </footer>
-
-      {/* Custom Styles */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        @keyframes float-delayed {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-        }
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        .animate-float {
-          animation: float 4s ease-in-out infinite;
-        }
-        .animate-float-delayed {
-          animation: float-delayed 5s ease-in-out infinite;
-          animation-delay: 1s;
-        }
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 4s ease infinite;
-        }
-      `}</style>
     </div>
   );
 }

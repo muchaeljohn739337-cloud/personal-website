@@ -43,7 +43,9 @@ export default function SettingsPage() {
                   JD
                 </div>
                 <div>
-                  <Button variant="outline" size="sm">Change Avatar</Button>
+                  <Button variant="outline" size="sm">
+                    Change Avatar
+                  </Button>
                   <p className="mt-1 text-xs text-slate-500">JPG, PNG or GIF. Max 2MB.</p>
                 </div>
               </div>
@@ -189,7 +191,9 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between">
                 <span className="text-sm">Email Notifications</span>
                 <button
-                  onClick={() => setNotifications({ ...notifications, email: !notifications.email })}
+                  onClick={() =>
+                    setNotifications({ ...notifications, email: !notifications.email })
+                  }
                   className={`relative h-6 w-12 rounded-full transition-colors ${
                     notifications.email ? 'bg-blue-600' : 'bg-slate-200'
                   }`}
@@ -219,7 +223,9 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between">
                 <span className="text-sm">Marketing Emails</span>
                 <button
-                  onClick={() => setNotifications({ ...notifications, marketing: !notifications.marketing })}
+                  onClick={() =>
+                    setNotifications({ ...notifications, marketing: !notifications.marketing })
+                  }
                   className={`relative h-6 w-12 rounded-full transition-colors ${
                     notifications.marketing ? 'bg-blue-600' : 'bg-slate-200'
                   }`}

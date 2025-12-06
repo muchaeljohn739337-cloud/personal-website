@@ -11,15 +11,17 @@ import { sendSuspensionEmail, sendUnsuspensionEmail } from './email';
 // =============================================================================
 
 // Get all users with pagination and filters
-export async function getUsers(options: {
-  page?: number;
-  limit?: number;
-  search?: string;
-  role?: string;
-  isSuspended?: boolean;
-  sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
-} = {}) {
+export async function getUsers(
+  options: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    role?: string;
+    isSuspended?: boolean;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+  } = {}
+) {
   const {
     page = 1,
     limit = 20,
@@ -153,7 +155,10 @@ export async function updateUser(
     action: 'USER_UPDATE',
     targetUserId: userId,
     description: `Updated user ${oldUser.email}`,
-    metadata: { changes: data, oldValues: { name: oldUser.name, email: oldUser.email, role: oldUser.role } },
+    metadata: {
+      changes: data,
+      oldValues: { name: oldUser.name, email: oldUser.email, role: oldUser.role },
+    },
     ipAddress,
   });
 
@@ -353,7 +358,9 @@ export async function adjustTokenBalance(
     where: { id: wallet.id },
     data: {
       balance: newBalance,
-      ...(amount > 0 ? { lifetimeEarned: { increment: amount } } : { lifetimeSpent: { increment: Math.abs(amount) } }),
+      ...(amount > 0
+        ? { lifetimeEarned: { increment: amount } }
+        : { lifetimeSpent: { increment: Math.abs(amount) } }),
     },
   });
 
@@ -428,7 +435,14 @@ export async function updateSetting(
     create: {
       key,
       value: stringValue,
-      type: typeof value === 'number' ? 'NUMBER' : typeof value === 'boolean' ? 'BOOLEAN' : typeof value === 'object' ? 'JSON' : 'STRING',
+      type:
+        typeof value === 'number'
+          ? 'NUMBER'
+          : typeof value === 'boolean'
+            ? 'BOOLEAN'
+            : typeof value === 'object'
+              ? 'JSON'
+              : 'STRING',
       updatedBy: adminId,
     },
   });
@@ -475,13 +489,15 @@ export async function logAdminAction(adminId: string, params: LogActionParams) {
 }
 
 // Get admin action logs
-export async function getAdminLogs(options: {
-  adminId?: string;
-  targetUserId?: string;
-  action?: string;
-  page?: number;
-  limit?: number;
-} = {}) {
+export async function getAdminLogs(
+  options: {
+    adminId?: string;
+    targetUserId?: string;
+    action?: string;
+    page?: number;
+    limit?: number;
+  } = {}
+) {
   const { adminId, targetUserId, action, page = 1, limit = 50 } = options;
 
   const where: Record<string, unknown> = {};
@@ -532,7 +548,9 @@ export async function getAdminDashboardStats() {
     prisma.cryptoPayment.count({ where: { status: 'FINISHED' } }),
     prisma.cryptoPayment.count({ where: { status: 'FINISHED', createdAt: { gte: thisMonth } } }),
     prisma.medBedBooking.count(),
-    prisma.medBedBooking.count({ where: { status: { in: ['PENDING', 'CONFIRMED', 'CHECKED_IN'] } } }),
+    prisma.medBedBooking.count({
+      where: { status: { in: ['PENDING', 'CONFIRMED', 'CHECKED_IN'] } },
+    }),
   ]);
 
   return {

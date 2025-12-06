@@ -47,9 +47,9 @@ export default function MaintenancePage() {
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-[100px] animate-pulse delay-500" />
-        
+
         {/* Grid Pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `linear-gradient(rgba(139, 92, 246, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, 0.3) 1px, transparent 1px)`,
@@ -102,8 +102,9 @@ export default function MaintenancePage() {
           </h1>
 
           <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-            We&apos;re building the future of digital payments. Get ready for a revolutionary 
-            fintech platform with AI-powered analytics, crypto support, and enterprise-grade security.
+            We&apos;re building the future of digital payments. Get ready for a revolutionary
+            fintech platform with AI-powered analytics, crypto support, and enterprise-grade
+            security.
           </p>
 
           {/* Countdown Timer */}
@@ -114,7 +115,10 @@ export default function MaintenancePage() {
               { value: timeLeft.minutes, label: 'Minutes' },
               { value: timeLeft.seconds, label: 'Seconds' },
             ].map((item, i) => (
-              <div key={i} className="bg-gradient-to-br from-violet-500/10 to-blue-500/10 backdrop-blur-xl rounded-2xl border border-violet-500/20 p-4">
+              <div
+                key={i}
+                className="bg-gradient-to-br from-violet-500/10 to-blue-500/10 backdrop-blur-xl rounded-2xl border border-violet-500/20 p-4"
+              >
                 <p className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                   {String(item.value).padStart(2, '0')}
                 </p>
@@ -127,7 +131,9 @@ export default function MaintenancePage() {
           <div className="max-w-md mx-auto mb-16">
             {submitted ? (
               <div className="bg-gradient-to-r from-violet-500/20 to-blue-500/20 border border-violet-500/30 rounded-2xl p-6">
-                <p className="text-violet-300 font-medium">Thanks for subscribing! We&apos;ll notify you when we launch.</p>
+                <p className="text-violet-300 font-medium">
+                  Thanks for subscribing! We&apos;ll notify you when we launch.
+                </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex gap-3">
@@ -155,11 +161,26 @@ export default function MaintenancePage() {
           {/* Features Preview */}
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
-              { icon: FiShield, title: 'Bank-Grade Security', desc: 'SOC 2 certified with end-to-end encryption' },
-              { icon: FiTrendingUp, title: 'AI Analytics', desc: 'Real-time insights powered by machine learning' },
-              { icon: FiZap, title: 'Instant Payments', desc: 'Process transactions in under 2 seconds' },
+              {
+                icon: FiShield,
+                title: 'Bank-Grade Security',
+                desc: 'SOC 2 certified with end-to-end encryption',
+              },
+              {
+                icon: FiTrendingUp,
+                title: 'AI Analytics',
+                desc: 'Real-time insights powered by machine learning',
+              },
+              {
+                icon: FiZap,
+                title: 'Instant Payments',
+                desc: 'Process transactions in under 2 seconds',
+              },
             ].map((feature, i) => (
-              <div key={i} className="bg-gradient-to-br from-violet-500/5 to-blue-500/5 backdrop-blur-xl rounded-2xl border border-violet-500/10 p-6 text-left hover:border-violet-500/30 transition-colors">
+              <div
+                key={i}
+                className="bg-gradient-to-br from-violet-500/5 to-blue-500/5 backdrop-blur-xl rounded-2xl border border-violet-500/10 p-6 text-left hover:border-violet-500/30 transition-colors"
+              >
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-blue-500/20 flex items-center justify-center mb-4">
                   <feature.icon className="w-6 h-6 text-violet-400" />
                 </div>
@@ -171,8 +192,8 @@ export default function MaintenancePage() {
         </div>
 
         {/* Admin Access Link (hidden) */}
-        <a 
-          href="/auth/login" 
+        <a
+          href="/auth/login"
           className="fixed bottom-4 right-4 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group"
           title="Admin Access"
         >
@@ -183,10 +204,23 @@ export default function MaintenancePage() {
       {/* Custom Animations */}
       <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.5; }
-          25% { transform: translateY(-20px) translateX(10px); opacity: 1; }
-          50% { transform: translateY(-40px) translateX(-10px); opacity: 0.5; }
-          75% { transform: translateY(-20px) translateX(10px); opacity: 1; }
+          0%,
+          100% {
+            transform: translateY(0) translateX(0);
+            opacity: 0.5;
+          }
+          25% {
+            transform: translateY(-20px) translateX(10px);
+            opacity: 1;
+          }
+          50% {
+            transform: translateY(-40px) translateX(-10px);
+            opacity: 0.5;
+          }
+          75% {
+            transform: translateY(-20px) translateX(10px);
+            opacity: 1;
+          }
         }
         .animate-float {
           animation: float 10s ease-in-out infinite;

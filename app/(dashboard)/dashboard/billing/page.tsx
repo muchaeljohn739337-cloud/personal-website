@@ -92,9 +92,7 @@ export default function BillingPage() {
             <p className="text-sm text-slate-500">$0/month</p>
           </div>
           <Button variant="outline" onClick={handleManageBilling} disabled={isLoading === 'portal'}>
-            {isLoading === 'portal' ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : null}
+            {isLoading === 'portal' ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Manage Billing
           </Button>
         </CardContent>
@@ -102,7 +100,13 @@ export default function BillingPage() {
 
       {/* Billing Interval Toggle */}
       <div className="flex items-center justify-center gap-4">
-        <span className={billingInterval === 'monthly' ? 'font-medium text-slate-900 dark:text-white' : 'text-slate-500'}>
+        <span
+          className={
+            billingInterval === 'monthly'
+              ? 'font-medium text-slate-900 dark:text-white'
+              : 'text-slate-500'
+          }
+        >
           Monthly
         </span>
         <button
@@ -115,7 +119,13 @@ export default function BillingPage() {
             }`}
           />
         </button>
-        <span className={billingInterval === 'yearly' ? 'font-medium text-slate-900 dark:text-white' : 'text-slate-500'}>
+        <span
+          className={
+            billingInterval === 'yearly'
+              ? 'font-medium text-slate-900 dark:text-white'
+              : 'text-slate-500'
+          }
+        >
           Yearly
           <span className="ml-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
             Save 17%
@@ -145,7 +155,9 @@ export default function BillingPage() {
               <CardHeader>
                 <CardTitle>{plan.name}</CardTitle>
                 <CardDescription>
-                  {key === 'FREE' ? 'Get started for free' : `Perfect for ${key.toLowerCase()} teams`}
+                  {key === 'FREE'
+                    ? 'Get started for free'
+                    : `Perfect for ${key.toLowerCase()} teams`}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -174,7 +186,11 @@ export default function BillingPage() {
                   {isLoading === plan.slug ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : null}
-                  {key === 'FREE' ? 'Current Plan' : key === 'ENTERPRISE' ? 'Contact Sales' : 'Upgrade'}
+                  {key === 'FREE'
+                    ? 'Current Plan'
+                    : key === 'ENTERPRISE'
+                      ? 'Contact Sales'
+                      : 'Upgrade'}
                 </Button>
               </CardContent>
             </Card>

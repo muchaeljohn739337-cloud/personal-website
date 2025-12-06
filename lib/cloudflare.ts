@@ -5,7 +5,13 @@
  * - Workers KV for caching (optional)
  */
 
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+  ListObjectsV2Command,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 import { prisma } from './prismaClient';
@@ -209,7 +215,10 @@ export interface TurnstileVerifyResponse {
 }
 
 // Verify Turnstile token
-export async function verifyTurnstile(token: string, ip?: string): Promise<TurnstileVerifyResponse> {
+export async function verifyTurnstile(
+  token: string,
+  ip?: string
+): Promise<TurnstileVerifyResponse> {
   const formData = new URLSearchParams();
   formData.append('secret', TURNSTILE_SECRET_KEY);
   formData.append('response', token);

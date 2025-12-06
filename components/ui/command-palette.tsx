@@ -31,14 +31,29 @@ interface CommandPaletteProps {
 
 const pages = [
   { name: 'Dashboard', href: '/dashboard', icon: Home, keywords: ['home', 'main'] },
-  { name: 'Billing', href: '/dashboard/billing', icon: CreditCard, keywords: ['payment', 'subscription', 'invoice'] },
+  {
+    name: 'Billing',
+    href: '/dashboard/billing',
+    icon: CreditCard,
+    keywords: ['payment', 'subscription', 'invoice'],
+  },
   { name: 'Team', href: '/dashboard/team', icon: Users, keywords: ['members', 'invite'] },
   { name: 'Tokens', href: '/dashboard/tokens', icon: Wallet, keywords: ['crypto', 'wallet'] },
   { name: 'Rewards', href: '/dashboard/rewards', icon: Gift, keywords: ['points', 'loyalty'] },
   { name: 'Health', href: '/dashboard/health', icon: Activity, keywords: ['wellness', 'tracking'] },
   { name: 'MedBed', href: '/dashboard/medbed', icon: Sparkles, keywords: ['booking', 'session'] },
-  { name: 'Analytics', href: '/dashboard/settings', icon: BarChart3, keywords: ['reports', 'data'] },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings, keywords: ['preferences', 'account'] },
+  {
+    name: 'Analytics',
+    href: '/dashboard/settings',
+    icon: BarChart3,
+    keywords: ['reports', 'data'],
+  },
+  {
+    name: 'Settings',
+    href: '/dashboard/settings',
+    icon: Settings,
+    keywords: ['preferences', 'account'],
+  },
 ];
 
 const actions = [
@@ -53,33 +68,36 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   const router = useRouter();
   const [search, setSearch] = useState('');
 
-  const handleSelect = useCallback((value: string) => {
-    const page = pages.find(p => p.href === value);
-    if (page) {
-      router.push(page.href);
-      onClose();
-      return;
-    }
-
-    const action = actions.find(a => a.action === value);
-    if (action) {
-      switch (action.action) {
-        case 'signout':
-          signOut({ callbackUrl: '/' });
-          break;
-        case 'theme':
-          document.documentElement.classList.toggle('dark');
-          break;
-        case 'docs':
-          window.open('/docs', '_blank');
-          break;
-        case 'help':
-          window.open('/help', '_blank');
-          break;
+  const handleSelect = useCallback(
+    (value: string) => {
+      const page = pages.find((p) => p.href === value);
+      if (page) {
+        router.push(page.href);
+        onClose();
+        return;
       }
-      onClose();
-    }
-  }, [router, onClose]);
+
+      const action = actions.find((a) => a.action === value);
+      if (action) {
+        switch (action.action) {
+          case 'signout':
+            signOut({ callbackUrl: '/' });
+            break;
+          case 'theme':
+            document.documentElement.classList.toggle('dark');
+            break;
+          case 'docs':
+            window.open('/docs', '_blank');
+            break;
+          case 'help':
+            window.open('/help', '_blank');
+            break;
+        }
+        onClose();
+      }
+    },
+    [router, onClose]
+  );
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -138,7 +156,10 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                   No results found.
                 </Command.Empty>
 
-                <Command.Group heading="Pages" className="px-2 py-1.5 text-xs font-medium text-slate-500">
+                <Command.Group
+                  heading="Pages"
+                  className="px-2 py-1.5 text-xs font-medium text-slate-500"
+                >
                   {pages.map((page) => (
                     <Command.Item
                       key={page.href}
@@ -155,7 +176,10 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
 
                 <Command.Separator className="my-2 h-px bg-white/10" />
 
-                <Command.Group heading="Actions" className="px-2 py-1.5 text-xs font-medium text-slate-500">
+                <Command.Group
+                  heading="Actions"
+                  className="px-2 py-1.5 text-xs font-medium text-slate-500"
+                >
                   {actions.map((action) => (
                     <Command.Item
                       key={action.action}
