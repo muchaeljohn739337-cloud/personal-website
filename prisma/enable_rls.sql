@@ -56,6 +56,33 @@ ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE verification_tokens ENABLE ROW LEVEL SECURITY;
 ALTER TABLE wallets ENABLE ROW LEVEL SECURITY;
 
+-- Blog tables
+ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_tags ENABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_post_tags ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "_RelatedPosts" ENABLE ROW LEVEL SECURITY;
+
+-- CRM tables
+ALTER TABLE crm_contacts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE crm_pipelines ENABLE ROW LEVEL SECURITY;
+ALTER TABLE crm_stages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE crm_deals ENABLE ROW LEVEL SECURITY;
+ALTER TABLE crm_notes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE crm_activities ENABLE ROW LEVEL SECURITY;
+ALTER TABLE crm_emails ENABLE ROW LEVEL SECURITY;
+
+-- Automation tables
+ALTER TABLE webhooks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE webhook_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE automation_rules ENABLE ROW LEVEL SECURITY;
+ALTER TABLE automation_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE scheduled_tasks ENABLE ROW LEVEL SECURITY;
+
+-- Newsletter tables
+ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE newsletter_campaigns ENABLE ROW LEVEL SECURITY;
+
 -- =============================================================================
 -- CREATE POLICIES FOR SERVICE ROLE (Used by Prisma/Backend)
 -- Service role bypasses RLS, so these allow your app to work normally
@@ -120,8 +147,35 @@ CREATE POLICY "Service role full access on user_suspensions" ON user_suspensions
 CREATE POLICY "Service role full access on verification_tokens" ON verification_tokens FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Service role full access on wallets" ON wallets FOR ALL USING (true) WITH CHECK (true);
 
+-- Blog policies
+CREATE POLICY "Service role full access on blog_posts" ON blog_posts FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on blog_categories" ON blog_categories FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on blog_tags" ON blog_tags FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on blog_post_tags" ON blog_post_tags FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on _RelatedPosts" ON "_RelatedPosts" FOR ALL USING (true) WITH CHECK (true);
+
+-- CRM policies
+CREATE POLICY "Service role full access on crm_contacts" ON crm_contacts FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on crm_pipelines" ON crm_pipelines FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on crm_stages" ON crm_stages FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on crm_deals" ON crm_deals FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on crm_notes" ON crm_notes FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on crm_activities" ON crm_activities FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on crm_emails" ON crm_emails FOR ALL USING (true) WITH CHECK (true);
+
+-- Automation policies
+CREATE POLICY "Service role full access on webhooks" ON webhooks FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on webhook_logs" ON webhook_logs FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on automation_rules" ON automation_rules FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on automation_logs" ON automation_logs FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on scheduled_tasks" ON scheduled_tasks FOR ALL USING (true) WITH CHECK (true);
+
+-- Newsletter policies
+CREATE POLICY "Service role full access on newsletter_subscribers" ON newsletter_subscribers FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Service role full access on newsletter_campaigns" ON newsletter_campaigns FOR ALL USING (true) WITH CHECK (true);
+
 -- =============================================================================
 -- VERIFICATION
 -- =============================================================================
--- After running this script, all 51 tables should show "RLS Enabled" in Supabase
+-- After running this script, all tables should show "RLS Enabled" in Supabase
 -- Your Prisma app will continue to work because it uses the service role connection

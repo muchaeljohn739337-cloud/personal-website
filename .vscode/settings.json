@@ -25,7 +25,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-    "source.fixAll.markdownlint": true
+    "source.fixAll.markdownlint": "explicit"
   },
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
