@@ -14,11 +14,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen bg-slate-950">
       <DashboardNav user={session.user} />
       <div className="flex">
         <DashboardSidebar />
-        <main className="flex-1 p-6 lg:p-8">{children}</main>
+        <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>
   );
