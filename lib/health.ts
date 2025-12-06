@@ -93,7 +93,13 @@ export async function recordHealthReading(
   });
 
   // Check for alerts
-  await checkHealthAlerts(profile.id, reading);
+  await checkHealthAlerts(profile.id, {
+    heartRate: reading.heartRate,
+    bloodPressureSystolic: reading.bloodPressureSystolic,
+    bloodPressureDiastolic: reading.bloodPressureDiastolic,
+    oxygenSaturation: reading.oxygenSaturation ? Number(reading.oxygenSaturation) : null,
+    temperature: reading.temperature ? Number(reading.temperature) : null,
+  });
 
   // Update health score
   await updateHealthScore(userId);
