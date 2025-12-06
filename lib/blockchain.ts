@@ -18,10 +18,7 @@ export async function executeBlockchainTransaction(
 
   // Generate mock transaction hash
   const txHash =
-    "0x" +
-    Array.from({ length: 64 }, () =>
-      Math.floor(Math.random() * 16).toString(16)
-    ).join("");
+    '0x' + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
 
   return txHash;
 }
@@ -45,12 +42,9 @@ export async function verifyTransaction(
 /**
  * Get wallet balance
  */
-export async function getWalletBalance(
-  currency: string,
-  address: string
-): Promise<string> {
+export async function getWalletBalance(currency: string, address: string): Promise<string> {
   // TODO: Implement actual balance check
   console.log(`[Blockchain] Getting ${currency} balance for:`, address);
 
-  return "0";
+  return '0';
 }

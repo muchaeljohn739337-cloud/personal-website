@@ -4,12 +4,7 @@ type Decimal = any;
 type DecimalLike = Decimal | number | string | null | undefined;
 
 function isDecimal(value: unknown): boolean {
-  return (
-    value !== null &&
-    typeof value === "object" &&
-    "toFixed" in value &&
-    "toString" in value
-  );
+  return value !== null && typeof value === 'object' && 'toFixed' in value && 'toString' in value;
 }
 
 /**
@@ -17,12 +12,12 @@ function isDecimal(value: unknown): boolean {
  */
 export function serializeDecimal(value: DecimalLike): string {
   if (value === null || value === undefined) {
-    return "0";
+    return '0';
   }
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return value;
   }
-  if (typeof value === "number") {
+  if (typeof value === 'number') {
     return value.toString();
   }
   return value.toString();
@@ -31,16 +26,14 @@ export function serializeDecimal(value: DecimalLike): string {
 /**
  * Serialize all Decimal fields in an object
  */
-export function serializeDecimalFields<T extends Record<string, unknown>>(
-  obj: T
-): T {
+export function serializeDecimalFields<T extends Record<string, unknown>>(obj: T): T {
   const result = { ...obj };
 
   for (const key in result) {
     const value = result[key];
     if (isDecimal(value)) {
       (result as Record<string, unknown>)[key] = String(value);
-    } else if (value && typeof value === "object" && !Array.isArray(value)) {
+    } else if (value && typeof value === 'object' && !Array.isArray(value)) {
       (result as Record<string, unknown>)[key] = serializeDecimalFields(
         value as Record<string, unknown>
       );

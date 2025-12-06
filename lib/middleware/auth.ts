@@ -1,5 +1,5 @@
-import { NextRequest } from "next/server";
-import { verify } from "jsonwebtoken";
+import { NextRequest } from 'next/server';
+import { verify } from 'jsonwebtoken';
 
 interface AuthUser {
   userId: string;
@@ -18,16 +18,16 @@ interface AdminCheckResult {
 
 export async function authenticateToken(
   req: NextRequest
-): Promise<AuthResult & { success: true } | { success: false; user: null }> {
-  const authHeader = req.headers.get("authorization");
-  const token = authHeader?.split(" ")[1];
+): Promise<(AuthResult & { success: true }) | { success: false; user: null }> {
+  const authHeader = req.headers.get('authorization');
+  const token = authHeader?.split(' ')[1];
 
   if (!token) {
     return { success: false, user: null };
   }
 
   try {
-    const secret = process.env.JWT_SECRET || "your-secret-key";
+    const secret = process.env.JWT_SECRET || 'your-secret-key';
     const decoded = verify(token, secret) as AuthUser;
     return { success: true, user: decoded };
   } catch {
@@ -35,10 +35,8 @@ export async function authenticateToken(
   }
 }
 
-export async function requireAdmin(
-  user: AuthUser
-): Promise<AdminCheckResult> {
-  if (!user || user.role !== "ADMIN") {
+export async function requireAdmin(user: AuthUser): Promise<AdminCheckResult> {
+  if (!user || user.role !== 'ADMIN') {
     return { success: false };
   }
   return { success: true };

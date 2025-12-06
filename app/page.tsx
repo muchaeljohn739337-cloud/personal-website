@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { FiGithub, FiLinkedin, FiMail, FiTwitter } from 'react-icons/fi';
-import { FiArrowRight } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail, FiTwitter, FiArrowRight } from 'react-icons/fi';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,12 +19,17 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <Head>
         <title>Michael John | Professional Portfolio</title>
-        <meta name="description" content="Personal portfolio of Michael John - Software Developer" />
+        <meta
+          name="description"
+          content="Personal portfolio of Michael John - Software Developer"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}>
+      <nav
+        className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
@@ -34,16 +38,28 @@ export default function Home() {
               </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <a
+                href="#about"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
                 About
               </a>
-              <a href="#experience" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <a
+                href="#experience"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
                 Experience
               </a>
-              <a href="#projects" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <a
+                href="#projects"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
                 Projects
               </a>
-              <a href="#contact" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+              <a
+                href="#contact"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              >
                 Contact Me
               </a>
             </div>
@@ -57,14 +73,15 @@ export default function Home() {
           <div className="text-center md:text-left grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-                Hi, I'm <span className="text-blue-600 dark:text-blue-400">Michael John</span>
+                Hi, I&apos;m <span className="text-blue-600 dark:text-blue-400">Michael John</span>
               </h1>
               <h2 className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-8">
                 I build exceptional digital experiences
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto md:mx-0">
-                I'm a passionate software developer with expertise in building modern web applications. 
-                I love turning complex problems into simple, beautiful, and intuitive solutions.
+                I&apos;m a passionate software developer with expertise in building modern web
+                applications. I love turning complex problems into simple, beautiful, and intuitive
+                solutions.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a
@@ -99,12 +116,18 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Get to know me!</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+                Get to know me!
+              </h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                I'm a passionate software developer with a strong foundation in computer science and a love for creating beautiful, functional websites and applications.
+                I&apos;m a passionate software developer with a strong foundation in computer
+                science and a love for creating beautiful, functional websites and applications.
               </p>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                With several years of experience in the industry, I've had the opportunity to work on a variety of projects, from small business websites to large-scale enterprise applications. I'm always looking to learn new technologies and improve my skills.
+                With several years of experience in the industry, I&apos;ve had the opportunity to
+                work on a variety of projects, from small business websites to large-scale
+                enterprise applications. I&apos;m always looking to learn new technologies and
+                improve my skills.
               </p>
               <div className="flex flex-wrap gap-4">
                 <span className="px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium">
@@ -122,7 +145,9 @@ export default function Home() {
               </div>
             </div>
             <div className="bg-gray-100 dark:bg-gray-800 p-8 rounded-xl">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">My Skills</h3>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+                My Skills
+              </h3>
               <div className="space-y-4">
                 {[
                   { name: 'Web Development', level: '90%' },
@@ -132,12 +157,16 @@ export default function Home() {
                 ].map((skill) => (
                   <div key={skill.name}>
                     <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{skill.name}</span>
-                      <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{skill.level}</span>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {skill.name}
+                      </span>
+                      <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                        {skill.level}
+                      </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                      <div 
-                        className="bg-blue-600 h-2.5 rounded-full" 
+                      <div
+                        className="bg-blue-600 h-2.5 rounded-full"
                         style={{ width: skill.level }}
                       ></div>
                     </div>
@@ -160,37 +189,46 @@ export default function Home() {
             {[
               {
                 title: 'E-commerce Platform',
-                description: 'A full-stack e-commerce platform with payment integration and admin dashboard.',
+                description:
+                  'A full-stack e-commerce platform with payment integration and admin dashboard.',
                 tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-                link: '#'
+                link: '#',
               },
               {
                 title: 'Task Management App',
                 description: 'A collaborative task management application with real-time updates.',
                 tags: ['Next.js', 'TypeScript', 'Firebase'],
-                link: '#'
+                link: '#',
               },
               {
                 title: 'Portfolio Website',
                 description: 'A modern portfolio website built with Next.js and Tailwind CSS.',
                 tags: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
-                link: '#'
+                link: '#',
               },
             ].map((project, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div
+                key={index}
+                className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
                 <div className="h-48 bg-gradient-to-r from-blue-500 to-purple-600"></div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{project.title}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    {project.title}
+                  </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map((tag, i) => (
-                      <span key={i} className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-xs">
+                      <span
+                        key={i}
+                        className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-xs"
+                      >
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <a 
-                    href={project.link} 
+                  <a
+                    href={project.link}
                     className="text-blue-600 dark:text-blue-400 font-medium hover:underline inline-flex items-center"
                   >
                     View Project
@@ -217,7 +255,12 @@ export default function Home() {
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
+                    Name
+                  </label>
                   <input
                     type="text"
                     id="name"
@@ -227,7 +270,12 @@ export default function Home() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
+                    Email
+                  </label>
                   <input
                     type="email"
                     id="email"
@@ -238,7 +286,12 @@ export default function Home() {
                 </div>
               </div>
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Subject
+                </label>
                 <input
                   type="text"
                   id="subject"
@@ -248,7 +301,12 @@ export default function Home() {
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Message
+                </label>
                 <textarea
                   id="message"
                   name="message"
@@ -276,19 +334,32 @@ export default function Home() {
           <div className="flex flex-col items-center">
             <h2 className="text-2xl font-bold mb-6">Michael John</h2>
             <p className="text-gray-400 text-center max-w-2xl mb-8">
-              Building exceptional digital experiences that make a difference. Let's create something amazing together!
+              Building exceptional digital experiences that make a difference. Let&apos;s create
+              something amazing together.
             </p>
             <div className="flex space-x-6 mb-8">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a
+                href="https://github.com"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
                 <FiGithub className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a
+                href="https://linkedin.com"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
                 <FiLinkedin className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a
+                href="https://twitter.com"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
                 <FiTwitter className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a
+                href="mailto:contact@example.com"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
                 <FiMail className="w-6 h-6" />
               </a>
             </div>
