@@ -1,0 +1,18 @@
+{
+  "default": true,
+  "line-length": false,
+  "no-inline-html": {
+    "allowed_elements": ["kbd", "summary", "details"]
+  },
+  "no-trailing-punctuation": {
+    "punctuation": ".,;:!"
+  },
+  "no-multiple-blanks": {
+    "maximum": 2
+  },
+  "no-duplicate-heading": {
+    "siblings_only": true
+  },
+  "single-h1": false,
+  "no-trailing-spaces": true
+}
