@@ -2,13 +2,49 @@
 
 import { useEffect, useState } from 'react';
 
+// Pre-generated particle positions to avoid hydration mismatch
+const PARTICLE_POSITIONS = [
+  { left: 15, top: 20, duration: 4.2, delay: 0.3 },
+  { left: 85, top: 10, duration: 5.1, delay: 1.2 },
+  { left: 45, top: 80, duration: 3.8, delay: 0.7 },
+  { left: 25, top: 60, duration: 4.5, delay: 1.5 },
+  { left: 75, top: 35, duration: 3.5, delay: 0.9 },
+  { left: 10, top: 45, duration: 5.5, delay: 0.2 },
+  { left: 90, top: 70, duration: 4.0, delay: 1.8 },
+  { left: 55, top: 15, duration: 3.2, delay: 0.5 },
+  { left: 35, top: 90, duration: 4.8, delay: 1.1 },
+  { left: 65, top: 50, duration: 3.9, delay: 0.4 },
+  { left: 20, top: 30, duration: 5.2, delay: 1.6 },
+  { left: 80, top: 85, duration: 4.3, delay: 0.8 },
+  { left: 50, top: 40, duration: 3.6, delay: 1.3 },
+  { left: 5, top: 75, duration: 4.7, delay: 0.6 },
+  { left: 95, top: 25, duration: 5.0, delay: 1.9 },
+  { left: 40, top: 55, duration: 3.4, delay: 0.1 },
+  { left: 60, top: 95, duration: 4.1, delay: 1.4 },
+  { left: 30, top: 5, duration: 5.3, delay: 0.0 },
+  { left: 70, top: 65, duration: 3.7, delay: 1.7 },
+  { left: 12, top: 88, duration: 4.6, delay: 1.0 },
+  { left: 88, top: 42, duration: 3.3, delay: 0.3 },
+  { left: 48, top: 72, duration: 5.4, delay: 1.2 },
+  { left: 22, top: 18, duration: 4.4, delay: 0.7 },
+  { left: 78, top: 58, duration: 3.1, delay: 1.5 },
+  { left: 8, top: 32, duration: 5.6, delay: 0.9 },
+  { left: 92, top: 78, duration: 4.9, delay: 0.2 },
+  { left: 52, top: 8, duration: 3.0, delay: 1.8 },
+  { left: 38, top: 68, duration: 5.7, delay: 0.5 },
+  { left: 68, top: 22, duration: 4.0, delay: 1.1 },
+  { left: 18, top: 52, duration: 3.8, delay: 0.4 },
+];
+
 export function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const [loadingText, setLoadingText] = useState('Loading');
   const [progress, setProgress] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Animate loading text
     const textInterval = setInterval(() => {
       setLoadingText((prev) => {
@@ -51,18 +87,19 @@ export function LoadingScreen() {
     >
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(30)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute h-1 w-1 rounded-full bg-blue-400/30"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`,
-            }}
-          />
-        ))}
+        {mounted &&
+          PARTICLE_POSITIONS.map((particle, i) => (
+            <div
+              key={i}
+              className="absolute h-1 w-1 rounded-full bg-blue-400/30"
+              style={{
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animation: `float ${particle.duration}s ease-in-out infinite`,
+                animationDelay: `${particle.delay}s`,
+              }}
+            />
+          ))}
       </div>
 
       {/* Ripple rings */}
