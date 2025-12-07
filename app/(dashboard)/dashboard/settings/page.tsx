@@ -2,6 +2,7 @@
 
 import { Bell, Key, Lock, Moon, Shield, Sun, User } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -10,12 +11,24 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 export default function SettingsPage() {
+  const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
   const [notifications, setNotifications] = useState({
     email: true,
     push: false,
     marketing: false,
   });
+
+  // Get user info from session
+  const userName = session?.user?.name || 'User';
+  const userEmail = session?.user?.email || '';
+  const userInitials =
+    userName
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2) || 'U';
 
   return (
     <div className="space-y-8">
@@ -40,7 +53,7 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center gap-4">
                 <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-2xl font-bold text-white">
-                  JD
+                  {userInitials}
                 </div>
                 <div>
                   <Button variant="outline" size="sm">
@@ -52,16 +65,19 @@ export default function SettingsPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" defaultValue="John" />
+                  <Input id="firstName" defaultValue={userName.split(' ')[0] || ''} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" defaultValue="Doe" />
+                  <Input
+                    id="lastName"
+                    defaultValue={userName.split(' ').slice(1).join(' ') || ''}
+                  />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="john@example.com" />
+                <Input id="email" type="email" defaultValue={userEmail} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
