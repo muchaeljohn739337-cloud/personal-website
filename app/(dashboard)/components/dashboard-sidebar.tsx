@@ -10,6 +10,7 @@ import {
   Gift,
   Home,
   Key,
+  LineChart,
   Settings,
   Sparkles,
   Users,
@@ -22,6 +23,7 @@ import { cn } from '@/lib/utils/cn';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
+  { name: 'Analytics', href: '/dashboard/analytics', icon: LineChart },
   { name: 'Token Wallet', href: '/dashboard/tokens', icon: Coins },
   { name: 'Crypto Pay', href: '/dashboard/payments', icon: Bitcoin },
   { name: 'Rewards', href: '/dashboard/rewards', icon: Gift },
