@@ -9,27 +9,18 @@ async function createAdminUser() {
   const name = 'Admin User';
 
   try {
-    // Check if admin already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (existingUser) {
-      console.log('Admin user already exists. Updating role to ADMIN...');
-      await prisma.user.update({
-        where: { email },
-        data: { role: 'ADMIN' },
-      });
-      console.log('✅ User role updated to ADMIN');
-      return;
-    }
-
     // Hash password
     const hashedPassword = await hash(password, 12);
 
-    // Create admin user
-    const user = await prisma.user.create({
-      data: {
+    // Upsert admin user (create or update)
+    const user = await prisma.user.upsert({
+      where: { email },
+      update: {
+        password: hashedPassword,
+        role: 'ADMIN',
+        emailVerified: new Date(),
+      },
+      create: {
         email,
         name,
         password: hashedPassword,
@@ -38,19 +29,11 @@ async function createAdminUser() {
       },
     });
 
-    // Create default wallet for admin
-    await prisma.wallet.create({
-      data: {
-        name: 'Primary Wallet',
-        userId: user.id,
-        type: 'PERSONAL',
-      },
-    });
-
-    console.log('✅ Admin user created successfully!');
+    console.log('✅ Admin user created/updated successfully!');
     console.log('');
     console.log('📧 Email:', email);
     console.log('🔑 Password:', password);
+    console.log('👤 User ID:', user.id);
     console.log('');
     console.log('⚠️  IMPORTANT: Change this password after first login!');
   } catch (error) {
