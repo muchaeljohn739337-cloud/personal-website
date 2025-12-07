@@ -97,6 +97,9 @@ model User {
   crmActivities         CrmActivity[] @relation("ActivityOwner")
   crmEmails             CrmEmail[] @relation("EmailSender")
   
+  // Password Manager
+  passwordEntries       PasswordEntry[]
+  
   // Status flags
   isSuspended           Boolean   @default(false) @map("is_suspended")
   isVerified            Boolean   @default(false) @map("is_verified")
@@ -2725,6 +2728,30 @@ model EmailSecurityLog {
   @@index([fromEmail])
   @@index([createdAt])
   @@map("email_security_logs")
+}
+
+// =============================================================================
+// PASSWORD MANAGER
+// =============================================================================
+
+model PasswordEntry {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  siteName        String    @map("site_name")
+  siteUrl         String?   @map("site_url")
+  username        String?
+  password        String    // Encrypted on client side
+  notes           String?   @db.Text
+  category        String    @default("other")
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([category])
+  @@map("password_entries")
 }
 
 model DomainSecurityConfig {

@@ -35,10 +35,8 @@ interface PasswordEntry {
   updatedAt: string;
 }
 
-const STORAGE_KEY = 'apl_password_vault';
-
-// Simple encryption (for demo - in production use proper encryption)
-const encrypt = (text: string, key: string): string => {
+// Simple encryption for password field (client-side)
+const encryptPassword = (text: string, key: string): string => {
   return btoa(
     text
       .split('')
@@ -47,7 +45,7 @@ const encrypt = (text: string, key: string): string => {
   );
 };
 
-const decrypt = (encoded: string, key: string): string => {
+const decryptPassword = (encoded: string, key: string): string => {
   try {
     const decoded = atob(encoded);
     return decoded
@@ -55,7 +53,7 @@ const decrypt = (encoded: string, key: string): string => {
       .map((char, i) => String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length)))
       .join('');
   } catch {
-    return '';
+    return encoded; // Return as-is if decryption fails
   }
 };
 
@@ -115,32 +113,33 @@ export default function PasswordManagerPage() {
     category: 'other',
   });
 
-  // Load passwords from localStorage
+  // Load passwords from API
+  const fetchPasswords = async () => {
+    try {
+      const res = await fetch('/api/passwords');
+      const data = await res.json();
+      if (data.passwords) {
+        // Decrypt passwords with master key
+        const decrypted = data.passwords.map((p: PasswordEntry) => ({
+          ...p,
+          password: masterKey ? decryptPassword(p.password, masterKey) : p.password,
+        }));
+        setPasswords(decrypted);
+      }
+    } catch (error) {
+      console.error('Failed to fetch passwords:', error);
+    }
+  };
+
   useEffect(() => {
     if (isUnlocked && masterKey) {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        try {
-          const decrypted = decrypt(stored, masterKey);
-          const parsed = JSON.parse(decrypted);
-          setPasswords(parsed);
-        } catch {
-          setPasswords([]);
-        }
-      }
+      fetchPasswords();
     }
   }, [isUnlocked, masterKey]);
 
-  // Save passwords to localStorage
-  const savePasswords = (newPasswords: PasswordEntry[]) => {
-    const encrypted = encrypt(JSON.stringify(newPasswords), masterKey);
-    localStorage.setItem(STORAGE_KEY, encrypted);
-    setPasswords(newPasswords);
-  };
-
-  // Check if master key exists
+  // Check if master key exists in localStorage
   useEffect(() => {
-    const hasKey = localStorage.getItem('apl_vault_check');
+    const hasKey = localStorage.getItem('apl_vault_key_check');
     if (!hasKey) {
       setShowMasterKeySetup(true);
     }
@@ -151,17 +150,18 @@ export default function PasswordManagerPage() {
       alert('Master key must be at least 8 characters');
       return;
     }
-    localStorage.setItem('apl_vault_check', encrypt('vault_initialized', key));
+    // Store a check value to verify the key later
+    localStorage.setItem('apl_vault_key_check', encryptPassword('vault_ok', key));
     setMasterKey(key);
     setIsUnlocked(true);
     setShowMasterKeySetup(false);
   };
 
   const unlockVault = (key: string) => {
-    const check = localStorage.getItem('apl_vault_check');
+    const check = localStorage.getItem('apl_vault_key_check');
     if (check) {
-      const decrypted = decrypt(check, key);
-      if (decrypted === 'vault_initialized') {
+      const decrypted = decryptPassword(check, key);
+      if (decrypted === 'vault_ok') {
         setMasterKey(key);
         setIsUnlocked(true);
         return true;
@@ -189,50 +189,84 @@ export default function PasswordManagerPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const handleAddPassword = () => {
+  const handleAddPassword = async () => {
     if (!formData.siteName || !formData.password) {
       alert('Site name and password are required');
       return;
     }
 
-    const newEntry: PasswordEntry = {
-      id: Date.now().toString(),
-      ...formData,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    try {
+      const res = await fetch('/api/passwords', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          password: encryptPassword(formData.password, masterKey),
+        }),
+      });
 
-    savePasswords([...passwords, newEntry]);
-    setFormData({
-      siteName: '',
-      siteUrl: '',
-      username: '',
-      password: '',
-      notes: '',
-      category: 'other',
-    });
-    setShowAddModal(false);
+      if (res.ok) {
+        await fetchPasswords();
+        setFormData({
+          siteName: '',
+          siteUrl: '',
+          username: '',
+          password: '',
+          notes: '',
+          category: 'other',
+        });
+        setShowAddModal(false);
+      }
+    } catch (error) {
+      console.error('Failed to add password:', error);
+      alert('Failed to save password');
+    }
   };
 
-  const handleUpdatePassword = (id: string) => {
-    const updated = passwords.map((p) =>
-      p.id === id ? { ...p, ...formData, updatedAt: new Date().toISOString() } : p
-    );
-    savePasswords(updated);
-    setEditingId(null);
-    setFormData({
-      siteName: '',
-      siteUrl: '',
-      username: '',
-      password: '',
-      notes: '',
-      category: 'other',
-    });
+  const handleUpdatePassword = async (id: string) => {
+    try {
+      const res = await fetch('/api/passwords', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id,
+          ...formData,
+          password: encryptPassword(formData.password, masterKey),
+        }),
+      });
+
+      if (res.ok) {
+        await fetchPasswords();
+        setEditingId(null);
+        setFormData({
+          siteName: '',
+          siteUrl: '',
+          username: '',
+          password: '',
+          notes: '',
+          category: 'other',
+        });
+      }
+    } catch (error) {
+      console.error('Failed to update password:', error);
+      alert('Failed to update password');
+    }
   };
 
-  const handleDeletePassword = (id: string) => {
+  const handleDeletePassword = async (id: string) => {
     if (confirm('Are you sure you want to delete this password?')) {
-      savePasswords(passwords.filter((p) => p.id !== id));
+      try {
+        const res = await fetch(`/api/passwords?id=${id}`, {
+          method: 'DELETE',
+        });
+
+        if (res.ok) {
+          await fetchPasswords();
+        }
+      } catch (error) {
+        console.error('Failed to delete password:', error);
+        alert('Failed to delete password');
+      }
     }
   };
 
