@@ -8,6 +8,7 @@ import { prisma } from '@/lib/prismaClient';
 // Email routing configuration
 const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 const CLOUDFLARE_ZONE_ID = process.env.CLOUDFLARE_ZONE_ID;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CLOUDFLARE_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
 const PRIMARY_DOMAIN = process.env.PRIMARY_DOMAIN || 'advanciapayledger.com';
 

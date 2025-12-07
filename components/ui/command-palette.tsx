@@ -19,7 +19,6 @@ import {
   HelpCircle,
   LogOut,
   Moon,
-  Sun,
   Zap,
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';

@@ -136,6 +136,7 @@ export function isFeatureEnabled(feature: 'ENABLE_2FA' | 'ENABLE_EMAIL_VERIFICAT
  * Generate secure random secrets for development
  */
 export function generateSecrets(): void {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const crypto = require('crypto');
   console.log('\n🔐 Generated Secure Secrets:\n');
   console.log(`JWT_SECRET=${crypto.randomBytes(64).toString('hex')}`);

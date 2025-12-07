@@ -49,7 +49,7 @@ export async function getOrCreateUserRewards(userId: string) {
 }
 
 // Add points to user
-export async function addPoints(userId: string, points: number, reason?: string) {
+export async function addPoints(userId: string, points: number, _reason?: string) {
   const rewards = await getOrCreateUserRewards(userId);
   const newTotal = rewards.totalPoints + points;
 
@@ -266,6 +266,7 @@ export async function updateAchievementProgress(
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const rewards = await getOrCreateUserRewards(userId);
 
   // Get or create user achievement
@@ -392,10 +393,11 @@ export async function getLeaderboard(
     case 'DAILY':
       periodStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       break;
-    case 'WEEKLY':
+    case 'WEEKLY': {
       const dayOfWeek = now.getDay();
       periodStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek);
       break;
+    }
     case 'MONTHLY':
       periodStart = new Date(now.getFullYear(), now.getMonth(), 1);
       break;

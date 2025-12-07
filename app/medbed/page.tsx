@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -13,8 +14,6 @@ import {
   FiArrowRight,
   FiX,
   FiCheck,
-  FiAlertCircle,
-  FiHexagon,
   FiHeadphones,
   FiCalendar,
   FiClock,

@@ -73,7 +73,14 @@ export function DashboardNav({ user }: DashboardNavProps) {
 
             {isProfileOpen && (
               <>
-                <div className="fixed inset-0 z-10" onClick={() => setIsProfileOpen(false)} />
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setIsProfileOpen(false)}
+                  onKeyDown={(e) => e.key === 'Escape' && setIsProfileOpen(false)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Close menu"
+                />
                 <div className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-slate-700 bg-slate-900 p-2 shadow-xl">
                   <Link
                     href="/dashboard/settings"

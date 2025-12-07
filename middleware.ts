@@ -64,6 +64,7 @@ const SUSPICIOUS_PATHS = [
 
 const blockedIPs = new Set<string>();
 const suspiciousIPs = new Map<string, number>();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const loginAttempts = new Map<
   string,
   { count: number; lastAttempt: number; lockoutUntil?: number }

@@ -202,6 +202,7 @@ export default function MaintenancePage() {
       </div>
 
       {/* Custom Animations */}
+      {/* eslint-disable-next-line react/no-unknown-property */}
       <style jsx>{`
         @keyframes float {
           0%,

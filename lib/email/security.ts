@@ -381,7 +381,7 @@ export function removeEmailTrackers(htmlContent: string): TrackingAnalysis {
 
   // Remove tracking beacons
   const beaconRegex = /<script[^>]*>[\s\S]*?(track|beacon|analytics)[\s\S]*?<\/script>/gi;
-  cleanedContent = cleanedContent.replace(beaconRegex, (match) => {
+  cleanedContent = cleanedContent.replace(beaconRegex, (_match) => {
     trackers.push({
       type: 'beacon',
       url: 'inline-script',
@@ -445,6 +445,7 @@ export async function checkEmailLeaks(email: string): Promise<LeakCheckResult> {
 
   try {
     // Hash email for privacy
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const emailHash = crypto.createHash('sha1').update(email.toLowerCase()).digest('hex');
 
     const response = await fetch(

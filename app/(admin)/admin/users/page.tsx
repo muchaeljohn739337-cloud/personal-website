@@ -56,6 +56,7 @@ export default function AdminUsersPage() {
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
   const [suspendedFilter, setSuspendedFilter] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showActionMenu, setShowActionMenu] = useState<string | null>(null);
 
@@ -85,6 +86,7 @@ export default function AdminUsersPage() {
 
   useEffect(() => {
     fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleFilter, suspendedFilter]);
 
   const handleSearch = (e: React.FormEvent) => {

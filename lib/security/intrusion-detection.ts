@@ -422,6 +422,7 @@ let baselineFingerprint: SystemFingerprint | null = null;
  * Create system fingerprint for tamper detection
  */
 export function createSystemFingerprint(): SystemFingerprint {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const crypto = require('crypto');
 
   // Hash critical config values

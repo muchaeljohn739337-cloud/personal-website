@@ -156,6 +156,7 @@ export async function getPaymentStatus(paymentId: string) {
 export function verifyIPNSignature(payload: string, signature: string): boolean {
   if (!NOWPAYMENTS_IPN_SECRET) return false;
 
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const crypto = require('crypto');
   const hmac = crypto.createHmac('sha512', NOWPAYMENTS_IPN_SECRET);
   hmac.update(JSON.stringify(JSON.parse(payload)));

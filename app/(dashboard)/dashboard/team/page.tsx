@@ -1,6 +1,6 @@
 'use client';
 
-import { Mail, MoreVertical, Plus, Shield, UserPlus, Users } from 'lucide-react';
+import { Mail, MoreVertical, Shield, UserPlus, Users } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getPublishedPosts, searchPosts, getCategories, getPopularTags } from '@/lib/content/blog';
+import { getPublishedPosts, searchPosts } from '@/lib/content/blog';
 
 /**
  * GET /api/blog

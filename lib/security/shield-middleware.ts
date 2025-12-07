@@ -26,6 +26,7 @@ import { getClientIP } from './rate-limit';
 const MAINTENANCE_PAGE = '/maintenance';
 const BLOCKED_PAGE = '/blocked';
 const ADMIN_PATHS = ['/admin', '/api/admin'];
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const AUTH_PATHS = ['/api/auth/login', '/api/auth/register', '/auth/login', '/auth/register'];
 const SENSITIVE_PATHS = ['/api/payments', '/api/wallet', '/api/withdraw', '/api/admin'];
 

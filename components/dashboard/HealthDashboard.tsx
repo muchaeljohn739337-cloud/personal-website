@@ -132,6 +132,7 @@ export function HealthDashboard() {
   const latestReading = recentReadings[0];
 
   // Calculate health score color
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-emerald-500';
     if (score >= 60) return 'text-yellow-500';

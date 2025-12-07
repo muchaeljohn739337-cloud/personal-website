@@ -75,13 +75,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { userId: st
         result = await updateUser(auth.userId, params.userId, data, ipAddress);
         break;
 
-      case 'changeRole':
+      case 'changeRole': {
         const roleSchema = z.object({ role: z.enum(['USER', 'ADMIN', 'MODERATOR']) });
         const { role } = roleSchema.parse(data);
         result = await changeUserRole(auth.userId, params.userId, role, ipAddress);
         break;
+      }
 
-      case 'suspend':
+      case 'suspend': {
         const suspendSchema = z.object({
           reason: z.string().min(1),
           type: z.enum(['WARNING', 'TEMPORARY', 'PERMANENT', 'REVIEW']),
@@ -99,18 +100,20 @@ export async function PATCH(req: NextRequest, { params }: { params: { userId: st
           ipAddress
         );
         break;
+      }
 
-      case 'unsuspend':
+      case 'unsuspend': {
         const unsuspendSchema = z.object({ reason: z.string().min(1) });
         const { reason } = unsuspendSchema.parse(data);
         result = await unsuspendUser(auth.userId, params.userId, reason, ipAddress);
         break;
+      }
 
       case 'verify':
         result = await verifyUser(auth.userId, params.userId, ipAddress);
         break;
 
-      case 'adjustBalance':
+      case 'adjustBalance': {
         const balanceSchema = z.object({
           amount: z.number(),
           reason: z.string().min(1),
@@ -124,6 +127,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { userId: st
           ipAddress
         );
         break;
+      }
 
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });

@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { getOrCreateTokenWallet, getTransactionHistory, TOKEN_CONFIG } from '@/lib/tokens';
 
 // GET /api/tokens - Get user's token wallet
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
