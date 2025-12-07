@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { hashPassword } from '@/lib/auth';
+import { registerForApproval } from '@/lib/auth/user-approval';
 import { prisma } from '@/lib/prismaClient';
 import { registerSchema } from '@/lib/validations/auth';
 
@@ -39,9 +40,23 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Register user for approval (pending until admin approves)
+    const ipAddress =
+      req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const userAgent = req.headers.get('user-agent') || 'unknown';
+
+    registerForApproval({
+      id: user.id,
+      email: user.email,
+      name: user.name || undefined,
+      ipAddress,
+      userAgent,
+    });
+
     return NextResponse.json(
       {
-        message: 'User created successfully',
+        message: 'Registration successful! Your account is pending approval.',
+        pendingApproval: true,
         user: {
           id: user.id,
           name: user.name,
