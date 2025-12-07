@@ -19,6 +19,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const {
     register,
@@ -29,6 +30,10 @@ export default function RegisterPage() {
   });
 
   const onSubmit = async (data: RegisterInput) => {
+    if (!agreedToTerms) {
+      setError('You must agree to the Terms of Service and Privacy Policy');
+      return;
+    }
     setIsLoading(true);
     setError('');
 
@@ -162,12 +167,48 @@ export default function RegisterPage() {
             />
           </div>
 
+          {/* Terms Agreement Checkbox */}
+          <div className="flex items-start gap-3 rounded-lg border border-slate-700 bg-slate-800/30 p-4">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-slate-900"
+            />
+            <label htmlFor="terms" className="text-sm text-slate-300">
+              I agree to the{' '}
+              <Link
+                href="/terms"
+                className="font-medium text-blue-400 hover:text-blue-300 underline"
+              >
+                Terms of Service
+              </Link>
+              ,{' '}
+              <Link
+                href="/privacy"
+                className="font-medium text-blue-400 hover:text-blue-300 underline"
+              >
+                Privacy Policy
+              </Link>
+              , and{' '}
+              <Link
+                href="/acceptable-use"
+                className="font-medium text-blue-400 hover:text-blue-300 underline"
+              >
+                Acceptable Use Policy
+              </Link>
+              . I understand that my account is subject to admin approval.
+            </label>
+          </div>
+
           <Button
             type="submit"
             variant="success"
             className="w-full"
             size="lg"
             isLoading={isLoading}
+            disabled={!agreedToTerms || isLoading}
           >
             {!isLoading && (
               <>
@@ -214,17 +255,6 @@ export default function RegisterPage() {
           Already have an account?{' '}
           <Link href="/auth/login" className="font-medium text-blue-400 hover:text-blue-300">
             Sign in
-          </Link>
-        </p>
-
-        <p className="text-center text-xs text-slate-500">
-          By creating an account, you agree to our{' '}
-          <Link href="/terms" className="underline hover:text-slate-400">
-            Terms of Service
-          </Link>{' '}
-          and{' '}
-          <Link href="/privacy" className="underline hover:text-slate-400">
-            Privacy Policy
           </Link>
         </p>
       </CardContent>
