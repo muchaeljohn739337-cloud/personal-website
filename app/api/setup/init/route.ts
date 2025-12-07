@@ -60,6 +60,31 @@ export async function GET(request: Request) {
       });
     }
 
+    // Create password_entries table
+    if (action === 'migrate') {
+      try {
+        await prisma.$executeRaw`
+          CREATE TABLE IF NOT EXISTS password_entries (
+            id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+            user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            site_name TEXT NOT NULL,
+            site_url TEXT,
+            username TEXT,
+            password TEXT NOT NULL,
+            notes TEXT,
+            category TEXT DEFAULT 'other',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          )
+        `;
+        await prisma.$executeRaw`CREATE INDEX IF NOT EXISTS idx_password_entries_user_id ON password_entries(user_id)`;
+        await prisma.$executeRaw`CREATE INDEX IF NOT EXISTS idx_password_entries_category ON password_entries(category)`;
+        return NextResponse.json({ success: true, message: 'Password entries table created' });
+      } catch (error) {
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+      }
+    }
+
     // Create admin user
     const email = 'admin@advanciapayledger.com';
     const password = 'Admin@123456';
