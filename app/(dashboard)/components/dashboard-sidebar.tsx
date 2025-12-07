@@ -4,6 +4,7 @@ import {
   Activity,
   BarChart3,
   Bitcoin,
+  Bot,
   Building2,
   Coins,
   CreditCard,
@@ -23,6 +24,7 @@ import { cn } from '@/lib/utils/cn';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
+  { name: 'AI Agents', href: '/dashboard/agents', icon: Bot },
   { name: 'Analytics', href: '/dashboard/analytics', icon: LineChart },
   { name: 'Token Wallet', href: '/dashboard/tokens', icon: Coins },
   { name: 'Crypto Pay', href: '/dashboard/payments', icon: Bitcoin },
