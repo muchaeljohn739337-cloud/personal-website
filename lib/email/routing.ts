@@ -95,17 +95,21 @@ async function cloudflareRequest(
 export async function getEmailRoutes(): Promise<EmailRoute[]> {
   try {
     const rules = await cloudflareRequest('/email/routing/rules');
-    return rules.map((rule: Record<string, unknown>) => ({
-      id: rule.id,
-      name: rule.name,
-      pattern: rule.matchers?.[0]?.value || '',
-      destination: rule.actions?.[0]?.value?.[0] || '',
-      enabled: rule.enabled,
-      priority: rule.priority,
-      actions: rule.actions,
-      createdAt: new Date(rule.created as string),
-      updatedAt: new Date(rule.modified as string),
-    }));
+    return rules.map((rule: Record<string, unknown>) => {
+      const matchers = rule.matchers as Array<{ value?: string }> | undefined;
+      const actions = rule.actions as Array<{ value?: string[] }> | undefined;
+      return {
+        id: rule.id,
+        name: rule.name,
+        pattern: matchers?.[0]?.value || '',
+        destination: actions?.[0]?.value?.[0] || '',
+        enabled: rule.enabled,
+        priority: rule.priority,
+        actions: rule.actions,
+        createdAt: new Date(rule.created as string),
+        updatedAt: new Date(rule.modified as string),
+      };
+    });
   } catch (error) {
     console.error('Failed to get email routes:', error);
     return [];

@@ -6,15 +6,8 @@
 import { checkRateLimit as memoryRateLimit, RateLimitResult } from './rate-limit';
 
 // Redis client type (using ioredis)
-type RedisClient = {
-  incr: (key: string) => Promise<number>;
-  expire: (key: string, seconds: number) => Promise<number>;
-  ttl: (key: string) => Promise<number>;
-  get: (key: string) => Promise<string | null>;
-  set: (key: string, value: string, mode?: string, duration?: number) => Promise<string | null>;
-};
-
-let redisClient: RedisClient | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let redisClient: any = null;
 let redisAvailable = false;
 
 /**
@@ -33,7 +26,6 @@ export async function initRedisRateLimit(): Promise<boolean> {
     const Redis = (await import('ioredis')).default;
     redisClient = new Redis(redisUrl, {
       maxRetriesPerRequest: 3,
-      retryDelayOnFailover: 100,
       enableReadyCheck: true,
       lazyConnect: true,
     });

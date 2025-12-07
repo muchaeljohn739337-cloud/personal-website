@@ -24,8 +24,8 @@ export interface BlogPost {
     name: string;
     image?: string;
   };
-  categories: Category[];
-  tags: string[];
+  category?: Category;
+  tags: { id: string; name: string; slug: string }[];
   readTime: number;
   viewCount: number;
   createdAt: Date;
@@ -90,12 +90,12 @@ export async function getPublishedPosts(
 
   // Category filter
   if (category) {
-    where.categories = { some: { slug: category } };
+    where.category = { slug: category };
   }
 
   // Tag filter
   if (tag) {
-    where.tags = { has: tag };
+    where.tags = { some: { tag: { slug: tag } } };
   }
 
   // Sorting
@@ -122,7 +122,8 @@ export async function getPublishedPosts(
       take: limit,
       include: {
         author: { select: { id: true, name: true, image: true } },
-        categories: true,
+        category: true,
+        tags: { include: { tag: true } },
       },
     }),
     prisma.blogPost.count({ where }),
@@ -149,7 +150,8 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     where: { slug },
     include: {
       author: { select: { id: true, name: true, image: true } },
-      categories: true,
+      category: true,
+      tags: { include: { tag: true } },
     },
   });
 
@@ -175,7 +177,8 @@ export async function getPostPreview(id: string, userId: string): Promise<BlogPo
     },
     include: {
       author: { select: { id: true, name: true, image: true } },
-      categories: true,
+      category: true,
+      tags: { include: { tag: true } },
     },
   });
 
@@ -209,19 +212,18 @@ export async function createPost(
       content: data.content,
       excerpt,
       featuredImage: data.featuredImage,
-      tags: data.tags || [],
       status: data.status || 'DRAFT',
-      readTime,
+      readingTime: readTime,
       authorId,
       publishedAt: data.status === 'PUBLISHED' ? new Date() : undefined,
       scheduledAt: data.scheduledAt,
-      categories: data.categoryIds
-        ? { connect: data.categoryIds.map((id) => ({ id })) }
-        : undefined,
+      categoryId: data.categoryIds?.[0],
+      tags: data.tags ? { create: data.tags.map((tagId) => ({ tagId })) } : undefined,
     },
     include: {
       author: { select: { id: true, name: true, image: true } },
-      categories: true,
+      category: true,
+      tags: { include: { tag: true } },
     },
   });
 
@@ -270,9 +272,7 @@ export async function updatePost(
   }
 
   if (data.categoryIds) {
-    updateData.categories = {
-      set: data.categoryIds.map((id) => ({ id })),
-    };
+    updateData.categoryId = data.categoryIds[0];
     delete updateData.categoryIds;
   }
 
@@ -281,7 +281,8 @@ export async function updatePost(
     data: updateData,
     include: {
       author: { select: { id: true, name: true, image: true } },
-      categories: true,
+      category: true,
+      tags: { include: { tag: true } },
     },
   });
 
@@ -308,25 +309,29 @@ export async function deletePost(id: string, userId: string): Promise<boolean> {
 export async function getRelatedPosts(postId: string, limit = 4): Promise<BlogPost[]> {
   const post = await prisma.blogPost.findUnique({
     where: { id: postId },
-    include: { categories: true },
+    include: { category: true, tags: { include: { tag: true } } },
   });
 
   if (!post) return [];
 
-  const categoryIds = post.categories.map((c) => c.id);
+  const tagIds = post.tags.map((t) => t.tagId);
 
   const related = await prisma.blogPost.findMany({
     where: {
       id: { not: postId },
       status: 'PUBLISHED',
       publishedAt: { lte: new Date() },
-      OR: [{ categories: { some: { id: { in: categoryIds } } } }, { tags: { hasSome: post.tags } }],
+      OR: [
+        ...(post.categoryId ? [{ categoryId: post.categoryId }] : []),
+        ...(tagIds.length > 0 ? [{ tags: { some: { tagId: { in: tagIds } } } }] : []),
+      ],
     },
     orderBy: { viewCount: 'desc' },
     take: limit,
     include: {
       author: { select: { id: true, name: true, image: true } },
-      categories: true,
+      category: true,
+      tags: { include: { tag: true } },
     },
   });
 
@@ -470,17 +475,18 @@ export async function searchPosts(
       status: 'PUBLISHED',
       publishedAt: { lte: new Date() },
       OR: [
-        { title: { contains: query, mode: 'insensitive' } },
-        { excerpt: { contains: query, mode: 'insensitive' } },
-        ...(includeContent ? [{ content: { contains: query, mode: 'insensitive' } }] : []),
-        { tags: { has: query } },
+        { title: { contains: query, mode: 'insensitive' as const } },
+        { excerpt: { contains: query, mode: 'insensitive' as const } },
+        ...(includeContent ? [{ content: { contains: query, mode: 'insensitive' as const } }] : []),
+        { tags: { some: { tag: { name: { contains: query, mode: 'insensitive' as const } } } } },
       ],
     },
     orderBy: { publishedAt: 'desc' },
     take: limit,
     include: {
       author: { select: { id: true, name: true, image: true } },
-      categories: true,
+      category: true,
+      tags: { include: { tag: true } },
     },
   });
 
@@ -491,23 +497,20 @@ export async function searchPosts(
  * Get popular tags
  */
 export async function getPopularTags(limit = 20): Promise<{ tag: string; count: number }[]> {
-  const posts = await prisma.blogPost.findMany({
-    where: { status: 'PUBLISHED' },
-    select: { tags: true },
+  const tags = await prisma.blogTag.findMany({
+    include: {
+      _count: { select: { posts: true } },
+    },
+    orderBy: {
+      posts: { _count: 'desc' },
+    },
+    take: limit,
   });
 
-  const tagCounts = new Map<string, number>();
-
-  for (const post of posts) {
-    for (const tag of post.tags) {
-      tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
-    }
-  }
-
-  return Array.from(tagCounts.entries())
-    .map(([tag, count]) => ({ tag, count }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, limit);
+  return tags.map((t) => ({
+    tag: t.name,
+    count: t._count.posts,
+  }));
 }
 
 // =============================================================================
@@ -549,21 +552,26 @@ function generateExcerpt(content: string, maxLength = 160): string {
  * Format post from database
  */
 function formatPost(post: Record<string, unknown>): BlogPost {
+  const tagsData = post.tags as
+    | Array<{ tag: { id: string; name: string; slug: string } }>
+    | undefined;
+  const categoryData = post.category as Category | null | undefined;
+
   return {
     id: post.id as string,
     title: post.title as string,
     slug: post.slug as string,
-    excerpt: post.excerpt as string,
+    excerpt: (post.excerpt as string) || '',
     content: post.content as string,
     featuredImage: post.featuredImage as string | undefined,
     status: post.status as BlogPost['status'],
     publishedAt: post.publishedAt as Date | undefined,
     scheduledAt: post.scheduledAt as Date | undefined,
     author: post.author as BlogPost['author'],
-    categories: (post.categories as Category[]) || [],
-    tags: (post.tags as string[]) || [],
-    readTime: post.readTime as number,
-    viewCount: post.viewCount as number,
+    category: categoryData || undefined,
+    tags: tagsData?.map((t) => t.tag) || [],
+    readTime: (post.readingTime as number) || 0,
+    viewCount: (post.viewCount as number) || 0,
     createdAt: post.createdAt as Date,
     updatedAt: post.updatedAt as Date,
   };

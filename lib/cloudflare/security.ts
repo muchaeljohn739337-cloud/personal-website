@@ -18,7 +18,7 @@ const CLOUDFLARE_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
 async function cloudflareAPI(
   endpoint: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' = 'GET',
-  body?: Record<string, unknown>,
+  body?: Record<string, unknown> | Record<string, unknown>[],
   isAccountLevel = false
 ) {
   if (!CLOUDFLARE_API_TOKEN) {
