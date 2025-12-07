@@ -87,6 +87,7 @@ export default function MedBedPage() {
   const [selectedChamber, setSelectedChamber] = useState<string | null>(null);
   const [showBooking, setShowBooking] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
   const [heartRate, setHeartRate] = useState(72);
   const [isDetecting, setIsDetecting] = useState(false);
   const [holdProgress, setHoldProgress] = useState(0);
@@ -248,6 +249,36 @@ export default function MedBedPage() {
           </div>
         </div>
       </nav>
+
+      {/* Welcome Banner */}
+      {showWelcome && (
+        <div className="relative z-10 bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 border-b border-emerald-500/20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center animate-pulse">
+                  <FiHeart className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold">
+                    Welcome to Advancia MedBed Quantum Healing Center! ✨
+                  </h2>
+                  <p className="text-gray-400">
+                    Experience revolutionary cellular regeneration technology. Your journey to
+                    optimal health begins here.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowWelcome(false)}
+                className="text-gray-400 hover:text-white p-2"
+              >
+                <FiX className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="relative z-10 pt-20 pb-16">

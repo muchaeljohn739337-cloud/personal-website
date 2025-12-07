@@ -148,6 +148,13 @@ export default function Home() {
                 <FiHeart className="w-3 h-3" />
                 MedBed
               </Link>
+              <Link
+                href="/crypto"
+                className="px-4 py-2 text-sm text-amber-400 hover:text-amber-300 transition-colors rounded-lg hover:bg-amber-500/10 flex items-center gap-1"
+              >
+                <FiTrendingUp className="w-3 h-3" />
+                Crypto
+              </Link>
             </div>
 
             <div className="hidden lg:flex items-center gap-4">
@@ -208,6 +215,14 @@ export default function Home() {
               >
                 <FiHeart className="w-4 h-4" />
                 MedBed
+              </Link>
+              <Link
+                href="/crypto"
+                className="block px-4 py-2 text-amber-400 hover:text-amber-300 flex items-center gap-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FiTrendingUp className="w-4 h-4" />
+                Crypto
               </Link>
               <div className="pt-4 border-t border-white/10 space-y-3">
                 <Link href="/auth/login" className="block px-4 py-2 text-gray-400 hover:text-white">
