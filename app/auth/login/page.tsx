@@ -119,6 +119,8 @@ function LoginForm() {
                 className="border-slate-700 bg-slate-800/50 pr-10 text-white placeholder:text-slate-500"
                 {...register('password')}
                 error={errors.password?.message}
+                required
+                minLength={1}
               />
               <button
                 type="button"

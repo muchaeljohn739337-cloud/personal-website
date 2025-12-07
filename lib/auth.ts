@@ -25,24 +25,40 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        // Strict validation - require both email and password
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
+          console.log('[AUTH] Missing credentials');
+          throw new Error('Email and password are required');
+        }
+
+        // Validate password is not empty string
+        if (credentials.password.trim().length === 0) {
+          console.log('[AUTH] Empty password');
+          throw new Error('Password cannot be empty');
         }
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email: credentials.email.toLowerCase().trim() },
         });
 
-        if (!user || !user.password) {
+        if (!user) {
+          console.log('[AUTH] User not found:', credentials.email);
+          throw new Error('Invalid credentials');
+        }
+
+        if (!user.password) {
+          console.log('[AUTH] User has no password (OAuth user):', credentials.email);
           throw new Error('Invalid credentials');
         }
 
         const isPasswordValid = await compare(credentials.password, user.password);
 
         if (!isPasswordValid) {
+          console.log('[AUTH] Invalid password for:', credentials.email);
           throw new Error('Invalid credentials');
         }
 
+        console.log('[AUTH] Login successful for:', credentials.email);
         return {
           id: user.id,
           email: user.email,
