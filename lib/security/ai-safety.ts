@@ -336,13 +336,13 @@ export class SafeAIAgent {
         severity: this.mapThreatToSeverity(analysis.threatLevel),
         userId: this.userId,
         ipAddress: this.ipAddress,
-        details: `AI Agent threat detected: ${analysis.threatTypes.join(', ')}`,
-        metadata: JSON.stringify({
+        details: { message: `AI Agent threat detected: ${analysis.threatTypes.join(', ')}` },
+        metadata: {
           sessionId: this.sessionId,
           agentId: this.config.agentId,
-          input: input.substring(0, 500), // Truncate for logging
+          input: input.substring(0, 500),
           threatAnalysis: analysis,
-        }),
+        },
       });
 
       // Lock session after multiple threats
@@ -462,12 +462,12 @@ export class SafeAIAgent {
 
     // Log to audit
     await auditLog({
-      eventType: AuditEventType.ADMIN_ACTION,
-      severity: AuditSeverity.CRITICAL,
+      eventType: 'ADMIN_ACTION',
+      severity: 'CRITICAL',
       userId: this.userId,
       ipAddress: this.ipAddress,
-      details: `Admin alert: ${eventType}`,
-      metadata: JSON.stringify(alertData),
+      details: { message: `Admin alert: ${eventType}` },
+      metadata: alertData,
     });
 
     // Send webhook if configured

@@ -38,7 +38,8 @@ export type AuditEventType =
   | 'PAYMENT_COMPLETED'
   | 'PAYMENT_FAILED'
   | 'WITHDRAWAL_REQUESTED'
-  | 'WITHDRAWAL_COMPLETED';
+  | 'WITHDRAWAL_COMPLETED'
+  | 'ADMIN_ACTION';
 
 export type AuditSeverity = 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';
 
@@ -54,6 +55,51 @@ export interface AuditLogEntry {
   details?: Record<string, unknown>;
   metadata?: Record<string, unknown>;
 }
+
+// Enum values for use in code
+export const AuditEventType = {
+  LOGIN_SUCCESS: 'LOGIN_SUCCESS' as const,
+  LOGIN_FAILURE: 'LOGIN_FAILURE' as const,
+  LOGOUT: 'LOGOUT' as const,
+  PASSWORD_CHANGE: 'PASSWORD_CHANGE' as const,
+  PASSWORD_RESET_REQUEST: 'PASSWORD_RESET_REQUEST' as const,
+  PASSWORD_RESET_COMPLETE: 'PASSWORD_RESET_COMPLETE' as const,
+  EMAIL_VERIFICATION_SENT: 'EMAIL_VERIFICATION_SENT' as const,
+  EMAIL_VERIFIED: 'EMAIL_VERIFIED' as const,
+  TWO_FA_ENABLED: '2FA_ENABLED' as const,
+  TWO_FA_DISABLED: '2FA_DISABLED' as const,
+  TWO_FA_VERIFIED: '2FA_VERIFIED' as const,
+  TWO_FA_FAILED: '2FA_FAILED' as const,
+  BACKUP_CODE_USED: 'BACKUP_CODE_USED' as const,
+  BACKUP_CODES_REGENERATED: 'BACKUP_CODES_REGENERATED' as const,
+  ACCOUNT_CREATED: 'ACCOUNT_CREATED' as const,
+  ACCOUNT_UPDATED: 'ACCOUNT_UPDATED' as const,
+  ACCOUNT_DELETED: 'ACCOUNT_DELETED' as const,
+  ACCOUNT_LOCKED: 'ACCOUNT_LOCKED' as const,
+  ACCOUNT_UNLOCKED: 'ACCOUNT_UNLOCKED' as const,
+  SESSION_CREATED: 'SESSION_CREATED' as const,
+  SESSION_REVOKED: 'SESSION_REVOKED' as const,
+  API_KEY_CREATED: 'API_KEY_CREATED' as const,
+  API_KEY_REVOKED: 'API_KEY_REVOKED' as const,
+  RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED' as const,
+  SUSPICIOUS_ACTIVITY: 'SUSPICIOUS_ACTIVITY' as const,
+  PERMISSION_DENIED: 'PERMISSION_DENIED' as const,
+  DATA_EXPORT: 'DATA_EXPORT' as const,
+  DATA_DELETION: 'DATA_DELETION' as const,
+  PAYMENT_INITIATED: 'PAYMENT_INITIATED' as const,
+  PAYMENT_COMPLETED: 'PAYMENT_COMPLETED' as const,
+  PAYMENT_FAILED: 'PAYMENT_FAILED' as const,
+  WITHDRAWAL_REQUESTED: 'WITHDRAWAL_REQUESTED' as const,
+  WITHDRAWAL_COMPLETED: 'WITHDRAWAL_COMPLETED' as const,
+  ADMIN_ACTION: 'ADMIN_ACTION' as const,
+};
+
+export const AuditSeverity = {
+  INFO: 'INFO' as const,
+  WARNING: 'WARNING' as const,
+  ERROR: 'ERROR' as const,
+  CRITICAL: 'CRITICAL' as const,
+};
 
 /**
  * Create an audit log entry
@@ -333,3 +379,6 @@ export async function getUserSecuritySummary(userId: string) {
     riskLevel: failedLogins > 5 ? 'HIGH' : failedLogins > 2 ? 'MEDIUM' : 'LOW',
   };
 }
+
+// Alias for backward compatibility
+export const auditLog = createAuditLog;
