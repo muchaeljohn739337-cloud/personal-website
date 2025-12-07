@@ -25,6 +25,7 @@ model User {
   phone                 String?
   twoFactorEnabled      Boolean   @default(false) @map("two_factor_enabled")
   twoFactorSecret       String?   @map("two_factor_secret")
+  backupCodes           String[]  @default([]) @map("backup_codes")
   
   // Stripe
   stripeCustomerId      String?   @unique @map("stripe_customer_id")
@@ -1902,23 +1903,40 @@ model SystemSetting {
 model AuditLog {
   id              String          @id @default(cuid())
   
+  // Event classification
+  eventType       String          @map("event_type")
+  severity        String          @default("INFO")
+  
+  // User context
   userId          String?         @map("user_id")
   user            User?           @relation(fields: [userId], references: [id])
+  sessionId       String?         @map("session_id")
   
-  action          String
-  entityType      String          @map("entity_type")
-  entityId        String?         @map("entity_id")
-  
-  oldValues       Json?           @map("old_values")
-  newValues       Json?           @map("new_values")
-  
-  ipAddress       String?         @map("ip_address")
+  // Request context
+  ipAddress       String          @map("ip_address")
   userAgent       String?         @map("user_agent")
   
+  // Event details
+  action          String?
+  resource        String?
+  entityType      String?         @map("entity_type")
+  entityId        String?         @map("entity_id")
+  
+  // Data changes
+  oldValues       Json?           @map("old_values")
+  newValues       Json?           @map("new_values")
+  details         String?         @db.Text
+  metadata        String?         @db.Text
+  
+  // Timestamps
+  timestamp       DateTime        @default(now())
   createdAt       DateTime        @default(now()) @map("created_at")
 
   @@index([userId])
+  @@index([eventType])
+  @@index([severity])
   @@index([entityType, entityId])
+  @@index([timestamp])
   @@index([createdAt])
   @@map("audit_logs")
 }
