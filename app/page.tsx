@@ -1,7 +1,76 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+
+// Animated Counter Component
+function AnimatedCounter({
+  target,
+  suffix = '',
+  prefix = '',
+  duration = 2000,
+}: {
+  target: number;
+  suffix?: string;
+  prefix?: string;
+  duration?: number;
+}) {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const steps = 60;
+    const increment = target / steps;
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
+
+    return () => clearInterval(timer);
+  }, [isVisible, target, duration]);
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000000000) return (num / 1000000000).toFixed(1) + 'B';
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
+  };
+
+  return (
+    <span ref={ref} className="tabular-nums">
+      {prefix}
+      {target >= 1000 ? formatNumber(count) : count}
+      {suffix}
+    </span>
+  );
+}
 import {
   FiShield,
   FiCreditCard,
@@ -609,21 +678,70 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Section - Enhanced with Animated Counters */}
       <section className="relative z-10 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-violet-500/10 via-blue-500/10 to-violet-500/10 rounded-3xl border border-white/10 p-12">
-            <div className="grid md:grid-cols-4 gap-8">
+          <div className="relative overflow-hidden bg-gradient-to-r from-violet-500/10 via-blue-500/10 to-violet-500/10 rounded-3xl border border-white/10 p-12">
+            {/* Animated background particles */}
+            <div className="absolute inset-0 overflow-hidden">
+              {[...Array(20)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-1 h-1 bg-violet-400/30 rounded-full animate-pulse"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: `${2 + Math.random() * 2}s`,
+                  }}
+                />
+              ))}
+            </div>
+            <div className="relative grid md:grid-cols-4 gap-8">
               {[
-                { value: '$50B+', label: 'Processed Annually', icon: FiBarChart2 },
-                { value: '10M+', label: 'Active Users', icon: FiUsers },
-                { value: '99.999%', label: 'Uptime SLA', icon: FiActivity },
-                { value: '200+', label: 'Edge Locations', icon: FiGlobe },
+                {
+                  target: 50000000000,
+                  prefix: '$',
+                  suffix: '+',
+                  label: 'Processed Annually',
+                  icon: FiBarChart2,
+                  color: 'from-violet-400 to-purple-500',
+                },
+                {
+                  target: 10000000,
+                  suffix: '+',
+                  label: 'Active Users',
+                  icon: FiUsers,
+                  color: 'from-blue-400 to-cyan-500',
+                },
+                {
+                  target: 99.999,
+                  suffix: '%',
+                  label: 'Uptime SLA',
+                  icon: FiActivity,
+                  color: 'from-green-400 to-emerald-500',
+                },
+                {
+                  target: 200,
+                  suffix: '+',
+                  label: 'Edge Locations',
+                  icon: FiGlobe,
+                  color: 'from-orange-400 to-amber-500',
+                },
               ].map((stat, index) => (
-                <div key={index} className="text-center">
-                  <stat.icon className="w-8 h-8 mx-auto mb-4 text-violet-400" />
+                <div key={index} className="text-center group">
+                  <div
+                    className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg`}
+                  >
+                    <stat.icon className="w-8 h-8 text-white" />
+                  </div>
                   <p className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-2">
-                    {stat.value}
+                    <AnimatedCounter
+                      target={stat.target}
+                      prefix={stat.prefix || ''}
+                      suffix={stat.suffix}
+                      duration={2500}
+                    />
                   </p>
                   <p className="text-gray-500">{stat.label}</p>
                 </div>
