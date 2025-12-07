@@ -5,10 +5,40 @@ import { prisma } from '@/lib/prismaClient';
 
 // One-time database initialization endpoint
 // DELETE THIS FILE AFTER SETUP!
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const action = searchParams.get('action');
+
     // Test database connection
     await prisma.$queryRaw`SELECT 1`;
+
+    // List all users
+    if (action === 'list') {
+      const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          role: true,
+          emailVerified: true,
+          createdAt: true,
+        },
+      });
+      return NextResponse.json({ users });
+    }
+
+    // Demote OAuth user to regular USER
+    if (action === 'demote') {
+      const email = searchParams.get('email');
+      if (email) {
+        await prisma.user.updateMany({
+          where: { email: email.toLowerCase() },
+          data: { role: 'USER' },
+        });
+        return NextResponse.json({ success: true, message: `Demoted ${email} to USER` });
+      }
+    }
 
     // Create admin user
     const email = 'admin@advanciapayledger.com';
