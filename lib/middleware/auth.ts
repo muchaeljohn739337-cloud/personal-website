@@ -27,7 +27,11 @@ export async function authenticateToken(
   }
 
   try {
-    const secret = process.env.JWT_SECRET || 'your-secret-key';
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      console.error('CRITICAL: JWT_SECRET environment variable is not set');
+      return { success: false, user: null };
+    }
     const decoded = verify(token, secret) as AuthUser;
     return { success: true, user: decoded };
   } catch {
