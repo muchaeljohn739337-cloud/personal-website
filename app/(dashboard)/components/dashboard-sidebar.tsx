@@ -16,6 +16,7 @@ import {
   Sparkles,
   Users,
   Wallet,
+  Zap,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -25,6 +26,7 @@ import { cn } from '@/lib/utils/cn';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
   { name: 'AI Agents', href: '/dashboard/agents', icon: Bot },
+  { name: 'Automations', href: '/dashboard/automations', icon: Zap },
   { name: 'Analytics', href: '/dashboard/analytics', icon: LineChart },
   { name: 'Token Wallet', href: '/dashboard/tokens', icon: Coins },
   { name: 'Crypto Pay', href: '/dashboard/payments', icon: Bitcoin },
