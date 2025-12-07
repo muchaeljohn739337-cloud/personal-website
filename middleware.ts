@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
 // =============================================================================
 // SECURITY CONFIGURATION
@@ -7,6 +8,15 @@ import type { NextRequest } from 'next/server';
 
 // Set this to true to enable maintenance mode
 let MAINTENANCE_MODE = false;
+
+// Protected routes that require authentication
+const PROTECTED_ROUTES = ['/dashboard', '/admin', '/api/admin', '/api/user'];
+
+// Admin-only routes
+const ADMIN_ROUTES = ['/admin', '/api/admin'];
+
+// Auth routes (redirect if already logged in)
+const AUTH_ROUTES = ['/auth/login', '/auth/register'];
 
 // Security shield enabled
 const SECURITY_SHIELD_ENABLED = true;
@@ -131,11 +141,47 @@ function triggerLockdown(reason: string): void {
 // MAIN MIDDLEWARE
 // =============================================================================
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const ip = getClientIP(request.headers);
   const userAgent = request.headers.get('user-agent') || '';
   const fullUrl = pathname + search;
+
+  // ==========================================================================
+  // AUTHENTICATION CHECKS
+  // ==========================================================================
+
+  // Get the user's session token
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+
+  // Check if route requires authentication
+  const isProtectedRoute = PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
+  const isAdminRoute = ADMIN_ROUTES.some((route) => pathname.startsWith(route));
+  const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
+
+  // Redirect to login if accessing protected route without auth
+  if (isProtectedRoute && !token) {
+    const loginUrl = new URL('/auth/login', request.url);
+    loginUrl.searchParams.set('callbackUrl', pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Redirect to dashboard if accessing auth routes while logged in
+  if (isAuthRoute && token) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
+  // Check admin access
+  if (isAdminRoute && token) {
+    const userRole = token.role as string;
+    if (userRole !== 'ADMIN') {
+      // Non-admin trying to access admin routes
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+  }
 
   // ==========================================================================
   // SECURITY SHIELD CHECKS
