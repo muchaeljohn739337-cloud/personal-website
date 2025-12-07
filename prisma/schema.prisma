@@ -2653,3 +2653,110 @@ enum CampaignStatus {
   SENT
   CANCELED
 }
+
+// =============================================================================
+// EMAIL ROUTING & SECURITY
+// =============================================================================
+
+model EmailRoute {
+  id              String    @id @default(cuid())
+  externalId      String?   @unique @map("external_id") // Cloudflare rule ID
+  
+  pattern         String    // e.g., "support@domain.com" or "*@domain.com"
+  destination     String    // Forward to this address
+  
+  enabled         Boolean   @default(true)
+  priority        Int       @default(0)
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@index([pattern])
+  @@map("email_routes")
+}
+
+model EmailAlias {
+  id              String    @id @default(cuid())
+  
+  alias           String    @unique // e.g., "john@domain.com"
+  targetEmail     String    @map("target_email")
+  
+  userId          String?   @map("user_id")
+  description     String?
+  
+  enabled         Boolean   @default(true)
+  cloudflareRuleId String?  @map("cloudflare_rule_id")
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([alias])
+  @@map("email_aliases")
+}
+
+model EmailSecurityLog {
+  id              String    @id @default(cuid())
+  
+  // Event type
+  eventType       String    @map("event_type") // phishing_detected, tracker_blocked, etc.
+  severity        String    @default("INFO")
+  
+  // Email details
+  fromEmail       String?   @map("from_email")
+  toEmail         String?   @map("to_email")
+  subject         String?
+  
+  // Analysis results
+  isPhishing      Boolean   @default(false) @map("is_phishing")
+  phishingScore   Int       @default(0) @map("phishing_score")
+  trackersFound   Int       @default(0) @map("trackers_found")
+  
+  // Details
+  indicators      String?   @db.Text // JSON array of indicators
+  metadata        String?   @db.Text // Additional metadata
+  
+  // Action taken
+  action          String?   // blocked, quarantined, delivered, etc.
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([eventType])
+  @@index([fromEmail])
+  @@index([createdAt])
+  @@map("email_security_logs")
+}
+
+model DomainSecurityConfig {
+  id              String    @id @default(cuid())
+  
+  domain          String    @unique
+  
+  // DNS Security
+  dnssecEnabled   Boolean   @default(false) @map("dnssec_enabled")
+  caaConfigured   Boolean   @default(false) @map("caa_configured")
+  
+  // Email Security
+  spfConfigured   Boolean   @default(false) @map("spf_configured")
+  dkimConfigured  Boolean   @default(false) @map("dkim_configured")
+  dmarcConfigured Boolean   @default(false) @map("dmarc_configured")
+  dmarcPolicy     String?   @map("dmarc_policy") // none, quarantine, reject
+  
+  // SSL/TLS
+  sslMode         String?   @map("ssl_mode") // off, flexible, full, strict
+  minTlsVersion   String?   @map("min_tls_version")
+  
+  // Cloudflare Security
+  wafEnabled      Boolean   @default(false) @map("waf_enabled")
+  botProtection   Boolean   @default(false) @map("bot_protection")
+  ddosProtection  Boolean   @default(true) @map("ddos_protection")
+  
+  // Last check
+  lastHealthCheck DateTime? @map("last_health_check")
+  healthScore     Int       @default(0) @map("health_score")
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("domain_security_configs")
+}
