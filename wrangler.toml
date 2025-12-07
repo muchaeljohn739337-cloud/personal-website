@@ -1,7 +1,14 @@
-# Cloudflare Pages Configuration
-name = "advanciapayledger"
+# Cloudflare Workers Configuration for Next.js
+name = "personal-website"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
+# For Next.js on Workers
+main = ".worker-next/index.mjs"
+
 [vars]
 NODE_VERSION = "20"
+
+# Assets
+[site]
+bucket = ".worker-next/assets"
