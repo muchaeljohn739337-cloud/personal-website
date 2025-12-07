@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import AIChat from '@/components/AIChat';
+import { Providers } from '@/components/providers';
 
 const inter = Inter({
   variable: '--font-geist-sans',
@@ -42,8 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
-        {children}
-        <AIChat />
+        <Providers>
+          {children}
+          <AIChat />
+        </Providers>
       </body>
     </html>
   );
