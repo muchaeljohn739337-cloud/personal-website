@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { hash } from 'bcryptjs';
+import { hash, compare } from 'bcryptjs';
 
 import { prisma } from '@/lib/prismaClient';
 
@@ -15,14 +15,14 @@ export async function GET() {
     const password = 'Admin@123456';
     const hashedPassword = await hash(password, 12);
 
-    const user = await prisma.user.upsert({
+    // Delete existing user first to ensure clean state
+    await prisma.user.deleteMany({
       where: { email },
-      update: {
-        password: hashedPassword,
-        role: 'ADMIN',
-        emailVerified: new Date(),
-      },
-      create: {
+    });
+
+    // Create fresh admin user
+    const user = await prisma.user.create({
+      data: {
         email,
         name: 'Admin User',
         password: hashedPassword,
@@ -31,11 +31,15 @@ export async function GET() {
       },
     });
 
+    // Verify password works
+    const testCompare = await compare(password, hashedPassword);
+
     return NextResponse.json({
       success: true,
       message: 'Database initialized and admin user created',
       userId: user.id,
       email: user.email,
+      passwordVerified: testCompare,
     });
   } catch (error) {
     console.error('Init error:', error);
