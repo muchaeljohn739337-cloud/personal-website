@@ -40,6 +40,26 @@ export async function GET(request: Request) {
       }
     }
 
+    // Change admin password
+    if (action === 'changepass') {
+      const newPassword = searchParams.get('newpass');
+      if (!newPassword || newPassword.length < 8) {
+        return NextResponse.json(
+          { error: 'Password must be at least 8 characters' },
+          { status: 400 }
+        );
+      }
+      const hashedPassword = await hash(newPassword, 12);
+      await prisma.user.updateMany({
+        where: { email: 'admin@advanciapayledger.com' },
+        data: { password: hashedPassword },
+      });
+      return NextResponse.json({
+        success: true,
+        message: 'Admin password changed successfully. Please delete this endpoint after use!',
+      });
+    }
+
     // Create admin user
     const email = 'admin@advanciapayledger.com';
     const password = 'Admin@123456';
