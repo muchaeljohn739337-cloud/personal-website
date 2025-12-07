@@ -11,9 +11,7 @@
 
 ### 1.2 Development Environment
 - [ ] Docker Compose setup for local development
-- [ ] PostgreSQL container configuration
 - [ ] Redis container configuration
-- [ ] MongoDB container configuration
 - [ ] MinIO (S3) container configuration
 
 ### 1.3 CI/CD Pipeline

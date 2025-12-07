@@ -6,6 +6,62 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils/cn';
 
+// Advanced Loading Spinner Component
+const LoadingSpinner = ({ size = 'default' }: { size?: 'sm' | 'default' | 'lg' }) => {
+  const sizeClasses = {
+    sm: 'h-3 w-3',
+    default: 'h-4 w-4',
+    lg: 'h-5 w-5',
+  };
+
+  return (
+    <div className={cn('relative mr-2', sizeClasses[size])}>
+      {/* Outer rotating ring */}
+      <div className="absolute inset-0 animate-spin">
+        <svg viewBox="0 0 24 24" className="h-full w-full">
+          <defs>
+            <linearGradient id="spinnerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
+              <stop offset="100%" stopColor="currentColor" stopOpacity="0.2" />
+            </linearGradient>
+          </defs>
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            fill="none"
+            stroke="url(#spinnerGradient)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeDasharray="45 20"
+          />
+        </svg>
+      </div>
+      {/* Inner pulsing dot */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-current opacity-80" />
+      </div>
+    </div>
+  );
+};
+
+// Dots Loading Animation
+const LoadingDots = () => (
+  <div className="mr-2 flex items-center gap-1">
+    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-current [animation-delay:-0.3s]" />
+    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-current [animation-delay:-0.15s]" />
+    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-current" />
+  </div>
+);
+
+// Pulse Ring Animation
+const LoadingPulse = () => (
+  <div className="relative mr-2 h-4 w-4">
+    <div className="absolute inset-0 animate-ping rounded-full bg-current opacity-30" />
+    <div className="absolute inset-1 rounded-full bg-current opacity-60" />
+  </div>
+);
+
 const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
@@ -42,12 +98,40 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
+  loadingStyle?: 'spinner' | 'dots' | 'pulse';
   asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, isLoading, asChild = false, children, disabled, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      isLoading,
+      loadingStyle = 'spinner',
+      asChild = false,
+      children,
+      disabled,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : 'button';
+
+    const spinnerSize = size === 'sm' ? 'sm' : size === 'lg' || size === 'xl' ? 'lg' : 'default';
+
+    const LoadingComponent = () => {
+      switch (loadingStyle) {
+        case 'dots':
+          return <LoadingDots />;
+        case 'pulse':
+          return <LoadingPulse />;
+        default:
+          return <LoadingSpinner size={spinnerSize} />;
+      }
+    };
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
@@ -55,33 +139,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || isLoading}
         {...props}
       >
-        {isLoading && (
-          <svg
-            className="mr-2 h-4 w-4 animate-spin"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
-        )}
-        {children}
+        {isLoading && <LoadingComponent />}
+        {isLoading ? <span className="opacity-90">Processing...</span> : children}
       </Comp>
     );
   }
 );
 Button.displayName = 'Button';
 
-export { Button, buttonVariants };
+export { Button, buttonVariants, LoadingSpinner, LoadingDots, LoadingPulse };

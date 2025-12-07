@@ -33,8 +33,6 @@
     
     // Database
     "mtxr.sqltools",
-    "mongodb.mongodb-vscode",
-    "cweijan.vscode-postgresql-client2",
     "redis.redis-for-vscode",
     
     // Docker & Kubernetes

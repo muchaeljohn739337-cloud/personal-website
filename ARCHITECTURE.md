@@ -35,9 +35,10 @@
 ┌─────────────────────────────────────────────────────────────────┐
 │                      DATA LAYER                                 │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
-│  │  PostgreSQL  │  │  Redis Cache │  │   MongoDB    │        │
-│  │  (Primary)   │  │  (Sessions)  │  │  (Logs/Docs) │        │
-│  └──────────────┘  └──────────────┘  └──────────────┘        │
+│  ┌──────────────┐                                            │
+│  │  Redis Cache │                                            │
+│  │  (Sessions)  │                                            │
+│  └──────────────┘                                            │
 └─────────────────────────────────────────────────────────────────┘
                               ↓ ↑
 ┌─────────────────────────────────────────────────────────────────┐
@@ -123,8 +124,7 @@ personal-website/
 │
 ├── config/
 │   ├── nginx/             # Nginx Configs
-│   ├── redis/             # Redis Configs
-│   └── postgres/          # PostgreSQL Configs
+│   └── redis/             # Redis Configs
 │
 ├── .github/
 │   ├── workflows/         # GitHub Actions
@@ -148,6 +148,7 @@ personal-website/
 ## 🔧 Technology Stack
 
 ### Frontend
+
 - **Framework**: Next.js 16 (App Router)
 - **UI Library**: React 19
 - **Language**: TypeScript 5
@@ -159,6 +160,7 @@ personal-website/
 - **Charts**: Recharts / Chart.js
 
 ### Backend
+
 - **Runtime**: Node.js 20 + TypeScript
 - **Framework**: Express.js / Fastify
 - **GraphQL**: Apollo Server
@@ -167,19 +169,21 @@ personal-website/
 - **ORM**: Prisma
 - **API Docs**: Swagger/OpenAPI
 
-### Databases
-- **Primary**: PostgreSQL 16 (Relational)
+### Cache & Data
+
 - **Cache**: Redis 7 (Sessions, Cache)
-- **Documents**: MongoDB 7 (Logs, Analytics)
+- **Database**: Supabase (PostgreSQL)
 - **Search**: Elasticsearch (Optional)
 
 ### Message Broker & Queues
+
 - **Queue**: BullMQ (Redis-based)
 - **Pub/Sub**: Redis Pub/Sub
 - **Real-time**: Socket.io
 - **Events**: EventEmitter3
 
 ### Multi-Agent System
+
 - **Orchestrator**: Custom Agent Manager
 - **Workers**: BullMQ Workers
 - **AI/ML**: OpenAI API / Anthropic
@@ -187,6 +191,7 @@ personal-website/
 - **State Management**: Redis
 
 ### Authentication & Authorization
+
 - **JWT**: jsonwebtoken
 - **OAuth**: Passport.js (Google, GitHub)
 - **2FA**: speakeasy (TOTP)
@@ -194,12 +199,14 @@ personal-website/
 - **Session**: Redis Session Store
 
 ### Billing & Payments
+
 - **Provider**: Stripe
 - **Subscriptions**: Stripe Subscriptions
 - **Webhooks**: Stripe Webhooks
 - **Invoicing**: Automated
 
 ### Analytics
+
 - **Events**: Custom Event System
 - **Metrics**: Prometheus
 - **Monitoring**: Grafana
@@ -207,12 +214,14 @@ personal-website/
 - **APM**: New Relic / Datadog (Optional)
 
 ### Storage
+
 - **Object Storage**: MinIO (self-hosted) / AWS S3
 - **CDN**: CloudFlare
 - **File Upload**: Multer / Formidable
 - **Image Processing**: Sharp
 
 ### DevOps & Infrastructure
+
 - **Containers**: Docker + Docker Compose
 - **Orchestration**: Kubernetes (K8s)
 - **IaC**: Terraform
@@ -223,6 +232,7 @@ personal-website/
 - **Load Balancer**: Nginx / HAProxy
 
 ### Development Tools
+
 - **Package Manager**: npm / pnpm
 - **Monorepo**: Turborepo / Nx
 - **Testing**: Jest + Vitest + Playwright
@@ -233,11 +243,13 @@ personal-website/
 ## 🚀 Deployment Options
 
 ### Self-Hosted
+
 - Docker Compose (Development/Small Scale)
 - Kubernetes (Production/Large Scale)
 - VPS (DigitalOcean, Linode, Hetzner)
 
 ### Cloud
+
 - **AWS**: ECS, EKS, RDS, S3, CloudFront
 - **GCP**: Cloud Run, GKE, Cloud SQL
 - **Azure**: AKS, Azure Database, Blob Storage
@@ -246,6 +258,7 @@ personal-website/
 - **Fly.io**: Global Edge Deployment
 
 ### Hybrid
+
 - Frontend: Vercel/Netlify
 - Backend: Self-hosted K8s
 - Database: Managed (AWS RDS/Supabase)
