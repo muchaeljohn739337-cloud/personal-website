@@ -13,6 +13,7 @@ import {
   Home,
   Key,
   LineChart,
+  Server,
   Settings,
   Sparkles,
   Users,
@@ -41,6 +42,7 @@ const navigation = [
   { name: 'Organization', href: '/dashboard/organization', icon: Building2 },
   { name: 'Team', href: '/dashboard/team', icon: Users },
   { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
+  { name: 'System', href: '/dashboard/system', icon: Server },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ];
 

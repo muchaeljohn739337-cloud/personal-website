@@ -248,3 +248,52 @@ body {
 .animate-drop-3 { animation: drop-bounce 0.8s ease-in-out infinite 0.2s; }
 .animate-drop-4 { animation: drop-bounce 0.8s ease-in-out infinite 0.3s; }
 .animate-drop-5 { animation: drop-bounce 0.8s ease-in-out infinite 0.4s; }
+
+/* Logo Spin Animation - Rotates once on load then stops */
+@keyframes logo-spin {
+  0% { transform: rotate(0deg) scale(0.8); opacity: 0; }
+  50% { transform: rotate(180deg) scale(1.1); opacity: 1; }
+  100% { transform: rotate(360deg) scale(1); opacity: 1; }
+}
+
+.animate-logo-spin {
+  animation: logo-spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Slow continuous spin */
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* Reverse spin */
+@keyframes spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 6s linear infinite;
+}
+
+/* Shimmer effect for progress bar */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Float animation for particles */
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+  25% { transform: translateY(-20px) translateX(10px); opacity: 0.8; }
+  50% { transform: translateY(-10px) translateX(-5px); opacity: 0.5; }
+  75% { transform: translateY(-30px) translateX(5px); opacity: 0.7; }
+}
