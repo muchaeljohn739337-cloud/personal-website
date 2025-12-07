@@ -59,6 +59,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@stripe/stripe-js": "^8.5.3",
+    "@supabase/supabase-js": "^2.86.2",
     "@tanstack/react-query": "^4.36.1",
     "@tiptap/extension-placeholder": "^3.13.0",
     "@tiptap/react": "^3.13.0",
