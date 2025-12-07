@@ -3,8 +3,5 @@ name = "advanciapayledger"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Pages specific settings
-pages_build_output_dir = ".vercel/output/static"
-
 [vars]
-NEXT_PUBLIC_APP_URL = "https://advanciapayledger.com"
+NODE_VERSION = "20"
