@@ -2787,3 +2787,439 @@ model DomainSecurityConfig {
 
   @@map("domain_security_configs")
 }
+
+// =============================================================================
+// ANALYTICS & TRACKING
+// =============================================================================
+
+model AnalyticsEvent {
+  id              String    @id @default(cuid())
+  
+  // Event info
+  eventType       String    @map("event_type") // page_view, click, conversion, etc.
+  eventName       String    @map("event_name")
+  eventValue      String?   @map("event_value")
+  
+  // User context
+  userId          String?   @map("user_id")
+  sessionId       String?   @map("session_id")
+  
+  // Page context
+  pageUrl         String?   @map("page_url")
+  pageTitle       String?   @map("page_title")
+  referrer        String?
+  
+  // Device info
+  userAgent       String?   @map("user_agent")
+  ipAddress       String?   @map("ip_address")
+  country         String?
+  city            String?
+  device          String?   // mobile, desktop, tablet
+  browser         String?
+  os              String?
+  
+  // Custom data
+  metadata        Json?
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([eventType])
+  @@index([userId])
+  @@index([sessionId])
+  @@index([createdAt])
+  @@map("analytics_events")
+}
+
+// =============================================================================
+// ERROR LOGGING
+// =============================================================================
+
+model ErrorLog {
+  id              String    @id @default(cuid())
+  
+  // Error info
+  errorType       String    @map("error_type") // runtime, api, database, auth, etc.
+  errorCode       String?   @map("error_code")
+  message         String    @db.Text
+  stackTrace      String?   @map("stack_trace") @db.Text
+  
+  // Context
+  source          String?   // api route, component, service
+  userId          String?   @map("user_id")
+  requestUrl      String?   @map("request_url")
+  requestMethod   String?   @map("request_method")
+  requestBody     String?   @map("request_body") @db.Text
+  
+  // Severity
+  severity        ErrorSeverity @default(ERROR)
+  
+  // Resolution
+  resolved        Boolean   @default(false)
+  resolvedAt      DateTime? @map("resolved_at")
+  resolvedBy      String?   @map("resolved_by")
+  resolution      String?   @db.Text
+  
+  // Metadata
+  metadata        Json?
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([errorType])
+  @@index([severity])
+  @@index([resolved])
+  @@index([createdAt])
+  @@map("error_logs")
+}
+
+enum ErrorSeverity {
+  DEBUG
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+// =============================================================================
+// AI AGENT SYSTEM
+// =============================================================================
+
+model AIJob {
+  id              String    @id @default(cuid())
+  
+  // Job info
+  jobType         String    @map("job_type") // code, research, seo, blog, etc.
+  status          AIJobStatus @default(PENDING)
+  priority        Int       @default(5) // 1-10, higher = more urgent
+  
+  // Task details
+  taskDescription String    @map("task_description") @db.Text
+  inputData       Json?     @map("input_data")
+  outputData      Json?     @map("output_data")
+  
+  // Agent assignment
+  assignedAgent   String?   @map("assigned_agent")
+  orchestratorId  String?   @map("orchestrator_id")
+  
+  // Execution
+  attempts        Int       @default(0)
+  maxAttempts     Int       @default(3) @map("max_attempts")
+  startedAt       DateTime? @map("started_at")
+  completedAt     DateTime? @map("completed_at")
+  failedAt        DateTime? @map("failed_at")
+  failureReason   String?   @map("failure_reason") @db.Text
+  
+  // Cost tracking
+  tokensUsed      Int       @default(0) @map("tokens_used")
+  estimatedCost   Decimal   @default(0) @map("estimated_cost") @db.Decimal(10, 6)
+  
+  // User context
+  userId          String?   @map("user_id")
+  
+  // Relations
+  logs            AgentLog[]
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@index([jobType])
+  @@index([status])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("ai_jobs")
+}
+
+model AgentLog {
+  id              String    @id @default(cuid())
+  
+  // Job reference
+  jobId           String?   @map("job_id")
+  job             AIJob?    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  
+  // Agent info
+  agentName       String    @map("agent_name")
+  agentType       AgentType @map("agent_type")
+  
+  // Log details
+  action          String    // thinking, executing, responding, error
+  message         String    @db.Text
+  inputTokens     Int       @default(0) @map("input_tokens")
+  outputTokens    Int       @default(0) @map("output_tokens")
+  
+  // Model used
+  modelName       String?   @map("model_name")
+  modelProvider   String?   @map("model_provider") // openai, anthropic, cloudflare
+  
+  // Timing
+  durationMs      Int?      @map("duration_ms")
+  
+  // Data
+  metadata        Json?
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([jobId])
+  @@index([agentName])
+  @@index([agentType])
+  @@index([createdAt])
+  @@map("agent_logs")
+}
+
+model AgentMemory {
+  id              String    @id @default(cuid())
+  
+  // Memory type
+  memoryType      MemoryType @map("memory_type")
+  
+  // Content
+  content         String    @db.Text
+  summary         String?   @db.Text
+  
+  // Vector embedding (for semantic search)
+  embedding       Bytes?    // Store as binary for efficiency
+  embeddingModel  String?   @map("embedding_model")
+  
+  // Context
+  userId          String?   @map("user_id")
+  agentName       String?   @map("agent_name")
+  jobId           String?   @map("job_id")
+  
+  // Metadata
+  tags            String[]  @default([])
+  importance      Int       @default(5) // 1-10
+  accessCount     Int       @default(0) @map("access_count")
+  lastAccessedAt  DateTime? @map("last_accessed_at")
+  
+  // Expiry
+  expiresAt       DateTime? @map("expires_at")
+  
+  metadata        Json?
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@index([memoryType])
+  @@index([userId])
+  @@index([agentName])
+  @@index([tags])
+  @@map("agent_memories")
+}
+
+enum AIJobStatus {
+  PENDING
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+  RETRY
+}
+
+enum AgentType {
+  ORCHESTRATOR
+  PLANNER
+  SUPERVISOR
+  CODE
+  RESEARCH
+  SEO
+  BLOG
+  BUSINESS
+  RPA
+  SECURITY
+  REVIEWER
+  RISK
+  COMPLIANCE
+}
+
+enum MemoryType {
+  CONVERSATION
+  TASK_RESULT
+  USER_PREFERENCE
+  SYSTEM_KNOWLEDGE
+  ERROR_PATTERN
+  SUCCESS_PATTERN
+}
+
+// =============================================================================
+// AUTOMATION & WEBHOOKS
+// =============================================================================
+
+model Automation {
+  id              String    @id @default(cuid())
+  
+  // Automation info
+  name            String
+  description     String?   @db.Text
+  
+  // Trigger
+  triggerType     TriggerType @map("trigger_type")
+  triggerConfig   Json      @map("trigger_config")
+  
+  // Actions
+  actions         Json      // Array of action steps
+  
+  // Status
+  isActive        Boolean   @default(true) @map("is_active")
+  
+  // User
+  userId          String    @map("user_id")
+  
+  // Stats
+  runCount        Int       @default(0) @map("run_count")
+  lastRunAt       DateTime? @map("last_run_at")
+  lastRunStatus   String?   @map("last_run_status")
+  
+  // Relations
+  runs            AutomationRun[]
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([triggerType])
+  @@index([isActive])
+  @@map("automations")
+}
+
+model AutomationRun {
+  id              String    @id @default(cuid())
+  
+  automationId    String    @map("automation_id")
+  automation      Automation @relation(fields: [automationId], references: [id], onDelete: Cascade)
+  
+  // Execution
+  status          AutomationStatus @default(RUNNING)
+  startedAt       DateTime  @default(now()) @map("started_at")
+  completedAt     DateTime? @map("completed_at")
+  
+  // Results
+  inputData       Json?     @map("input_data")
+  outputData      Json?     @map("output_data")
+  errorMessage    String?   @map("error_message") @db.Text
+  
+  // Steps
+  stepsCompleted  Int       @default(0) @map("steps_completed")
+  totalSteps      Int       @default(0) @map("total_steps")
+  stepLogs        Json?     @map("step_logs")
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([automationId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("automation_runs")
+}
+
+// Note: Webhook model already exists earlier in schema
+
+model WebhookDelivery {
+  id              String    @id @default(cuid())
+  
+  webhookId       String    @map("webhook_id")
+  
+  // Request
+  eventType       String    @map("event_type")
+  payload         Json
+  
+  // Response
+  statusCode      Int?      @map("status_code")
+  responseBody    String?   @map("response_body") @db.Text
+  responseTimeMs  Int?      @map("response_time_ms")
+  
+  // Status
+  success         Boolean   @default(false)
+  errorMessage    String?   @map("error_message")
+  
+  // Retry
+  attempt         Int       @default(1)
+  nextRetryAt     DateTime? @map("next_retry_at")
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([webhookId])
+  @@index([eventType])
+  @@index([success])
+  @@index([createdAt])
+  @@map("webhook_deliveries")
+}
+
+// Note: TriggerType enum already exists earlier in schema
+
+enum AutomationStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+// =============================================================================
+// INTEGRATIONS
+// =============================================================================
+
+model Integration {
+  id              String    @id @default(cuid())
+  
+  // Integration info
+  name            String
+  provider        String    // stripe, github, slack, etc.
+  
+  // Credentials (encrypted)
+  accessToken     String?   @map("access_token")
+  refreshToken    String?   @map("refresh_token")
+  tokenExpiresAt  DateTime? @map("token_expires_at")
+  
+  // Config
+  config          Json?
+  scopes          String[]  @default([])
+  
+  // Status
+  isActive        Boolean   @default(true) @map("is_active")
+  lastSyncAt      DateTime? @map("last_sync_at")
+  lastError       String?   @map("last_error")
+  
+  // User
+  userId          String    @map("user_id")
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@unique([userId, provider])
+  @@index([userId])
+  @@index([provider])
+  @@map("integrations")
+}
+
+// =============================================================================
+// FILE STORAGE METADATA
+// =============================================================================
+
+model StorageFile {
+  id              String    @id @default(cuid())
+  
+  // File info
+  fileName        String    @map("file_name")
+  originalName    String    @map("original_name")
+  mimeType        String    @map("mime_type")
+  size            Int       // bytes
+  
+  // Storage
+  bucket          String    // blog-images, user-avatars, etc.
+  path            String    // Full path in bucket
+  url             String?   // Public URL if applicable
+  
+  // User
+  userId          String?   @map("user_id")
+  
+  // Metadata
+  metadata        Json?
+  
+  // Status
+  isPublic        Boolean   @default(false) @map("is_public")
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([bucket])
+  @@index([mimeType])
+  @@map("storage_files")
+}
