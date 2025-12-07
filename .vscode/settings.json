@@ -9,17 +9,14 @@
   "git.rebaseWhenSync": true,
   "git.showPushSuccessNotification": true,
   "git.untrackedChanges": "separate",
-  
+
   // Branch Protection
-  "git.branchProtection": [
-    "main",
-    "develop"
-  ],
-  
+  "git.branchProtection": ["main", "develop"],
+
   // Commit Message Validation
   "git.inputValidationLength": 72,
   "git.inputValidationSubjectLength": 50,
-  
+
   // Editor Settings
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -31,18 +28,13 @@
   "editor.detectIndentation": false,
   "editor.insertSpaces": true,
   "editor.trimAutoWhitespace": true,
-  
+
   // ESLint
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "eslint.format.enable": true,
   "eslint.packageManager": "npm",
   "eslint.run": "onSave",
-  
+
   // Prettier
   "prettier.requireConfig": true,
   "prettier.singleQuote": true,
@@ -51,7 +43,7 @@
   "prettier.semi": true,
   "prettier.tabWidth": 2,
   "prettier.useTabs": false,
-  
+
   // Markdown
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
@@ -64,25 +56,25 @@
     "MD013": false,
     "MD041": false
   },
-  
+
   // TypeScript
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.preferences.importModuleSpecifier": "relative",
-  
+
   // Files
   "files.exclude": {
     "**/.git": false,
     "**/.next": true,
     "**/node_modules": true
   },
-  
+
   // Search
   "search.exclude": {
     "**/node_modules": true,
     "**/.next": true,
     "**/package-lock.json": true
   },
-  
+
   // Formatting
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -102,7 +94,7 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  
+
   // Prisma - use Prisma 5 syntax validation
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"

@@ -6,67 +6,67 @@
     "github.vscode-pull-request-github",
     "github.copilot",
     "github.copilot-chat",
-    
+
     // Code Quality & Formatting
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "streetsidesoftware.code-spell-checker",
     "usernamehw.errorlens",
-    
+
     // Frontend Development
     "bradlc.vscode-tailwindcss",
     "dsznajder.es7-react-js-snippets",
     "styled-components.vscode-styled-components",
     "formulahendry.auto-rename-tag",
     "pranaygp.vscode-css-peek",
-    
+
     // TypeScript & JavaScript
     "ms-vscode.vscode-typescript-next",
     "yoavbls.pretty-ts-errors",
     "orta.vscode-jest",
-    
+
     // Backend & API Development
     "humao.rest-client",
     "rangav.vscode-thunder-client",
     "graphql.vscode-graphql",
     "graphql.vscode-graphql-syntax",
-    
+
     // Database
     "mtxr.sqltools",
     "redis.redis-for-vscode",
-    
+
     // Docker & Kubernetes
     "ms-azuretools.vscode-docker",
     "ms-kubernetes-tools.vscode-kubernetes-tools",
     "redhat.vscode-yaml",
-    
+
     // DevOps & Infrastructure
     "hashicorp.terraform",
     "ms-vscode-remote.remote-containers",
     "ms-vscode-remote.remote-ssh",
-    
+
     // Testing
     "orta.vscode-jest",
     "hbenl.vscode-test-explorer",
     "ryanluker.vscode-coverage-gutters",
-    
+
     // Productivity
     "gruntfuggly.todo-tree",
     "aaron-bond.better-comments",
     "wayou.vscode-todo-highlight",
     "alefragnani.bookmarks",
-    
+
     // Documentation
     "yzhang.markdown-all-in-one",
     "bierner.markdown-mermaid",
     "davidanson.vscode-markdownlint",
-    
+
     // Utilities
     "christian-kohler.path-intellisense",
     "visualstudioexptteam.vscodeintellicode",
     "ms-vscode.live-server",
     "ritwickdey.liveserver",
-    
+
     // Theme & Icons
     "pkief.material-icon-theme",
     "github.github-vscode-theme"

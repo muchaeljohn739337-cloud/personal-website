@@ -42,6 +42,7 @@ git push -u origin develop
 ### 4. Configure GitHub Actions Secrets (Optional)
 
 For deployment tracking script:
+
 - Go to: `Settings` → `Secrets and variables` → `Actions`
 - Add: `GITHUB_TOKEN` (auto-provided by GitHub Actions)
 
@@ -92,6 +93,7 @@ npm run check:deploy
 ```
 
 This script shows:
+
 - ✅ Successful deployments
 - ❌ Failed deployments (with IDs for cleanup)
 - ⏳ In-progress deployments
@@ -123,10 +125,12 @@ git fetch --prune
 ### Automated Cleanup
 
 The `.github/workflows/cleanup.yml` runs daily at 2 AM UTC:
+
 - Deletes build artifacts older than 7 days
 - Deletes workflow runs older than 30 days
 
 Manual trigger:
+
 1. Go to `Actions` tab
 2. Select "Cleanup Failed Deployments"
 3. Click "Run workflow"
@@ -136,6 +140,7 @@ Manual trigger:
 ### Recommended Extensions
 
 Install these extensions (already configured in `.vscode/extensions.json`):
+
 - **GitLens** - Enhanced Git visualization
 - **Git Graph** - Visual branch history
 - **GitHub Pull Requests** - Manage PRs in VS Code
@@ -143,6 +148,7 @@ Install these extensions (already configured in `.vscode/extensions.json`):
 ### Git Settings
 
 The `.vscode/settings.json` configures:
+
 - Auto-fetch from remote every 3 minutes
 - Auto-stash before pull/rebase
 - Rebase instead of merge on pull

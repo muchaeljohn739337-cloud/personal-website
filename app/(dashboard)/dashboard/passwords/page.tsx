@@ -135,6 +135,7 @@ export default function PasswordManagerPage() {
     if (isUnlocked && masterKey) {
       fetchPasswords();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUnlocked, masterKey]);
 
   // Check if master key exists in localStorage

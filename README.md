@@ -32,6 +32,7 @@ Open [http://localhost:3000](http://localhost:3000)
 ## Customization
 
 Edit `app/page.tsx` to update:
+
 - Personal information and bio
 - Skills and experience
 - Project portfolio

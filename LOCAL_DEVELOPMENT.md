@@ -82,17 +82,17 @@ npm run workers:dev
 
 ### Running Services
 
-| Service | Port | URL | Credentials |
-|---------|------|-----|-------------|
-| **Frontend** | 3000 | <http://localhost:3000> | - |
-| **API** | 4000 | <http://localhost:4000> | - |
-| **Redis** | 6379 | localhost:6379 | devredispass |
-| **MinIO** | 9000 | <http://localhost:9000> | minioadmin / minioadmin123 |
-| **MinIO Console** | 9001 | <http://localhost:9001> | minioadmin / minioadmin123 |
-| **Mailhog** | 8025 | <http://localhost:8025> | - |
-| **Redis Commander** | 8081 | <http://localhost:8081> | - |
-| **Prometheus** | 9090 | <http://localhost:9090> | - |
-| **Grafana** | 3001 | <http://localhost:3001> | admin / admin123 |
+| Service             | Port | URL                     | Credentials                |
+| ------------------- | ---- | ----------------------- | -------------------------- |
+| **Frontend**        | 3000 | <http://localhost:3000> | -                          |
+| **API**             | 4000 | <http://localhost:4000> | -                          |
+| **Redis**           | 6379 | localhost:6379          | devredispass               |
+| **MinIO**           | 9000 | <http://localhost:9000> | minioadmin / minioadmin123 |
+| **MinIO Console**   | 9001 | <http://localhost:9001> | minioadmin / minioadmin123 |
+| **Mailhog**         | 8025 | <http://localhost:8025> | -                          |
+| **Redis Commander** | 8081 | <http://localhost:8081> | -                          |
+| **Prometheus**      | 9090 | <http://localhost:9090> | -                          |
+| **Grafana**         | 3001 | <http://localhost:3001> | admin / admin123           |
 
 ### Docker Commands
 

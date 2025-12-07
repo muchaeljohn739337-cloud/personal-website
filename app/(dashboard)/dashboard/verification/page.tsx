@@ -94,6 +94,7 @@ export default function VerificationPage() {
       }
     }, 5000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchData, activeVerifications]);
 
   const checkAllCodes = async () => {

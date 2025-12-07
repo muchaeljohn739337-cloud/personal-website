@@ -1,12 +1,15 @@
 # Branch Protection Setup Guide
 
 ## Overview
+
 This document outlines the branch protection rules for senior-level Git workflow management.
 
 ## Protected Branches
 
 ### `main` Branch (Production)
+
 **Protection Rules:**
+
 - ✅ Require pull request reviews before merging (1 approval minimum)
 - ✅ Require status checks to pass before merging
   - `lint-and-type-check`
@@ -21,7 +24,9 @@ This document outlines the branch protection rules for senior-level Git workflow
 - ❌ Allow deletions: Disabled
 
 ### `develop` Branch (Staging)
+
 **Protection Rules:**
+
 - ✅ Require pull request reviews before merging (1 approval)
 - ✅ Require status checks to pass before merging
   - `lint-and-type-check`
@@ -67,6 +72,7 @@ hotfix/* (emergency fixes)
 ## Automated Checks
 
 All pull requests automatically run:
+
 - **Linting**: ESLint checks code quality
 - **Type Checking**: TypeScript validation
 - **Build**: Ensures code compiles successfully
@@ -75,6 +81,7 @@ All pull requests automatically run:
 ## Deployment Tracking
 
 Failed deployments are automatically cleaned up:
+
 - Build artifacts older than 7 days are deleted
 - Workflow runs older than 30 days are deleted
 - Manual cleanup can be triggered via Actions tab
@@ -104,6 +111,7 @@ git push origin --delete feature/your-feature-name
 ## VS Code Integration
 
 The `.vscode/settings.json` file configures:
+
 - Auto-fetch from remote
 - Rebase on pull
 - Auto-stash before operations
