@@ -751,6 +751,111 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Proxy & Security Section */}
+      <section className="relative z-10 py-32 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+              <FiShield className="w-4 h-4 text-emerald-400" />
+              <span className="text-sm text-gray-400">Speed, Security & Scale</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                Enterprise-Grade
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                Proxy Infrastructure
+              </span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Tools to browse, scrape and manage online activity with ease.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: FiGlobe,
+                title: 'Global Coverage',
+                description:
+                  'Access IPs from multiple countries with fast, consistent connections.',
+                gradient: 'from-blue-500 to-cyan-500',
+              },
+              {
+                icon: FiRefreshCw,
+                title: 'Unlimited Rotations',
+                description: 'Rotate IPs automatically to avoid bans and throttling.',
+                gradient: 'from-violet-500 to-purple-500',
+              },
+              {
+                icon: FiLock,
+                title: 'Secure & Encrypted',
+                description: 'Stay anonymous with strong encryption and zero-logging.',
+                gradient: 'from-emerald-500 to-green-500',
+              },
+              {
+                icon: FiZap,
+                title: 'High Speed',
+                description: 'Enjoy fast response times and low-latency proxy servers.',
+                gradient: 'from-amber-500 to-orange-500',
+              },
+              {
+                icon: FiCpu,
+                title: 'Easy Integration',
+                description: 'Simple API integration with comprehensive documentation.',
+                gradient: 'from-pink-500 to-rose-500',
+              },
+              {
+                icon: FiActivity,
+                title: 'Real-Time Dashboard',
+                description: 'Monitor usage, performance and manage your proxies with ease.',
+                gradient: 'from-indigo-500 to-blue-500',
+              },
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 hover:border-white/20 transition-all duration-300 hover:transform hover:scale-105"
+              >
+                <div
+                  className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl"
+                  style={{
+                    backgroundImage: `linear-gradient(to bottom right, var(--tw-gradient-stops))`,
+                  }}
+                />
+                <div
+                  className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 shadow-lg`}
+                >
+                  <feature.icon className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-400">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Trust indicators */}
+          <div className="mt-16 flex flex-wrap items-center justify-center gap-8 text-gray-500">
+            <div className="flex items-center gap-2">
+              <FiCheckCircle className="w-5 h-5 text-emerald-400" />
+              <span>99.9% Uptime</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FiCheckCircle className="w-5 h-5 text-emerald-400" />
+              <span>195+ Countries</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FiCheckCircle className="w-5 h-5 text-emerald-400" />
+              <span>10M+ IPs</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FiCheckCircle className="w-5 h-5 text-emerald-400" />
+              <span>24/7 Support</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="pricing" className="relative z-10 py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
