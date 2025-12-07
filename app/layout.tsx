@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import AIChat from '@/components/AIChat';
 import { Providers } from '@/components/providers';
+import { LoadingScreen } from '@/components/ui/loading-screen';
 
 const inter = Inter({
   variable: '--font-geist-sans',
@@ -44,6 +45,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <Providers>
+          <LoadingScreen />
           {children}
           <AIChat />
         </Providers>

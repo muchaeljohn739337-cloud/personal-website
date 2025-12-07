@@ -150,3 +150,14 @@ body {
   outline: none;
   box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
 }
+
+/* Loading Bar Animation */
+@keyframes loading-bar {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-loading-bar {
+  animation: loading-bar 1.5s ease-in-out infinite;
+}
