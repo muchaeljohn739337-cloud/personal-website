@@ -25,6 +25,8 @@ import {
   FiMenu,
   FiX,
   FiStar,
+  FiCheckCircle,
+  FiRefreshCw,
 } from 'react-icons/fi';
 import { SiStripe, SiVisa, SiMastercard, SiPaypal, SiCoinbase, SiSquare } from 'react-icons/si';
 
@@ -132,6 +134,12 @@ export default function Home() {
                   {item}
                 </a>
               ))}
+              <Link
+                href="/faq"
+                className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+              >
+                FAQ
+              </Link>
             </div>
 
             <div className="hidden lg:flex items-center gap-4">
@@ -178,6 +186,13 @@ export default function Home() {
                   {item}
                 </a>
               ))}
+              <Link
+                href="/faq"
+                className="block px-4 py-2 text-gray-400 hover:text-white"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                FAQ
+              </Link>
               <div className="pt-4 border-t border-white/10 space-y-3">
                 <Link href="/auth/login" className="block px-4 py-2 text-gray-400 hover:text-white">
                   Sign In
@@ -220,8 +235,8 @@ export default function Home() {
 
               {/* Description */}
               <p className="text-xl text-gray-400 max-w-xl leading-relaxed">
-                Enterprise-grade payment infrastructure with AI-powered fraud detection, real-time
-                analytics, and seamless multi-currency support.
+                Join <span className="text-white font-semibold">50,000+ businesses</span> who trust
+                Advancia for secure, lightning-fast payment processing. Start risk-free today.
               </p>
 
               {/* CTA Buttons */}
@@ -230,13 +245,13 @@ export default function Home() {
                   href="/auth/register"
                   className="group relative px-8 py-4 text-lg font-semibold overflow-hidden rounded-2xl"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-purple-500" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,white,transparent_70%)]" />
                   </div>
                   <span className="relative text-white flex items-center justify-center gap-2">
-                    Start Free Trial
+                    Start Free Trial — No Risk
                     <FiArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
@@ -249,19 +264,41 @@ export default function Home() {
                 </a>
               </div>
 
-              {/* Trust Badges */}
+              {/* Trust Badges Row 1 */}
               <div className="flex flex-wrap items-center gap-6 pt-4">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <FiCheck className="w-4 h-4 text-violet-400" />
+                  <FiCheckCircle className="w-4 h-4 text-green-400" />
                   No credit card required
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <FiCheck className="w-4 h-4 text-violet-400" />
+                  <FiCheckCircle className="w-4 h-4 text-green-400" />
                   14-day free trial
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <FiCheck className="w-4 h-4 text-violet-400" />
+                  <FiCheckCircle className="w-4 h-4 text-green-400" />
                   Cancel anytime
+                </div>
+              </div>
+
+              {/* 30-Day Money Back Guarantee Badge */}
+              <div className="flex items-center gap-4 pt-2">
+                <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border border-amber-500/20">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                    <FiRefreshCw className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-amber-400">30-Day Money Back</p>
+                    <p className="text-xs text-gray-500">100% Satisfaction Guaranteed</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-green-500/20">
+                    <FiShield className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-green-400">Bank-Level Security</p>
+                    <p className="text-xs text-gray-500">256-bit SSL Encryption</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -919,22 +956,54 @@ export default function Home() {
             {[
               { title: 'Product', links: ['Features', 'Pricing', 'API Docs', 'Integrations'] },
               { title: 'Company', links: ['About', 'Blog', 'Careers', 'Press'] },
-              { title: 'Legal', links: ['Privacy', 'Terms', 'Security', 'Compliance'] },
+              { title: 'Support', links: ['FAQ', 'Help Center', 'Contact', '24/7 Live Chat'] },
             ].map((section, i) => (
               <div key={i}>
                 <h4 className="font-semibold mb-4">{section.title}</h4>
                 <ul className="space-y-3">
                   {section.links.map((link, j) => (
                     <li key={j}>
-                      <span className="text-gray-500 hover:text-white transition-colors text-sm cursor-pointer">
-                        {link}
-                      </span>
+                      {link === 'FAQ' ? (
+                        <Link
+                          href="/faq"
+                          className="text-gray-500 hover:text-white transition-colors text-sm"
+                        >
+                          {link}
+                        </Link>
+                      ) : (
+                        <span className="text-gray-500 hover:text-white transition-colors text-sm cursor-pointer">
+                          {link}
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
+
+          {/* Trust Footer Badges */}
+          <div className="border-t border-white/5 pt-8 pb-8">
+            <div className="flex flex-wrap justify-center gap-6 mb-8">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20">
+                <FiCheckCircle className="w-4 h-4 text-green-400" />
+                <span className="text-sm text-green-400 font-medium">Verified Platform</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20">
+                <FiRefreshCw className="w-4 h-4 text-amber-400" />
+                <span className="text-sm text-amber-400 font-medium">30-Day Money Back</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20">
+                <FiShield className="w-4 h-4 text-violet-400" />
+                <span className="text-sm text-violet-400 font-medium">SOC 2 Certified</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20">
+                <FiLock className="w-4 h-4 text-blue-400" />
+                <span className="text-sm text-blue-400 font-medium">256-bit SSL</span>
+              </div>
+            </div>
+          </div>
+
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-gray-500">© 2024 Advancia PayLedger. All rights reserved.</p>
             <div className="flex items-center gap-6 text-sm text-gray-500">
@@ -944,8 +1013,8 @@ export default function Home() {
               <Link href="/terms" className="hover:text-white transition-colors">
                 Terms of Service
               </Link>
-              <Link href="/cookies" className="hover:text-white transition-colors">
-                Cookie Policy
+              <Link href="/faq" className="hover:text-white transition-colors">
+                FAQ
               </Link>
             </div>
           </div>
