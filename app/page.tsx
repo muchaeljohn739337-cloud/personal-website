@@ -27,6 +27,7 @@ import {
   FiStar,
   FiCheckCircle,
   FiRefreshCw,
+  FiHeart,
 } from 'react-icons/fi';
 import { SiStripe, SiVisa, SiMastercard, SiPaypal, SiCoinbase, SiSquare } from 'react-icons/si';
 
@@ -140,6 +141,13 @@ export default function Home() {
               >
                 FAQ
               </Link>
+              <Link
+                href="/medbed"
+                className="px-4 py-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors rounded-lg hover:bg-emerald-500/10 flex items-center gap-1"
+              >
+                <FiHeart className="w-3 h-3" />
+                MedBed
+              </Link>
             </div>
 
             <div className="hidden lg:flex items-center gap-4">
@@ -192,6 +200,14 @@ export default function Home() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 FAQ
+              </Link>
+              <Link
+                href="/medbed"
+                className="block px-4 py-2 text-emerald-400 hover:text-emerald-300 flex items-center gap-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FiHeart className="w-4 h-4" />
+                MedBed
               </Link>
               <div className="pt-4 border-t border-white/10 space-y-3">
                 <Link href="/auth/login" className="block px-4 py-2 text-gray-400 hover:text-white">
@@ -360,29 +376,47 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Floating Cards */}
-              <div className="absolute -top-8 -right-8 bg-gradient-to-br from-violet-500/20 to-purple-500/20 backdrop-blur-xl rounded-2xl border border-white/10 p-4 shadow-xl animate-float">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center">
-                    <FiZap className="w-5 h-5 text-violet-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">Instant Settlement</p>
-                    <p className="text-xs text-gray-400">{'< 2 seconds'}</p>
+              {/* Floating Cards - Enhanced */}
+              <div className="absolute -top-8 -right-8 group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition-opacity" />
+                <div className="relative bg-gradient-to-br from-emerald-500/20 to-teal-500/20 backdrop-blur-xl rounded-2xl border border-emerald-500/30 p-4 shadow-xl animate-float">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                      <FiZap className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-emerald-400">Instant Settlement</p>
+                      <p className="text-2xl font-bold">{'< 2s'}</p>
+                      <p className="text-xs text-gray-500">Quantum-encrypted</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute -bottom-4 -left-8 bg-gradient-to-br from-violet-500/20 to-teal-500/20 backdrop-blur-xl rounded-2xl border border-white/10 p-4 shadow-xl animate-float-delayed">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center">
-                    <FiShield className="w-5 h-5 text-violet-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">Fraud Blocked</p>
-                    <p className="text-xs text-gray-400">$1.2M saved today</p>
+              <div className="absolute -bottom-4 -left-8 group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition-opacity" />
+                <div className="relative bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-xl rounded-2xl border border-red-500/30 p-4 shadow-xl animate-float-delayed">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center shadow-lg shadow-red-500/30">
+                      <FiShield className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-red-400">Fraud Blocked</p>
+                      <p className="text-2xl font-bold">$1.2M</p>
+                      <p className="text-xs text-gray-500">Saved today</p>
+                    </div>
                   </div>
                 </div>
+              </div>
+
+              {/* MedBed Quick Access */}
+              <div className="absolute top-1/2 -right-16 group">
+                <Link href="/medbed">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full blur opacity-40 group-hover:opacity-60 transition-opacity" />
+                  <div className="relative w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center shadow-xl animate-pulse cursor-pointer hover:scale-110 transition-transform">
+                    <FiHeart className="w-6 h-6 text-white" />
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
