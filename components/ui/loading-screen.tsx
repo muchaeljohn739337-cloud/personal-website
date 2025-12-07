@@ -12,7 +12,7 @@ export function LoadingScreen() {
       setFadeOut(true);
       // Remove from DOM after animation
       setTimeout(() => setIsLoading(false), 500);
-    }, 1500);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -21,47 +21,133 @@ export function LoadingScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950 transition-opacity duration-500 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      {/* Logo */}
-      <div className="relative mb-8">
-        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 shadow-2xl shadow-blue-500/30">
-          <svg
-            className="h-14 w-14 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1.5}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
-            />
-          </svg>
+      {/* Water ripple background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="animate-ripple-1 h-[600px] w-[600px] rounded-full border border-blue-500/20" />
         </div>
-        {/* Pulse ring animation */}
-        <div className="absolute inset-0 animate-ping rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 opacity-20" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="animate-ripple-2 h-[400px] w-[400px] rounded-full border border-cyan-500/20" />
+        </div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="animate-ripple-3 h-[200px] w-[200px] rounded-full border border-indigo-500/20" />
+        </div>
+      </div>
+
+      {/* Logo with water splash */}
+      <div className="relative mb-8">
+        {/* Water splash particles */}
+        <div className="absolute -inset-8">
+          {/* Splash droplets */}
+          <div className="animate-splash-1 absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full bg-gradient-to-b from-cyan-400 to-blue-500 opacity-80" />
+          <div className="animate-splash-2 absolute right-0 top-1/4 h-2 w-2 rounded-full bg-gradient-to-b from-blue-400 to-indigo-500 opacity-80" />
+          <div className="animate-splash-3 absolute bottom-0 left-1/4 h-2.5 w-2.5 rounded-full bg-gradient-to-b from-cyan-300 to-blue-400 opacity-80" />
+          <div className="animate-splash-4 absolute left-0 top-1/3 h-2 w-2 rounded-full bg-gradient-to-b from-blue-300 to-cyan-500 opacity-80" />
+          <div className="animate-splash-5 absolute bottom-1/4 right-1/4 h-1.5 w-1.5 rounded-full bg-gradient-to-b from-indigo-400 to-blue-500 opacity-80" />
+          <div className="animate-splash-6 absolute right-1/3 top-0 h-2 w-2 rounded-full bg-gradient-to-b from-cyan-400 to-blue-400 opacity-80" />
+        </div>
+
+        {/* Main logo container */}
+        <div className="relative flex h-28 w-28 items-center justify-center">
+          {/* Glowing background */}
+          <div className="absolute inset-0 animate-pulse rounded-2xl bg-gradient-to-br from-cyan-500/30 via-blue-500/30 to-indigo-500/30 blur-xl" />
+
+          {/* Logo background */}
+          <div className="relative flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-600 shadow-2xl shadow-blue-500/50">
+            {/* AP Logo - Advancia PayLedger */}
+            <svg viewBox="0 0 100 100" className="h-16 w-16" fill="none">
+              {/* Outer ring */}
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                stroke="url(#logoGradient)"
+                strokeWidth="2"
+                opacity="0.5"
+              />
+
+              {/* A letter stylized */}
+              <path
+                d="M30 70 L50 25 L70 70 M38 55 L62 55"
+                stroke="white"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+
+              {/* P letter integrated */}
+              <path
+                d="M50 25 L50 70 M50 25 C65 25 70 35 70 42 C70 49 65 55 50 55"
+                stroke="url(#logoGradient2)"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+                opacity="0.8"
+              />
+
+              {/* Water drop accent */}
+              <path
+                d="M50 75 C50 75 42 82 42 87 C42 92 46 95 50 95 C54 95 58 92 58 87 C58 82 50 75 50 75Z"
+                fill="url(#dropGradient)"
+                className="animate-pulse"
+              />
+
+              {/* Gradients */}
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#22d3ee" />
+                  <stop offset="100%" stopColor="#818cf8" />
+                </linearGradient>
+                <linearGradient id="logoGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#67e8f9" />
+                  <stop offset="100%" stopColor="#a5b4fc" />
+                </linearGradient>
+                <linearGradient id="dropGradient" x1="50%" y1="0%" x2="50%" y2="100%">
+                  <stop offset="0%" stopColor="#22d3ee" />
+                  <stop offset="100%" stopColor="#3b82f6" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        {/* Water ring animation */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="animate-water-ring-1 h-24 w-24 rounded-2xl border-2 border-cyan-400/40" />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="animate-water-ring-2 h-24 w-24 rounded-2xl border border-blue-400/30" />
+        </div>
       </div>
 
       {/* Brand name */}
-      <h1 className="mb-2 bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent">
+      <h1 className="mb-2 bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-3xl font-bold text-transparent">
         Advancia PayLedger
       </h1>
       <p className="mb-8 text-sm text-slate-400">The Future of Digital Payments</p>
 
-      {/* Loading spinner */}
-      <div className="flex items-center gap-3">
-        <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.3s]" />
-        <div className="h-2 w-2 animate-bounce rounded-full bg-indigo-500 [animation-delay:-0.15s]" />
-        <div className="h-2 w-2 animate-bounce rounded-full bg-purple-500" />
+      {/* Water wave loading indicator */}
+      <div className="relative h-12 w-48 overflow-hidden rounded-full bg-slate-800/50 backdrop-blur">
+        <div className="animate-wave absolute inset-0 bg-gradient-to-r from-cyan-500/30 via-blue-500/30 to-indigo-500/30" />
+        <div className="animate-wave-2 absolute inset-0 bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-blue-500/20" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-xs font-medium text-cyan-300">Loading...</span>
+        </div>
       </div>
 
-      {/* Loading bar */}
-      <div className="mt-8 h-1 w-48 overflow-hidden rounded-full bg-slate-800">
-        <div className="h-full w-full animate-loading-bar rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
+      {/* Bottom water drops */}
+      <div className="mt-8 flex items-end gap-2">
+        <div className="animate-drop-1 h-4 w-2 rounded-full bg-gradient-to-b from-cyan-400 to-blue-500" />
+        <div className="animate-drop-2 h-6 w-2 rounded-full bg-gradient-to-b from-blue-400 to-indigo-500" />
+        <div className="animate-drop-3 h-5 w-2 rounded-full bg-gradient-to-b from-cyan-300 to-blue-400" />
+        <div className="animate-drop-4 h-4 w-2 rounded-full bg-gradient-to-b from-blue-400 to-cyan-500" />
+        <div className="animate-drop-5 h-6 w-2 rounded-full bg-gradient-to-b from-indigo-400 to-blue-500" />
       </div>
     </div>
   );
