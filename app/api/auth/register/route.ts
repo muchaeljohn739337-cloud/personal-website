@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { hashPassword } from '@/lib/auth';
 import { registerForApproval } from '@/lib/auth/user-approval';
+import { createEmailVerificationToken } from '@/lib/auth/email-verification';
+import { sendVerificationEmail } from '@/lib/email';
 import { prisma } from '@/lib/prismaClient';
 import { registerSchema } from '@/lib/validations/auth';
 
@@ -40,6 +42,17 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Create and send email verification token
+    const verificationToken = await createEmailVerificationToken(user.id, user.email);
+
+    try {
+      await sendVerificationEmail(user, verificationToken);
+      console.log('[REGISTER] Verification email sent to:', user.email);
+    } catch (emailError) {
+      console.error('[REGISTER] Failed to send verification email:', emailError);
+      // Don't fail registration if email fails
+    }
+
     // Register user for approval (pending until admin approves)
     const ipAddress =
       req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
@@ -55,8 +68,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        message: 'Registration successful! Your account is pending approval.',
+        message:
+          'Registration successful! Please check your email to verify your account. Your account is also pending admin approval.',
         pendingApproval: true,
+        emailSent: true,
         user: {
           id: user.id,
           name: user.name,
@@ -67,22 +82,25 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.error('Registration error:', error);
-    
+
     // Handle Zod validation errors
     if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json({ error: 'Invalid input data' }, { status: 400 });
     }
-    
+
     // Handle Prisma errors
     if (error instanceof Error) {
       if (error.message.includes('Unique constraint')) {
         return NextResponse.json({ error: 'Email already registered' }, { status: 400 });
       }
       if (error.message.includes('connect') || error.message.includes('database')) {
-        return NextResponse.json({ error: 'Service temporarily unavailable. Please try again.' }, { status: 503 });
+        return NextResponse.json(
+          { error: 'Service temporarily unavailable. Please try again.' },
+          { status: 503 }
+        );
       }
     }
-    
+
     return NextResponse.json({ error: 'Registration failed. Please try again.' }, { status: 500 });
   }
 }

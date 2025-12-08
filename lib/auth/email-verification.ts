@@ -134,8 +134,15 @@ export async function resendVerificationEmail(email: string): Promise<{
 
   const token = await createEmailVerificationToken(user.id, email);
 
-  // In production, send email here
-  // await sendVerificationEmail(email, token);
+  // Send verification email
+  try {
+    const { sendVerificationEmail } = await import('@/lib/email');
+    await sendVerificationEmail(user, token);
+    console.log('[EMAIL_VERIFICATION] Verification email sent to:', email);
+  } catch (emailError) {
+    console.error('[EMAIL_VERIFICATION] Failed to send email:', emailError);
+    // Continue anyway, return the token in dev mode
+  }
 
   return {
     success: true,
