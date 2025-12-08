@@ -331,7 +331,10 @@ export function getWorkflowRun(runId: string): WorkflowRun | undefined {
   return workflowRuns.get(runId);
 }
 
-export async function executeWorkflow(workflowId: string, context: Record<string, unknown> = {}): Promise<string> {
+export async function executeWorkflow(
+  workflowId: string,
+  context: Record<string, unknown> = {}
+): Promise<string> {
   const workflow = workflows.get(workflowId);
   if (!workflow) throw new Error(`Workflow not found: ${workflowId}`);
   if (!workflow.enabled) throw new Error(`Workflow is disabled: ${workflowId}`);
@@ -414,10 +417,7 @@ async function executeStep(step: WorkflowStep, context: Record<string, unknown>)
     switch (step.action) {
       case 'ai_task': {
         const orchestrator = getOrchestrator();
-        const taskId = await orchestrator.submitTask(
-          step.config.task as string,
-          context
-        );
+        const taskId = await orchestrator.submitTask(step.config.task as string, context);
         // Wait for completion (simplified)
         await new Promise((resolve) => setTimeout(resolve, 5000));
         return orchestrator.getTaskStatus(taskId);
@@ -471,9 +471,7 @@ async function executeStep(step: WorkflowStep, context: Record<string, unknown>)
 
   return Promise.race([
     executeWithTimeout(),
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Step timeout')), timeout)
-    ),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Step timeout')), timeout)),
   ]);
 }
 
@@ -487,7 +485,7 @@ export function startWorkflowScheduler(): void {
   // Check every minute for scheduled workflows
   setInterval(() => {
     const now = new Date();
-    
+
     workflows.forEach((workflow) => {
       if (!workflow.enabled) return;
       if (workflow.trigger.type !== 'schedule') return;

@@ -75,10 +75,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error('[Workflows API] Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch workflows' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch workflows' }, { status: 500 });
   }
 }
 

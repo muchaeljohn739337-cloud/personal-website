@@ -1,18 +1,14 @@
 {
   "default": true,
-  "line-length": false,
-  "no-inline-html": {
-    "allowed_elements": ["kbd", "summary", "details"]
+  "MD013": {
+    "line_length": 120,
+    "code_blocks": false,
+    "tables": false
   },
-  "no-trailing-punctuation": {
-    "punctuation": ".,;:!"
-  },
-  "no-multiple-blanks": {
-    "maximum": 2
-  },
-  "no-duplicate-heading": {
-    "siblings_only": true
-  },
-  "single-h1": false,
-  "no-trailing-spaces": true
+  "MD029": false,
+  "MD033": false,
+  "MD034": false,
+  "MD036": false,
+  "MD040": false,
+  "MD041": false
 }

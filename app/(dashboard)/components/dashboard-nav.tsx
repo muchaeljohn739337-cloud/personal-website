@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { useState } from 'react';
 
+import { Logo } from '@/components/Logo';
 import { Button } from '@/components/ui/button';
 
 interface DashboardNavProps {
@@ -20,31 +21,14 @@ export function DashboardNav({ user }: DashboardNavProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl">
-      <div className="flex h-16 items-center justify-between px-4 lg:px-8">
+    <nav className="sticky top-0 z-50 border-b border-slate-800/50 bg-slate-950/95 backdrop-blur-xl">
+      <div className="flex h-14 items-center justify-between px-4 lg:px-6">
         {/* Logo & Mobile Menu */}
         <div className="flex items-center gap-4">
           <button className="lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             <Menu className="h-6 w-6 text-slate-400" />
           </button>
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-400 to-blue-500 shadow-lg shadow-violet-500/25">
-              <svg
-                className="h-5 w-5 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-            </div>
-            <span className="hidden text-xl font-bold text-white sm:block">Advancia</span>
-          </Link>
+          <Logo variant="compact" href="/dashboard" />
         </div>
 
         {/* Right Side */}

@@ -189,7 +189,9 @@ export async function middleware(request: NextRequest) {
     const userRole = token.role as string;
     if (userRole !== 'ADMIN' && userRole !== 'SUPER_ADMIN') {
       // Non-admin trying to access admin routes
-      console.log(`[SECURITY] Unauthorized admin access attempt by ${token.email} (role: ${userRole})`);
+      console.log(
+        `[SECURITY] Unauthorized admin access attempt by ${token.email} (role: ${userRole})`
+      );
       return NextResponse.redirect(new URL('/dashboard?error=unauthorized', request.url));
     }
   }
@@ -200,7 +202,9 @@ export async function middleware(request: NextRequest) {
     const userRole = token.role as string;
     if (userRole !== 'SUPER_ADMIN') {
       // Non-super-admin trying to access super admin routes
-      console.log(`[SECURITY] Unauthorized super admin access attempt by ${token.email} (role: ${userRole})`);
+      console.log(
+        `[SECURITY] Unauthorized super admin access attempt by ${token.email} (role: ${userRole})`
+      );
       return NextResponse.redirect(new URL('/admin?error=insufficient_privileges', request.url));
     }
   }

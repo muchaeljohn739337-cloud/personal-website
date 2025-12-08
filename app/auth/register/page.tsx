@@ -178,9 +178,13 @@ export default function RegisterPage() {
             />
             <label htmlFor="terms" className="text-sm text-slate-400 cursor-pointer">
               I agree to the{' '}
-              <Link href="/terms" className="text-emerald-400 hover:text-emerald-300">Terms</Link>
+              <Link href="/terms" className="text-emerald-400 hover:text-emerald-300">
+                Terms
+              </Link>
               {' & '}
-              <Link href="/privacy" className="text-emerald-400 hover:text-emerald-300">Privacy</Link>
+              <Link href="/privacy" className="text-emerald-400 hover:text-emerald-300">
+                Privacy
+              </Link>
             </label>
           </div>
 

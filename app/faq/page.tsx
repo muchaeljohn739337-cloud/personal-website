@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
+import { useState } from 'react';
 import {
-  FiChevronDown,
-  FiShield,
-  FiHelpCircle,
-  FiHeadphones,
-  FiMail,
   FiArrowRight,
   FiCheckCircle,
-  FiLock,
-  FiRefreshCw,
+  FiChevronDown,
+  FiHeadphones,
+  FiHelpCircle,
   FiHexagon,
+  FiLock,
+  FiMail,
+  FiRefreshCw,
+  FiShield,
 } from 'react-icons/fi';
 
 const faqs = [
@@ -29,7 +29,7 @@ const faqs = [
       },
       {
         q: 'What payment methods do you accept?',
-        a: 'We accept all major credit cards (Visa, Mastercard, American Express), PayPal, bank transfers, and cryptocurrency payments including Bitcoin and Ethereum. Choose what works best for your business.',
+        a: 'We accept all major credit cards (Visa, Mastercard, American Express), bank transfers, and cryptocurrency payments including Bitcoin and Ethereum. Choose what works best for your business.',
       },
     ],
   },

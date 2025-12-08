@@ -9,7 +9,7 @@ main = ".open-next/worker.js"
 # Non-sensitive environment variables
 [vars]
 NODE_VERSION = "20"
-NEXTAUTH_URL = "https://advancia.io"
+NEXTAUTH_URL = "https://advanciapayledger.com"
 NODE_ENV = "production"
 
 # R2 Storage Buckets
@@ -24,17 +24,57 @@ bucket = ".open-next/assets"
 # =============================================================================
 # SECRETS (must be added via CLI or Dashboard - NOT in this file)
 # =============================================================================
-# Run these commands to add secrets:
+# Run these commands to add secrets for production:
 #
-# npx wrangler secret put DATABASE_URL
-# npx wrangler secret put NEXTAUTH_SECRET
-# npx wrangler secret put GOOGLE_CLIENT_ID
-# npx wrangler secret put GOOGLE_CLIENT_SECRET
-# npx wrangler secret put GITHUB_CLIENT_ID
-# npx wrangler secret put GITHUB_CLIENT_SECRET
-# npx wrangler secret put RESEND_API_KEY
-# npx wrangler secret put STRIPE_SECRET_KEY
-# npx wrangler secret put STRIPE_WEBHOOK_SECRET
+# Core Secrets
+# npx wrangler secret put DATABASE_URL --env production
+# npx wrangler secret put NEXTAUTH_SECRET --env production
+# npx wrangler secret put JWT_SECRET --env production
+# npx wrangler secret put SESSION_SECRET --env production
+#
+# OAuth
+# npx wrangler secret put GOOGLE_CLIENT_ID --env production
+# npx wrangler secret put GOOGLE_CLIENT_SECRET --env production
+# npx wrangler secret put GITHUB_CLIENT_ID --env production
+# npx wrangler secret put GITHUB_CLIENT_SECRET --env production
+#
+# Payment - Stripe
+# npx wrangler secret put STRIPE_SECRET_KEY --env production
+# npx wrangler secret put NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY --env production
+# npx wrangler secret put STRIPE_WEBHOOK_SECRET --env production
+#
+# Payment - LemonSqueezy
+# npx wrangler secret put LEMONSQUEEZY_API_KEY --env production
+# npx wrangler secret put LEMONSQUEEZY_STORE_ID --env production
+# npx wrangler secret put LEMONSQUEEZY_WEBHOOK_SECRET --env production
+#
+# Payment - NOWPayments
+# npx wrangler secret put NOWPAYMENTS_API_KEY --env production
+# npx wrangler secret put NOWPAYMENTS_IPN_SECRET --env production
+#
+# Payment - Alchemy Pay
+# npx wrangler secret put ALCHEMY_PAY_APP_ID --env production
+# npx wrangler secret put ALCHEMY_PAY_APP_SECRET --env production
+#
+# Supabase Storage
+# npx wrangler secret put NEXT_PUBLIC_SUPABASE_URL --env production
+# npx wrangler secret put NEXT_PUBLIC_SUPABASE_ANON_KEY --env production
+# npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY --env production
+#
+# Email
+# npx wrangler secret put RESEND_API_KEY --env production
+#
+# Cron Jobs
+# npx wrangler secret put CRON_SECRET --env production
+#
+# Redis
+# npx wrangler secret put REDIS_URL --env production
+#
+# Monitoring
+# npx wrangler secret put SENTRY_DSN --env production
+# npx wrangler secret put SENTRY_AUTH_TOKEN --env production
+#
+# See PRODUCTION_DEPLOYMENT.md for complete setup guide
 # =============================================================================
 
 # Production environment
@@ -43,7 +83,7 @@ name = "personal-website-prod"
 main = ".open-next/worker.js"
 [env.production.vars]
 NODE_VERSION = "20"
-NEXTAUTH_URL = "https://advancia.io"
+NEXTAUTH_URL = "https://advanciapayledger.com"
 NODE_ENV = "production"
 [[env.production.r2_buckets]]
 binding = "UPLOADS"
@@ -55,7 +95,7 @@ name = "personal-website-staging"
 main = ".open-next/worker.js"
 [env.staging.vars]
 NODE_VERSION = "20"
-NEXTAUTH_URL = "https://staging.advancia.io"
+NEXTAUTH_URL = "https://staging.advanciapayledger.com"
 NODE_ENV = "staging"
 [[env.staging.r2_buckets]]
 binding = "UPLOADS"

@@ -105,7 +105,9 @@ export async function runHealthChecks(): Promise<HealthCheckResult[]> {
   // API check
   const apiStart = Date.now();
   try {
-    const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/health`);
+    const response = await fetch(
+      `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/health`
+    );
     results.push({
       service: 'API',
       status: response.ok ? 'healthy' : 'degraded',
@@ -157,7 +159,9 @@ export async function sendTestFeedback(report: TestReport): Promise<void> {
   console.log('========================================');
   console.log(`Run at: ${report.runAt.toISOString()}`);
   console.log(`Duration: ${report.duration}ms`);
-  console.log(`Results: ${report.passed} passed, ${report.failed} failed, ${report.skipped} skipped`);
+  console.log(
+    `Results: ${report.passed} passed, ${report.failed} failed, ${report.skipped} skipped`
+  );
   console.log(`Summary: ${report.summary}`);
 
   if (report.failed > 0) {

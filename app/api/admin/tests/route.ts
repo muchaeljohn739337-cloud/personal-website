@@ -3,10 +3,11 @@
  * Run automated tests and get feedback
  */
 
-import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { authOptions } from '@/lib/auth';
+import { getPaymentProviderConfig } from '@/lib/env';
 import { prisma } from '@/lib/prismaClient';
 
 // =============================================================================
@@ -114,15 +115,51 @@ async function runSystemTests(): Promise<TestResult[]> {
     error: !hasAuth ? 'Missing NEXTAUTH_SECRET or NEXTAUTH_URL' : undefined,
   });
 
-  // Test 5: Payment configuration
+  // Test 5: Payment providers configuration
   const payStart = Date.now();
-  const hasStripe = !!process.env.STRIPE_SECRET_KEY;
+  const paymentConfig = getPaymentProviderConfig();
+  const hasAnyPaymentProvider =
+    paymentConfig.stripe.enabled ||
+    paymentConfig.lemonsqueezy.enabled ||
+    paymentConfig.nowpayments.enabled ||
+    paymentConfig.alchemypay.enabled;
+
   results.push({
-    name: 'Payment Configuration',
-    passed: hasStripe,
+    name: 'Payment Providers',
+    passed: hasAnyPaymentProvider,
     duration: Date.now() - payStart,
-    error: !hasStripe ? 'Missing STRIPE_SECRET_KEY' : undefined,
+    error: !hasAnyPaymentProvider
+      ? 'No payment providers configured. See ENV_SETUP.md for setup instructions.'
+      : undefined,
   });
+
+  // Test 5a: Stripe configuration
+  if (paymentConfig.stripe.enabled) {
+    const stripeStart = Date.now();
+    results.push({
+      name: 'Stripe Configuration',
+      passed: paymentConfig.stripe.missing.length === 0,
+      duration: Date.now() - stripeStart,
+      error:
+        paymentConfig.stripe.missing.length > 0
+          ? `Missing: ${paymentConfig.stripe.missing.join(', ')}`
+          : undefined,
+    });
+  }
+
+  // Test 5b: LemonSqueezy configuration
+  if (paymentConfig.lemonsqueezy.enabled) {
+    const lsStart = Date.now();
+    const criticalMissing = paymentConfig.lemonsqueezy.missing.filter(
+      (m) => !m.includes('(optional)')
+    );
+    results.push({
+      name: 'LemonSqueezy Configuration',
+      passed: criticalMissing.length === 0,
+      duration: Date.now() - lsStart,
+      error: criticalMissing.length > 0 ? `Missing: ${criticalMissing.join(', ')}` : undefined,
+    });
+  }
 
   // Test 6: Email configuration
   const emailStart = Date.now();
@@ -169,8 +206,7 @@ export async function GET(req: NextRequest) {
           checkEmail(),
         ]);
 
-        const allHealthy =
-          database.status === 'healthy' && api.status === 'healthy';
+        const allHealthy = database.status === 'healthy' && api.status === 'healthy';
 
         return NextResponse.json({
           status: allHealthy ? 'healthy' : 'degraded',
@@ -234,7 +270,10 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error('[TESTS] Error:', error);
     return NextResponse.json(
-      { error: 'Test execution failed', details: error instanceof Error ? error.message : 'Unknown' },
+      {
+        error: 'Test execution failed',
+        details: error instanceof Error ? error.message : 'Unknown',
+      },
       { status: 500 }
     );
   }

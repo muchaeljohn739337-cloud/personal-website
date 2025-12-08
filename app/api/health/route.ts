@@ -1,49 +1,67 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
 
-import { authOptions } from '@/lib/auth';
-import { getOrCreateHealthProfile, getHealthStats } from '@/lib/health';
+import { prisma } from '@/lib/prismaClient';
+import { getPaymentProviderConfig } from '@/lib/env';
 
-// GET /api/health - Get user's health profile and stats
-export async function GET(_req: NextRequest) {
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+export async function GET() {
+  const startTime = Date.now();
+  const health: Record<string, unknown> = {
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV,
+  };
+
+  // Database health check
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const profile = await getOrCreateHealthProfile(session.user.id);
-    const stats = await getHealthStats(session.user.id, 7);
-
-    return NextResponse.json({
-      profile: {
-        id: profile.id,
-        healthScore: profile.healthScore,
-        lastScoreUpdate: profile.lastScoreUpdate,
-        dateOfBirth: profile.dateOfBirth,
-        gender: profile.gender,
-        height: profile.height ? Number(profile.height) : null,
-        bloodType: profile.bloodType,
-        targetWeight: profile.targetWeight ? Number(profile.targetWeight) : null,
-        targetSteps: profile.targetSteps,
-        targetSleepHours: Number(profile.targetSleepHours),
-        targetCalories: profile.targetCalories,
-      },
-      recentReadings: profile.readings.map((r) => ({
-        ...r,
-        oxygenSaturation: r.oxygenSaturation ? Number(r.oxygenSaturation) : null,
-        temperature: r.temperature ? Number(r.temperature) : null,
-        sleepHours: r.sleepHours ? Number(r.sleepHours) : null,
-        weight: r.weight ? Number(r.weight) : null,
-        bodyFat: r.bodyFat ? Number(r.bodyFat) : null,
-        distance: r.distance ? Number(r.distance) : null,
-      })),
-      activeGoals: profile.goals,
-      unacknowledgedAlerts: profile.alerts,
-      stats,
-    });
+    await prisma.$queryRaw`SELECT 1`;
+    health.database = {
+      status: 'healthy',
+      responseTime: Date.now() - startTime,
+    };
   } catch (error) {
-    console.error('Health profile error:', error);
-    return NextResponse.json({ error: 'Failed to fetch health profile' }, { status: 500 });
+    health.database = {
+      status: 'unhealthy',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+    health.status = 'degraded';
   }
+
+  // Payment providers status
+  const paymentConfig = getPaymentProviderConfig();
+  health.paymentProviders = {
+    stripe: paymentConfig.stripe.enabled,
+    lemonsqueezy: paymentConfig.lemonsqueezy.enabled,
+    nowpayments: paymentConfig.nowpayments.enabled,
+    alchemypay: paymentConfig.alchemypay.enabled,
+  };
+
+  // Memory usage
+  const memoryUsage = process.memoryUsage();
+  health.memory = {
+    used: Math.round(memoryUsage.heapUsed / 1024 / 1024),
+    total: Math.round(memoryUsage.heapTotal / 1024 / 1024),
+    external: Math.round(memoryUsage.external / 1024 / 1024),
+    unit: 'MB',
+  };
+
+  // Environment checks
+  health.environment = {
+    nodeVersion: process.version,
+    platform: process.platform,
+    arch: process.arch,
+  };
+
+  const statusCode = health.status === 'healthy' ? 200 : 503;
+
+  return NextResponse.json(health, {
+    status: statusCode,
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
+      'X-Response-Time': `${Date.now() - startTime}ms`,
+    },
+  });
 }

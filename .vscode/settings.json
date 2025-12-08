@@ -98,5 +98,10 @@
   // Prisma - use Prisma 5 syntax validation
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
-  }
+  },
+
+  // Jest Configuration
+  "jest.jestCommandLine": "npm test --",
+  "jest.rootPath": ".",
+  "jest.disabledWorkspaceFolders": [".next", ".open-next", "node_modules"]
 }

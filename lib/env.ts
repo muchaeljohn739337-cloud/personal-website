@@ -25,9 +25,46 @@ interface EnvConfig {
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;
 
+  // Payment Providers - Stripe
+  STRIPE_SECRET_KEY?: string;
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?: string;
+  STRIPE_WEBHOOK_SECRET?: string;
+
+  // Payment Providers - LemonSqueezy
+  LEMONSQUEEZY_API_KEY?: string;
+  LEMONSQUEEZY_STORE_ID?: string;
+  LEMONSQUEEZY_WEBHOOK_SECRET?: string;
+
+  // Payment Providers - NOWPayments
+  NOWPAYMENTS_API_KEY?: string;
+  NOWPAYMENTS_IPN_SECRET?: string;
+
+  // Payment Providers - Alchemy Pay
+  ALCHEMY_PAY_API_URL?: string;
+  ALCHEMY_PAY_APP_ID?: string;
+  ALCHEMY_PAY_APP_SECRET?: string;
+
+  // Supabase Storage
+  NEXT_PUBLIC_SUPABASE_URL?: string;
+  NEXT_PUBLIC_SUPABASE_ANON_KEY?: string;
+  SUPABASE_SERVICE_ROLE_KEY?: string;
+
   // Feature flags
   ENABLE_2FA?: string;
   ENABLE_EMAIL_VERIFICATION?: string;
+
+  // Public URLs
+  NEXT_PUBLIC_APP_URL?: string;
+
+  // Monitoring & Analytics
+  NEXT_PUBLIC_SENTRY_DSN?: string;
+  SENTRY_ORG?: string;
+  SENTRY_PROJECT?: string;
+  SENTRY_AUTH_TOKEN?: string;
+  NEXT_PUBLIC_SENTRY_DEBUG?: string;
+  NEXT_PUBLIC_APP_VERSION?: string;
+  // LogRocket
+  NEXT_PUBLIC_LOGROCKET_APP_ID?: string;
 }
 
 const requiredEnvVars = [
@@ -112,8 +149,23 @@ ${missing.map((v) => `║  • ${v.padEnd(56)}║`).join('\n')}
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    LEMONSQUEEZY_API_KEY: process.env.LEMONSQUEEZY_API_KEY,
+    LEMONSQUEEZY_STORE_ID: process.env.LEMONSQUEEZY_STORE_ID,
+    LEMONSQUEEZY_WEBHOOK_SECRET: process.env.LEMONSQUEEZY_WEBHOOK_SECRET,
+    NOWPAYMENTS_API_KEY: process.env.NOWPAYMENTS_API_KEY,
+    NOWPAYMENTS_IPN_SECRET: process.env.NOWPAYMENTS_IPN_SECRET,
+    ALCHEMY_PAY_API_URL: process.env.ALCHEMY_PAY_API_URL,
+    ALCHEMY_PAY_APP_ID: process.env.ALCHEMY_PAY_APP_ID,
+    ALCHEMY_PAY_APP_SECRET: process.env.ALCHEMY_PAY_APP_SECRET,
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
     ENABLE_2FA: process.env.ENABLE_2FA,
     ENABLE_EMAIL_VERIFICATION: process.env.ENABLE_EMAIL_VERIFICATION,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   };
 }
 
@@ -130,6 +182,47 @@ export function getEnv<K extends keyof EnvConfig>(key: K): EnvConfig[K] {
 export function isFeatureEnabled(feature: 'ENABLE_2FA' | 'ENABLE_EMAIL_VERIFICATION'): boolean {
   const value = process.env[feature];
   return value === 'true' || value === '1';
+}
+
+/**
+ * Check which payment providers are configured
+ */
+export function getPaymentProviderConfig() {
+  return {
+    stripe: {
+      enabled: !!(process.env.STRIPE_SECRET_KEY && process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
+      hasWebhook: !!process.env.STRIPE_WEBHOOK_SECRET,
+      missing: [
+        !process.env.STRIPE_SECRET_KEY && 'STRIPE_SECRET_KEY',
+        !process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && 'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
+        !process.env.STRIPE_WEBHOOK_SECRET && 'STRIPE_WEBHOOK_SECRET (optional)',
+      ].filter(Boolean) as string[],
+    },
+    lemonsqueezy: {
+      enabled: !!(process.env.LEMONSQUEEZY_API_KEY && process.env.LEMONSQUEEZY_STORE_ID),
+      hasWebhook: !!process.env.LEMONSQUEEZY_WEBHOOK_SECRET,
+      missing: [
+        !process.env.LEMONSQUEEZY_API_KEY && 'LEMONSQUEEZY_API_KEY',
+        !process.env.LEMONSQUEEZY_STORE_ID && 'LEMONSQUEEZY_STORE_ID',
+        !process.env.LEMONSQUEEZY_WEBHOOK_SECRET && 'LEMONSQUEEZY_WEBHOOK_SECRET (optional)',
+      ].filter(Boolean) as string[],
+    },
+    nowpayments: {
+      enabled: !!process.env.NOWPAYMENTS_API_KEY,
+      hasWebhook: !!process.env.NOWPAYMENTS_IPN_SECRET,
+      missing: [
+        !process.env.NOWPAYMENTS_API_KEY && 'NOWPAYMENTS_API_KEY',
+        !process.env.NOWPAYMENTS_IPN_SECRET && 'NOWPAYMENTS_IPN_SECRET (optional)',
+      ].filter(Boolean) as string[],
+    },
+    alchemypay: {
+      enabled: !!(process.env.ALCHEMY_PAY_APP_ID && process.env.ALCHEMY_PAY_APP_SECRET),
+      missing: [
+        !process.env.ALCHEMY_PAY_APP_ID && 'ALCHEMY_PAY_APP_ID',
+        !process.env.ALCHEMY_PAY_APP_SECRET && 'ALCHEMY_PAY_APP_SECRET',
+      ].filter(Boolean) as string[],
+    },
+  };
 }
 
 /**

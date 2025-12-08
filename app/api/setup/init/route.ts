@@ -329,8 +329,16 @@ export async function GET(request: Request) {
     }
 
     // Create admin user
-    const email = 'admin@advanciapayledger.com';
-    const password = 'Admin@123456';
+    const email = process.env.ADMIN_EMAIL || 'admin@advanciapayledger.com';
+    const password = process.env.ADMIN_PASSWORD || 'Admin@123456'; // ⚠️ Use ADMIN_PASSWORD env var in production!
+
+    if (!process.env.ADMIN_PASSWORD && process.env.NODE_ENV === 'production') {
+      return NextResponse.json(
+        { error: 'ADMIN_PASSWORD environment variable must be set in production!' },
+        { status: 500 }
+      );
+    }
+
     const hashedPassword = await hash(password, 12);
 
     // Delete existing user first to ensure clean state

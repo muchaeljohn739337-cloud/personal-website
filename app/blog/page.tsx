@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   Search,
@@ -362,13 +363,24 @@ export default function BlogPage() {
                   className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-violet-500/50 hover:bg-white/10"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  {/* Image */}
+                  {/* Image - Optimized with next/image */}
                   <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
-                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-violet-600/20 via-purple-600/10 to-blue-600/20">
-                      <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                        <BookOpen className="h-8 w-8 text-white/60" />
+                    {post.featuredImage ? (
+                      <Image
+                        src={post.featuredImage}
+                        alt={post.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-violet-600/20 via-purple-600/10 to-blue-600/20">
+                        <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+                          <BookOpen className="h-8 w-8 text-white/60" />
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="absolute right-3 top-3">
                       <span className="rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
                         {post.views.toLocaleString()} views

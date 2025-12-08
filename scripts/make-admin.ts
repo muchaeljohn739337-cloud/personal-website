@@ -5,19 +5,20 @@
 
 import { PrismaClient } from '@prisma/client';
 
-// Use Supabase database URL
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL || 'postgresql://postgres.xesecqcqzykvmrtxrzqi:1j4wUXLfkSxe2Zds@aws-1-us-east-1.pooler.supabase.com:5432/postgres',
-    },
-  },
-});
+// Use DATABASE_URL from environment variables
+// ⚠️ NEVER hardcode database URLs with passwords!
+if (!process.env.DATABASE_URL) {
+  console.error('❌ ERROR: DATABASE_URL environment variable must be set!');
+  console.error('   Set it in .env.local or export before running script');
+  process.exit(1);
+}
+
+const prisma = new PrismaClient();
 
 async function makeAdmin(email: string, isSuperAdmin: boolean) {
   try {
     const role = isSuperAdmin ? 'SUPER_ADMIN' : 'ADMIN';
-    
+
     const user = await prisma.user.update({
       where: { email },
       data: { role },

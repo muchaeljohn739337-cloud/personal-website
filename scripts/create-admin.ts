@@ -4,9 +4,14 @@ import { hash } from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function createAdminUser() {
-  const email = 'admin@advanciapayledger.com';
-  const password = 'Admin@123456'; // Change this after first login!
-  const name = 'Admin User';
+  const email = process.env.ADMIN_EMAIL || 'admin@advanciapayledger.com';
+  const password = process.env.ADMIN_PASSWORD || 'Admin@123456'; // ⚠️ Use ADMIN_PASSWORD env var in production!
+  const name = process.env.ADMIN_NAME || 'Admin User';
+
+  if (!process.env.ADMIN_PASSWORD && process.env.NODE_ENV === 'production') {
+    console.error('❌ ERROR: ADMIN_PASSWORD environment variable must be set in production!');
+    process.exit(1);
+  }
 
   try {
     // Hash password

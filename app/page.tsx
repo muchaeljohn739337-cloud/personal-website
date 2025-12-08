@@ -1,7 +1,39 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { Logo } from '@/components/Logo';
+import SecurityShield from '@/components/security/SecurityShield';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import {
+  FiActivity,
+  FiArrowRight,
+  FiAward,
+  FiBarChart2,
+  FiCheck,
+  FiCheckCircle,
+  FiCpu,
+  FiCreditCard,
+  FiDatabase,
+  FiDollarSign,
+  FiGlobe,
+  FiHeart,
+  FiHexagon,
+  FiLayers,
+  FiLinkedin,
+  FiLock,
+  FiMail,
+  FiMenu,
+  FiPieChart,
+  FiRefreshCw,
+  FiShield,
+  FiStar,
+  FiTrendingUp,
+  FiTwitter,
+  FiUsers,
+  FiX,
+  FiZap,
+} from 'react-icons/fi';
+import { SiCoinbase, SiMastercard, SiSquare, SiStripe, SiVisa } from 'react-icons/si';
 
 // Animated Counter Component
 function AnimatedCounter({
@@ -71,37 +103,6 @@ function AnimatedCounter({
     </span>
   );
 }
-import {
-  FiShield,
-  FiCreditCard,
-  FiGlobe,
-  FiArrowRight,
-  FiCheck,
-  FiLock,
-  FiTrendingUp,
-  FiUsers,
-  FiMail,
-  FiTwitter,
-  FiLinkedin,
-  FiZap,
-  FiLayers,
-  FiActivity,
-  FiAward,
-  FiBarChart2,
-  FiCpu,
-  FiDatabase,
-  FiHexagon,
-  FiMenu,
-  FiX,
-  FiStar,
-  FiCheckCircle,
-  FiRefreshCw,
-  FiHeart,
-  FiDollarSign,
-  FiPieChart,
-} from 'react-icons/fi';
-import { SiStripe, SiVisa, SiMastercard, SiPaypal, SiCoinbase, SiSquare } from 'react-icons/si';
-import SecurityShield from '@/components/security/SecurityShield';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -177,97 +178,92 @@ export default function Home() {
         />
       </div>
 
-      {/* Navigation */}
+      {/* Navigation - Modern VS Code-inspired design */}
       <nav
-        className={`fixed w-full z-50 transition-all duration-500 ${
-          isScrolled ? 'bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-[#1e1e1e]/95 backdrop-blur-xl border-b border-slate-800/50 shadow-lg'
+            : 'bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20">
+          <div className="flex justify-between items-center h-14">
+            {/* Logo */}
             <div className="flex items-center">
-              <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-400 to-blue-500 flex items-center justify-center transform group-hover:scale-110 transition-transform">
-                  <FiHexagon className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                  Advancia
-                </span>
-              </Link>
+              <Logo />
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Clean, professional layout */}
             <div className="hidden lg:flex items-center gap-1">
               {['Features', 'Pricing', 'About', 'Docs'].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                  className="px-3 py-1.5 text-sm text-slate-400 hover:text-white transition-colors rounded hover:bg-slate-800/50 font-medium"
                 >
                   {item}
                 </a>
               ))}
               <Link
                 href="/faq"
-                className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                className="px-3 py-1.5 text-sm text-slate-400 hover:text-white transition-colors rounded hover:bg-slate-800/50 font-medium"
               >
                 FAQ
               </Link>
+              <div className="h-4 w-px bg-slate-700 mx-2" />
               <Link
                 href="/medbed"
-                className="px-4 py-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors rounded-lg hover:bg-emerald-500/10 flex items-center gap-1"
+                className="px-3 py-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition-colors rounded hover:bg-emerald-500/10 flex items-center gap-1.5 font-medium"
               >
-                <FiHeart className="w-3 h-3" />
+                <FiHeart className="w-3.5 h-3.5" />
                 MedBed
               </Link>
               <Link
                 href="/crypto"
-                className="px-4 py-2 text-sm text-amber-400 hover:text-amber-300 transition-colors rounded-lg hover:bg-amber-500/10 flex items-center gap-1"
+                className="px-3 py-1.5 text-sm text-amber-400 hover:text-amber-300 transition-colors rounded hover:bg-amber-500/10 flex items-center gap-1.5 font-medium"
               >
-                <FiTrendingUp className="w-3 h-3" />
+                <FiTrendingUp className="w-3.5 h-3.5" />
                 Crypto
               </Link>
             </div>
 
-            <div className="hidden lg:flex items-center gap-4">
+            {/* Auth Buttons - VS Code style */}
+            <div className="hidden lg:flex items-center gap-2">
               <Link
                 href="/auth/login"
-                className="px-4 py-2 text-sm text-gray-300 hover:text-white transition-colors"
+                className="px-4 py-1.5 text-sm text-slate-300 hover:text-white transition-colors font-medium"
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/register"
-                className="group relative px-6 py-2.5 text-sm font-medium overflow-hidden rounded-xl"
+                className="group relative px-5 py-1.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded transition-all"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 transition-transform group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <span className="relative text-white flex items-center gap-2">
-                  Get Started{' '}
-                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
+                Get Started
+                <FiArrowRight className="inline-block w-3.5 h-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-gray-400 hover:text-white"
+              className="lg:hidden p-2 text-slate-400 hover:text-white rounded transition-colors"
+              aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
+              {mobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Clean design */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#0a0a0f]/95 backdrop-blur-xl border-t border-white/5">
-            <div className="px-4 py-6 space-y-4">
+          <div className="lg:hidden bg-[#1e1e1e]/98 backdrop-blur-xl border-t border-slate-800/50">
+            <div className="px-4 py-4 space-y-1">
               {['Features', 'Pricing', 'About', 'Docs'].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="block px-4 py-2 text-gray-400 hover:text-white"
+                  className="block px-3 py-2 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded transition-colors font-medium text-sm"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item}
@@ -275,14 +271,15 @@ export default function Home() {
               ))}
               <Link
                 href="/faq"
-                className="block px-4 py-2 text-gray-400 hover:text-white"
+                className="block px-3 py-2 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded transition-colors font-medium text-sm"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 FAQ
               </Link>
+              <div className="h-px bg-slate-800 my-2" />
               <Link
                 href="/medbed"
-                className="block px-4 py-2 text-emerald-400 hover:text-emerald-300 flex items-center gap-2"
+                className="flex items-center gap-2 px-3 py-2 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 rounded transition-colors font-medium text-sm"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <FiHeart className="w-4 h-4" />
@@ -290,19 +287,24 @@ export default function Home() {
               </Link>
               <Link
                 href="/crypto"
-                className="block px-4 py-2 text-amber-400 hover:text-amber-300 flex items-center gap-2"
+                className="flex items-center gap-2 px-3 py-2 text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 rounded transition-colors font-medium text-sm"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <FiTrendingUp className="w-4 h-4" />
                 Crypto
               </Link>
-              <div className="pt-4 border-t border-white/10 space-y-3">
-                <Link href="/auth/login" className="block px-4 py-2 text-gray-400 hover:text-white">
+              <div className="pt-3 mt-3 border-t border-slate-800 space-y-2">
+                <Link
+                  href="/auth/login"
+                  className="block px-3 py-2 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded transition-colors font-medium text-sm text-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Sign In
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="block px-4 py-3 text-center bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl text-white font-medium"
+                  className="block px-3 py-2 text-center bg-blue-600 hover:bg-blue-500 rounded text-white font-semibold text-sm transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Get Started
                 </Link>
@@ -312,57 +314,46 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-500/10 to-blue-500/10 border border-violet-500/20">
-                <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
-                <span className="text-sm text-violet-400 font-medium">
-                  Now with AI-Powered Analytics
+      {/* Hero Section - Professional, clean layout */}
+      <section className="relative min-h-screen flex items-center pt-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              {/* Badge - Subtle, professional */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded border border-blue-500/30 bg-blue-500/10">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                <span className="text-xs text-blue-400 font-medium tracking-wide uppercase">
+                  AI-Powered Analytics
                 </span>
               </div>
 
-              {/* Heading */}
-              <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-                <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-                  The Future of
-                </span>
+              {/* Heading - Clean typography */}
+              <h1 className="text-4xl md:text-6xl font-bold leading-tight tracking-tight">
+                <span className="text-white">The Future of</span>
                 <br />
-                <span className="bg-gradient-to-r from-violet-400 via-blue-400 to-violet-400 bg-clip-text text-transparent animate-gradient">
-                  Digital Finance
-                </span>
+                <span className="text-blue-400">Digital Finance</span>
               </h1>
 
-              {/* Description */}
-              <p className="text-xl text-gray-400 max-w-xl leading-relaxed">
-                Join <span className="text-white font-semibold">50,000+ businesses</span> who trust
+              {/* Description - Professional tone */}
+              <p className="text-lg text-slate-400 max-w-xl leading-relaxed">
+                Join <span className="text-white font-medium">50,000+ businesses</span> who trust
                 Advancia for secure, lightning-fast payment processing. Start risk-free today.
               </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* CTA Buttons - VS Code style */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Link
                   href="/auth/register"
-                  className="group relative px-8 py-4 text-lg font-semibold overflow-hidden rounded-2xl"
+                  className="group relative px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded transition-all flex items-center justify-center gap-2"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-purple-500" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,white,transparent_70%)]" />
-                  </div>
-                  <span className="relative text-white flex items-center justify-center gap-2">
-                    Start Free Trial — No Risk
-                    <FiArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                  Start Free Trial
+                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <a
                   href="#features"
-                  className="group px-8 py-4 text-lg font-semibold rounded-2xl border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center gap-2"
+                  className="group px-6 py-3 text-base font-semibold rounded border border-slate-700 hover:border-slate-600 bg-slate-800/50 hover:bg-slate-800 transition-all flex items-center justify-center gap-2 text-slate-300 hover:text-white"
                 >
-                  <FiActivity className="w-5 h-5" />
+                  <FiActivity className="w-4 h-4" />
                   Watch Demo
                 </a>
               </div>
@@ -412,9 +403,12 @@ export default function Home() {
               <div className="relative z-10 bg-gradient-to-br from-slate-900/95 via-slate-800/90 to-slate-900/95 backdrop-blur-xl rounded-3xl border border-violet-500/20 p-8 shadow-2xl shadow-violet-500/10 overflow-hidden">
                 {/* Animated Background Glow - More Intense */}
                 <div className="absolute -top-20 -right-20 w-60 h-60 bg-violet-600/40 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-cyan-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                <div
+                  className="absolute -bottom-20 -left-20 w-60 h-60 bg-cyan-500/30 rounded-full blur-3xl animate-pulse"
+                  style={{ animationDelay: '1s' }}
+                />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl" />
-                
+
                 {/* Dashboard Preview */}
                 <div className="relative space-y-6">
                   {/* Header with Live Indicator */}
@@ -425,12 +419,12 @@ export default function Home() {
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <p className="text-xs text-emerald-400 font-medium uppercase tracking-wider">Live Revenue</p>
+                        <p className="text-xs text-emerald-400 font-medium uppercase tracking-wider">
+                          Live Revenue
+                        </p>
                       </div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-4xl font-black text-white">
-                          $2,847,392
-                        </span>
+                        <span className="text-4xl font-black text-white">$2,847,392</span>
                         <span className="text-sm text-gray-500">.47</span>
                       </div>
                       <p className="text-xs text-gray-500">Updated 2 seconds ago</p>
@@ -449,10 +443,14 @@ export default function Home() {
                     {/* Grid Lines */}
                     <div className="absolute inset-0 opacity-20">
                       {[...Array(5)].map((_, i) => (
-                        <div key={i} className="absolute w-full border-t border-dashed border-gray-600" style={{ top: `${(i + 1) * 20}%` }} />
+                        <div
+                          key={i}
+                          className="absolute w-full border-t border-dashed border-gray-600"
+                          style={{ top: `${(i + 1) * 20}%` }}
+                        />
                       ))}
                     </div>
-                    
+
                     {/* Y-Axis Labels */}
                     <div className="absolute left-2 top-0 h-full flex flex-col justify-between py-2 text-[10px] text-gray-600">
                       <span>$3M</span>
@@ -460,10 +458,16 @@ export default function Home() {
                       <span>$1M</span>
                       <span>$0</span>
                     </div>
-                    
+
                     <svg className="w-full h-full" viewBox="0 0 400 176" preserveAspectRatio="none">
                       <defs>
-                        <linearGradient id="chartGradientAdvanced" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <linearGradient
+                          id="chartGradientAdvanced"
+                          x1="0%"
+                          y1="0%"
+                          x2="0%"
+                          y2="100%"
+                        >
                           <stop offset="0%" stopColor="rgb(139, 92, 246)" stopOpacity="0.4" />
                           <stop offset="50%" stopColor="rgb(52, 211, 153)" stopOpacity="0.2" />
                           <stop offset="100%" stopColor="rgb(52, 211, 153)" stopOpacity="0" />
@@ -473,10 +477,10 @@ export default function Home() {
                           <stop offset="100%" stopColor="rgb(52, 211, 153)" />
                         </linearGradient>
                         <filter id="glow">
-                          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                           <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
                           </feMerge>
                         </filter>
                       </defs>
@@ -494,14 +498,21 @@ export default function Home() {
                         filter="url(#glow)"
                       />
                       {/* Data Points */}
-                      {[[60, 125], [120, 100], [180, 85], [240, 70], [300, 45], [360, 35]].map(([x, y], i) => (
+                      {[
+                        [60, 125],
+                        [120, 100],
+                        [180, 85],
+                        [240, 70],
+                        [300, 45],
+                        [360, 35],
+                      ].map(([x, y], i) => (
                         <g key={i}>
                           <circle cx={x} cy={y} r="6" fill="rgba(139, 92, 246, 0.3)" />
                           <circle cx={x} cy={y} r="3" fill="white" />
                         </g>
                       ))}
                     </svg>
-                    
+
                     {/* Tooltip Preview */}
                     <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
                       <p className="text-[10px] text-gray-400">Today</p>
@@ -512,13 +523,45 @@ export default function Home() {
                   {/* Enhanced Stats Grid */}
                   <div className="grid grid-cols-3 gap-3">
                     {[
-                      { label: 'Transactions', value: '847K', change: '+12%', icon: FiActivity, gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-500/10', text: 'text-violet-400', border: 'border-violet-500/30' },
-                      { label: 'Active Users', value: '12.4K', change: '+8%', icon: FiUsers, gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/30' },
-                      { label: 'Countries', value: '89', change: '+3', icon: FiGlobe, gradient: 'from-cyan-500 to-blue-600', bg: 'bg-cyan-500/10', text: 'text-cyan-400', border: 'border-cyan-500/30' },
+                      {
+                        label: 'Transactions',
+                        value: '847K',
+                        change: '+12%',
+                        icon: FiActivity,
+                        gradient: 'from-violet-500 to-purple-600',
+                        bg: 'bg-violet-500/10',
+                        text: 'text-violet-400',
+                        border: 'border-violet-500/30',
+                      },
+                      {
+                        label: 'Active Users',
+                        value: '12.4K',
+                        change: '+8%',
+                        icon: FiUsers,
+                        gradient: 'from-emerald-500 to-teal-600',
+                        bg: 'bg-emerald-500/10',
+                        text: 'text-emerald-400',
+                        border: 'border-emerald-500/30',
+                      },
+                      {
+                        label: 'Countries',
+                        value: '89',
+                        change: '+3',
+                        icon: FiGlobe,
+                        gradient: 'from-cyan-500 to-blue-600',
+                        bg: 'bg-cyan-500/10',
+                        text: 'text-cyan-400',
+                        border: 'border-cyan-500/30',
+                      },
                     ].map((stat, i) => (
-                      <div key={i} className={`group relative ${stat.bg} hover:bg-opacity-20 rounded-xl p-4 text-center transition-all duration-300 border ${stat.border} cursor-pointer hover:scale-105 hover:shadow-lg`}>
+                      <div
+                        key={i}
+                        className={`group relative ${stat.bg} hover:bg-opacity-20 rounded-xl p-4 text-center transition-all duration-300 border ${stat.border} cursor-pointer hover:scale-105 hover:shadow-lg`}
+                      >
                         <div className="relative">
-                          <div className={`w-10 h-10 mx-auto mb-2 rounded-lg bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}>
+                          <div
+                            className={`w-10 h-10 mx-auto mb-2 rounded-lg bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}
+                          >
                             <stat.icon className="w-5 h-5 text-white" />
                           </div>
                           <p className="text-2xl font-black text-white">{stat.value}</p>
@@ -528,7 +571,7 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-                  
+
                   {/* Quick Actions Bar */}
                   <div className="flex items-center justify-between pt-2 border-t border-white/5">
                     <div className="flex items-center gap-2">
@@ -615,7 +658,6 @@ export default function Home() {
               { icon: SiStripe, name: 'Stripe' },
               { icon: SiVisa, name: 'Visa' },
               { icon: SiMastercard, name: 'Mastercard' },
-              { icon: SiPaypal, name: 'PayPal' },
               { icon: SiCoinbase, name: 'Coinbase' },
               { icon: SiSquare, name: 'Square' },
             ].map((brand) => (

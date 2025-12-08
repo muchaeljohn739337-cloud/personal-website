@@ -72,12 +72,7 @@ export type Permission = keyof typeof PERMISSIONS;
 // =============================================================================
 
 // Routes that require ADMIN or SUPER_ADMIN
-export const ADMIN_ROUTES = [
-  '/admin',
-  '/api/admin',
-  '/dashboard/users',
-  '/dashboard/system',
-];
+export const ADMIN_ROUTES = ['/admin', '/api/admin', '/dashboard/users', '/dashboard/system'];
 
 // Routes that require SUPER_ADMIN only
 export const SUPER_ADMIN_ROUTES = [

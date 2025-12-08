@@ -2,13 +2,16 @@
  * Cron Job Handler
  * Called by Vercel Cron or external scheduler
  * Runs automated tasks based on schedule
+ *
+ * SECURITY: Protected by CRON_SECRET environment variable
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 
+import { executeTask, getAllTasks } from '@/lib/automation/scheduler';
+import { executeWorkflow } from '@/lib/automation/workflows';
 import { prisma } from '@/lib/prismaClient';
 
-// Verify cron secret to prevent unauthorized access
 const CRON_SECRET = process.env.CRON_SECRET;
 
 // =============================================================================
@@ -111,46 +114,101 @@ async function runSecurityScan() {
 
 export async function GET(req: NextRequest) {
   // Verify authorization
+  // Vercel Cron automatically adds Authorization header
+  // For manual calls, require CRON_SECRET
   const authHeader = req.headers.get('authorization');
-  if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
+  const cronHeader = req.headers.get('x-vercel-cron');
+
+  // Allow Vercel cron or secret-based auth
+  const isAuthorized =
+    cronHeader === '1' || // Vercel cron
+    (CRON_SECRET && authHeader === `Bearer ${CRON_SECRET}`); // Manual with secret
+
+  if (!isAuthorized && CRON_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const taskParam = req.nextUrl.searchParams.get('task');
+  const workflowParam = req.nextUrl.searchParams.get('workflow');
   const results: Record<string, unknown>[] = [];
 
   try {
-    // Run specific task or all tasks
-    if (!taskParam || taskParam === 'all') {
-      // Run all automated tasks
-      results.push(await cleanupExpiredSessions());
-      results.push(await cleanupOldLogs());
-      results.push(await checkPendingApprovals());
-      results.push(await checkExpiredSubscriptions());
-      results.push(await generateDailyStats());
-      results.push(await runSecurityScan());
-    } else {
-      // Run specific task
-      switch (taskParam) {
-        case 'cleanup':
-          results.push(await cleanupExpiredSessions());
-          results.push(await cleanupOldLogs());
-          break;
-        case 'approvals':
-          results.push(await checkPendingApprovals());
-          break;
-        case 'subscriptions':
-          results.push(await checkExpiredSubscriptions());
-          break;
-        case 'stats':
-          results.push(await generateDailyStats());
-          break;
-        case 'security':
-          results.push(await runSecurityScan());
-          break;
-        default:
-          return NextResponse.json({ error: 'Unknown task' }, { status: 400 });
+    // Run workflow if specified
+    if (workflowParam) {
+      try {
+        const runId = await executeWorkflow(workflowParam);
+        results.push({
+          task: 'workflow_execution',
+          workflowId: workflowParam,
+          runId,
+          status: 'started',
+        });
+      } catch (error) {
+        results.push({
+          task: 'workflow_execution',
+          workflowId: workflowParam,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
       }
+    }
+
+    // Run scheduled task if specified
+    if (taskParam && !workflowParam) {
+      const tasks = getAllTasks();
+      const task = tasks.find((t) => t.id === taskParam);
+
+      if (task) {
+        const result = await executeTask(taskParam);
+        results.push(result as unknown as Record<string, unknown>);
+      } else {
+        // Fall back to legacy task names
+        switch (taskParam) {
+          case 'cleanup':
+            results.push(await cleanupExpiredSessions());
+            results.push(await cleanupOldLogs());
+            break;
+          case 'approvals':
+            results.push(await checkPendingApprovals());
+            break;
+          case 'subscriptions':
+            results.push(await checkExpiredSubscriptions());
+            break;
+          case 'stats':
+            results.push(await generateDailyStats());
+            break;
+          case 'security':
+            results.push(await runSecurityScan());
+            break;
+          case 'all':
+            // Run all tasks
+            results.push(await cleanupExpiredSessions());
+            results.push(await cleanupOldLogs());
+            results.push(await checkPendingApprovals());
+            results.push(await checkExpiredSubscriptions());
+            results.push(await generateDailyStats());
+            results.push(await runSecurityScan());
+            break;
+          default:
+            return NextResponse.json({ error: 'Unknown task' }, { status: 400 });
+        }
+      }
+    }
+
+    // If no params, return status
+    if (!taskParam && !workflowParam) {
+      const tasks = getAllTasks();
+      return NextResponse.json({
+        status: 'ready',
+        timestamp: new Date().toISOString(),
+        availableTasks: tasks.map((t) => ({
+          id: t.id,
+          name: t.name,
+          schedule: t.schedule,
+          enabled: t.enabled,
+          lastRun: t.lastRun,
+        })),
+        message: 'Use ?task=<taskId> or ?workflow=<workflowId> to run',
+      });
     }
 
     console.log('[CRON] Tasks completed:', results);
@@ -163,7 +221,10 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error('[CRON] Error:', error);
     return NextResponse.json(
-      { error: 'Task execution failed', details: error instanceof Error ? error.message : 'Unknown' },
+      {
+        error: 'Task execution failed',
+        details: error instanceof Error ? error.message : 'Unknown',
+      },
       { status: 500 }
     );
   }

@@ -10,6 +10,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
+    // Increase navigation timeout for slow page compilation
+    navigationTimeout: 60000,
   },
   projects: [
     {
@@ -29,5 +31,8 @@ export default defineConfig({
     command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
+    timeout: 120000, // 2 minutes for server startup
+    stdout: 'pipe',
+    stderr: 'pipe',
   },
 });

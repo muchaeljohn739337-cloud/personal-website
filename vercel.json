@@ -1,23 +1,41 @@
 {
-  "buildCommand": "npx prisma generate && next build",
-  "installCommand": "npm install --legacy-peer-deps",
+  "version": 2,
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
   "framework": "nextjs",
-  "crons": [
+  "regions": ["iad1"],
+  "rewrites": [
     {
-      "path": "/api/cron?task=cleanup",
-      "schedule": "0 3 * * *"
-    },
-    {
-      "path": "/api/cron?task=security",
-      "schedule": "*/30 * * * *"
-    },
-    {
-      "path": "/api/cron?task=subscriptions",
-      "schedule": "0 */4 * * *"
-    },
-    {
-      "path": "/api/cron?task=stats",
-      "schedule": "0 7 * * *"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "domains": [
+    "advanciapayledger.com",
+    "www.advanciapayledger.com"
   ]
 }

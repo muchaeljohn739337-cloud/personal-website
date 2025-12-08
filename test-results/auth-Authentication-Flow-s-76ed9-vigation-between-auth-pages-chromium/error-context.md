@@ -1,0 +1,563 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+    - generic [ref=e2]:
+        - generic [ref=e3]:
+            - img [ref=e5]
+            - img [ref=e8]
+            - img [ref=e12]
+        - heading "Advancia PayLedger" [level=1] [ref=e15]
+        - paragraph [ref=e16]: The Future of Digital Payments
+        - paragraph [ref=e17]: Loading
+        - paragraph [ref=e18]: Initializing systems...
+    - generic [ref=e19]:
+        - navigation [ref=e20]:
+            - generic [ref=e22]:
+                - link "AdvanciaPayLedger" [ref=e24] [cursor=pointer]:
+                    - /url: /
+                    - generic [ref=e25]:
+                        - img [ref=e28]
+                        - generic [ref=e33]: AdvanciaPayLedger
+                - generic [ref=e34]:
+                    - link "Features" [ref=e35] [cursor=pointer]:
+                        - /url: '#features'
+                    - link "Pricing" [ref=e36] [cursor=pointer]:
+                        - /url: '#pricing'
+                    - link "About" [ref=e37] [cursor=pointer]:
+                        - /url: '#about'
+                    - link "Docs" [ref=e38] [cursor=pointer]:
+                        - /url: '#docs'
+                    - link "FAQ" [ref=e39] [cursor=pointer]:
+                        - /url: /faq
+                    - link "MedBed" [ref=e40] [cursor=pointer]:
+                        - /url: /medbed
+                        - img [ref=e41]
+                        - text: MedBed
+                    - link "Crypto" [ref=e43] [cursor=pointer]:
+                        - /url: /crypto
+                        - img [ref=e44]
+                        - text: Crypto
+                - generic [ref=e47]:
+                    - link "Sign In" [ref=e48] [cursor=pointer]:
+                        - /url: /auth/login
+                    - link "Get Started" [ref=e49] [cursor=pointer]:
+                        - /url: /auth/register
+                        - text: Get Started
+                        - img [ref=e50]
+                - button "Toggle menu" [ref=e52]:
+                    - img [ref=e53]
+        - generic [ref=e54]:
+            - generic [ref=e56]:
+                - generic [ref=e57]:
+                    - generic [ref=e58]: AI-Powered Analytics
+                    - heading "The Future of Digital Finance" [level=1] [ref=e59]:
+                        - text: The Future of
+                        - text: Digital Finance
+                    - paragraph [ref=e60]: Join 50,000+ businesses who trust Advancia for secure, lightning-fast payment processing. Start risk-free today.
+                    - generic [ref=e61]:
+                        - link "Start Free Trial" [ref=e62] [cursor=pointer]:
+                            - /url: /auth/register
+                            - text: Start Free Trial
+                            - img [ref=e63]
+                        - link "Watch Demo" [ref=e65] [cursor=pointer]:
+                            - /url: '#features'
+                            - img [ref=e66]
+                            - text: Watch Demo
+                    - generic [ref=e68]:
+                        - generic [ref=e69]:
+                            - img [ref=e70]
+                            - text: No credit card required
+                        - generic [ref=e73]:
+                            - img [ref=e74]
+                            - text: 14-day free trial
+                        - generic [ref=e77]:
+                            - img [ref=e78]
+                            - text: Cancel anytime
+                    - generic [ref=e81]:
+                        - generic [ref=e82]:
+                            - img [ref=e84]
+                            - generic [ref=e88]:
+                                - paragraph [ref=e89]: 30-Day Money Back
+                                - paragraph [ref=e90]: 100% Satisfaction Guaranteed
+                        - generic [ref=e91]:
+                            - img [ref=e93]
+                            - generic [ref=e95]:
+                                - paragraph [ref=e96]: Bank-Level Security
+                                - paragraph [ref=e97]: 256-bit SSL Encryption
+                - generic [ref=e98]:
+                    - generic [ref=e100]:
+                        - generic [ref=e101]:
+                            - generic [ref=e102]:
+                                - paragraph [ref=e104]: Live Revenue
+                                - generic [ref=e105]: $2,847,392.47
+                                - paragraph [ref=e106]: Updated 2 seconds ago
+                            - generic [ref=e107]:
+                                - generic [ref=e108]:
+                                    - img [ref=e109]
+                                    - text: +24.5%
+                                - paragraph [ref=e112]: vs last month
+                        - generic [ref=e113]:
+                            - generic [ref=e114]: $3M$2M$1M$0
+                            - img [ref=e115]
+                            - generic [ref=e136]:
+                                - paragraph [ref=e137]: Today
+                                - paragraph [ref=e138]: $127,482
+                        - generic [ref=e139]:
+                            - generic [ref=e141]:
+                                - img [ref=e143]
+                                - paragraph [ref=e145]: 847K
+                                - paragraph [ref=e146]: Transactions
+                                - paragraph [ref=e147]: +12%
+                            - generic [ref=e149]:
+                                - img [ref=e151]
+                                - paragraph [ref=e156]: 12.4K
+                                - paragraph [ref=e157]: Active Users
+                                - paragraph [ref=e158]: +8%
+                            - generic [ref=e160]:
+                                - img [ref=e162]
+                                - paragraph [ref=e165]: '89'
+                                - paragraph [ref=e166]: Countries
+                                - paragraph [ref=e167]: '+3'
+                        - generic [ref=e168]:
+                            - generic [ref=e169]:
+                                - img [ref=e171]
+                                - img [ref=e174]
+                                - img [ref=e177]
+                            - button "View Full Dashboard" [ref=e180]:
+                                - text: View Full Dashboard
+                                - img [ref=e181]
+                    - generic [ref=e185]:
+                        - img [ref=e187]
+                        - generic [ref=e189]:
+                            - paragraph [ref=e190]: Instant Settlement
+                            - paragraph [ref=e191]: < 2s
+                            - paragraph [ref=e192]: Quantum-encrypted
+                    - generic [ref=e195]:
+                        - img [ref=e197]
+                        - generic [ref=e199]:
+                            - paragraph [ref=e200]: Fraud Blocked
+                            - paragraph [ref=e201]: $1.2M
+                            - paragraph [ref=e202]: Saved today
+                    - link [ref=e204] [cursor=pointer]:
+                        - /url: /medbed
+                        - img [ref=e206]
+            - generic [ref=e208]: Scroll to explore
+        - generic [ref=e210]:
+            - paragraph [ref=e211]: Trusted by Industry Leaders
+            - generic [ref=e212]:
+                - generic [ref=e213]:
+                    - img [ref=e214]
+                    - text: Stripe
+                - generic [ref=e216]:
+                    - img [ref=e217]
+                    - text: Visa
+                - generic [ref=e219]:
+                    - img [ref=e220]
+                    - text: Mastercard
+                - generic [ref=e222]:
+                    - img [ref=e223]
+                    - text: PayPal
+                - generic [ref=e225]:
+                    - img [ref=e226]
+                    - text: Coinbase
+                - generic [ref=e228]:
+                    - img [ref=e229]
+                    - text: Square
+        - generic [ref=e233]:
+            - generic [ref=e234]:
+                - img [ref=e236]
+                - heading "SOC 2 Type II" [level=3] [ref=e238]
+                - paragraph [ref=e239]: Certified
+            - generic [ref=e240]:
+                - img [ref=e242]
+                - heading "PCI DSS" [level=3] [ref=e245]
+                - paragraph [ref=e246]: Level 1 Compliant
+            - generic [ref=e247]:
+                - img [ref=e249]
+                - heading "GDPR" [level=3] [ref=e253]
+                - paragraph [ref=e254]: Compliant
+            - generic [ref=e255]:
+                - img [ref=e257]
+                - heading "ISO 27001" [level=3] [ref=e260]
+                - paragraph [ref=e261]: Certified
+        - generic [ref=e263]:
+            - generic [ref=e264]:
+                - generic [ref=e265]:
+                    - img [ref=e266]
+                    - text: Powered by Advanced AI
+                - heading "Built for Scale, Designed for Speed" [level=2] [ref=e269]:
+                    - text: Built for Scale,
+                    - text: Designed for Speed
+                - paragraph [ref=e270]: Enterprise infrastructure that handles millions of transactions while maintaining sub-50ms latency.
+            - generic [ref=e271]:
+                - generic [ref=e272]:
+                    - button "Smart Payment Processing AI-powered fraud detection with 99.99% accuracy. Process payments via Stripe, crypto, and 50+ payment methods. 2.5M+ transactions/day" [ref=e273]:
+                        - generic [ref=e274]:
+                            - img [ref=e276]
+                            - generic [ref=e278]:
+                                - heading "Smart Payment Processing" [level=3] [ref=e279]
+                                - paragraph [ref=e280]: AI-powered fraud detection with 99.99% accuracy. Process payments via Stripe, crypto, and 50+ payment methods.
+                                - text: 2.5M+ transactions/day
+                    - button "Military-Grade Security SOC 2 Type II certified. End-to-end encryption with quantum-resistant algorithms. Zero breaches since 2020" [ref=e281]:
+                        - generic [ref=e282]:
+                            - img [ref=e284]
+                            - generic [ref=e287]:
+                                - heading "Military-Grade Security" [level=3] [ref=e288]
+                                - paragraph [ref=e289]: SOC 2 Type II certified. End-to-end encryption with quantum-resistant algorithms.
+                                - text: Zero breaches since 2020
+                    - button "Real-Time Intelligence Live dashboards with predictive analytics. Make data-driven decisions in milliseconds. < 50ms latency" [ref=e290]:
+                        - generic [ref=e291]:
+                            - img [ref=e293]
+                            - generic [ref=e296]:
+                                - heading "Real-Time Intelligence" [level=3] [ref=e297]
+                                - paragraph [ref=e298]: Live dashboards with predictive analytics. Make data-driven decisions in milliseconds.
+                                - text: < 50ms latency
+                    - button "Global Infrastructure Edge computing across 200+ locations. Process payments in 135+ currencies instantly. 99.999% uptime SLA" [ref=e299]:
+                        - generic [ref=e300]:
+                            - img [ref=e302]
+                            - generic [ref=e305]:
+                                - heading "Global Infrastructure" [level=3] [ref=e306]
+                                - paragraph [ref=e307]: Edge computing across 200+ locations. Process payments in 135+ currencies instantly.
+                                - text: 99.999% uptime SLA
+                - generic [ref=e310]:
+                    - img [ref=e312]
+                    - heading "Smart Payment Processing" [level=3] [ref=e314]
+                    - paragraph [ref=e315]: AI-powered fraud detection with 99.99% accuracy. Process payments via Stripe, crypto, and 50+ payment methods.
+                    - generic [ref=e316]:
+                        - generic [ref=e317]:
+                            - paragraph [ref=e318]: 99.99%
+                            - paragraph [ref=e319]: Accuracy Rate
+                        - generic [ref=e320]:
+                            - paragraph [ref=e321]: < 50ms
+                            - paragraph [ref=e322]: Response Time
+        - generic [ref=e326]:
+            - generic [ref=e327]:
+                - img [ref=e329]
+                - paragraph [ref=e330]:
+                    - generic [ref=e331]: $0+
+                - paragraph [ref=e332]: Processed Annually
+            - generic [ref=e333]:
+                - img [ref=e335]
+                - paragraph [ref=e340]:
+                    - generic [ref=e341]: 0+
+                - paragraph [ref=e342]: Active Users
+            - generic [ref=e343]:
+                - img [ref=e345]
+                - paragraph [ref=e347]:
+                    - generic [ref=e348]: 0%
+                - paragraph [ref=e349]: Uptime SLA
+            - generic [ref=e350]:
+                - img [ref=e352]
+                - paragraph [ref=e355]:
+                    - generic [ref=e356]: 0+
+                - paragraph [ref=e357]: Edge Locations
+        - generic [ref=e359]:
+            - generic [ref=e360]:
+                - generic [ref=e361]:
+                    - img [ref=e362]
+                    - text: Speed, Security & Scale
+                - heading "Enterprise-Grade Proxy Infrastructure" [level=2] [ref=e364]:
+                    - text: Enterprise-Grade
+                    - text: Proxy Infrastructure
+                - paragraph [ref=e365]: Tools to browse, scrape and manage online activity with ease.
+            - generic [ref=e366]:
+                - generic [ref=e367]:
+                    - img [ref=e369]
+                    - heading "Global Coverage" [level=3] [ref=e372]
+                    - paragraph [ref=e373]: Access IPs from multiple countries with fast, consistent connections.
+                - generic [ref=e374]:
+                    - img [ref=e376]
+                    - heading "Unlimited Rotations" [level=3] [ref=e380]
+                    - paragraph [ref=e381]: Rotate IPs automatically to avoid bans and throttling.
+                - generic [ref=e382]:
+                    - img [ref=e384]
+                    - heading "Secure & Encrypted" [level=3] [ref=e387]
+                    - paragraph [ref=e388]: Stay anonymous with strong encryption and zero-logging.
+                - generic [ref=e389]:
+                    - img [ref=e391]
+                    - heading "High Speed" [level=3] [ref=e393]
+                    - paragraph [ref=e394]: Enjoy fast response times and low-latency proxy servers.
+                - generic [ref=e395]:
+                    - img [ref=e397]
+                    - heading "Easy Integration" [level=3] [ref=e400]
+                    - paragraph [ref=e401]: Simple API integration with comprehensive documentation.
+                - generic [ref=e402]:
+                    - img [ref=e404]
+                    - heading "Real-Time Dashboard" [level=3] [ref=e406]
+                    - paragraph [ref=e407]: Monitor usage, performance and manage your proxies with ease.
+            - generic [ref=e408]:
+                - generic [ref=e409]:
+                    - img [ref=e410]
+                    - text: 99.9% Uptime
+                - generic [ref=e413]:
+                    - img [ref=e414]
+                    - text: 195+ Countries
+                - generic [ref=e417]:
+                    - img [ref=e418]
+                    - text: 10M+ IPs
+                - generic [ref=e421]:
+                    - img [ref=e422]
+                    - text: 24/7 Support
+        - generic [ref=e426]:
+            - generic [ref=e427]:
+                - generic [ref=e428]:
+                    - img [ref=e429]
+                    - text: Flexible Plans
+                - heading "Simple, Transparent Pricing" [level=2] [ref=e433]:
+                    - text: Simple, Transparent
+                    - text: Pricing
+                - paragraph [ref=e434]: Start free, scale as you grow. No hidden fees, no surprises.
+            - generic [ref=e435]:
+                - generic [ref=e437]:
+                    - heading "Starter" [level=3] [ref=e438]
+                    - paragraph [ref=e439]: Perfect for side projects and MVPs
+                    - generic [ref=e440]: $0/month
+                    - list [ref=e441]:
+                        - listitem [ref=e442]:
+                            - img [ref=e443]
+                            - text: 1,000 transactions/mo
+                        - listitem [ref=e445]:
+                            - img [ref=e446]
+                            - text: Basic analytics
+                        - listitem [ref=e448]:
+                            - img [ref=e449]
+                            - text: Email support
+                        - listitem [ref=e451]:
+                            - img [ref=e452]
+                            - text: 2 team members
+                        - listitem [ref=e454]:
+                            - img [ref=e455]
+                            - text: Standard API
+                    - link "Start Free" [ref=e457] [cursor=pointer]:
+                        - /url: /auth/register
+                - generic [ref=e458]:
+                    - generic [ref=e459]: Most Popular
+                    - generic [ref=e460]:
+                        - heading "Pro" [level=3] [ref=e461]
+                        - paragraph [ref=e462]: For growing businesses
+                        - generic [ref=e463]: $99/month
+                        - list [ref=e464]:
+                            - listitem [ref=e465]:
+                                - img [ref=e466]
+                                - text: Unlimited transactions
+                            - listitem [ref=e468]:
+                                - img [ref=e469]
+                                - text: Advanced analytics
+                            - listitem [ref=e471]:
+                                - img [ref=e472]
+                                - text: Priority support
+                            - listitem [ref=e474]:
+                                - img [ref=e475]
+                                - text: 25 team members
+                            - listitem [ref=e477]:
+                                - img [ref=e478]
+                                - text: Full API access
+                            - listitem [ref=e480]:
+                                - img [ref=e481]
+                                - text: Custom webhooks
+                            - listitem [ref=e483]:
+                                - img [ref=e484]
+                                - text: White-label options
+                        - link "Start Free Trial" [ref=e486] [cursor=pointer]:
+                            - /url: /auth/register
+                - generic [ref=e488]:
+                    - heading "Enterprise" [level=3] [ref=e489]
+                    - paragraph [ref=e490]: For large-scale operations
+                    - generic [ref=e491]: Custom
+                    - list [ref=e492]:
+                        - listitem [ref=e493]:
+                            - img [ref=e494]
+                            - text: Everything in Pro
+                        - listitem [ref=e496]:
+                            - img [ref=e497]
+                            - text: Dedicated infrastructure
+                        - listitem [ref=e499]:
+                            - img [ref=e500]
+                            - text: 24/7 phone support
+                        - listitem [ref=e502]:
+                            - img [ref=e503]
+                            - text: Unlimited team
+                        - listitem [ref=e505]:
+                            - img [ref=e506]
+                            - text: Custom SLA
+                        - listitem [ref=e508]:
+                            - img [ref=e509]
+                            - text: On-premise option
+                        - listitem [ref=e511]:
+                            - img [ref=e512]
+                            - text: Dedicated CSM
+                    - link "Contact Sales" [ref=e514] [cursor=pointer]:
+                        - /url: /auth/register
+        - generic [ref=e517]:
+            - generic [ref=e518]:
+                - generic [ref=e519]:
+                    - img [ref=e520]
+                    - text: About Us
+                - heading "Building the Future of Finance" [level=2] [ref=e523]:
+                    - text: Building the Future
+                    - text: of Finance
+                - paragraph [ref=e524]: 'Advancia PayLedger was founded with a singular vision: to democratize access to enterprise-grade financial infrastructure. We believe every business, regardless of size, deserves the same powerful tools that Fortune 500 companies use.'
+                - paragraph [ref=e525]: Our team of fintech veterans and AI researchers has built a platform that processes billions in transactions while maintaining the highest security standards in the industry.
+                - generic [ref=e526]:
+                    - generic [ref=e527]:
+                        - img [ref=e529]
+                        - generic [ref=e531]:
+                            - paragraph [ref=e532]: SOC 2 Type II
+                            - paragraph [ref=e533]: Certified
+                    - generic [ref=e534]:
+                        - img [ref=e536]
+                        - generic [ref=e540]:
+                            - paragraph [ref=e541]: PCI DSS
+                            - paragraph [ref=e542]: Level 1 Compliant
+            - generic [ref=e544]:
+                - heading "Why Choose Advancia?" [level=3] [ref=e545]
+                - generic [ref=e546]:
+                    - generic [ref=e547]:
+                        - img [ref=e549]
+                        - generic [ref=e551]:
+                            - paragraph [ref=e552]: AI-First Approach
+                            - paragraph [ref=e553]: Machine learning models trained on billions of transactions
+                    - generic [ref=e554]:
+                        - img [ref=e556]
+                        - generic [ref=e558]:
+                            - paragraph [ref=e559]: Global Infrastructure
+                            - paragraph [ref=e560]: Edge computing across 200+ locations worldwide
+                    - generic [ref=e561]:
+                        - img [ref=e563]
+                        - generic [ref=e565]:
+                            - paragraph [ref=e566]: Developer Experience
+                            - paragraph [ref=e567]: Beautiful APIs, comprehensive SDKs, and detailed docs
+                    - generic [ref=e568]:
+                        - img [ref=e570]
+                        - generic [ref=e572]:
+                            - paragraph [ref=e573]: Enterprise Support
+                            - paragraph [ref=e574]: 24/7 dedicated support with 15-minute response SLA
+        - generic [ref=e576]:
+            - generic [ref=e577]:
+                - generic [ref=e578]:
+                    - img [ref=e579]
+                    - text: Customer Stories
+                - heading "Trusted by Thousands" [level=2] [ref=e581]
+                - paragraph [ref=e582]: See what industry leaders say about Advancia PayLedger
+            - generic [ref=e583]:
+                - generic [ref=e584]:
+                    - generic [ref=e585]:
+                        - img [ref=e586]
+                        - img [ref=e588]
+                        - img [ref=e590]
+                        - img [ref=e592]
+                        - img [ref=e594]
+                    - paragraph [ref=e596]: “Advancia reduced our payment processing costs by 40% while improving our fraud detection. The AI-powered analytics are game-changing.”
+                    - generic [ref=e597]:
+                        - generic [ref=e598]: SC
+                        - generic [ref=e599]:
+                            - paragraph [ref=e600]: Sarah Chen
+                            - paragraph [ref=e601]: CTO, TechFlow Inc.
+                - generic [ref=e602]:
+                    - generic [ref=e603]:
+                        - img [ref=e604]
+                        - img [ref=e606]
+                        - img [ref=e608]
+                        - img [ref=e610]
+                        - img [ref=e612]
+                    - paragraph [ref=e614]: “The integration was seamless. We went from legacy systems to a modern payment infrastructure in just 2 weeks. Outstanding support team.”
+                    - generic [ref=e615]:
+                        - generic [ref=e616]: MJ
+                        - generic [ref=e617]:
+                            - paragraph [ref=e618]: Marcus Johnson
+                            - paragraph [ref=e619]: VP of Engineering, FinanceHub
+                - generic [ref=e620]:
+                    - generic [ref=e621]:
+                        - img [ref=e622]
+                        - img [ref=e624]
+                        - img [ref=e626]
+                        - img [ref=e628]
+                        - img [ref=e630]
+                    - paragraph [ref=e632]: “Best-in-class security with SOC 2 compliance gave us the confidence to scale globally. Our transaction volume grew 10x in 6 months.”
+                    - generic [ref=e633]:
+                        - generic [ref=e634]: ER
+                        - generic [ref=e635]:
+                            - paragraph [ref=e636]: Elena Rodriguez
+                            - paragraph [ref=e637]: CEO, GlobalPay Solutions
+        - generic [ref=e641]:
+            - heading "Ready to Transform Your Payment Infrastructure?" [level=2] [ref=e642]:
+                - text: Ready to Transform Your
+                - text: Payment Infrastructure?
+            - paragraph [ref=e643]: Join thousands of businesses already using Advancia to power their financial operations.
+            - generic [ref=e644]:
+                - link "Get Started Free" [ref=e645] [cursor=pointer]:
+                    - /url: /auth/register
+                    - text: Get Started Free
+                    - img [ref=e646]
+                - link "Talk to Sales" [ref=e648] [cursor=pointer]:
+                    - /url: '#contact'
+        - contentinfo [ref=e649]:
+            - generic [ref=e650]:
+                - generic [ref=e651]:
+                    - generic [ref=e652]:
+                        - link "Advancia" [ref=e653] [cursor=pointer]:
+                            - /url: /
+                            - img [ref=e655]
+                            - text: Advancia
+                        - paragraph [ref=e657]: Enterprise-grade payment infrastructure for the modern economy.
+                        - generic [ref=e658]:
+                            - link [ref=e659] [cursor=pointer]:
+                                - /url: https://twitter.com
+                                - img [ref=e660]
+                            - link [ref=e662] [cursor=pointer]:
+                                - /url: https://linkedin.com
+                                - img [ref=e663]
+                            - link [ref=e667] [cursor=pointer]:
+                                - /url: mailto:contact@advanciapayledger.com
+                                - img [ref=e668]
+                    - generic [ref=e671]:
+                        - heading "Product" [level=4] [ref=e672]
+                        - list [ref=e673]:
+                            - listitem [ref=e674]: Features
+                            - listitem [ref=e675]: Pricing
+                            - listitem [ref=e676]: API Docs
+                            - listitem [ref=e677]: Integrations
+                    - generic [ref=e678]:
+                        - heading "Company" [level=4] [ref=e679]
+                        - list [ref=e680]:
+                            - listitem [ref=e681]: About
+                            - listitem [ref=e682]: Blog
+                            - listitem [ref=e683]: Careers
+                            - listitem [ref=e684]: Press
+                    - generic [ref=e685]:
+                        - heading "Support" [level=4] [ref=e686]
+                        - list [ref=e687]:
+                            - listitem [ref=e688]:
+                                - link "FAQ" [ref=e689] [cursor=pointer]:
+                                    - /url: /faq
+                            - listitem [ref=e690]: Help Center
+                            - listitem [ref=e691]: Contact
+                            - listitem [ref=e692]: 24/7 Live Chat
+                - generic [ref=e694]:
+                    - generic [ref=e695]:
+                        - img [ref=e696]
+                        - generic [ref=e698]: 83% Secure
+                    - generic [ref=e699]:
+                        - generic [ref=e700]:
+                            - img [ref=e701]
+                            - text: Verified Platform
+                        - generic [ref=e704]:
+                            - img [ref=e705]
+                            - text: 30-Day Money Back
+                        - generic [ref=e709]:
+                            - img [ref=e710]
+                            - text: SOC 2 Certified
+                        - generic [ref=e712]:
+                            - img [ref=e713]
+                            - text: 256-bit SSL
+                - generic [ref=e716]:
+                    - paragraph [ref=e717]: © 2024 Advancia PayLedger. All rights reserved.
+                    - generic [ref=e718]:
+                        - link "Privacy Policy" [ref=e719] [cursor=pointer]:
+                            - /url: /privacy
+                        - link "Terms of Service" [ref=e720] [cursor=pointer]:
+                            - /url: /terms
+                        - link "FAQ" [ref=e721] [cursor=pointer]:
+                            - /url: /faq
+```

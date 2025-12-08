@@ -36,6 +36,9 @@ yarn-error.log*
 .env.development
 .env.production
 
+# env.example is tracked (template file)
+!env.example
+
 # vercel
 .vercel
 
@@ -44,9 +47,22 @@ yarn-error.log*
 .wrangler/
 .worker-next/
 
+# Build artifacts (may contain patterns that trigger security scans)
+.open-next/
+.vercel/output/
+.next/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
 .vercel
 .env*.local
+
+# Security: Never commit these
+.env.production
+.env.*.local
+*.pem
+*.key
+id_rsa*
+*.secret
