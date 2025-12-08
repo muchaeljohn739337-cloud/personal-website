@@ -5,7 +5,14 @@
 
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+// Use Supabase database URL
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL || 'postgresql://postgres.xesecqcqzykvmrtxrzqi:1j4wUXLfkSxe2Zds@aws-1-us-east-1.pooler.supabase.com:5432/postgres',
+    },
+  },
+});
 
 async function makeAdmin(email: string, isSuperAdmin: boolean) {
   try {

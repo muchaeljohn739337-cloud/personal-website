@@ -167,38 +167,20 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Terms Agreement Checkbox */}
-          <div className="flex items-start gap-3 rounded-lg border border-slate-700 bg-slate-800/30 p-4">
+          {/* Terms Agreement - Minimal */}
+          <div className="flex items-center gap-3">
             <input
               type="checkbox"
               id="terms"
               checked={agreedToTerms}
               onChange={(e) => setAgreedToTerms(e.target.checked)}
-              className="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-slate-900"
+              className="h-5 w-5 rounded border-slate-600 bg-slate-800 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0 cursor-pointer"
             />
-            <label htmlFor="terms" className="text-sm text-slate-300">
+            <label htmlFor="terms" className="text-sm text-slate-400 cursor-pointer">
               I agree to the{' '}
-              <Link
-                href="/terms"
-                className="font-medium text-blue-400 hover:text-blue-300 underline"
-              >
-                Terms of Service
-              </Link>
-              ,{' '}
-              <Link
-                href="/privacy"
-                className="font-medium text-blue-400 hover:text-blue-300 underline"
-              >
-                Privacy Policy
-              </Link>
-              , and{' '}
-              <Link
-                href="/acceptable-use"
-                className="font-medium text-blue-400 hover:text-blue-300 underline"
-              >
-                Acceptable Use Policy
-              </Link>
-              . I understand that my account is subject to admin approval.
+              <Link href="/terms" className="text-emerald-400 hover:text-emerald-300">Terms</Link>
+              {' & '}
+              <Link href="/privacy" className="text-emerald-400 hover:text-emerald-300">Privacy</Link>
             </label>
           </div>
 

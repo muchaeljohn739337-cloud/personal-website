@@ -67,9 +67,22 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.error('Registration error:', error);
+    
+    // Handle Zod validation errors
     if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json({ error: 'Invalid input data' }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    
+    // Handle Prisma errors
+    if (error instanceof Error) {
+      if (error.message.includes('Unique constraint')) {
+        return NextResponse.json({ error: 'Email already registered' }, { status: 400 });
+      }
+      if (error.message.includes('connect') || error.message.includes('database')) {
+        return NextResponse.json({ error: 'Service temporarily unavailable. Please try again.' }, { status: 503 });
+      }
+    }
+    
+    return NextResponse.json({ error: 'Registration failed. Please try again.' }, { status: 500 });
   }
 }

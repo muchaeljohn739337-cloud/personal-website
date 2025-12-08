@@ -409,10 +409,11 @@ export default function Home() {
             {/* Hero Visual */}
             <div className="relative hidden lg:block">
               {/* Main Card - Advanced Revenue Dashboard */}
-              <div className="relative z-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-8 shadow-2xl overflow-hidden">
-                {/* Animated Background Glow */}
-                <div className="absolute -top-20 -right-20 w-40 h-40 bg-violet-500/30 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+              <div className="relative z-10 bg-gradient-to-br from-slate-900/95 via-slate-800/90 to-slate-900/95 backdrop-blur-xl rounded-3xl border border-violet-500/20 p-8 shadow-2xl shadow-violet-500/10 overflow-hidden">
+                {/* Animated Background Glow - More Intense */}
+                <div className="absolute -top-20 -right-20 w-60 h-60 bg-violet-600/40 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-cyan-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl" />
                 
                 {/* Dashboard Preview */}
                 <div className="relative space-y-6">
@@ -444,7 +445,7 @@ export default function Home() {
                   </div>
 
                   {/* Advanced Chart with Multiple Layers */}
-                  <div className="h-44 bg-gradient-to-t from-violet-500/10 to-transparent rounded-2xl relative overflow-hidden border border-white/5">
+                  <div className="h-44 bg-gradient-to-t from-violet-900/40 via-slate-900/60 to-slate-900/80 rounded-2xl relative overflow-hidden border border-violet-500/20 shadow-inner">
                     {/* Grid Lines */}
                     <div className="absolute inset-0 opacity-20">
                       {[...Array(5)].map((_, i) => (
@@ -511,17 +512,18 @@ export default function Home() {
                   {/* Enhanced Stats Grid */}
                   <div className="grid grid-cols-3 gap-3">
                     {[
-                      { label: 'Transactions', value: '847K', change: '+12%', icon: FiActivity, color: 'violet' },
-                      { label: 'Active Users', value: '12.4K', change: '+8%', icon: FiUsers, color: 'emerald' },
-                      { label: 'Countries', value: '89', change: '+3', icon: FiGlobe, color: 'cyan' },
+                      { label: 'Transactions', value: '847K', change: '+12%', icon: FiActivity, gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-500/10', text: 'text-violet-400', border: 'border-violet-500/30' },
+                      { label: 'Active Users', value: '12.4K', change: '+8%', icon: FiUsers, gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/30' },
+                      { label: 'Countries', value: '89', change: '+3', icon: FiGlobe, gradient: 'from-cyan-500 to-blue-600', bg: 'bg-cyan-500/10', text: 'text-cyan-400', border: 'border-cyan-500/30' },
                     ].map((stat, i) => (
-                      <div key={i} className="group relative bg-white/5 hover:bg-white/10 rounded-xl p-4 text-center transition-all duration-300 border border-transparent hover:border-white/10 cursor-pointer">
-                        <div className={`absolute inset-0 bg-gradient-to-br from-${stat.color}-500/10 to-transparent opacity-0 group-hover:opacity-100 rounded-xl transition-opacity`} />
+                      <div key={i} className={`group relative ${stat.bg} hover:bg-opacity-20 rounded-xl p-4 text-center transition-all duration-300 border ${stat.border} cursor-pointer hover:scale-105 hover:shadow-lg`}>
                         <div className="relative">
-                          <stat.icon className={`w-5 h-5 mx-auto mb-2 text-${stat.color}-400`} />
-                          <p className="text-xl font-bold">{stat.value}</p>
-                          <p className="text-xs text-gray-500">{stat.label}</p>
-                          <p className={`text-[10px] text-${stat.color}-400 mt-1`}>{stat.change}</p>
+                          <div className={`w-10 h-10 mx-auto mb-2 rounded-lg bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}>
+                            <stat.icon className="w-5 h-5 text-white" />
+                          </div>
+                          <p className="text-2xl font-black text-white">{stat.value}</p>
+                          <p className="text-xs text-gray-400">{stat.label}</p>
+                          <p className={`text-xs ${stat.text} font-semibold mt-1`}>{stat.change}</p>
                         </div>
                       </div>
                     ))}

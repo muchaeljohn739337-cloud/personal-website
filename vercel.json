@@ -1,5 +1,23 @@
 {
   "buildCommand": "npx prisma generate && next build",
   "installCommand": "npm install --legacy-peer-deps",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/cron?task=cleanup",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron?task=security",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron?task=subscriptions",
+      "schedule": "0 */4 * * *"
+    },
+    {
+      "path": "/api/cron?task=stats",
+      "schedule": "0 7 * * *"
+    }
+  ]
 }
