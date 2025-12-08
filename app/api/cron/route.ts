@@ -44,23 +44,9 @@ async function checkPendingApprovals() {
 }
 
 async function checkExpiredSubscriptions() {
-  const expired = await prisma.subscription.findMany({
-    where: {
-      status: 'active',
-      currentPeriodEnd: { lt: new Date() },
-    },
-    select: { id: true, userId: true },
-  });
-
-  // Mark as expired
-  if (expired.length > 0) {
-    await prisma.subscription.updateMany({
-      where: { id: { in: expired.map((s) => s.id) } },
-      data: { status: 'expired' },
-    });
-  }
-
-  return { task: 'subscription_check', expired: expired.length };
+  // TODO: Add Subscription model to Prisma schema when needed
+  // For now, return placeholder
+  return { task: 'subscription_check', expired: 0, note: 'Subscription model not yet implemented' };
 }
 
 async function generateDailyStats() {

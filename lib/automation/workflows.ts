@@ -360,7 +360,7 @@ async function executeWorkflowSteps(
   run: WorkflowRun,
   context: Record<string, unknown>
 ): Promise<void> {
-  let currentStepId = workflow.steps[0]?.id;
+  let currentStepId: string | undefined = workflow.steps[0]?.id;
 
   while (currentStepId) {
     const step = workflow.steps.find((s) => s.id === currentStepId);
