@@ -1,4 +1,4 @@
-import Link from 'next/link';
+1import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 export const metadata = {

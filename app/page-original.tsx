@@ -97,8 +97,6 @@ import {
   FiCheckCircle,
   FiRefreshCw,
   FiHeart,
-  FiDollarSign,
-  FiPieChart,
 } from 'react-icons/fi';
 import { SiStripe, SiVisa, SiMastercard, SiPaypal, SiCoinbase, SiSquare } from 'react-icons/si';
 import SecurityShield from '@/components/security/SecurityShield';
@@ -408,141 +406,57 @@ export default function Home() {
 
             {/* Hero Visual */}
             <div className="relative hidden lg:block">
-              {/* Main Card - Advanced Revenue Dashboard */}
-              <div className="relative z-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-8 shadow-2xl overflow-hidden">
-                {/* Animated Background Glow */}
-                <div className="absolute -top-20 -right-20 w-40 h-40 bg-violet-500/30 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-                
+              {/* Main Card */}
+              <div className="relative z-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
                 {/* Dashboard Preview */}
-                <div className="relative space-y-6">
-                  {/* Header with Live Indicator */}
+                <div className="space-y-6">
+                  {/* Header */}
                   <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </span>
-                        <p className="text-xs text-emerald-400 font-medium uppercase tracking-wider">Live Revenue</p>
-                      </div>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-4xl font-black text-white">
-                          $2,847,392
-                        </span>
-                        <span className="text-sm text-gray-500">.47</span>
-                      </div>
-                      <p className="text-xs text-gray-500">Updated 2 seconds ago</p>
+                    <div>
+                      <p className="text-sm text-gray-400">Total Revenue</p>
+                      <p className="text-3xl font-bold">$2,847,392</p>
                     </div>
-                    <div className="text-right space-y-2">
-                      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30">
-                        <FiTrendingUp className="w-5 h-5 text-emerald-400" />
-                        <span className="text-lg font-bold text-emerald-400">+24.5%</span>
-                      </div>
-                      <p className="text-xs text-gray-500">vs last month</p>
+                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/20 text-violet-400 text-sm">
+                      <FiTrendingUp className="w-4 h-4" />
+                      +24.5%
                     </div>
                   </div>
 
-                  {/* Advanced Chart with Multiple Layers */}
-                  <div className="h-44 bg-gradient-to-t from-violet-500/10 to-transparent rounded-2xl relative overflow-hidden border border-white/5">
-                    {/* Grid Lines */}
-                    <div className="absolute inset-0 opacity-20">
-                      {[...Array(5)].map((_, i) => (
-                        <div key={i} className="absolute w-full border-t border-dashed border-gray-600" style={{ top: `${(i + 1) * 20}%` }} />
-                      ))}
-                    </div>
-                    
-                    {/* Y-Axis Labels */}
-                    <div className="absolute left-2 top-0 h-full flex flex-col justify-between py-2 text-[10px] text-gray-600">
-                      <span>$3M</span>
-                      <span>$2M</span>
-                      <span>$1M</span>
-                      <span>$0</span>
-                    </div>
-                    
-                    <svg className="w-full h-full" viewBox="0 0 400 176" preserveAspectRatio="none">
+                  {/* Chart Placeholder */}
+                  <div className="h-40 bg-gradient-to-t from-violet-500/20 to-transparent rounded-xl relative overflow-hidden">
+                    <svg className="w-full h-full" viewBox="0 0 400 160" preserveAspectRatio="none">
                       <defs>
-                        <linearGradient id="chartGradientAdvanced" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="rgb(139, 92, 246)" stopOpacity="0.4" />
-                          <stop offset="50%" stopColor="rgb(52, 211, 153)" stopOpacity="0.2" />
+                        <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="rgb(52, 211, 153)" stopOpacity="0.3" />
                           <stop offset="100%" stopColor="rgb(52, 211, 153)" stopOpacity="0" />
                         </linearGradient>
-                        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="rgb(139, 92, 246)" />
-                          <stop offset="100%" stopColor="rgb(52, 211, 153)" />
-                        </linearGradient>
-                        <filter id="glow">
-                          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                          <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                          </feMerge>
-                        </filter>
                       </defs>
-                      {/* Area Fill */}
                       <path
-                        d="M0,140 Q30,130 60,125 T120,100 T180,85 T240,70 T300,45 T360,35 T400,25 L400,176 L0,176 Z"
-                        fill="url(#chartGradientAdvanced)"
+                        d="M0,120 Q50,100 100,90 T200,70 T300,50 T400,30 L400,160 L0,160 Z"
+                        fill="url(#chartGradient)"
                       />
-                      {/* Main Line */}
                       <path
-                        d="M0,140 Q30,130 60,125 T120,100 T180,85 T240,70 T300,45 T360,35 T400,25"
+                        d="M0,120 Q50,100 100,90 T200,70 T300,50 T400,30"
                         fill="none"
-                        stroke="url(#lineGradient)"
-                        strokeWidth="3"
-                        filter="url(#glow)"
+                        stroke="rgb(52, 211, 153)"
+                        strokeWidth="2"
                       />
-                      {/* Data Points */}
-                      {[[60, 125], [120, 100], [180, 85], [240, 70], [300, 45], [360, 35]].map(([x, y], i) => (
-                        <g key={i}>
-                          <circle cx={x} cy={y} r="6" fill="rgba(139, 92, 246, 0.3)" />
-                          <circle cx={x} cy={y} r="3" fill="white" />
-                        </g>
-                      ))}
                     </svg>
-                    
-                    {/* Tooltip Preview */}
-                    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
-                      <p className="text-[10px] text-gray-400">Today</p>
-                      <p className="text-sm font-bold text-white">$127,482</p>
-                    </div>
                   </div>
 
-                  {/* Enhanced Stats Grid */}
-                  <div className="grid grid-cols-3 gap-3">
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-3 gap-4">
                     {[
-                      { label: 'Transactions', value: '847K', change: '+12%', icon: FiActivity, color: 'violet' },
-                      { label: 'Active Users', value: '12.4K', change: '+8%', icon: FiUsers, color: 'emerald' },
-                      { label: 'Countries', value: '89', change: '+3', icon: FiGlobe, color: 'cyan' },
+                      { label: 'Transactions', value: '847K', icon: FiActivity },
+                      { label: 'Users', value: '12.4K', icon: FiUsers },
+                      { label: 'Countries', value: '89', icon: FiGlobe },
                     ].map((stat, i) => (
-                      <div key={i} className="group relative bg-white/5 hover:bg-white/10 rounded-xl p-4 text-center transition-all duration-300 border border-transparent hover:border-white/10 cursor-pointer">
-                        <div className={`absolute inset-0 bg-gradient-to-br from-${stat.color}-500/10 to-transparent opacity-0 group-hover:opacity-100 rounded-xl transition-opacity`} />
-                        <div className="relative">
-                          <stat.icon className={`w-5 h-5 mx-auto mb-2 text-${stat.color}-400`} />
-                          <p className="text-xl font-bold">{stat.value}</p>
-                          <p className="text-xs text-gray-500">{stat.label}</p>
-                          <p className={`text-[10px] text-${stat.color}-400 mt-1`}>{stat.change}</p>
-                        </div>
+                      <div key={i} className="bg-white/5 rounded-xl p-4 text-center">
+                        <stat.icon className="w-5 h-5 mx-auto mb-2 text-gray-400" />
+                        <p className="text-lg font-semibold">{stat.value}</p>
+                        <p className="text-xs text-gray-500">{stat.label}</p>
                       </div>
                     ))}
-                  </div>
-                  
-                  {/* Quick Actions Bar */}
-                  <div className="flex items-center justify-between pt-2 border-t border-white/5">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center">
-                        <FiDollarSign className="w-4 h-4 text-violet-400" />
-                      </div>
-                      <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                        <FiCreditCard className="w-4 h-4 text-emerald-400" />
-                      </div>
-                      <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center">
-                        <FiPieChart className="w-4 h-4 text-cyan-400" />
-                      </div>
-                    </div>
-                    <button className="text-xs text-violet-400 hover:text-violet-300 transition-colors flex items-center gap-1">
-                      View Full Dashboard <FiArrowRight className="w-3 h-3" />
-                    </button>
                   </div>
                 </div>
               </div>
