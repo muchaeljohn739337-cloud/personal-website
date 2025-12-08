@@ -12,8 +12,17 @@ let MAINTENANCE_MODE = false;
 // Protected routes that require authentication
 const PROTECTED_ROUTES = ['/dashboard', '/admin', '/api/admin', '/api/user'];
 
-// Admin-only routes
-const ADMIN_ROUTES = ['/admin', '/api/admin'];
+// Admin-only routes (ADMIN or SUPER_ADMIN)
+const ADMIN_ROUTES = ['/admin', '/api/admin', '/dashboard/users', '/dashboard/system'];
+
+// Super Admin only routes (SUPER_ADMIN only)
+const SUPER_ADMIN_ROUTES = [
+  '/admin/settings/dangerous',
+  '/api/admin/users/delete',
+  '/api/admin/billing/refund',
+  '/api/admin/system/maintenance',
+  '/api/admin/system/lockdown',
+];
 
 // Auth routes (redirect if already logged in)
 const AUTH_ROUTES = ['/auth/login', '/auth/register'];
@@ -178,9 +187,21 @@ export async function middleware(request: NextRequest) {
   // Check admin access
   if (isAdminRoute && token) {
     const userRole = token.role as string;
-    if (userRole !== 'ADMIN') {
+    if (userRole !== 'ADMIN' && userRole !== 'SUPER_ADMIN') {
       // Non-admin trying to access admin routes
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+      console.log(`[SECURITY] Unauthorized admin access attempt by ${token.email} (role: ${userRole})`);
+      return NextResponse.redirect(new URL('/dashboard?error=unauthorized', request.url));
+    }
+  }
+
+  // Check super admin access
+  const isSuperAdminRoute = SUPER_ADMIN_ROUTES.some((route) => pathname.startsWith(route));
+  if (isSuperAdminRoute && token) {
+    const userRole = token.role as string;
+    if (userRole !== 'SUPER_ADMIN') {
+      // Non-super-admin trying to access super admin routes
+      console.log(`[SECURITY] Unauthorized super admin access attempt by ${token.email} (role: ${userRole})`);
+      return NextResponse.redirect(new URL('/admin?error=insufficient_privileges', request.url));
     }
   }
 
