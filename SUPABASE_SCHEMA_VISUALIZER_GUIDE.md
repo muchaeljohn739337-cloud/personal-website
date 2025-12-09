@@ -13,11 +13,13 @@ Complete guide for visualizing and managing your Supabase database schema, inclu
 **URL:** https://app.supabase.com/project/xesecqcqzykvmrtxrzqi
 
 **Access:**
+
 1. Go to Supabase Dashboard
 2. Select project: `xesecqcqzykvmrtxrzqi`
 3. Navigate to **Database** section
 
 **Features:**
+
 - ✅ Visual table editor
 - ✅ Relationship diagrams
 - ✅ Column types and constraints
@@ -30,17 +32,20 @@ Complete guide for visualizing and managing your Supabase database schema, inclu
 ### 2. Prisma Studio (Local Visualizer)
 
 **Command:**
+
 ```bash
 npm run prisma:studio
 ```
 
 **Access:**
+
 - Opens at: http://localhost:5555
 - Visual schema browser
 - Data editor
 - Relationship navigation
 
 **Features:**
+
 - ✅ Browse all tables
 - ✅ Edit data visually
 - ✅ View relationships
@@ -54,6 +59,7 @@ npm run prisma:studio
 **Location:** Supabase Dashboard → Database → SQL Editor
 
 **Use for:**
+
 - Custom queries
 - Schema inspection
 - Data analysis
@@ -66,17 +72,19 @@ npm run prisma:studio
 ### 1. Tables
 
 **View Tables:**
+
 - **Dashboard:** Database → Tables
 - **Prisma Studio:** `npm run prisma:studio`
 - **SQL:**
   ```sql
-  SELECT table_name 
-  FROM information_schema.tables 
-  WHERE table_schema = 'public' 
+  SELECT table_name
+  FROM information_schema.tables
+  WHERE table_schema = 'public'
   ORDER BY table_name;
   ```
 
 **Current Tables (from Prisma Schema):**
+
 - User, Wallet, Transaction, Payment
 - Subscription, Organization, Workspace
 - BlogPost, Post, Comment
@@ -87,19 +95,21 @@ npm run prisma:studio
 ### 2. Functions
 
 **View Functions:**
+
 - **Dashboard:** Database → Functions
 - **SQL:**
   ```sql
-  SELECT 
+  SELECT
     routine_name,
     routine_type,
     data_type
-  FROM information_schema.routines 
+  FROM information_schema.routines
   WHERE routine_schema = 'public'
   ORDER BY routine_name;
   ```
 
 **Common Functions:**
+
 - Custom SQL functions
 - Stored procedures
 - Database triggers
@@ -109,21 +119,23 @@ npm run prisma:studio
 ### 3. Triggers
 
 **View Triggers:**
+
 - **Dashboard:** Database → Triggers
 - **SQL:**
   ```sql
-  SELECT 
+  SELECT
     trigger_name,
     event_object_table,
     action_timing,
     event_manipulation,
     action_statement
-  FROM information_schema.triggers 
+  FROM information_schema.triggers
   WHERE trigger_schema = 'public'
   ORDER BY event_object_table;
   ```
 
 **Common Triggers:**
+
 - Auto-update `updated_at` timestamps
 - Audit logging
 - Data validation
@@ -133,17 +145,19 @@ npm run prisma:studio
 ### 4. Enumerated Types
 
 **View Types:**
+
 - **SQL:**
   ```sql
-  SELECT 
+  SELECT
     typname as type_name,
     oid
-  FROM pg_type 
+  FROM pg_type
   WHERE typtype = 'e'
   ORDER BY typname;
   ```
 
 **From Prisma Schema:**
+
 - `UserRole` (USER, ADMIN, SUPER_ADMIN)
 - `PaymentProvider` (STRIPE, LEMONSQUEEZY, etc.)
 - `TransactionType` (DEPOSIT, WITHDRAWAL, etc.)
@@ -154,10 +168,11 @@ npm run prisma:studio
 ### 5. Extensions
 
 **View Extensions:**
+
 - **Dashboard:** Database → Extensions
 - **SQL:**
   ```sql
-  SELECT 
+  SELECT
     extname as extension_name,
     extversion as version
   FROM pg_extension
@@ -165,12 +180,14 @@ npm run prisma:studio
   ```
 
 **Common Extensions:**
+
 - `uuid-ossp` - UUID generation
 - `pgcrypto` - Cryptographic functions
 - `pg_trgm` - Text search
 - `vector` - Vector similarity (AI)
 
 **Enable Extension:**
+
 ```sql
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
@@ -180,24 +197,27 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ### 6. Indexes
 
 **View Indexes:**
+
 - **Dashboard:** Database → Indexes
 - **SQL:**
   ```sql
-  SELECT 
+  SELECT
     tablename,
     indexname,
     indexdef
-  FROM pg_indexes 
+  FROM pg_indexes
   WHERE schemaname = 'public'
   ORDER BY tablename, indexname;
   ```
 
 **Automatic Indexes:**
+
 - Primary keys
 - Foreign keys
 - Unique constraints
 
 **Custom Indexes:**
+
 ```sql
 CREATE INDEX idx_user_email ON "User"(email);
 CREATE INDEX idx_transaction_user_id ON "Transaction"(user_id);
@@ -208,9 +228,10 @@ CREATE INDEX idx_transaction_user_id ON "Transaction"(user_id);
 ### 7. Publications
 
 **View Publications:**
+
 - **SQL:**
   ```sql
-  SELECT 
+  SELECT
     pubname as publication_name
   FROM pg_publication;
   ```
@@ -222,6 +243,7 @@ CREATE INDEX idx_transaction_user_id ON "Transaction"(user_id);
 ### 8. Configuration
 
 **Access:**
+
 - **Dashboard:** Settings → Database
 - Connection settings
 - Performance tuning
@@ -232,9 +254,10 @@ CREATE INDEX idx_transaction_user_id ON "Transaction"(user_id);
 ### 9. Roles
 
 **View Roles:**
+
 - **SQL:**
   ```sql
-  SELECT 
+  SELECT
     rolname,
     rolsuper,
     rolcreaterole,
@@ -245,6 +268,7 @@ CREATE INDEX idx_transaction_user_id ON "Transaction"(user_id);
   ```
 
 **Default Roles:**
+
 - `postgres` - Superuser
 - `anon` - Anonymous access
 - `authenticated` - Authenticated users
@@ -255,10 +279,11 @@ CREATE INDEX idx_transaction_user_id ON "Transaction"(user_id);
 ### 10. Policies (Row Level Security)
 
 **View Policies:**
+
 - **Dashboard:** Database → Policies
 - **SQL:**
   ```sql
-  SELECT 
+  SELECT
     schemaname,
     tablename,
     policyname,
@@ -267,17 +292,19 @@ CREATE INDEX idx_transaction_user_id ON "Transaction"(user_id);
     cmd,
     qual,
     with_check
-  FROM pg_policies 
+  FROM pg_policies
   WHERE schemaname = 'public'
   ORDER BY tablename, policyname;
   ```
 
 **RLS Policies:**
+
 - User data access
 - Organization isolation
 - Public/private content
 
 **Example:**
+
 ```sql
 CREATE POLICY "Users can view own data"
 ON "User" FOR SELECT
@@ -292,55 +319,55 @@ USING (auth.uid()::text = id);
 
 ```sql
 -- Complete Schema Overview
-SELECT 
+SELECT
   'Tables' as component_type,
   count(*) as count
-FROM information_schema.tables 
+FROM information_schema.tables
 WHERE table_schema = 'public' AND table_type = 'BASE TABLE'
 
 UNION ALL
 
-SELECT 
+SELECT
   'Functions',
   count(*)
-FROM information_schema.routines 
+FROM information_schema.routines
 WHERE routine_schema = 'public'
 
 UNION ALL
 
-SELECT 
+SELECT
   'Triggers',
   count(*)
-FROM information_schema.triggers 
+FROM information_schema.triggers
 WHERE trigger_schema = 'public'
 
 UNION ALL
 
-SELECT 
+SELECT
   'Indexes',
   count(*)
-FROM pg_indexes 
+FROM pg_indexes
 WHERE schemaname = 'public'
 
 UNION ALL
 
-SELECT 
+SELECT
   'Policies',
   count(*)
-FROM pg_policies 
+FROM pg_policies
 WHERE schemaname = 'public'
 
 UNION ALL
 
-SELECT 
+SELECT
   'Types',
   count(*)
-FROM pg_type 
+FROM pg_type
 WHERE typtype = 'e'
 
 UNION ALL
 
-SELECT 
+SELECT
   'Extensions',
   count(*)
 FROM pg_extension;
@@ -353,16 +380,19 @@ FROM pg_extension;
 ### View Storage
 
 **Via Dashboard:**
+
 1. Go to Storage section
 2. View all buckets
 3. Check files and permissions
 
 **Via Script:**
+
 ```bash
 npm run supabase:storage
 ```
 
 **Via Code:**
+
 ```typescript
 import { getStorage } from '@/lib/storage/supabase';
 
@@ -375,10 +405,12 @@ const files = await storage.listFiles('user-avatars');
 ## Quick Reference
 
 ### Access Dashboard
+
 - **URL:** https://app.supabase.com/project/xesecqcqzykvmrtxrzqi
 - **Project:** `xesecqcqzykvmrtxrzqi`
 
 ### Commands
+
 ```bash
 # Schema check
 npm run supabase:schema
@@ -394,6 +426,7 @@ npm run prisma:generate
 ```
 
 ### SQL Queries
+
 - All queries available in `SUPABASE_DATABASE_MANAGEMENT.md`
 - Run in Supabase Dashboard → SQL Editor
 
@@ -401,4 +434,3 @@ npm run prisma:generate
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd")  
 **Status:** Ready for Use
-

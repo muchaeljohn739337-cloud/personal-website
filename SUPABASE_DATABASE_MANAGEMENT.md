@@ -11,11 +11,13 @@ Complete guide for managing Supabase database schema, storage, and all database 
 ### JavaScript/TypeScript (Node.js/Next.js)
 
 **Already Installed:**
+
 ```bash
 npm list @supabase/supabase-js @supabase/ssr
 ```
 
 **If Not Installed:**
+
 ```bash
 npm install @supabase/supabase-js @supabase/ssr
 ```
@@ -25,6 +27,7 @@ npm install @supabase/supabase-js @supabase/ssr
 ### Python (Optional - for scripts/automation)
 
 **Install:**
+
 ```bash
 pip install supabase
 ```
@@ -89,29 +92,29 @@ Opens visual editor for Prisma schema at `http://localhost:5555`
 
 ```sql
 -- List all tables
-SELECT table_name 
-FROM information_schema.tables 
-WHERE table_schema = 'public' 
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
 AND table_type = 'BASE TABLE';
 
 -- List all functions
-SELECT routine_name 
-FROM information_schema.routines 
+SELECT routine_name
+FROM information_schema.routines
 WHERE routine_schema = 'public';
 
 -- List all triggers
-SELECT trigger_name, event_object_table 
-FROM information_schema.triggers 
+SELECT trigger_name, event_object_table
+FROM information_schema.triggers
 WHERE trigger_schema = 'public';
 
 -- List all indexes
-SELECT indexname, tablename 
-FROM pg_indexes 
+SELECT indexname, tablename
+FROM pg_indexes
 WHERE schemaname = 'public';
 
 -- List all policies
-SELECT schemaname, tablename, policyname 
-FROM pg_policies 
+SELECT schemaname, tablename, policyname
+FROM pg_policies
 WHERE schemaname = 'public';
 
 -- List all roles
@@ -136,6 +139,7 @@ Runs schema verification script.
 ### Storage Buckets
 
 **Required Buckets:**
+
 - `user-avatars` - User profile images (public)
 - `blog-images` - Blog post images (public)
 - `workspace-assets` - Workspace files (private)
@@ -145,16 +149,19 @@ Runs schema verification script.
 ### Check Storage
 
 **Via Dashboard:**
+
 1. Go to **Storage** in Supabase Dashboard
 2. View all buckets
 3. Manage files and permissions
 
 **Via Script:**
+
 ```bash
 npm run supabase:storage
 ```
 
 **Via Code:**
+
 ```typescript
 import { getStorage } from '@/lib/storage/supabase';
 
@@ -178,6 +185,7 @@ await storage.uploadFile({
 ### 1. Tables
 
 **Current Tables (from Prisma):**
+
 - User
 - Wallet
 - Transaction
@@ -189,22 +197,26 @@ await storage.uploadFile({
 - And many more...
 
 **View Tables:**
+
 ```bash
 npm run supabase:schema
 ```
 
 **Create/Modify Tables:**
+
 - Use Prisma migrations: `npm run prisma:migrate`
 - Or Supabase Dashboard → Table Editor
 
 ### 2. Functions
 
 **Common Functions:**
+
 - Custom SQL functions
 - Stored procedures
 - Database triggers
 
 **Create Function:**
+
 ```sql
 CREATE OR REPLACE FUNCTION function_name()
 RETURNS void AS $$
@@ -217,11 +229,13 @@ $$ LANGUAGE plpgsql;
 ### 3. Triggers
 
 **Common Triggers:**
+
 - Auto-update `updated_at` timestamps
 - Audit logging
 - Data validation
 
 **Example:**
+
 ```sql
 CREATE TRIGGER update_updated_at
 BEFORE UPDATE ON users
@@ -232,12 +246,14 @@ EXECUTE FUNCTION update_updated_at_column();
 ### 4. Enumerated Types
 
 **From Prisma Schema:**
+
 - UserRole (USER, ADMIN, SUPER_ADMIN)
 - PaymentProvider (STRIPE, LEMONSQUEEZY, etc.)
 - TransactionType (DEPOSIT, WITHDRAWAL, etc.)
 - And more...
 
 **View Types:**
+
 ```sql
 SELECT typname FROM pg_type WHERE typtype = 'e';
 ```
@@ -245,12 +261,14 @@ SELECT typname FROM pg_type WHERE typtype = 'e';
 ### 5. Extensions
 
 **Common Extensions:**
+
 - `uuid-ossp` - UUID generation
 - `pgcrypto` - Cryptographic functions
 - `pg_trgm` - Text search
 - `vector` - Vector similarity (if using AI)
 
 **Enable Extension:**
+
 ```sql
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
@@ -258,26 +276,30 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ### 6. Indexes
 
 **Automatic Indexes:**
+
 - Primary keys
 - Foreign keys
 - Unique constraints
 
 **Custom Indexes:**
+
 ```sql
 CREATE INDEX idx_user_email ON users(email);
 CREATE INDEX idx_transaction_user_id ON transactions(user_id);
 ```
 
 **View Indexes:**
+
 ```sql
-SELECT indexname, tablename 
-FROM pg_indexes 
+SELECT indexname, tablename
+FROM pg_indexes
 WHERE schemaname = 'public';
 ```
 
 ### 7. Publications
 
 **For Replication:**
+
 - Logical replication
 - Read replicas
 - Cross-region sync
@@ -287,6 +309,7 @@ WHERE schemaname = 'public';
 ### 8. Configuration
 
 **Database Settings:**
+
 - Connection limits
 - Timeout settings
 - SSL configuration
@@ -297,12 +320,14 @@ WHERE schemaname = 'public';
 ### 9. Roles
 
 **Default Roles:**
+
 - `postgres` - Superuser
 - `anon` - Anonymous access
 - `authenticated` - Authenticated users
 - `service_role` - Service role (admin)
 
 **View Roles:**
+
 ```sql
 SELECT rolname FROM pg_roles;
 ```
@@ -310,11 +335,13 @@ SELECT rolname FROM pg_roles;
 ### 10. Policies (Row Level Security)
 
 **RLS Policies:**
+
 - User data access
 - Organization isolation
 - Public/private content
 
 **Example Policy:**
+
 ```sql
 CREATE POLICY "Users can view own data"
 ON users FOR SELECT
@@ -322,9 +349,10 @@ USING (auth.uid() = id);
 ```
 
 **View Policies:**
+
 ```sql
-SELECT schemaname, tablename, policyname 
-FROM pg_policies 
+SELECT schemaname, tablename, policyname
+FROM pg_policies
 WHERE schemaname = 'public';
 ```
 
@@ -339,6 +367,7 @@ npm run supabase:schema
 ```
 
 **Checks:**
+
 - ✅ Connection
 - ✅ Tables
 - ✅ Functions
@@ -353,6 +382,7 @@ npm run supabase:storage
 ```
 
 **Checks:**
+
 - ✅ Buckets
 - ✅ Files
 - ✅ Permissions
@@ -366,6 +396,7 @@ npm run supabase:storage
 **Prisma Schema:** `prisma/schema.prisma`
 
 **Commands:**
+
 ```bash
 # Generate Prisma Client
 npm run prisma:generate
@@ -386,10 +417,12 @@ npm run db:reset
 ### Connection Configuration
 
 **Prisma uses:**
+
 - `DATABASE_URL` - For queries (connection pooling)
 - `DIRECT_URL` - For migrations (direct connection)
 
 **Schema:**
+
 ```prisma
 datasource db {
   provider  = "postgresql"
@@ -422,20 +455,24 @@ datasource db {
 ## Quick Reference
 
 ### Check Schema
+
 ```bash
 npm run supabase:schema
 ```
 
 ### Check Storage
+
 ```bash
 npm run supabase:storage
 ```
 
 ### View in Dashboard
+
 - [Supabase Dashboard](https://app.supabase.com)
 - Select project: `xesecqcqzykvmrtxrzqi`
 
 ### Prisma Studio
+
 ```bash
 npm run prisma:studio
 ```
@@ -447,6 +484,7 @@ npm run prisma:studio
 ### Cannot Connect to Database
 
 **Check:**
+
 1. `DATABASE_URL` is set correctly
 2. Password is URL-encoded
 3. Connection pooler URL (port 6543)
@@ -455,6 +493,7 @@ npm run prisma:studio
 ### Schema Not Syncing
 
 **Solution:**
+
 1. Run Prisma migrations: `npm run prisma:migrate`
 2. Check `DIRECT_URL` is set
 3. Verify database permissions
@@ -462,6 +501,7 @@ npm run prisma:studio
 ### Storage Access Denied
 
 **Solution:**
+
 1. Check bucket policies
 2. Verify `SUPABASE_SERVICE_ROLE_KEY` is set
 3. Check RLS policies on storage
@@ -470,4 +510,3 @@ npm run prisma:studio
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd")  
 **Status:** Ready for Use
-

@@ -13,6 +13,7 @@ Both Prisma schema and Cloudflare API token have been updated and verified.
 **File:** `prisma/schema.prisma`
 
 **Updated Datasource:**
+
 ```prisma
 datasource db {
   provider  = "postgresql"
@@ -31,11 +32,13 @@ datasource db {
 ### Usage
 
 **For Application Queries:**
+
 - Uses `DATABASE_URL` (connection pooling)
 - Port: `6543`
 - Query parameter: `?pgbouncer=true`
 
 **For Migrations:**
+
 - Uses `DIRECT_URL` (direct connection)
 - Port: `5432`
 - No query parameters
@@ -43,12 +46,14 @@ datasource db {
 ### Next Steps
 
 1. **Set Environment Variables:**
+
    ```bash
    DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
    DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres
    ```
 
 2. **Generate Prisma Client:**
+
    ```bash
    npm run prisma:generate
    ```
@@ -71,6 +76,7 @@ datasource db {
 **Token ID:** `cfbffbd4319cd916bc68298ef6c50b40`
 
 **Verification Response:**
+
 ```json
 {
   "result": {
@@ -92,6 +98,7 @@ datasource db {
 ### Configuration
 
 **Environment Variable:**
+
 ```bash
 CLOUDFLARE_API_TOKEN=tHeZfxo3m9Wimsvu5aqecMWRs7psabQbM81-CqgD
 ```
@@ -99,6 +106,7 @@ CLOUDFLARE_API_TOKEN=tHeZfxo3m9Wimsvu5aqecMWRs7psabQbM81-CqgD
 ### Usage
 
 **Wrangler CLI:**
+
 ```bash
 # Set token
 export CLOUDFLARE_API_TOKEN=tHeZfxo3m9Wimsvu5aqecMWRs7psabQbM81-CqgD
@@ -111,6 +119,7 @@ npm run deploy:worker:prod
 ```
 
 **Set Secrets:**
+
 ```bash
 npx wrangler secret put DATABASE_URL --env production
 npx wrangler secret put DIRECT_URL --env production
@@ -124,11 +133,13 @@ npx wrangler secret put NEXTAUTH_SECRET --env production
 ### Database Connections
 
 **Connection Pooling (Application):**
+
 ```
 DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
 ```
 
 **Direct Connection (Migrations):**
+
 ```
 DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres
 ```
@@ -170,20 +181,23 @@ CLOUDFLARE_API_TOKEN=tHeZfxo3m9Wimsvu5aqecMWRs7psabQbM81-CqgD
    - Add `CLOUDFLARE_API_TOKEN` to `.env.local`
 
 2. **Regenerate Prisma Client:**
+
    ```bash
    npm run prisma:generate
    ```
 
 3. **Test Database Connections:**
+
    ```bash
    # Test pooling connection
    psql $DATABASE_URL
-   
+
    # Test direct connection
    psql $DIRECT_URL
    ```
 
 4. **Test Cloudflare:**
+
    ```bash
    npx wrangler whoami
    ```
@@ -197,4 +211,3 @@ CLOUDFLARE_API_TOKEN=tHeZfxo3m9Wimsvu5aqecMWRs7psabQbM81-CqgD
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")  
 **Status:** ✅ **Complete and Verified**
-

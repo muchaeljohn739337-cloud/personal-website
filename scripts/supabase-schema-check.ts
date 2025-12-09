@@ -43,8 +43,14 @@ async function checkSchema() {
   try {
     // Check connection
     console.log('📡 Testing connection...');
-    const { data: health, error: healthError } = await supabase.from('_prisma_migrations').select('id').limit(1);
-    if (healthError && !healthError.message.includes('relation "_prisma_migrations" does not exist')) {
+    const { data: health, error: healthError } = await supabase
+      .from('_prisma_migrations')
+      .select('id')
+      .limit(1);
+    if (
+      healthError &&
+      !healthError.message.includes('relation "_prisma_migrations" does not exist')
+    ) {
       console.log('⚠️  Connection test:', healthError.message);
     } else {
       console.log('✅ Connection successful\n');
@@ -59,12 +65,12 @@ async function checkSchema() {
       console.log('   1. Go to Supabase Dashboard → Database → Tables');
       console.log('   2. Use Prisma Studio: npm run prisma:studio');
       console.log('   3. Use SQL Editor in Supabase Dashboard');
-      
+
       // Try to list some common tables
       const commonTables = ['User', 'Wallet', 'Transaction', 'Payment', 'Organization'];
       console.log(`\n📋 Expected Tables (from Prisma schema):`);
       commonTables.forEach((table) => console.log(`   - ${table}`));
-      
+
       info.tables = commonTables;
     } catch (error) {
       console.log('⚠️  Could not fetch tables (use Supabase Dashboard for full schema)');
@@ -89,4 +95,3 @@ async function checkSchema() {
 }
 
 checkSchema();
-

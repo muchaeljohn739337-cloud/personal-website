@@ -34,10 +34,7 @@
       ]
     }
   ],
-  "domains": [
-    "advanciapayledger.com",
-    "www.advanciapayledger.com"
-  ],
+  "domains": ["advanciapayledger.com", "www.advanciapayledger.com"],
   "crons": [
     {
       "path": "/api/cron/health-check",

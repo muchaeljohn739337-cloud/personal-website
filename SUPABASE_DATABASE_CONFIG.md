@@ -3,6 +3,7 @@
 ## Overview
 
 This project uses Supabase PostgreSQL with two connection types:
+
 1. **Connection Pooling** (`DATABASE_URL`) - For application queries
 2. **Direct Connection** (`DIRECT_URL`) - For migrations and schema operations
 
@@ -15,11 +16,13 @@ This project uses Supabase PostgreSQL with two connection types:
 **Purpose:** Used for all application database queries and operations.
 
 **Format:**
+
 ```bash
 DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
 ```
 
 **Key Features:**
+
 - Port: `6543` (connection pooler)
 - Query parameter: `?pgbouncer=true`
 - Optimized for high concurrency
@@ -31,11 +34,13 @@ DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us
 **Purpose:** Used for Prisma migrations and schema operations.
 
 **Format:**
+
 ```bash
 DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres
 ```
 
 **Key Features:**
+
 - Port: `5432` (direct PostgreSQL)
 - No query parameters needed
 - Required for migrations
@@ -57,6 +62,7 @@ DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-e
 ### 2. Set Environment Variables
 
 **Local Development (`.env.local`):**
+
 ```bash
 # Connection Pooling (Application)
 DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
@@ -66,6 +72,7 @@ DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-e
 ```
 
 **Production (Vercel/Cloudflare):**
+
 - Add both `DATABASE_URL` and `DIRECT_URL` to your deployment platform
 - Replace `[YOUR-PASSWORD]` with your actual database password
 - Ensure password is URL-encoded if it contains special characters
@@ -79,6 +86,7 @@ DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-e
 Prisma will automatically use `DIRECT_URL` if available, otherwise falls back to `DATABASE_URL`.
 
 **Migration Commands:**
+
 ```bash
 # Create migration
 npm run prisma:migrate
@@ -97,6 +105,7 @@ npm run prisma:generate
 ## When to Use Each Connection
 
 ### Use DATABASE_URL (Connection Pooling) For:
+
 - ✅ All application queries
 - ✅ API route handlers
 - ✅ Server Components
@@ -105,6 +114,7 @@ npm run prisma:generate
 - ✅ High-concurrency scenarios
 
 ### Use DIRECT_URL (Direct Connection) For:
+
 - ✅ Prisma migrations
 - ✅ Schema operations
 - ✅ Database introspection
@@ -116,6 +126,7 @@ npm run prisma:generate
 ## Connection String Components
 
 ### Connection Pooling URL Breakdown:
+
 ```
 postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
 │          │                              │              │                                    │    │
@@ -128,6 +139,7 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 ```
 
 ### Direct Connection URL Breakdown:
+
 ```
 postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres
 │          │                              │              │                                    │
@@ -169,6 +181,7 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 **Error:** `Connection limit exceeded`
 
 **Solution:**
+
 - Verify you're using connection pooling (port 6543)
 - Check connection pooler is enabled
 - Review connection usage in Supabase dashboard
@@ -178,6 +191,7 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 **Error:** `Migration failed - connection error`
 
 **Solution:**
+
 - Ensure `DIRECT_URL` is set
 - Verify direct connection works (port 5432)
 - Check database password is correct
@@ -187,6 +201,7 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 **Error:** `Authentication failed`
 
 **Solution:**
+
 1. Verify password is correct
 2. Check password is URL-encoded if needed
 3. Verify project reference is correct
@@ -197,6 +212,7 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 ## Testing Connections
 
 ### Test Connection Pooling:
+
 ```bash
 # Using psql
 psql $DATABASE_URL
@@ -206,6 +222,7 @@ node -e "const { PrismaClient } = require('@prisma/client'); const prisma = new 
 ```
 
 ### Test Direct Connection:
+
 ```bash
 # Using psql
 psql $DIRECT_URL
@@ -219,11 +236,13 @@ npx prisma db pull
 ## Project-Specific Configuration
 
 **Your Supabase Project:**
+
 - **Project Reference:** `xesecqcqzykvmrtxrzqi`
 - **Project URL:** `https://xesecqcqzykvmrtxrzqi.supabase.co`
 - **Region:** `us-east-1`
 
 **Connection Strings:**
+
 - **Pooling:** `postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true`
 - **Direct:** `postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres`
 
@@ -239,4 +258,3 @@ npx prisma db pull
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd")  
 **Status:** Production Ready
-

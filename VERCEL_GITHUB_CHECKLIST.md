@@ -3,6 +3,7 @@
 ## Vercel Deployment Status
 
 ### Domain Configuration
+
 - ✅ `vercel.json` configured with domains:
   - `advanciapayledger.com`
   - `www.advanciapayledger.com`
@@ -11,6 +12,7 @@
 - ✅ Region: `iad1` (US East)
 
 ### Required Actions
+
 1. **Verify Domain in Vercel Dashboard**
    - Go to Vercel Dashboard → Project Settings → Domains
    - Ensure both domains are added and verified
@@ -22,6 +24,7 @@
    - Ensure production secrets are set (not development)
 
 3. **Deploy to Production**
+
    ```bash
    npm run deploy:prod
    ```
@@ -37,6 +40,7 @@
 ## GitHub Actions Status
 
 ### CI Workflow (`.github/workflows/ci.yml`)
+
 - ✅ Linting check
 - ✅ Type checking
 - ✅ Build check
@@ -44,6 +48,7 @@
 - ✅ Test execution
 
 ### Deploy Workflow (`.github/workflows/deploy.yml`)
+
 - ✅ Pre-production checks
 - ✅ Prisma generate step (added)
 - ✅ Build application
@@ -52,6 +57,7 @@
 - ✅ Deployment verification
 
 ### Required Actions
+
 1. **Check Failed Jobs**
    - Go to GitHub → Actions tab
    - Review any failed workflow runs
@@ -75,16 +81,19 @@
 ### Vercel Issues
 
 **Issue: Domain not resolving**
+
 - Check DNS records in domain registrar
 - Verify A/CNAME records point to Vercel
 - Wait for DNS propagation (up to 48 hours)
 
 **Issue: Build fails**
+
 - Check environment variables are set
 - Verify `DATABASE_URL` is accessible
 - Check build logs for specific errors
 
 **Issue: SSL certificate errors**
+
 - Vercel auto-provisions SSL
 - Ensure domain is verified in Vercel
 - Check DNS records are correct
@@ -92,16 +101,19 @@
 ### GitHub Actions Issues
 
 **Issue: Workflow fails on lint**
+
 - Run `npm run lint -- --fix` locally
 - Fix any remaining linting errors
 - Commit and push fixes
 
 **Issue: Workflow fails on build**
+
 - Run `npm run build` locally
 - Fix any build errors
 - Ensure all dependencies are in package.json
 
 **Issue: Deployment fails**
+
 - Check Vercel token is valid
 - Verify project ID is correct
 - Check Vercel project settings
@@ -111,6 +123,7 @@
 ## Quick Commands
 
 ### Check Vercel Status
+
 ```bash
 # Install Vercel CLI if needed
 npm i -g vercel
@@ -126,6 +139,7 @@ vercel logs
 ```
 
 ### Check GitHub Actions
+
 ```bash
 # View workflow status (via GitHub UI or CLI)
 gh workflow list
@@ -134,6 +148,7 @@ gh run view <run-id>
 ```
 
 ### Fix Common Issues
+
 ```bash
 # Fix linting
 npm run lint -- --fix
@@ -162,4 +177,3 @@ npm run preprod:check
 ---
 
 **Last Updated**: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
-

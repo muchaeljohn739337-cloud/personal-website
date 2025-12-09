@@ -3,23 +3,27 @@
 ## First Time Setup
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Create Environment File
+
 ```bash
 npm run env:template
 # OR manually: cp env.example .env.local
 ```
 
 ### 3. Generate Secrets
+
 ```bash
 npm run generate:secrets
 # Copy the generated secrets to your .env.local file
 ```
 
 ### 4. Configure Database
+
 ```bash
 # Update DATABASE_URL in .env.local
 # Then run migrations
@@ -27,16 +31,19 @@ npm run prisma:migrate
 ```
 
 ### 5. Seed Database (Optional)
+
 ```bash
 npm run prisma:seed
 ```
 
 ### 6. Create Admin User
+
 ```bash
 npm run create-admin
 ```
 
 ### 7. Start Development Server
+
 ```bash
 npm run dev
 ```
@@ -48,11 +55,13 @@ Visit: http://localhost:3000
 ## Production Setup
 
 ### 1. Run Production Setup Script
+
 ```bash
 npm run setup:prod
 ```
 
 This will:
+
 - Check environment variables
 - Install dependencies
 - Generate Prisma client
@@ -63,11 +72,13 @@ This will:
 ### 2. Set Production Environment Variables
 
 **In Vercel/Cloudflare Dashboard:**
+
 - Go to Settings → Environment Variables
 - Add all required variables from `ENV_SETUP.md`
 - Use `npm run generate:secrets` to create new secrets
 
 ### 3. Deploy
+
 ```bash
 npm run deploy:full
 ```
@@ -116,16 +127,19 @@ npm run audit:full       # Full system audit
 ## Troubleshooting
 
 ### Database Connection Issues
+
 - Verify `DATABASE_URL` in `.env.local`
 - Check database is running
 - Verify network access
 
 ### Build Errors
+
 - Clear `.next` folder: `rm -rf .next`
 - Reinstall dependencies: `rm -rf node_modules && npm install`
 - Check Node version: `node -v` (should be 20.x)
 
 ### Environment Variables Not Loading
+
 - Ensure file is named `.env.local` (not `.env`)
 - Restart dev server after changes
 - Check variable names match exactly
@@ -143,4 +157,3 @@ npm run audit:full       # Full system audit
 ---
 
 **Need Help?** Check the documentation files or run `npm run audit:full` for system status.
-

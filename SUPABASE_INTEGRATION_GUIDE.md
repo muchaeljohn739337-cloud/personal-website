@@ -152,16 +152,19 @@ export async function middleware(request: NextRequest) {
 For better performance and connection management, use Supabase's connection pooler:
 
 **Connection Pooling (DATABASE_URL) - For Application:**
+
 ```bash
 DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
 ```
 
 **Direct Connection (DIRECT_URL) - For Migrations:**
+
 ```bash
 DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres
 ```
 
 **Benefits of Connection Pooling:**
+
 - Better connection management
 - Improved performance
 - Automatic connection pooling
@@ -169,6 +172,7 @@ DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-e
 - Handles high concurrency better
 
 **When to Use Each:**
+
 - **DATABASE_URL (Pooling):** Use for all application queries and operations
 - **DIRECT_URL (Direct):** Use for Prisma migrations and schema operations
 
@@ -287,6 +291,7 @@ const channel = supabase
 **Error:** `Can't reach database server`
 
 **Solutions:**
+
 1. Verify `DATABASE_URL` is correct
 2. Check if password is URL-encoded
 3. Ensure connection pooler URL is used (port 6543)
@@ -297,6 +302,7 @@ const channel = supabase
 **Error:** `Invalid API key`
 
 **Solutions:**
+
 1. Verify `NEXT_PUBLIC_SUPABASE_URL` matches your project
 2. Check if key is correct (publishable vs service role)
 3. Ensure key is not expired
@@ -307,6 +313,7 @@ const channel = supabase
 **Error:** `Bucket not found`
 
 **Solutions:**
+
 1. Create bucket in Supabase Dashboard
 2. Set bucket to public if needed
 3. Verify storage policies are configured
@@ -317,6 +324,7 @@ const channel = supabase
 ## Example Files
 
 See the following example files:
+
 - `app/examples/supabase-server-example.tsx` - Server Component example
 - `app/examples/supabase-client-example.tsx` - Client Component example
 
@@ -333,4 +341,3 @@ See the following example files:
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd")  
 **Status:** Production Ready
-

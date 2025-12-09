@@ -14,6 +14,7 @@ Both domains are configured and should work identically.
 ### Required DNS Records
 
 1. **A Record (Root Domain)**
+
    ```
    Type: A
    Name: @
@@ -23,6 +24,7 @@ Both domains are configured and should work identically.
    ```
 
 2. **CNAME Record (WWW)**
+
    ```
    Type: CNAME
    Name: www
@@ -32,6 +34,7 @@ Both domains are configured and should work identically.
    ```
 
    **OR** (if using Vercel):
+
    ```
    Type: CNAME
    Name: www
@@ -43,6 +46,7 @@ Both domains are configured and should work identically.
 ### Email Records (Optional)
 
 3. **MX Records** (if using email on your domain)
+
    ```
    Type: MX
    Name: @
@@ -52,6 +56,7 @@ Both domains are configured and should work identically.
    ```
 
 4. **SPF Record**
+
    ```
    Type: TXT
    Name: @
@@ -118,6 +123,7 @@ In Cloudflare Dashboard → SSL/TLS:
 Create page rules for:
 
 1. **API Routes** (Bypass Cache)
+
    ```
    URL: advanciapayledger.com/api/*
    Settings:
@@ -126,6 +132,7 @@ Create page rules for:
    ```
 
 2. **Static Assets** (Cache Everything)
+
    ```
    URL: advanciapayledger.com/_next/static/*
    Settings:
@@ -185,6 +192,7 @@ NODE_ENV=production
 If using Cloudflare Workers (via `wrangler.toml`):
 
 1. **Set up Custom Domain**
+
    ```bash
    npx wrangler pages domain add advanciapayledger.com --project-name=personal-website
    npx wrangler pages domain add www.advanciapayledger.com --project-name=personal-website
@@ -214,6 +222,7 @@ If using Cloudflare Workers (via `wrangler.toml`):
 ## 🧪 Testing
 
 ### Test DNS Resolution
+
 ```bash
 # Test root domain
 nslookup advanciapayledger.com
@@ -227,6 +236,7 @@ curl -I https://www.advanciapayledger.com
 ```
 
 ### Test SSL Certificate
+
 ```bash
 # Check SSL certificate
 openssl s_client -connect advanciapayledger.com:443 -servername advanciapayledger.com
@@ -241,16 +251,19 @@ openssl s_client -connect advanciapayledger.com:443 -servername advanciapayledge
 ## 🔍 Troubleshooting
 
 ### Domain Not Resolving
+
 1. Check DNS records in Cloudflare
 2. Verify nameservers are set correctly
 3. Wait for DNS propagation (can take up to 48 hours)
 
 ### SSL Certificate Issues
+
 1. Ensure "Full (strict)" mode is enabled
 2. Check certificate in Vercel/deployment platform
 3. Verify DNS records are correct
 
 ### WWW vs Non-WWW
+
 - Both should work if configured correctly
 - Use Page Rules to redirect one to the other (optional)
 - Update `NEXTAUTH_URL` to use your preferred domain
@@ -267,5 +280,3 @@ openssl s_client -connect advanciapayledger.com:443 -servername advanciapayledge
 ---
 
 **Last Updated**: $(date)
-
-

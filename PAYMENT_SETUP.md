@@ -211,7 +211,7 @@ Response includes payment provider status:
 
 1. **Stripe:** Use test cards (4242 4242 4242 4242)
 2. **LemonSqueezy:** Test mode available in dashboard
-4. **Crypto:** Use testnets or small amounts
+3. **Crypto:** Use testnets or small amounts
 
 ### Test Webhooks Locally
 
@@ -280,9 +280,9 @@ All webhook endpoints are automatically protected with signature verification:
 For a production SaaS platform, we recommend:
 
 1. **Stripe** - Primary payment method (credit cards)
-3. **LemonSqueezy** - For Merchant of Record (if needed)
-4. **NOWPayments** - For cryptocurrency payments (optional)
-5. **Alchemy Pay** - For crypto on-ramp (optional)
+2. **LemonSqueezy** - For Merchant of Record (if needed)
+3. **NOWPayments** - For cryptocurrency payments (optional)
+4. **Alchemy Pay** - For crypto on-ramp (optional)
 
 **Minimum Required:**
 

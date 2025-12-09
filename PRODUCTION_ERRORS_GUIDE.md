@@ -7,6 +7,7 @@
 **Error**: `Missing required environment variables`
 
 **Solution**:
+
 1. Go to your Vercel dashboard → Project Settings → Environment Variables
 2. Add all required variables:
    - `DATABASE_URL` - Production database connection string
@@ -21,6 +22,7 @@
 **Error**: `Database connection failed` or `PrismaClientInitializationError`
 
 **Solutions**:
+
 - Verify `DATABASE_URL` is correct and points to production database
 - Check database is accessible from Vercel's IP ranges
 - Ensure database connection pool limits are sufficient
@@ -31,6 +33,7 @@
 **Error**: `NEXTAUTH_SECRET is not set` or authentication not working
 
 **Solutions**:
+
 - Set `NEXTAUTH_SECRET` in environment variables
 - Ensure `NEXTAUTH_URL` matches your production domain
 - Check callback URLs in OAuth providers (Google, GitHub) match production domain
@@ -40,6 +43,7 @@
 **Error**: `500 Internal Server Error` on API routes
 
 **Solutions**:
+
 - Check Vercel function logs for detailed error messages
 - Verify all environment variables are set
 - Check database connection
@@ -50,6 +54,7 @@
 **Error**: Build fails during deployment
 
 **Solutions**:
+
 - Check build logs in Vercel dashboard
 - Verify `package.json` dependencies are correct
 - Ensure `prisma generate` runs before build
@@ -60,6 +65,7 @@
 **Error**: Payment processing fails
 
 **Solutions**:
+
 - Verify payment provider API keys are set (Stripe, LemonSqueezy, etc.)
 - Check webhook URLs are configured correctly
 - Ensure using live keys (not test keys) in production
@@ -70,6 +76,7 @@
 **Error**: `Middleware error` or authentication redirect loops
 
 **Solutions**:
+
 - Check `middleware.ts` is properly configured
 - Verify `NEXTAUTH_SECRET` is set
 - Check public routes are correctly excluded
@@ -78,21 +85,25 @@
 ## Quick Diagnostic Commands
 
 ### Check Production Errors
+
 ```bash
 npm run check:production
 ```
 
 ### Check Environment Variables
+
 ```bash
 npm run preprod:check
 ```
 
 ### Verify Deployment
+
 ```bash
 npm run verify:prod
 ```
 
 ### Check System Health
+
 ```bash
 npm run health:check
 ```
@@ -100,16 +111,19 @@ npm run health:check
 ## Vercel-Specific Issues
 
 ### Environment Variables Not Loading
+
 - Ensure variables are set for "Production" environment
 - Redeploy after adding new variables
 - Check variable names match exactly (case-sensitive)
 
 ### Function Timeout
+
 - Increase function timeout in `vercel.json` if needed
 - Optimize slow API routes
 - Use edge functions for simple routes
 
 ### Database Connection Pooling
+
 - Use connection pooling (e.g., PgBouncer)
 - Set `DATABASE_URL` with pooling parameters
 - Monitor connection count
@@ -117,16 +131,19 @@ npm run health:check
 ## Monitoring Production Errors
 
 ### Sentry
+
 - Check Sentry dashboard for error reports
 - Verify `NEXT_PUBLIC_SENTRY_DSN` is set
 - Review error trends and patterns
 
 ### LogRocket
+
 - Check LogRocket for session replays
 - Verify `NEXT_PUBLIC_LOGROCKET_APP_ID` is set
 - Review user sessions with errors
 
 ### Vercel Logs
+
 - Check Vercel dashboard → Logs
 - Filter by error level
 - Review function execution logs
@@ -134,15 +151,18 @@ npm run health:check
 ## Emergency Fixes
 
 ### Quick Rollback
+
 1. Go to Vercel dashboard → Deployments
 2. Find last working deployment
 3. Click "..." → "Promote to Production"
 
 ### Disable Feature
+
 - Use feature flags in environment variables
 - Set `ENABLE_FEATURE=false` to disable problematic features
 
 ### Database Migration Issues
+
 ```bash
 # Run migrations manually
 npx prisma migrate deploy
@@ -172,4 +192,3 @@ npx prisma migrate deploy
 ---
 
 **Last Updated**: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
-

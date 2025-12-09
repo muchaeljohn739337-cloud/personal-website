@@ -27,6 +27,7 @@ CLOUDFLARE_API_TOKEN=tHeZfxo3m9Wimsvu5aqecMWRs7psabQbM81-CqgD
 ### For Production (Vercel/Cloudflare)
 
 Add to your deployment platform's environment variables:
+
 - **Vercel:** Settings → Environment Variables
 - **Cloudflare Workers:** Use `wrangler secret put CLOUDFLARE_API_TOKEN`
 
@@ -57,7 +58,7 @@ Use in your code to interact with Cloudflare APIs:
 ```typescript
 const response = await fetch('https://api.cloudflare.com/client/v4/user/tokens/verify', {
   headers: {
-    'Authorization': `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
+    Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
   },
 });
 ```
@@ -67,6 +68,7 @@ const response = await fetch('https://api.cloudflare.com/client/v4/user/tokens/v
 ## Security Notes
 
 ⚠️ **IMPORTANT:**
+
 - Never commit this token to git
 - Keep it in `.env.local` (already in `.gitignore`)
 - Rotate the token if exposed
@@ -78,11 +80,13 @@ const response = await fetch('https://api.cloudflare.com/client/v4/user/tokens/v
 ## Token Permissions
 
 Verify token permissions in Cloudflare Dashboard:
+
 1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/profile/api-tokens)
 2. Find your token
 3. Check assigned permissions
 
 **Recommended Permissions:**
+
 - Workers Scripts: Edit
 - Workers KV: Edit
 - Workers Routes: Edit
@@ -94,6 +98,7 @@ Verify token permissions in Cloudflare Dashboard:
 ## Verification
 
 Token has been verified using Cloudflare API:
+
 ```bash
 curl "https://api.cloudflare.com/client/v4/user/tokens/verify" \
   -H "Authorization: Bearer tHeZfxo3m9Wimsvu5aqecMWRs7psabQbM81-CqgD"
@@ -106,12 +111,14 @@ curl "https://api.cloudflare.com/client/v4/user/tokens/verify" \
 ## Next Steps
 
 1. **Add to Environment Variables:**
+
    ```bash
    # .env.local
    CLOUDFLARE_API_TOKEN=tHeZfxo3m9Wimsvu5aqecMWRs7psabQbM81-CqgD
    ```
 
 2. **Test Wrangler Commands:**
+
    ```bash
    npx wrangler whoami
    ```
@@ -125,4 +132,3 @@ curl "https://api.cloudflare.com/client/v4/user/tokens/verify" \
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd")  
 **Status:** ✅ Verified and Ready
-

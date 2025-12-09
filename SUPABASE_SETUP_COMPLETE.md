@@ -5,7 +5,7 @@
 Complete Supabase integration has been implemented for the Advancia PayLedger platform, including:
 
 - ✅ Next.js Server Components client
-- ✅ Next.js Client Components client  
+- ✅ Next.js Client Components client
 - ✅ Next.js Middleware client
 - ✅ Storage integration updated
 - ✅ Environment variables configured
@@ -105,7 +105,7 @@ export default async function Page() {
   const supabase = createClient(cookieStore);
 
   const { data, error } = await supabase.from('todos').select('*');
-  
+
   // Use data...
 }
 ```
@@ -123,9 +123,12 @@ export default function Component() {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.from('todos').select('*').then(({ data }) => {
-      setTodos(data || []);
-    });
+    supabase
+      .from('todos')
+      .select('*')
+      .then(({ data }) => {
+        setTodos(data || []);
+      });
   }, []);
 
   // Render...
@@ -140,13 +143,15 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   const { supabase, supabaseResponse } = createClient(request);
-  
-  const { data: { user } } = await supabase.auth.getUser();
-  
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
   }
-  
+
   return supabaseResponse;
 }
 ```
@@ -164,6 +169,7 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 ```
 
 **Benefits:**
+
 - Better connection management
 - Improved performance
 - Automatic connection pooling
@@ -192,6 +198,7 @@ The existing storage integration (`lib/storage/supabase.ts`) has been updated to
 ## Next Steps
 
 1. **Install Dependencies:**
+
    ```bash
    npm install @supabase/supabase-js @supabase/ssr
    ```
@@ -219,6 +226,7 @@ The existing storage integration (`lib/storage/supabase.ts`) has been updated to
 ## Documentation
 
 See `SUPABASE_INTEGRATION_GUIDE.md` for:
+
 - Complete setup instructions
 - Detailed usage examples
 - Troubleshooting guide
@@ -239,4 +247,3 @@ See `SUPABASE_INTEGRATION_GUIDE.md` for:
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd")  
 **Status:** Ready for Configuration
-

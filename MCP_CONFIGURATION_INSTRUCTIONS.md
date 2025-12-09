@@ -11,6 +11,7 @@ The MCP (Model Context Protocol) Supabase server configuration has been set up f
 **Location:** `.cursor/mcp.json`
 
 **Content:**
+
 ```json
 {
   "mcpServers": {
@@ -28,15 +29,17 @@ The MCP (Model Context Protocol) Supabase server configuration has been set up f
 If the `.cursor/mcp.json` file doesn't exist, create it manually:
 
 1. **Create Directory:**
+
    ```bash
    mkdir -p .cursor
    ```
 
 2. **Create Configuration File:**
+
    ```bash
    # On Windows (PowerShell)
    New-Item -ItemType File -Path .cursor/mcp.json -Force
-   
+
    # On Mac/Linux
    touch .cursor/mcp.json
    ```
@@ -86,6 +89,7 @@ If the `.cursor/mcp.json` file doesn't exist, create it manually:
 **Your Supabase Project Reference:** `xesecqcqzykvmrtxrzqi`
 
 This corresponds to:
+
 - **Project URL:** `https://xesecqcqzykvmrtxrzqi.supabase.co`
 - **MCP Endpoint:** `https://mcp.supabase.com/mcp?project_ref=xesecqcqzykvmrtxrzqi`
 
@@ -104,6 +108,7 @@ The project reference (`xesecqcqzykvmrtxrzqi`) is **public information** and saf
 ### MCP Not Connecting
 
 1. **Verify File Exists:**
+
    ```bash
    cat .cursor/mcp.json  # Mac/Linux
    type .cursor\mcp.json  # Windows
@@ -144,6 +149,7 @@ The project reference (`xesecqcqzykvmrtxrzqi`) is **public information** and saf
 ### Method 1: Cursor Settings UI
 
 Some Cursor versions allow MCP configuration through the UI:
+
 1. Settings → Features → MCP
 2. Add new MCP server
 3. Enter URL: `https://mcp.supabase.com/mcp?project_ref=xesecqcqzykvmrtxrzqi`
@@ -151,6 +157,7 @@ Some Cursor versions allow MCP configuration through the UI:
 ### Method 2: Global Configuration
 
 MCP can also be configured globally in Cursor's settings:
+
 - Check Cursor's global settings/preferences
 - Look for MCP or Model Context Protocol section
 
@@ -161,11 +168,13 @@ MCP can also be configured globally in Cursor's settings:
 Once configured, test by asking Cursor AI:
 
 1. **Schema Query:**
+
    ```
    "What tables exist in my Supabase database?"
    ```
 
 2. **Table Structure:**
+
    ```
    "Show me the structure of the todos table"
    ```
@@ -189,4 +198,3 @@ If MCP is working, AI should have context about your Supabase project.
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd")  
 **Status:** Ready for Use
-

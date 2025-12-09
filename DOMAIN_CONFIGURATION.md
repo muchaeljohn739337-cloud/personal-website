@@ -38,6 +38,7 @@ PRIMARY_DOMAIN=advanciapayledger.com
 ### 1. Configure DNS in Cloudflare
 
 Follow the guide in `CLOUDFLARE_SETUP.md` to:
+
 - Add A/CNAME records
 - Configure SSL/TLS
 - Set up redirects (optional)
@@ -45,12 +46,14 @@ Follow the guide in `CLOUDFLARE_SETUP.md` to:
 ### 2. Add Domain to Deployment Platform
 
 **Vercel:**
+
 1. Go to Project Settings → Domains
 2. Add `advanciapayledger.com`
 3. Add `www.advanciapayledger.com`
 4. Follow DNS verification steps
 
 **Cloudflare Workers:**
+
 ```bash
 npx wrangler pages domain add advanciapayledger.com
 npx wrangler pages domain add www.advanciapayledger.com
@@ -59,6 +62,7 @@ npx wrangler pages domain add www.advanciapayledger.com
 ### 3. Set Environment Variables
 
 Update production environment variables in your deployment platform:
+
 - `NEXT_PUBLIC_APP_URL=https://advanciapayledger.com`
 - `NEXTAUTH_URL=https://advanciapayledger.com`
 
@@ -112,5 +116,3 @@ Both domains should use HTTPS:
 ---
 
 **Status**: ✅ Domain configuration complete and ready for deployment!
-
-

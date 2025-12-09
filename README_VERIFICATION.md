@@ -3,13 +3,16 @@
 ## Quick Start
 
 ### 1. Run Database Migration (REQUIRED)
+
 ```bash
 npx prisma migrate dev --name add_user_approval_and_verification
 npx prisma generate
 ```
 
 ### 2. Set Business Information (for ScamAdviser)
+
 Add to `.env.local`:
+
 ```bash
 BUSINESS_ADDRESS_STREET=Your Address
 BUSINESS_ADDRESS_CITY=Your City
@@ -21,11 +24,13 @@ BUSINESS_LICENSE_NUMBER=Your License
 ```
 
 ### 3. Set Cron Secret
+
 ```bash
 CRON_SECRET=your-secure-secret-here
 ```
 
 ### 4. Verify Everything
+
 ```bash
 # Verify legitimacy
 npm run verify:legitimacy
@@ -51,4 +56,3 @@ curl http://localhost:3000/api/health/self-healing
 ---
 
 **See `FINAL_VERIFICATION_REPORT.md` for complete details.**
-

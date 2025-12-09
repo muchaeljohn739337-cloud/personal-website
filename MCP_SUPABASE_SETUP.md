@@ -39,6 +39,7 @@ The MCP Supabase server is configured in `.cursor/mcp.json`:
 ### 2. Verify Connection
 
 The MCP server should automatically connect when:
+
 - Cursor IDE is opened
 - MCP feature is enabled
 - Configuration file is valid
@@ -46,6 +47,7 @@ The MCP server should automatically connect when:
 ### 3. Using MCP with Supabase
 
 Once configured, you can:
+
 - Query database schema through AI
 - Generate database migrations
 - Create tables and relationships
@@ -57,6 +59,7 @@ Once configured, you can:
 ## MCP Server URL
 
 **Endpoint:**
+
 ```
 https://mcp.supabase.com/mcp?project_ref=xesecqcqzykvmrtxrzqi
 ```
@@ -64,6 +67,7 @@ https://mcp.supabase.com/mcp?project_ref=xesecqcqzykvmrtxrzqi
 **Project Reference:** `xesecqcqzykvmrtxrzqi`
 
 This corresponds to your Supabase project:
+
 - **Project URL:** `https://xesecqcqzykvmrtxrzqi.supabase.co`
 - **Project Reference:** `xesecqcqzykvmrtxrzqi`
 
@@ -160,4 +164,3 @@ DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east
 
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd")  
 **Status:** Configured
-

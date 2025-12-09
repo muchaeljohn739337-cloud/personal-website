@@ -41,20 +41,23 @@ export interface AdminActionParams {
  */
 export async function logAdminActionToSupabase(params: AdminActionParams) {
   try {
-    const { data, error } = await supabase.from('admin_actions').insert([
-      {
-        admin_id: params.admin_id,
-        target_user_id: params.target_user_id || null,
-        action: params.action,
-        resource_type: params.resource_type || null,
-        resource_id: params.resource_id || null,
-        description: params.description,
-        metadata: params.metadata || null,
-        ip_address: params.ip_address || null,
-        user_agent: params.user_agent || null,
-        created_at: new Date().toISOString(),
-      },
-    ]).select();
+    const { data, error } = await supabase
+      .from('admin_actions')
+      .insert([
+        {
+          admin_id: params.admin_id,
+          target_user_id: params.target_user_id || null,
+          action: params.action,
+          resource_type: params.resource_type || null,
+          resource_id: params.resource_id || null,
+          description: params.description,
+          metadata: params.metadata || null,
+          ip_address: params.ip_address || null,
+          user_agent: params.user_agent || null,
+          created_at: new Date().toISOString(),
+        },
+      ])
+      .select();
 
     if (error) {
       console.error('[Supabase Admin Actions] Error logging action:', error);
@@ -74,13 +77,15 @@ export async function logAdminActionToSupabase(params: AdminActionParams) {
 /**
  * Get admin action logs from Supabase
  */
-export async function getAdminLogsFromSupabase(options: {
-  admin_id?: string;
-  target_user_id?: string;
-  action?: string;
-  page?: number;
-  limit?: number;
-} = {}) {
+export async function getAdminLogsFromSupabase(
+  options: {
+    admin_id?: string;
+    target_user_id?: string;
+    action?: string;
+    page?: number;
+    limit?: number;
+  } = {}
+) {
   try {
     const { admin_id, target_user_id, action, page = 1, limit = 50 } = options;
 
@@ -172,4 +177,3 @@ export function subscribeToAdminActions(
     supabase.removeChannel(channel);
   };
 }
-
