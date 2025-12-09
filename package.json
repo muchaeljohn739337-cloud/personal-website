@@ -62,6 +62,8 @@
     "health:check": "tsx -e \"import('./lib/self-healing/system').then(m => m.runHealthCheck().then(h => console.log(JSON.stringify(h, null, 2))))\"",
     "check:production": "npx tsx scripts/check-production-errors.ts",
     "verify:vercel:env": "npx tsx scripts/verify-vercel-env.ts",
+    "generate:prod:secrets": "npx tsx scripts/generate-production-secrets.ts",
+    "deploy:checklist": "npx tsx scripts/deployment-master-checklist.ts",
     "deploy:vercel:script": "bash scripts/deployment/deploy-vercel.sh",
     "deploy:cloudflare:script": "bash scripts/deployment/deploy-cloudflare.sh"
   },
