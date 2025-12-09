@@ -1,123 +1,96 @@
-# 🚀 Deployment Checklist
+# ✅ Deployment Checklist - Check Off As You Go
 
-## ✅ Pre-Deployment Verification
-
-### 1. Admin Login - ✅ VERIFIED
-- **Email:** `superadmin@advanciapayledger.com`
-- **Password:** `QAZwsxEDC1!?`
-- **Status:** ✅ Password verified, user approved and verified
-- **Test:** `npm run test:admin-login` - ✅ PASSED
-
-### 2. TransformStream Polyfill - ✅ CONFIGURED
-- **File:** `e2e/global-setup.ts` - ✅ Polyfill implemented
-- **Config:** `playwright.config.ts` - ✅ Global setup configured
-- **Status:** ✅ Ready for Playwright tests
-
-### 3. Database Connection - ✅ CONNECTED
-- **Host:** `aws-1-us-east-1.pooler.supabase.com`
-- **Port:** 6543 (pooling) / 5432 (direct)
-- **Status:** ✅ Connected and ready
-
-### 4. Code Changes - Ready to Commit
-- ✅ CookieConsent.tsx - No uncommitted changes
-- ✅ TransformStream polyfill - Configured
-- ✅ Admin login test - Created
+**Start here:** Follow steps in order, check off each item as you complete it.
 
 ---
 
-## 📋 Deployment Steps
+## 🔴 **Step 1: Rotate Supabase Service Role Key** (2 minutes)
 
-### Step 1: Commit Changes
+- [ ] Open: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api
+- [ ] Find `service_role` key section
+- [ ] Click "Reset" or "Regenerate"
+- [ ] **Copy the new key** (save it - you'll need it in Step 2)
+- [ ] ✅ **DONE** - Key rotated
 
+**⚠️ IMPORTANT:** This key was exposed in git history - MUST rotate before deployment!
+
+---
+
+## 🟠 **Step 2: Set Vercel Environment Variables** (10 minutes)
+
+- [ ] Open: https://vercel.com/dashboard
+- [ ] Select project: `personal-website`
+- [ ] Go to: Settings → Environment Variables
+
+### **Add These Variables (Select "Production" environment):**
+
+#### **A. Generated Secrets:**
+- [ ] `JWT_SECRET` = `5a6b3412daf64d4faf6542597eb8908f412064878b1dfc3047119635a763cac1ba495b70b7875f4e4c38de3ad5b158a4208e862048bc393f992ec81bf24509f6`
+- [ ] `SESSION_SECRET` = `ad2cbff02acedf66e6b18be1d41ac22f5791fe77a8f424498989ee78d3364ce18d986d9ffd403c6c4e4562e43f0f633c3103b6da607dd6578d90b2c22bfc6c7b`
+- [ ] `NEXTAUTH_SECRET` = `NoaHe8QMseCUQpLBfwP2ydxaeWPBWPKlkxhNZoXQLNk=`
+- [ ] `CRON_SECRET` = `0eG74xgFxSVwXJtl+V23XnHA1nclND5l87Fyz6FYG2Q=`
+
+#### **B. Application URLs:**
+- [ ] `NEXT_PUBLIC_APP_URL` = `https://advanciapayledger.com`
+- [ ] `NEXTAUTH_URL` = `https://advanciapayledger.com`
+
+#### **C. Database:**
+- [ ] `DATABASE_URL` = Your production database connection string
+- [ ] `DIRECT_URL` = Your direct database connection string (optional)
+
+#### **D. Supabase:**
+- [ ] `NEXT_PUBLIC_SUPABASE_URL` = `https://xesecqcqzykvmrtxrzqi.supabase.co`
+- [ ] `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` = Your publishable key
+- [ ] `SUPABASE_SERVICE_ROLE_KEY` = **NEW KEY FROM STEP 1** ⚠️
+
+- [ ] ✅ **DONE** - All variables set in Vercel
+
+### **Verify Variables:**
+- [ ] Run: `npm run verify:vercel:env`
+- [ ] ✅ All required variables show as set
+
+---
+
+## 🚀 **Step 3: Deploy** (3 minutes)
+
+- [ ] Run: `npm run deploy:prod:safe`
+- [ ] Watch deployment progress
+- [ ] Wait for "Deployment successful!" message
+- [ ] ✅ **DONE** - Deployment complete
+
+---
+
+## 📋 **Step 4: Post-Deployment** (After deployment succeeds)
+
+- [ ] Run: `npm run migrate:prod`
+- [ ] Run: `npm run verify:prod`
+- [ ] Visit: https://advanciapayledger.com
+- [ ] Test registration
+- [ ] Test login
+- [ ] ✅ **DONE** - All post-deployment checks complete
+
+---
+
+## 🎉 **Deployment Complete!**
+
+Once all items are checked, your application is live and ready!
+
+---
+
+**Quick Commands:**
 ```bash
-# Stage all changes
-git add .
+# Verify variables
+npm run verify:vercel:env
 
-# Commit with descriptive message
-git commit -m "feat: Add TransformStream polyfill, admin login test, and database connection fixes"
-```
+# Deploy
+npm run deploy:prod:safe
 
-### Step 2: Set Production Environment Variables
-
-**Required Variables in Vercel:**
-
-```bash
-# Core Secrets
-JWT_SECRET=<generate>
-SESSION_SECRET=<generate>
-NEXTAUTH_SECRET=<generate>
-
-# Database
-DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
-DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres
-
-# Supabase
-SUPABASE_SERVICE_ROLE_KEY=<your_key>
-NEXT_PUBLIC_SUPABASE_URL=https://xesecqcqzykvmrtxrzqi.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=<your_key>
-
-# Application URLs
-NEXT_PUBLIC_APP_URL=https://advanciapayledger.com
-NEXTAUTH_URL=https://advanciapayledger.com
-
-# Anthropic Claude
-ANTHROPIC_API_KEY=<your_anthropic_api_key_from_console>
-```
-
-### Step 3: Deploy to Vercel
-
-```bash
-# Option 1: Via CLI
-npm run deploy:prod
-
-# Option 2: Via Git Push (if connected)
-git push origin main
-```
-
-### Step 4: Verify Deployment
-
-```bash
-# Check health endpoint
+# Post-deployment
+npm run migrate:prod
 npm run verify:prod
-
-# Or manually
-curl https://advanciapayledger.com/api/health
 ```
 
-### Step 5: Test Admin Login in Production
-
-1. Navigate to: `https://advanciapayledger.com/auth/login`
-2. Login with:
-   - Email: `superadmin@advanciapayledger.com`
-   - Password: `QAZwsxEDC1!?`
-3. Verify redirect to admin dashboard
-
----
-
-## ✅ Verification Checklist
-
-- [x] Admin login credentials verified
-- [x] TransformStream polyfill configured
-- [x] Database connection working
-- [x] Code changes ready to commit
-- [ ] Changes committed to git
-- [ ] Production environment variables set
-- [ ] Deployment to Vercel completed
-- [ ] Production health check passed
-- [ ] Admin login tested in production
-
----
-
-## 🔐 Admin Credentials (Production)
-
-**Email:** `superadmin@advanciapayledger.com`  
-**Password:** `QAZwsxEDC1!?`  
-**Role:** `ADMIN`  
-**Status:** ✅ Approved & Verified
-
-**⚠️ SECURITY:** Change password after first production login!
-
----
-
-**Status**: ✅ Ready for deployment
-
+**Quick Links:**
+- Vercel Dashboard: https://vercel.com/dashboard
+- Supabase API Settings: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api
+- Project URL: https://advanciapayledger.com
