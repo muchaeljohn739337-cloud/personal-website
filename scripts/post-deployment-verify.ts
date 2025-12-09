@@ -22,12 +22,12 @@ interface HealthCheckResult {
 
 function checkHealth(): HealthCheckResult {
   try {
-    const result = execSync(
-      `curl -s -o /dev/null -w "%{http_code}" ${HEALTH_ENDPOINT}`,
-      { encoding: 'utf-8', timeout: 10000 }
-    );
+    const result = execSync(`curl -s -o /dev/null -w "%{http_code}" ${HEALTH_ENDPOINT}`, {
+      encoding: 'utf-8',
+      timeout: 10000,
+    });
     const statusCode = parseInt(result.trim(), 10);
-    
+
     if (statusCode === 200) {
       return { success: true, statusCode: 200 };
     } else {
@@ -45,10 +45,9 @@ function checkHealth(): HealthCheckResult {
 function checkVercelLogs() {
   try {
     console.log('\n📋 Checking Vercel logs...\n');
-    execSync(
-      `npx vercel inspect ${VERCEL_URL.replace('https://', '')} --logs`,
-      { stdio: 'inherit' }
-    );
+    execSync(`npx vercel inspect ${VERCEL_URL.replace('https://', '')} --logs`, {
+      stdio: 'inherit',
+    });
   } catch (error) {
     console.log('⚠️  Could not fetch logs (this is okay if deployment is new)');
   }
@@ -60,15 +59,15 @@ async function waitForHealth(): Promise<boolean> {
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     console.log(`Attempt ${attempt}/${MAX_RETRIES}...`);
-    
+
     const result = checkHealth();
-    
+
     if (result.success) {
       console.log(`✅ Health check passed! (HTTP ${result.statusCode})\n`);
       return true;
     } else {
       console.log(`❌ Health check failed: ${result.error || `HTTP ${result.statusCode}`}`);
-      
+
       if (attempt < MAX_RETRIES) {
         console.log(`⏳ Waiting ${RETRY_DELAY / 1000} seconds before retry...\n`);
         await setTimeout(RETRY_DELAY);
@@ -100,7 +99,9 @@ function verifyEnvironmentVariables() {
   } catch (error) {
     console.log('\n⚠️  Some environment variables may be missing\n');
     console.log('💡 Set them in Vercel Dashboard:\n');
-    console.log('   https://vercel.com/dashboard → Your Project → Settings → Environment Variables\n');
+    console.log(
+      '   https://vercel.com/dashboard → Your Project → Settings → Environment Variables\n'
+    );
   }
 }
 
@@ -135,7 +136,7 @@ async function main() {
     console.log('   - NEXTAUTH_SECRET');
     console.log('   - NEXT_PUBLIC_APP_URL');
     console.log('   - NEXTAUTH_URL\n');
-    
+
     // Still try to check logs
     checkVercelLogs();
     process.exit(1);
@@ -175,4 +176,3 @@ main().catch((error) => {
   console.error('\n❌ Verification script failed:', error);
   process.exit(1);
 });
-
