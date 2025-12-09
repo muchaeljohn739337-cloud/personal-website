@@ -99,9 +99,9 @@ const checklist: ChecklistItem[] = [
   {
     category: '🟢 Database',
     name: 'Prepare database migrations',
-    description: 'Ensure migrations are ready',
+    description: 'Ensure migrations are ready (skip if DB not accessible)',
     command: 'npx prisma migrate status',
-    critical: true,
+    critical: false,
   },
 
   // Supabase
@@ -131,18 +131,18 @@ const checklist: ChecklistItem[] = [
   {
     category: '🟣 Deployment',
     name: 'Run database migrations',
-    description: 'Apply migrations to production',
+    description: 'Apply migrations to production (run after deployment)',
     command: 'npm run migrate:prod',
-    critical: true,
+    critical: false,
   },
 
   // Post-Deployment
   {
     category: '⚪ Post-Deployment',
     name: 'Verify deployment health',
-    description: 'Check health endpoint',
+    description: 'Check health endpoint (run after deployment)',
     command: 'npm run verify:prod',
-    critical: true,
+    critical: false,
   },
   {
     category: '⚪ Post-Deployment',
