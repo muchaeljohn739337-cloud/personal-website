@@ -56,6 +56,7 @@ const { data, error } = await signInWithOAuth('github', {
 ```
 
 **Available Providers:**
+
 - `github`
 - `google`
 - `facebook`
@@ -106,6 +107,7 @@ const { data, error } = await inviteUserByEmail('user@example.com');
 ### Storage Buckets
 
 **Defined Buckets:**
+
 - `blog-images` - Blog post images (public)
 - `user-avatars` - User profile images (public)
 - `workspace-assets` - Workspace files (private)
@@ -155,6 +157,7 @@ All database components accessible via:
    - Types: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/database/types
 
 2. **Prisma Studio:**
+
    ```bash
    npm run prisma:studio
    ```
@@ -189,11 +192,7 @@ const { data, error } = await insertIntoTable('users', {
 });
 
 // Update
-const { data, error } = await updateTable(
-  'users',
-  { id: 'user-id' },
-  { name: 'Jane Doe' }
-);
+const { data, error } = await updateTable('users', { id: 'user-id' }, { name: 'Jane Doe' });
 
 // Delete
 const { data, error } = await deleteFromTable('users', { id: 'user-id' });
@@ -216,6 +215,7 @@ const unsubscribe = subscribeToTable('users', (payload) => {
 **Access:** https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations
 
 **Categories:**
+
 - **Wrappers:** Extend your database with extensions and wrappers
 - **Postgres Modules:** Modules that add functionality and connect to external services
 
@@ -231,16 +231,17 @@ const unsubscribe = subscribeToTable('users', (payload) => {
    - Save
 
 2. **Via SQL:**
+
    ```sql
    -- Create secret
    SELECT vault.create_secret('secret_name', 'secret_value');
-   
+
    -- Get secret
    SELECT vault.get_secret('secret_name');
-   
+
    -- Update secret
    SELECT vault.update_secret('secret_name', 'new_value');
-   
+
    -- Delete secret
    SELECT vault.delete_secret('secret_name');
    ```
@@ -268,12 +269,14 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 ## 📁 Files Created
 
 ### New Files:
+
 - ✅ `lib/supabase/auth.ts` - Complete authentication system
 - ✅ `lib/supabase/database.ts` - Database management utilities
 - ✅ `lib/supabase/integrations.ts` - Integrations and vault management
 - ✅ `SUPABASE_COMPLETE_AUTH_STORAGE_SETUP.md` - This documentation
 
 ### Updated Files:
+
 - ✅ `env.example` - Updated with actual Supabase keys
 
 ---
@@ -328,4 +331,3 @@ All Supabase authentication, storage, database management, and integrations are 
 **Project URL:** https://xesecqcqzykvmrtxrzqi.supabase.co
 
 **Dashboard:** https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi
-

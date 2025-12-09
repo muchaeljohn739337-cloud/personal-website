@@ -50,6 +50,8 @@
     "test:crypto": "tsx scripts/test-crypto-payments.ts",
     "supabase:schema": "npx tsx scripts/supabase-schema-check.ts",
     "supabase:storage": "npx tsx scripts/supabase-storage-check.ts",
+    "setup:supabase:env": "npx tsx scripts/setup-supabase-env.ts",
+    "test:supabase:auth": "npx tsx scripts/test-supabase-auth.ts",
     "verify:legitimacy": "tsx scripts/verify-legitimacy.ts",
     "health:check": "tsx -e \"import('./lib/self-healing/system').then(m => m.runHealthCheck().then(h => console.log(JSON.stringify(h, null, 2))))\"",
     "check:production": "npx tsx scripts/check-production-errors.ts"
