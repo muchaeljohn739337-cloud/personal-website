@@ -5,7 +5,16 @@ import { prisma } from '@/lib/prismaClient';
 
 // One-time database initialization endpoint
 // DELETE THIS FILE AFTER SETUP!
+// SECURITY: This endpoint is disabled in production
 export async function GET(request: Request) {
+  // Block in production
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: 'This endpoint is disabled in production. Use scripts/create-admin.ts instead.' },
+      { status: 403 }
+    );
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');

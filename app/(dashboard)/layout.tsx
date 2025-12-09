@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/lib/auth';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 import { DashboardNav } from './components/dashboard-nav';
 import { DashboardSidebar } from './components/dashboard-sidebar';
@@ -14,12 +15,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <DashboardNav user={session.user} />
-      <div className="flex">
-        <DashboardSidebar />
-        <main className="flex-1 overflow-auto">{children}</main>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-slate-950">
+        <DashboardNav user={session.user} />
+        <div className="flex">
+          <DashboardSidebar />
+          <main className="flex-1 overflow-auto">{children}</main>
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 }

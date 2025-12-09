@@ -5,13 +5,28 @@ import { prisma } from '@/lib/prismaClient';
 
 // One-time admin setup endpoint
 // DELETE THIS FILE AFTER CREATING YOUR ADMIN USER!
+// SECURITY: This endpoint is disabled in production
 export async function POST(req: NextRequest) {
+  // Block in production
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: 'This endpoint is disabled in production. Use scripts/create-admin.ts instead.' },
+      { status: 403 }
+    );
+  }
+
   try {
     // Security: Check for setup secret
     const { secret, email, password, name } = await req.json();
 
-    // Use environment variable for setup secret
-    const setupSecret = process.env.ADMIN_SETUP_SECRET || 'advancia-setup-2025';
+    // Use environment variable for setup secret (required in production-like environments)
+    const setupSecret = process.env.ADMIN_SETUP_SECRET;
+    if (!setupSecret) {
+      return NextResponse.json(
+        { error: 'ADMIN_SETUP_SECRET environment variable must be set' },
+        { status: 500 }
+      );
+    }
 
     if (secret !== setupSecret) {
       return NextResponse.json({ error: 'Invalid setup secret' }, { status: 403 });

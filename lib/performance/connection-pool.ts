@@ -97,10 +97,17 @@ export function generateRequestId(): string {
 export function getDatabaseUrl(): string {
   const baseUrl = process.env.DATABASE_URL || '';
 
+  if (!baseUrl) {
+    console.warn('[ConnectionPool] DATABASE_URL is not set');
+    return '';
+  }
+
   // Add connection pool parameters if not present
-  if (baseUrl && !baseUrl.includes('connection_limit')) {
+  // Note: Prisma handles connection pooling internally, but we can add query parameters
+  if (!baseUrl.includes('connection_limit') && !baseUrl.includes('?')) {
     const separator = baseUrl.includes('?') ? '&' : '?';
-    return `${baseUrl}${separator}connection_limit=${poolConfig.maxConnections}&pool_timeout=${poolConfig.acquireTimeoutMs / 1000}`;
+    // Prisma-specific connection pool parameters
+    return `${baseUrl}${separator}connection_limit=${poolConfig.maxConnections}&pool_timeout=${poolConfig.acquireTimeoutMs / 1000}&connect_timeout=10`;
   }
 
   return baseUrl;

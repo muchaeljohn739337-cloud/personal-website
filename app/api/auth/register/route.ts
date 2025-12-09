@@ -6,8 +6,20 @@ import { createEmailVerificationToken } from '@/lib/auth/email-verification';
 import { sendVerificationEmail } from '@/lib/email';
 import { prisma } from '@/lib/prismaClient';
 import { registerSchema } from '@/lib/validations/auth';
+import { withRateLimit } from '@/lib/security/redis-rate-limit';
 
 export async function POST(req: NextRequest) {
+  // Rate limiting
+  const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+  const rateLimit = await withRateLimit(`register:${ipAddress}`, 'api');
+  
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Too many registration attempts. Please try again later.' },
+      { status: 429, headers: rateLimit.headers }
+    );
+  }
+
   try {
     const body = await req.json();
     const validatedData = registerSchema.parse(body);

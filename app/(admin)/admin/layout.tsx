@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prismaClient';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -23,7 +24,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+    <ErrorBoundary>
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       {/* Admin Header */}
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -74,6 +76,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>
-    </div>
+      </div>
+    </ErrorBoundary>
   );
 }

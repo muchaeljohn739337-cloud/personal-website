@@ -6,6 +6,7 @@ import { Providers } from '@/components/providers';
 import { LoadingScreen } from '@/components/ui/loading-screen';
 import { MonitoringInit } from '@/components/MonitoringInit';
 import { PerformanceOptimizer } from '@/components/PerformanceOptimizer';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 // Lazy load heavy components
 const AIChat = dynamic(() => import('@/components/AIChat'), {
@@ -92,14 +93,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
-        <Providers>
-          <MonitoringInit />
-          <PerformanceOptimizer />
-          <LoadingScreen />
-          {children}
-          <AIChat />
-          <CookieConsent />
-        </Providers>
+        <ErrorBoundary>
+          <Providers>
+            <MonitoringInit />
+            <PerformanceOptimizer />
+            <LoadingScreen />
+            {children}
+            <AIChat />
+            <CookieConsent />
+          </Providers>
+        </ErrorBoundary>
       </body>
     </html>
   );

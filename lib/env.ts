@@ -65,6 +65,9 @@ interface EnvConfig {
   NEXT_PUBLIC_APP_VERSION?: string;
   // LogRocket
   NEXT_PUBLIC_LOGROCKET_APP_ID?: string;
+
+  // Cron Jobs
+  CRON_SECRET?: string;
 }
 
 const requiredEnvVars = [
@@ -74,7 +77,7 @@ const requiredEnvVars = [
   'DATABASE_URL',
 ] as const;
 
-const recommendedEnvVars = ['NEXTAUTH_URL', 'REDIS_URL', 'SMTP_HOST', 'SMTP_FROM'] as const;
+const recommendedEnvVars = ['NEXTAUTH_URL', 'REDIS_URL', 'SMTP_HOST', 'SMTP_FROM', 'CRON_SECRET'] as const;
 
 class EnvironmentError extends Error {
   constructor(
@@ -166,6 +169,7 @@ ${missing.map((v) => `║  • ${v.padEnd(56)}║`).join('\n')}
     ENABLE_2FA: process.env.ENABLE_2FA,
     ENABLE_EMAIL_VERIFICATION: process.env.ENABLE_EMAIL_VERIFICATION,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    CRON_SECRET: process.env.CRON_SECRET,
   };
 }
 
