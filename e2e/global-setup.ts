@@ -7,8 +7,9 @@ import { chromium, FullConfig } from '@playwright/test';
 
 // Polyfill TransformStream for Node.js < 18
 if (typeof globalThis.TransformStream === 'undefined') {
-  // @ts-expect-error - Polyfill for older Node.js versions
-  globalThis.TransformStream = class TransformStream {
+  // Polyfill for older Node.js versions
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).TransformStream = class TransformStream {
     readable: ReadableStream;
     writable: WritableStream;
 
@@ -29,8 +30,8 @@ if (typeof globalThis.TransformStream === 'undefined') {
 
   // Also polyfill ReadableStream and WritableStream if needed
   if (typeof globalThis.ReadableStream === 'undefined') {
-    // @ts-expect-error - Polyfill for older Node.js versions
-    globalThis.ReadableStream = class ReadableStream {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (globalThis as any).ReadableStream = class ReadableStream {
       constructor() {
         // Minimal implementation
       }
@@ -38,8 +39,8 @@ if (typeof globalThis.TransformStream === 'undefined') {
   }
 
   if (typeof globalThis.WritableStream === 'undefined') {
-    // @ts-expect-error - Polyfill for older Node.js versions
-    globalThis.WritableStream = class WritableStream {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (globalThis as any).WritableStream = class WritableStream {
       constructor() {
         // Minimal implementation
       }
