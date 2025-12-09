@@ -40,6 +40,7 @@
     "deploy:worker:prod": "npm run build:worker && npx wrangler pages deploy .vercel/output/static --env production",
     "migrate:prod": "prisma migrate deploy",
     "verify:prod": "curl -f https://advanciapayledger.com/api/health || exit 1",
+    "post-deploy": "npx tsx scripts/post-deployment-verify.ts",
     "preprod:check": "node scripts/pre-production-check.js",
     "security:check": "node scripts/security-check.js",
     "audit:full": "node scripts/full-audit.js",
