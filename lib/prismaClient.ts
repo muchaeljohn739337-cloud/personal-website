@@ -12,11 +12,18 @@ export const prisma =
     errorFormat: 'pretty',
   });
 
-// Connection health check
+// Connection health check (non-blocking)
+// Don't block startup if database is temporarily unavailable
 prisma.$connect().catch((error) => {
-  console.error('Failed to connect to database:', error);
-  if (process.env.NODE_ENV === 'production') {
-    // In production, we might want to exit or retry
+  console.warn(
+    '⚠️  Database connection warning:',
+    error instanceof Error ? error.message : String(error)
+  );
+  // Don't exit in development - allow app to start
+  // Database will be checked when actually needed
+  if (process.env.NODE_ENV === 'production' && process.env.FORCE_DB_CONNECTION === 'true') {
+    // Only exit in production if explicitly required
+    console.error('❌ Database connection required in production');
     process.exit(1);
   }
 });

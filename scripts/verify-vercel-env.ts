@@ -185,7 +185,11 @@ function verifyEnvironmentVariables() {
   requiredVars.forEach((envVar) => {
     const isSet = vercelEnv.has(envVar.name) || localEnv.has(envVar.name);
     const status = isSet ? '✅' : '❌';
-    const source = vercelEnv.has(envVar.name) ? '(Vercel)' : localEnv.has(envVar.name) ? '(Local)' : '';
+    const source = vercelEnv.has(envVar.name)
+      ? '(Vercel)'
+      : localEnv.has(envVar.name)
+        ? '(Local)'
+        : '';
 
     console.log(`${status} ${envVar.name} ${source}`);
     if (!isSet) {
@@ -201,14 +205,17 @@ function verifyEnvironmentVariables() {
   });
 
   // Check Supabase key requirement
-  const hasPublishableKey = vercelEnv.has('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY') ||
+  const hasPublishableKey =
+    vercelEnv.has('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY') ||
     localEnv.has('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY');
-  const hasAnonKey = vercelEnv.has('NEXT_PUBLIC_SUPABASE_ANON_KEY') ||
-    localEnv.has('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+  const hasAnonKey =
+    vercelEnv.has('NEXT_PUBLIC_SUPABASE_ANON_KEY') || localEnv.has('NEXT_PUBLIC_SUPABASE_ANON_KEY');
 
   if (!hasPublishableKey && !hasAnonKey) {
     console.log('❌ Missing Supabase key');
-    console.log('   Set either NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    console.log(
+      '   Set either NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY'
+    );
     console.log('');
     missingRequired++;
   }
@@ -219,7 +226,11 @@ function verifyEnvironmentVariables() {
   recommendedVars.forEach((envVar) => {
     const isSet = vercelEnv.has(envVar.name) || localEnv.has(envVar.name);
     const status = isSet ? '✅' : '⚠️ ';
-    const source = vercelEnv.has(envVar.name) ? '(Vercel)' : localEnv.has(envVar.name) ? '(Local)' : '';
+    const source = vercelEnv.has(envVar.name)
+      ? '(Vercel)'
+      : localEnv.has(envVar.name)
+        ? '(Local)'
+        : '';
 
     console.log(`${status} ${envVar.name} ${source}`);
     if (!isSet) {
@@ -250,7 +261,9 @@ function verifyEnvironmentVariables() {
 
   console.log('\n🔗 Quick Links:');
   console.log('   Vercel Dashboard: https://vercel.com/dashboard');
-  console.log('   Environment Variables: https://vercel.com/dashboard/[team]/personal-website/settings/environment-variables');
+  console.log(
+    '   Environment Variables: https://vercel.com/dashboard/[team]/personal-website/settings/environment-variables'
+  );
   console.log('   Setup Guide: See VERCEL_ENVIRONMENT_SETUP.md');
   console.log('');
 
@@ -269,4 +282,3 @@ function verifyEnvironmentVariables() {
 
 // Run verification
 verifyEnvironmentVariables();
-

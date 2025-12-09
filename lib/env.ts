@@ -68,6 +68,10 @@ interface EnvConfig {
   // LogRocket
   NEXT_PUBLIC_LOGROCKET_APP_ID?: string;
 
+  // AI Providers
+  OPENAI_API_KEY?: string;
+  ANTHROPIC_API_KEY?: string;
+
   // Cron Jobs
   CRON_SECRET?: string;
 }
@@ -137,10 +141,13 @@ ${missing.map((v) => `║  • ${v.padEnd(56)}║`).join('\n')}
 ║  environment before starting the application.                ║
 ╚══════════════════════════════════════════════════════════════╝
 `;
+    // In development, warn but don't block startup
+    // In production, throw error to prevent deployment
     if (process.env.NODE_ENV === 'production') {
       throw new EnvironmentError(errorMessage, missing);
     } else {
-      console.error(errorMessage);
+      console.warn(errorMessage);
+      console.warn('⚠️  Continuing in development mode, but some features may not work.\n');
     }
   }
 
@@ -180,6 +187,8 @@ ${missing.map((v) => `║  • ${v.padEnd(56)}║`).join('\n')}
     ENABLE_EMAIL_VERIFICATION: process.env.ENABLE_EMAIL_VERIFICATION,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     CRON_SECRET: process.env.CRON_SECRET,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
   };
 }
 

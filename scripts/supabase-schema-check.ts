@@ -43,10 +43,7 @@ async function checkSchema() {
   try {
     // Check connection
     console.log('📡 Testing connection...');
-    const { data: health, error: healthError } = await supabase
-      .from('_prisma_migrations')
-      .select('id')
-      .limit(1);
+    const { error: healthError } = await supabase.from('_prisma_migrations').select('id').limit(1);
     if (
       healthError &&
       !healthError.message.includes('relation "_prisma_migrations" does not exist')

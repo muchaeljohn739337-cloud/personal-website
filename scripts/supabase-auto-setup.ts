@@ -72,11 +72,7 @@ function detectEnvironment() {
 function installSupabaseLibraries(env: ReturnType<typeof detectEnvironment>) {
   console.log('📦 Installing Supabase Libraries...\n');
 
-  const packages = [
-    '@supabase/supabase-js',
-    '@supabase/ssr',
-    'dotenv',
-  ];
+  const packages = ['@supabase/supabase-js', '@supabase/ssr', 'dotenv'];
 
   const installCommand =
     env.packageManager === 'yarn'
@@ -172,8 +168,6 @@ function setupVaultSecrets() {
   const supabaseAnonKey =
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
   if (!supabaseUrl || !supabaseAnonKey) {
     console.log('⚠️  Supabase credentials not found in environment');
     console.log('💡 Please set these in .env.local:');
@@ -203,7 +197,9 @@ function setupVaultSecrets() {
   console.log('💡 Vault Secrets Setup:');
   console.log('');
   console.log('1. Go to Supabase Dashboard:');
-  console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations/vault/secrets');
+  console.log(
+    '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations/vault/secrets'
+  );
   console.log('');
   console.log('2. Store secrets in Vault:');
   console.log('   - API keys');
@@ -211,7 +207,7 @@ function setupVaultSecrets() {
   console.log('   - Third-party API keys');
   console.log('');
   console.log('3. Access in SQL:');
-  console.log('   SELECT vault.get_secret(\'secret_name\');');
+  console.log("   SELECT vault.get_secret('secret_name');");
   console.log('');
 
   results.push({
@@ -249,7 +245,9 @@ function configureAuthentication() {
   console.log('');
   console.log('1. Email/Password: ✅ Already configured in lib/supabase/auth.ts');
   console.log('2. Social Login: Configure in Supabase Dashboard');
-  console.log('   - Go to: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/auth/providers');
+  console.log(
+    '   - Go to: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/auth/providers'
+  );
   console.log('   - Enable: Google, GitHub, etc.');
   console.log('3. JWT Sessions: ✅ Handled by Supabase automatically');
   console.log('4. Email Verification: ✅ Configured in auth.ts');
@@ -678,7 +676,7 @@ export async function batchOperation<T>(
 // 8. AUTOMATIC DEPENDENCY MANAGEMENT
 // =============================================================================
 
-function checkDependencies(env: ReturnType<typeof detectEnvironment>) {
+function checkDependencies(_env: ReturnType<typeof detectEnvironment>) {
   console.log('🔍 Checking Dependencies...\n');
 
   const packageJson = JSON.parse(readFileSync('package.json', 'utf-8'));
@@ -687,11 +685,7 @@ function checkDependencies(env: ReturnType<typeof detectEnvironment>) {
     ...packageJson.devDependencies,
   };
 
-  const required = [
-    '@supabase/supabase-js',
-    '@supabase/ssr',
-    'dotenv',
-  ];
+  const required = ['@supabase/supabase-js', '@supabase/ssr', 'dotenv'];
 
   const missing = required.filter((dep) => !dependencies[dep]);
 
@@ -705,10 +699,7 @@ function checkDependencies(env: ReturnType<typeof detectEnvironment>) {
   results.push({
     step: 'Check Dependencies',
     success: missing.length === 0,
-    message:
-      missing.length === 0
-        ? 'All dependencies installed'
-        : \`Missing: \${missing.join(', ')}\`,
+    message: missing.length === 0 ? 'All dependencies installed' : `Missing: ${missing.join(', ')}`,
   });
 }
 
@@ -726,20 +717,20 @@ function outputSummary() {
 
   results.forEach((result) => {
     const icon = result.success ? '✅' : '❌';
-    console.log(\`\${icon} \${result.step}\`);
-    console.log(\`   \${result.message}\`);
+    console.log(`${icon} ${result.step}`);
+    console.log(`   ${result.message}`);
     if (result.details) {
       result.details.forEach((detail) => {
-        console.log(\`   - \${detail}\`);
+        console.log(`   - ${detail}`);
       });
     }
     console.log('');
   });
 
   console.log('='.repeat(60));
-  console.log(\`✅ Successful: \${successful}\`);
-  console.log(\`❌ Failed: \${failed}\`);
-  console.log(\`📊 Total: \${results.length}\`);
+  console.log(`✅ Successful: ${successful}`);
+  console.log(`❌ Failed: ${failed}`);
+  console.log(`📊 Total: ${results.length}`);
   console.log('='.repeat(60) + '\n');
 
   console.log('📝 Next Steps:');
@@ -754,7 +745,9 @@ function outputSummary() {
   console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/storage/files');
   console.log('');
   console.log('4. Set up Vault Secrets:');
-  console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations/vault/secrets');
+  console.log(
+    '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations/vault/secrets'
+  );
   console.log('');
   console.log('5. Test Authentication:');
   console.log('   npm run test:supabase:auth');

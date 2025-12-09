@@ -10,18 +10,14 @@ import { resolve } from 'path';
 config({ path: resolve(process.cwd(), '.env.local') });
 
 import {
-  signUp,
-  signIn,
-  signInWithOtp,
-  signUpWithPhone,
-  signInWithOtpPhone,
-  verifyOtp,
-  signInWithOAuth,
-  getUser,
   getSession,
-  updateUser,
-  resetPasswordForEmail,
+  getUser,
+  signIn,
+  signInWithOAuth,
+  signInWithOtp,
   signOut,
+  signUp,
+  updateUser,
 } from '../lib/supabase/auth';
 
 interface TestResult {
@@ -118,7 +114,7 @@ async function testSupabaseAuth() {
 
   // Test 7: Update user (metadata only, not email/password in test)
   await runTest('Update User (metadata)', async () => {
-    const { data, error } = await updateUser({
+    const { error } = await updateUser({
       data: { testField: 'testValue', lastTested: new Date().toISOString() },
     });
     if (error) throw error;
@@ -134,8 +130,8 @@ async function testSupabaseAuth() {
 
   // Test 9: Verify signed out
   await runTest('Verify Signed Out', async () => {
-    const { session, error } = await getSession();
-    if (error) throw error;
+    const { session, error: sessionError } = await getSession();
+    if (sessionError) throw sessionError;
     if (session) throw new Error('Session should not exist after sign out');
     return { signedOut: true };
   });
@@ -143,7 +139,7 @@ async function testSupabaseAuth() {
   // Test 10: Magic Link (OTP) - just test the function exists
   await runTest('Sign In with OTP (function check)', async () => {
     // Don't actually send email in test
-    const { error } = await signInWithOtp('test@example.com');
+    await signInWithOtp('test@example.com');
     // OTP will fail without proper setup, but function should exist
     return { functionExists: true };
   });
@@ -151,7 +147,7 @@ async function testSupabaseAuth() {
   // Test 11: OAuth - just test the function exists
   await runTest('Sign In with OAuth (function check)', async () => {
     // Don't actually redirect in test
-    const { error } = await signInWithOAuth('github');
+    await signInWithOAuth('github');
     // OAuth will fail without proper setup, but function should exist
     return { functionExists: true };
   });

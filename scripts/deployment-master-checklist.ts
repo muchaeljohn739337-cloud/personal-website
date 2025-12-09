@@ -180,6 +180,7 @@ function checkCommand(command: string): { success: boolean; output?: string; err
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function checkEnvironmentVariables(): boolean {
   const required = [
     'JWT_SECRET',
@@ -280,4 +281,3 @@ function runChecklist() {
 
 // Run checklist
 runChecklist();
-

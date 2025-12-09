@@ -5,9 +5,9 @@
  */
 
 import { execSync } from 'child_process';
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
 import { config } from 'dotenv';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
 
 // Load environment variables
 config({ path: join(process.cwd(), '.env.local') });
@@ -185,7 +185,6 @@ function setupVaultSecrets() {
   const supabaseKey =
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
     console.log('⚠️  Supabase credentials not found in environment\n');
@@ -263,9 +262,7 @@ function configureAuthentication() {
   console.log('');
 
   console.log('💡 Configure OAuth Providers:');
-  console.log(
-    '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/auth/providers'
-  );
+  console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/auth/providers');
   console.log('');
 
   steps.push({
@@ -311,9 +308,7 @@ function configureStorage() {
   console.log('');
 
   console.log('💡 Create buckets in Dashboard:');
-  console.log(
-    '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/storage/files'
-  );
+  console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/storage/files');
   console.log('');
 
   steps.push({
@@ -628,9 +623,7 @@ function setupApiSchema() {
   console.log('   npm run setup:supabase:api:schema');
   console.log('');
   console.log('2. Execute SQL in Supabase Dashboard:');
-  console.log(
-    '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/sql/new'
-  );
+  console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/sql/new');
   console.log('');
   console.log('3. Grant permissions:');
   console.log('   GRANT SELECT ON TABLE api.<table> TO anon;');
@@ -674,35 +667,31 @@ function outputSummary() {
           : step.status === 'pending'
             ? '⏳'
             : '⏭️';
-    console.log(\`\${icon} [\${index + 1}] \${step.name}\`);
-    console.log(\`   \${step.message}\`);
+    console.log(`${icon} [${index + 1}] ${step.name}`);
+    console.log(`   ${step.message}`);
     if (step.details) {
       step.details.forEach((detail) => {
-        console.log(\`   - \${detail}\`);
+        console.log(`   - ${detail}`);
       });
     }
     console.log('');
   });
 
   console.log('='.repeat(70));
-  console.log(\`✅ Successful: \${successful}\`);
-  console.log(\`❌ Failed: \${failed}\`);
-  console.log(\`⏳ Pending: \${pending}\`);
-  console.log(\`⏭️  Skipped: \${skipped}\`);
-  console.log(\`📊 Total: \${steps.length}\`);
+  console.log(`✅ Successful: ${successful}`);
+  console.log(`❌ Failed: ${failed}`);
+  console.log(`⏳ Pending: ${pending}`);
+  console.log(`⏭️  Skipped: ${skipped}`);
+  console.log(`📊 Total: ${steps.length}`);
   console.log('='.repeat(70) + '\n');
 
   console.log('📝 Next Steps:\n');
   console.log('1. Setup API Schema:');
   console.log('   npm run setup:supabase:api:schema\n');
   console.log('2. Configure OAuth Providers (optional):');
-  console.log(
-    '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/auth/providers\n'
-  );
+  console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/auth/providers\n');
   console.log('3. Create Storage Buckets:');
-  console.log(
-    '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/storage/files\n'
-  );
+  console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/storage/files\n');
   console.log('4. Set up Vault Secrets:');
   console.log(
     '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations/vault/secrets\n'
@@ -741,4 +730,3 @@ async function main() {
 }
 
 main();
-

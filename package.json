@@ -65,7 +65,15 @@
     "generate:prod:secrets": "npx tsx scripts/generate-production-secrets.ts",
     "deploy:checklist": "npx tsx scripts/deployment-master-checklist.ts",
     "deploy:vercel:script": "bash scripts/deployment/deploy-vercel.sh",
-    "deploy:cloudflare:script": "bash scripts/deployment/deploy-cloudflare.sh"
+    "deploy:cloudflare:script": "bash scripts/deployment/deploy-cloudflare.sh",
+    "worker:start": "npx tsx scripts/start-agent-worker.ts",
+    "worker:test": "npx tsx scripts/test-agent-system.ts",
+    "worker:verify": "npx tsx scripts/verify-worker-setup.ts",
+    "worker:check-db": "npx tsx scripts/check-database.ts",
+    "worker:demo": "npx tsx scripts/demo-agent-worker.ts",
+    "verify:startup": "npx tsx scripts/verify-startup.ts",
+    "check:admin": "npx tsx scripts/check-admin-exists.ts",
+    "test:admin-login": "npx tsx scripts/test-admin-login.ts"
   },
   "dependencies": {
     "@auth/core": "^0.41.1",

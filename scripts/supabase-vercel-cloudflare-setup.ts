@@ -190,11 +190,7 @@ function initializeSupabase() {
 function setupVaultAndEnv() {
   console.log('🔐 Step 4: Setting up Vault & Environment Variables...\n');
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey =
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // Environment variables are checked below, no need to assign to unused variables
 
   // Create .env.local if needed
   if (!existsSync('.env.local') && existsSync('env.example')) {
@@ -346,10 +342,8 @@ function configureVercel() {
 function configureCloudflare() {
   console.log('☁️  Step 6: Configuring Cloudflare Deployment...\n');
 
-  let wranglerConfig: Record<string, unknown> = {};
-
   if (existsSync('wrangler.toml')) {
-    const wranglerContent = readFileSync('wrangler.toml', 'utf-8');
+    readFileSync('wrangler.toml', 'utf-8');
     console.log('✅ wrangler.toml exists\n');
   }
 
@@ -415,7 +409,7 @@ bucket_name = "advanciapayledger-cache"
 // 7. GENERATE DEPLOYMENT SCRIPTS
 // =============================================================================
 
-function generateDeploymentScripts(env: ReturnType<typeof detectEnvironment>) {
+function generateDeploymentScripts(_env: ReturnType<typeof detectEnvironment>) {
   console.log('📜 Step 7: Generating Deployment Scripts...\n');
 
   const scriptsDir = 'scripts/deployment';
@@ -542,9 +536,7 @@ function checkMissingDependencies(env: ReturnType<typeof detectEnvironment>) {
     step: 'Check Missing',
     status: missing.length === 0 ? 'success' : 'pending',
     message:
-      missing.length === 0
-        ? 'All dependencies installed'
-        : `${missing.length} potentially missing`,
+      missing.length === 0 ? 'All dependencies installed' : `${missing.length} potentially missing`,
     details: missing.length > 0 ? missing : undefined,
   });
 }
@@ -558,7 +550,16 @@ function outputSummary() {
   console.log('📊 DEPLOYMENT SETUP SUMMARY');
   console.log('='.repeat(70) + '\n');
 
-  const categories = ['Environment', 'Libraries', 'Supabase', 'Vault', 'Vercel', 'Cloudflare', 'Scripts', 'Dependencies'];
+  const categories = [
+    'Environment',
+    'Libraries',
+    'Supabase',
+    'Vault',
+    'Vercel',
+    'Cloudflare',
+    'Scripts',
+    'Dependencies',
+  ];
 
   categories.forEach((category) => {
     const categoryResults = results.filter((r) => r.category === category);
@@ -637,4 +638,3 @@ async function main() {
 }
 
 main();
-

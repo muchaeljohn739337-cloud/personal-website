@@ -18,6 +18,7 @@ function generateSecret(length: number): string {
   return randomBytes(length).toString('base64');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateHexSecret(length: number): string {
   return randomBytes(length).toString('hex');
 }
@@ -81,4 +82,3 @@ console.log('https://vercel.com/dashboard/[team]/personal-website/settings/envir
 console.log('');
 console.log('✅ Secrets generated successfully!');
 console.log('');
-
