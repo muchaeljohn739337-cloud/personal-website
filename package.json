@@ -50,7 +50,7 @@
     "test:crypto": "tsx scripts/test-crypto-payments.ts",
     "verify:legitimacy": "tsx scripts/verify-legitimacy.ts",
     "health:check": "tsx -e \"import('./lib/self-healing/system').then(m => m.runHealthCheck().then(h => console.log(JSON.stringify(h, null, 2))))\"",
-    "check:production": "tsx scripts/check-production-errors.ts"
+    "check:production": "npx tsx scripts/check-production-errors.ts"
   },
   "dependencies": {
     "@auth/core": "^0.41.1",
