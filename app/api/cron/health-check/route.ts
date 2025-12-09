@@ -11,14 +11,22 @@ import { autoHeal, runHealthCheck } from '@/lib/self-healing/system';
 export async function GET(req: NextRequest) {
   try {
     // Verify cron secret
+    // Vercel Cron automatically adds Authorization header with CRON_SECRET
+    // For manual calls, require CRON_SECRET in Authorization header
     const authHeader = req.headers.get('authorization');
+    const cronHeader = req.headers.get('x-vercel-cron');
     const cronSecret = process.env.CRON_SECRET;
 
     if (!cronSecret) {
       return NextResponse.json({ error: 'CRON_SECRET not configured' }, { status: 500 });
     }
 
-    if (authHeader !== `Bearer ${cronSecret}`) {
+    // Allow Vercel cron (x-vercel-cron header) or secret-based auth
+    const isAuthorized =
+      cronHeader === '1' || // Vercel cron (automatically authorized)
+      authHeader === `Bearer ${cronSecret}`; // Manual call with secret
+
+    if (!isAuthorized) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

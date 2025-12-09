@@ -114,17 +114,22 @@ async function runSecurityScan() {
 
 export async function GET(req: NextRequest) {
   // Verify authorization
-  // Vercel Cron automatically adds Authorization header
-  // For manual calls, require CRON_SECRET
+  // Vercel Cron automatically adds Authorization header with CRON_SECRET
+  // For manual calls, require CRON_SECRET in Authorization header
   const authHeader = req.headers.get('authorization');
   const cronHeader = req.headers.get('x-vercel-cron');
 
-  // Allow Vercel cron or secret-based auth
-  const isAuthorized =
-    cronHeader === '1' || // Vercel cron
-    (CRON_SECRET && authHeader === `Bearer ${CRON_SECRET}`); // Manual with secret
+  // Check if CRON_SECRET is configured
+  if (!CRON_SECRET) {
+    return NextResponse.json({ error: 'CRON_SECRET not configured' }, { status: 500 });
+  }
 
-  if (!isAuthorized && CRON_SECRET) {
+  // Allow Vercel cron (x-vercel-cron header) or secret-based auth
+  const isAuthorized =
+    cronHeader === '1' || // Vercel cron (automatically authorized)
+    authHeader === `Bearer ${CRON_SECRET}`; // Manual call with secret
+
+  if (!isAuthorized) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

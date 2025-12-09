@@ -36,6 +36,7 @@
     "docker:logs": "docker-compose logs -f",
     "prepare": "husky install",
     "deploy:prod": "npm run build && vercel --prod",
+    "deploy:prod:safe": "npx tsx scripts/deploy-to-production.ts",
     "deploy:worker:prod": "npm run build:worker && npx wrangler pages deploy .vercel/output/static --env production",
     "migrate:prod": "prisma migrate deploy",
     "verify:prod": "curl -f https://advanciapayledger.com/api/health || exit 1",
@@ -73,6 +74,7 @@
     "worker:verify": "npx tsx scripts/verify-worker-setup.ts",
     "worker:check-db": "npx tsx scripts/check-database.ts",
     "worker:demo": "npx tsx scripts/demo-agent-worker.ts",
+    "setup:notes-table": "npx tsx scripts/setup-notes-table.ts",
     "verify:startup": "npx tsx scripts/verify-startup.ts",
     "check:admin": "npx tsx scripts/check-admin-exists.ts",
     "test:admin-login": "npx tsx scripts/test-admin-login.ts"
@@ -119,6 +121,7 @@
     "@trpc/server": "^10.43.6",
     "ai": "^5.0.107",
     "bcryptjs": "^2.4.3",
+    "botid": "^1.5.10",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.1.1",

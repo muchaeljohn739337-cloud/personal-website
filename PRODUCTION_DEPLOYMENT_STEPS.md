@@ -24,7 +24,7 @@ This will trigger automatic deployment on Vercel (if connected).
 
 **Go to:** https://vercel.com/dashboard → Your Project → Settings → Environment Variables
 
-### Required Variables:
+### Required Variables
 
 ```bash
 # Database

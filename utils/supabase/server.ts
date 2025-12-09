@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey =
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ||
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -12,19 +13,28 @@ if (!supabaseUrl) {
 
 if (!supabaseKey) {
   throw new Error(
-    'Missing NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable'
+    'Missing NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY, or NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable'
   );
 }
 
 /**
  * Create a Supabase client for Server Components, Server Actions, and Route Handlers
  * This client handles cookie management for authentication
+ *
+ * Usage (Recommended - matches Supabase docs):
+ *   const supabase = await createClient();
+ *   const { data } = await supabase.from('table').select();
+ *
+ * Usage (Legacy - still supported):
+ *   const cookieStore = await cookies();
+ *   const supabase = createClient(cookieStore);
  */
-export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
+export async function createClient(cookieStore?: ReturnType<typeof cookies>) {
+  const store = cookieStore || (await cookies());
   return createServerClient(supabaseUrl!, supabaseKey!, {
     cookies: {
       getAll() {
-        return cookieStore.getAll();
+        return store.getAll();
       },
       setAll(
         cookiesToSet: Array<{
@@ -42,7 +52,7 @@ export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
         }>
       ) {
         try {
-          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
+          cookiesToSet.forEach(({ name, value, options }) => store.set(name, value, options));
         } catch {
           // The `setAll` method was called from a Server Component.
           // This can be ignored if you have middleware refreshing
@@ -51,4 +61,4 @@ export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
       },
     },
   });
-};
+}
