@@ -52,6 +52,10 @@
     "supabase:storage": "npx tsx scripts/supabase-storage-check.ts",
     "setup:supabase:env": "npx tsx scripts/setup-supabase-env.ts",
     "test:supabase:auth": "npx tsx scripts/test-supabase-auth.ts",
+    "setup:supabase:api:schema": "npx tsx scripts/setup-supabase-api-schema.ts",
+    "setup:supabase:auto": "npx tsx scripts/supabase-auto-setup.ts",
+    "setup:supabase:buckets": "npx tsx scripts/setup-storage-buckets.ts",
+    "deploy:production": "npx tsx scripts/deploy-production.ts",
     "verify:legitimacy": "tsx scripts/verify-legitimacy.ts",
     "health:check": "tsx -e \"import('./lib/self-healing/system').then(m => m.runHealthCheck().then(h => console.log(JSON.stringify(h, null, 2))))\"",
     "check:production": "npx tsx scripts/check-production-errors.ts"

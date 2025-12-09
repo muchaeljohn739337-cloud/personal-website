@@ -155,7 +155,7 @@ export function subscribeToAdminActions(
       'postgres_changes',
       {
         event: '*',
-        schema: 'public',
+        schema: 'api',
         table: 'admin_actions',
         filter: filters
           ? Object.entries(filters)

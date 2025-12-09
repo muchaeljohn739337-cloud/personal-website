@@ -198,7 +198,7 @@ export function subscribeToTable(
       'postgres_changes',
       {
         event: '*',
-        schema: 'public',
+        schema: 'api',
         table: tableName,
         filter: filter,
       },
