@@ -75,18 +75,18 @@ Your Next.js SaaS application has been fully configured for Supabase integration
 
 ### Core Supabase Libraries
 
-| Library | Version | Status | Purpose |
-|---------|---------|--------|---------|
-| `@supabase/supabase-js` | 2.86.2 | ✅ Installed | Core Supabase client |
-| `@supabase/ssr` | 0.5.2 | ✅ Installed | Next.js SSR support |
-| `dotenv` | 16.3.1 | ✅ Installed | Environment variables |
+| Library                 | Version | Status       | Purpose               |
+| ----------------------- | ------- | ------------ | --------------------- |
+| `@supabase/supabase-js` | 2.86.2  | ✅ Installed | Core Supabase client  |
+| `@supabase/ssr`         | 0.5.2   | ✅ Installed | Next.js SSR support   |
+| `dotenv`                | 16.3.1  | ✅ Installed | Environment variables |
 
 ### Optional Libraries
 
-| Library | Status | Purpose |
-|---------|--------|---------|
+| Library    | Status       | Purpose                           |
+| ---------- | ------------ | --------------------------------- |
 | `chart.js` | ⚠️ Available | Charts/graphs (install if needed) |
-| `recharts` | ✅ Installed | React charts |
+| `recharts` | ✅ Installed | React charts                      |
 
 ---
 
@@ -95,15 +95,18 @@ Your Next.js SaaS application has been fully configured for Supabase integration
 ### Required Variables
 
 **Supabase:**
+
 - ✅ `NEXT_PUBLIC_SUPABASE_URL` - Set
 - ⏳ `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` - **Needs to be set**
 - ✅ `SUPABASE_SERVICE_ROLE_KEY` - Set (server-side only)
 
 **Database:**
+
 - ✅ `DATABASE_URL` - Set (connection pooling)
 - ✅ `DIRECT_URL` - Set (direct connection)
 
 **Authentication:**
+
 - ✅ `NEXTAUTH_SECRET` - Set
 - ✅ `NEXTAUTH_URL` - Set
 - ✅ `JWT_SECRET` - Set
@@ -114,11 +117,13 @@ Your Next.js SaaS application has been fully configured for Supabase integration
 **Access:** https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations/vault/secrets
 
 **Store in Vault:**
+
 - API keys
 - Service role keys
 - Third-party credentials
 
 **Access in SQL:**
+
 ```sql
 SELECT vault.get_secret('secret_name');
 ```
@@ -141,6 +146,7 @@ SELECT vault.get_secret('secret_name');
 **Steps:**
 
 1. **Run setup script:**
+
    ```bash
    npm run setup:supabase:api:schema
    ```
@@ -151,6 +157,7 @@ SELECT vault.get_secret('secret_name');
    - Run the script
 
 3. **Grant permissions:**
+
    ```sql
    -- For each table in api schema:
    GRANT SELECT ON TABLE api.<table_name> TO anon;
@@ -179,6 +186,7 @@ SELECT vault.get_secret('secret_name');
 **Configuration File:** `vercel.json`
 
 **Domains:**
+
 - `advanciapayledger.com`
 - `www.advanciapayledger.com`
 
@@ -199,6 +207,7 @@ Set in Vercel Dashboard → Settings → Environment Variables
 12. `RESEND_API_KEY`
 
 **Deploy:**
+
 ```bash
 npm run deploy:prod
 ```
@@ -210,6 +219,7 @@ npm run deploy:prod
 **Configuration File:** `wrangler.toml`
 
 **R2 Buckets:**
+
 - `advanciapayledger-cache` (for caching)
 
 **Secrets Needed:**
@@ -225,6 +235,7 @@ wrangler secret put JWT_SECRET --env production
 ```
 
 **Deploy:**
+
 ```bash
 npm run build:worker
 npm run deploy:worker:prod
@@ -379,13 +390,16 @@ Then execute the SQL script in Supabase Dashboard.
 ### 2. Set Missing Environment Variable
 
 Add to `.env.local`:
+
 ```bash
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=sb_publishable_dj1xLuksqBUvn9O6AWU3Fg_bRYa6ohq
+# Get this from: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_supabase_publishable_key_here
 ```
 
 ### 3. Grant Permissions
 
 In Supabase SQL Editor, run:
+
 ```sql
 GRANT SELECT ON TABLE api.<table_name> TO anon;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE api.<table_name> TO authenticated;
@@ -406,4 +420,3 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE api.<table_name> TO authenticated;
 **Generated:** $(date)
 **Project:** Advancia PayLedger
 **Supabase Project:** xesecqcqzykvmrtxrzqi
-

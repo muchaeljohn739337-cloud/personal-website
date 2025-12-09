@@ -258,10 +258,14 @@ NEXT_PUBLIC_SUPABASE_URL=https://xesecqcqzykvmrtxrzqi.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=sb_publishable_dj1xLuksqBUvn9O6AWU3Fg_bRYa6ohq
 
 # Anon Key (alternative)
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhlc2VjcWNxenlrdm1ydHhyenFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwMjM5ODQsImV4cCI6MjA4MDU5OTk4NH0.83VDrfI4B6PKE1H0b1afdKwWHn7YXn0kwMaHnWh94x0
+# Get this from: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
 # Service Role Key (for server-side admin operations only - NEVER expose to client)
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhlc2VjcWNxenlrdm1ydHhyenFpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTAyMzk4NCwiZXhwIjoyMDgwNTk5OTg0fQ.kTrbrQVb0YotyXs9LdYDe-kHx5v5ztp-a2EIM-1bToQ
+# ⚠️ CRITICAL: This key has FULL database access. Keep it secret!
+# Get this from: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api
+# NEVER commit this key to git or expose it in client-side code
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
 ```
 
 ---
