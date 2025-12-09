@@ -72,3 +72,6 @@ id_rsa*
 
 # MCP Configuration (optional - safe to commit if only contains public project ref)
 # .cursor/mcp.json
+
+.vercel
+.env*.local

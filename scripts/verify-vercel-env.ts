@@ -113,23 +113,25 @@ function checkVercelCLI(): boolean {
 function getVercelEnvVars(): Map<string, string> {
   try {
     // Try to get environment variables from Vercel
-    const output = execSync('vercel env ls --json', { encoding: 'utf-8' });
-    const envList = JSON.parse(output);
+    // Note: Vercel CLI doesn't support --json flag, so we'll check locally
+    // Users should set variables in Vercel Dashboard
     const envMap = new Map<string, string>();
-
-    if (Array.isArray(envList)) {
-      envList.forEach((env: { key: string; value: string; target: string[] }) => {
-        if (env.target.includes('production')) {
-          envMap.set(env.key, env.value || '[SET]');
-        }
-      });
+    
+    // Check if user is logged in
+    try {
+      execSync('vercel whoami', { stdio: 'ignore' });
+    } catch {
+      throw new Error('Not logged in');
     }
-
+    
+    // We can't easily fetch env vars via CLI, so return empty
+    // User should verify in Vercel Dashboard
     return envMap;
   } catch (error) {
     console.warn('⚠️  Could not fetch Vercel environment variables');
     console.warn('   Make sure you are logged in: vercel login');
     console.warn('   And linked to project: vercel link');
+    console.warn('   Or verify manually in Vercel Dashboard');
     return new Map();
   }
 }
