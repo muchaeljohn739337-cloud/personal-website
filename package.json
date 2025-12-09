@@ -46,6 +46,8 @@
     "setup:prod": "bash scripts/setup-production.sh",
     "env:template": "node scripts/create-env-template.js",
     "generate:secrets": "node scripts/generate-secrets.js",
+    "generate:prod-secrets": "npx tsx scripts/generate-production-secrets.ts",
+    "setup:vercel-env": "npx tsx scripts/setup-vercel-env.ts",
     "create-admin": "tsx scripts/create-admin.ts",
     "test:crypto": "tsx scripts/test-crypto-payments.ts",
     "supabase:schema": "npx tsx scripts/supabase-schema-check.ts",

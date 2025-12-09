@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-
+#!/usr/bin/env tsx
 /**
  * Generate Production Secrets
  * Generates secure random secrets for production deployment
@@ -9,76 +8,64 @@ import { randomBytes } from 'crypto';
 
 interface Secret {
   name: string;
-  description: string;
-  length: number;
   value: string;
+  description: string;
 }
 
-function generateSecret(length: number): string {
+function generateSecret(length: number = 32): string {
   return randomBytes(length).toString('base64');
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function generateHexSecret(length: number): string {
+function generateHexSecret(length: number = 64): string {
   return randomBytes(length).toString('hex');
 }
 
 const secrets: Secret[] = [
   {
     name: 'JWT_SECRET',
-    description: 'JWT signing secret (64+ characters recommended)',
-    length: 32,
-    value: generateSecret(32),
+    value: generateHexSecret(64),
+    description: 'Secret for JWT token signing (min 32 chars)',
   },
   {
     name: 'SESSION_SECRET',
-    description: 'Session encryption secret (32+ characters)',
-    length: 32,
-    value: generateSecret(32),
+    value: generateHexSecret(64),
+    description: 'Secret for session encryption (min 32 chars)',
   },
   {
     name: 'NEXTAUTH_SECRET',
-    description: 'NextAuth.js secret (32+ characters)',
-    length: 32,
     value: generateSecret(32),
+    description: 'Secret for NextAuth.js (min 32 chars)',
   },
   {
     name: 'CRON_SECRET',
-    description: 'Cron job authentication secret (32+ characters)',
-    length: 32,
     value: generateSecret(32),
+    description: 'Secret for cron job authentication',
   },
 ];
 
-console.log('🔐 Generating Production Secrets\n');
-console.log('='.repeat(60));
-console.log('');
-console.log('⚠️  IMPORTANT: Save these secrets securely!');
-console.log('   - Copy them to Vercel environment variables');
-console.log('   - Store them in a password manager');
-console.log('   - DO NOT commit them to git');
-console.log('');
-console.log('='.repeat(60));
-console.log('');
+console.log('🔐 Production Secrets Generator\n');
+console.log('='.repeat(80));
+console.log('\n⚠️  IMPORTANT: Keep these secrets secure! Never commit them to git.\n');
+console.log('📋 Copy these values to Vercel Environment Variables:\n');
+console.log('='.repeat(80));
 
 secrets.forEach((secret, index) => {
-  console.log(`${index + 1}. ${secret.name}`);
+  console.log(`\n${index + 1}. ${secret.name}`);
   console.log(`   Description: ${secret.description}`);
   console.log(`   Value: ${secret.value}`);
   console.log(`   Length: ${secret.value.length} characters`);
-  console.log('');
 });
 
-console.log('='.repeat(60));
-console.log('');
-console.log('📋 Vercel CLI Commands:');
-console.log('');
+console.log('\n' + '='.repeat(80));
+console.log('\n📝 Instructions:');
+console.log('1. Go to: https://vercel.com/dashboard → Your Project → Settings → Environment Variables');
+console.log('2. Add each variable above for "Production" environment');
+console.log('3. After adding all variables, trigger a new deployment');
+console.log('\n💡 Tip: You can also copy the values below as a quick reference:\n');
+
+console.log('# Production Secrets (Copy to Vercel)');
 secrets.forEach((secret) => {
-  console.log(`vercel env add ${secret.name} production`);
+  console.log(`${secret.name}=${secret.value}`);
 });
-console.log('');
-console.log('Or set them via Vercel Dashboard:');
-console.log('https://vercel.com/dashboard/[team]/personal-website/settings/environment-variables');
-console.log('');
-console.log('✅ Secrets generated successfully!');
-console.log('');
+
+console.log('\n✅ Secrets generated successfully!\n');

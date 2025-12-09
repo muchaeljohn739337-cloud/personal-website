@@ -49,7 +49,8 @@ NEXTAUTH_URL=https://advanciapayledger.com
 ANTHROPIC_API_KEY=<your_anthropic_api_key_from_console>
 ```
 
-**Important:** 
+**Important:**
+
 - Replace `[PASSWORD]` with your actual Supabase database password
 - Generate secrets using: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`
 
@@ -101,4 +102,3 @@ npm run migrate:prod
 ---
 
 **Status**: Ready to deploy! 🚀
-
