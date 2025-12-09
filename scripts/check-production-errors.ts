@@ -26,7 +26,7 @@ function addError(
 // Check environment variables
 function checkEnvironmentVariables() {
   try {
-    const config = validateEnv();
+    validateEnv();
     console.log('✅ Environment variables validated');
   } catch (error) {
     if (error instanceof Error && 'missingVars' in error) {
