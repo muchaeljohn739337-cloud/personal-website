@@ -27,6 +27,7 @@ export async function middleware(request: NextRequest) {
     '/api/auth',
     '/api/health',
     '/api/verification',
+    '/api/system/status',
     '/auth',
     '/',
     '/privacy',

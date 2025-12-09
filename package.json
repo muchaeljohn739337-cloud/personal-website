@@ -48,6 +48,8 @@
     "generate:secrets": "node scripts/generate-secrets.js",
     "create-admin": "tsx scripts/create-admin.ts",
     "test:crypto": "tsx scripts/test-crypto-payments.ts",
+    "supabase:schema": "npx tsx scripts/supabase-schema-check.ts",
+    "supabase:storage": "npx tsx scripts/supabase-storage-check.ts",
     "verify:legitimacy": "tsx scripts/verify-legitimacy.ts",
     "health:check": "tsx -e \"import('./lib/self-healing/system').then(m => m.runHealthCheck().then(h => console.log(JSON.stringify(h, null, 2))))\"",
     "check:production": "npx tsx scripts/check-production-errors.ts"
@@ -82,6 +84,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@sentry/nextjs": "^10.29.0",
     "@stripe/stripe-js": "^8.5.3",
+    "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.86.2",
     "@tanstack/react-query": "^4.36.1",
     "@tiptap/extension-placeholder": "^3.13.0",

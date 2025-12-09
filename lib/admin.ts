@@ -473,7 +473,8 @@ interface LogActionParams {
 }
 
 export async function logAdminAction(adminId: string, params: LogActionParams) {
-  return prisma.adminAction.create({
+  // Log to Prisma (primary database)
+  const prismaLog = await prisma.adminAction.create({
     data: {
       adminId,
       targetUserId: params.targetUserId,
@@ -486,6 +487,27 @@ export async function logAdminAction(adminId: string, params: LogActionParams) {
       userAgent: params.userAgent,
     },
   });
+
+  // Also log to Supabase (if configured)
+  try {
+    const { logAdminActionToSupabase } = await import('./supabase/admin-actions');
+    await logAdminActionToSupabase({
+      admin_id: adminId,
+      target_user_id: params.targetUserId,
+      action: params.action,
+      resource_type: params.resourceType,
+      resource_id: params.resourceId,
+      description: params.description,
+      metadata: params.metadata,
+      ip_address: params.ipAddress,
+      user_agent: params.userAgent,
+    });
+  } catch (error) {
+    // Supabase logging is optional, don't fail if it's not configured
+    console.warn('[Admin Actions] Supabase logging failed (optional):', error);
+  }
+
+  return prismaLog;
 }
 
 // Get admin action logs

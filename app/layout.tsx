@@ -1,12 +1,12 @@
-import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
-import dynamic from 'next/dynamic';
-import './globals.css';
-import { Providers } from '@/components/providers';
-import { LoadingScreen } from '@/components/ui/loading-screen';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { MonitoringInit } from '@/components/MonitoringInit';
 import { PerformanceOptimizer } from '@/components/PerformanceOptimizer';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { Providers } from '@/components/providers';
+import { LoadingScreen } from '@/components/ui/loading-screen';
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+import './globals.css';
 
 // Lazy load heavy components
 const AIChat = dynamic(() => import('@/components/AIChat'), {

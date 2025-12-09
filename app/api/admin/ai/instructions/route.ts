@@ -83,7 +83,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Log admin action
+    // Log admin action (to both Prisma and Supabase)
+    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const userAgent = req.headers.get('user-agent') || 'unknown';
+
     await logAdminAction(auth.userId, {
       action: 'AI_INSTRUCTION',
       description: `Submitted AI instruction: ${instruction.substring(0, 100)}...`,
@@ -93,6 +96,8 @@ export async function POST(req: NextRequest) {
         instruction,
         priority,
       },
+      ipAddress,
+      userAgent,
     });
 
     return NextResponse.json({

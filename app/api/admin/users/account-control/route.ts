@@ -207,7 +207,10 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
 
-    // Log admin action
+    // Log admin action (to both Prisma and Supabase)
+    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const userAgent = req.headers.get('user-agent') || 'unknown';
+
     await logAdminAction(auth.userId, {
       action: 'WALLET_ADJUST',
       targetUserId: userId,
@@ -219,6 +222,8 @@ export async function POST(req: NextRequest) {
         description,
         result,
       },
+      ipAddress,
+      userAgent,
     });
 
     return NextResponse.json(result);

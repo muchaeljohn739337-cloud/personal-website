@@ -9,6 +9,7 @@ interface EnvConfig {
   SESSION_SECRET: string;
   NEXTAUTH_SECRET: string;
   DATABASE_URL: string;
+  DIRECT_URL?: string; // Direct database connection for migrations
 
   // Optional but recommended
   NEXTAUTH_URL?: string;
@@ -44,8 +45,9 @@ interface EnvConfig {
   ALCHEMY_PAY_APP_ID?: string;
   ALCHEMY_PAY_APP_SECRET?: string;
 
-  // Supabase Storage
+  // Supabase Storage & Database
   NEXT_PUBLIC_SUPABASE_URL?: string;
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY?: string;
   NEXT_PUBLIC_SUPABASE_ANON_KEY?: string;
   SUPABASE_SERVICE_ROLE_KEY?: string;
 
@@ -77,7 +79,13 @@ const requiredEnvVars = [
   'DATABASE_URL',
 ] as const;
 
-const recommendedEnvVars = ['NEXTAUTH_URL', 'REDIS_URL', 'SMTP_HOST', 'SMTP_FROM', 'CRON_SECRET'] as const;
+const recommendedEnvVars = [
+  'NEXTAUTH_URL',
+  'REDIS_URL',
+  'SMTP_HOST',
+  'SMTP_FROM',
+  'CRON_SECRET',
+] as const;
 
 class EnvironmentError extends Error {
   constructor(

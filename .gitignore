@@ -69,3 +69,6 @@ next-env.d.ts
 *.key
 id_rsa*
 *.secret
+
+# MCP Configuration (optional - safe to commit if only contains public project ref)
+# .cursor/mcp.json

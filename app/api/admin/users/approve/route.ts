@@ -72,12 +72,17 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Log admin action
+    // Log admin action (to both Prisma and Supabase)
+    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const userAgent = req.headers.get('user-agent') || 'unknown';
+
     await logAdminAction(auth.userId, {
       action: 'USER_APPROVE',
       targetUserId: userId,
       description: `Approved user: ${userToApprove.email}`,
       metadata: { reason },
+      ipAddress,
+      userAgent,
     });
 
     return NextResponse.json({
@@ -136,12 +141,17 @@ export async function DELETE(req: NextRequest) {
       },
     });
 
-    // Log admin action
+    // Log admin action (to both Prisma and Supabase)
+    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const userAgent = req.headers.get('user-agent') || 'unknown';
+
     await logAdminAction(auth.userId, {
       action: 'USER_REJECT',
       targetUserId: userId,
       description: `Rejected user: ${userToReject.email}`,
       metadata: { reason },
+      ipAddress,
+      userAgent,
     });
 
     return NextResponse.json({

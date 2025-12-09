@@ -5,10 +5,12 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 // Enhanced Prisma client with connection pooling and error handling
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  errorFormat: 'pretty',
-});
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    errorFormat: 'pretty',
+  });
 
 // Connection health check
 prisma.$connect().catch((error) => {

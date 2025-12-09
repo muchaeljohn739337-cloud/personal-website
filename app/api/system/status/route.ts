@@ -5,7 +5,12 @@ import { getEmailWorkerSystem } from '@/lib/email/workers';
 import { getSMSPool } from '@/lib/communications/sms-pool';
 import { runHealthCheck } from '@/lib/self-healing/system';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const runtime = 'nodejs';
+
 // GET /api/system/status - Get comprehensive system status
+// Public endpoint for monitoring
 export async function GET() {
   try {
     const [health, loadBalancer, emailWorkers, smsPool] = await Promise.all([

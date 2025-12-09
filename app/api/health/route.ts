@@ -6,6 +6,9 @@ import { getPaymentProviderConfig } from '@/lib/env';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+// Make this route publicly accessible - no authentication required
+export const runtime = 'nodejs';
+
 export async function GET() {
   const startTime = Date.now();
   const health: Record<string, unknown> = {
@@ -15,12 +18,17 @@ export async function GET() {
     environment: process.env.NODE_ENV,
   };
 
-  // Database health check
+  // Database health check (with timeout)
   try {
-    await prisma.$queryRaw`SELECT 1`;
+    const dbStartTime = Date.now();
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Database connection timeout')), 5000)
+    );
+
+    await Promise.race([prisma.$queryRaw`SELECT 1`, timeoutPromise]);
     health.database = {
       status: 'healthy',
-      responseTime: Date.now() - startTime,
+      responseTime: Date.now() - dbStartTime,
     };
   } catch (error) {
     health.database = {
@@ -28,6 +36,7 @@ export async function GET() {
       error: error instanceof Error ? error.message : 'Unknown error',
     };
     health.status = 'degraded';
+    // Don't fail the entire health check if DB is down
   }
 
   // Payment providers status

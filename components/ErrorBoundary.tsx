@@ -1,9 +1,9 @@
 'use client';
 
-import { Component, ReactNode } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { AlertCircle, Home, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
-import * as Sentry from '@sentry/nextjs';
+import { Component, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -57,7 +57,9 @@ export class ErrorBoundary extends Component<Props, State> {
               </p>
               {this.state.error && (
                 <p className="text-sm text-slate-500 mt-4">
-                  {process.env.NODE_ENV === 'development' ? this.state.error.message : 'Error ID: ' + this.state.error.name}
+                  {process.env.NODE_ENV === 'development'
+                    ? this.state.error.message
+                    : 'Error ID: ' + this.state.error.name}
                 </p>
               )}
             </div>
@@ -88,4 +90,3 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-

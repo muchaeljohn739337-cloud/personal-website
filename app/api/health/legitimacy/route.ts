@@ -5,7 +5,12 @@ import {
   generateComplianceReport,
 } from '@/lib/legitimacy/scam-adviser';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const runtime = 'nodejs';
+
 // GET /api/health/legitimacy - Check ScamAdviser compliance
+// Public endpoint for legitimacy verification
 export async function GET() {
   try {
     // Check compliance (in production, fetch actual data)

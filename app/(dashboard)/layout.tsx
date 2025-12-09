@@ -1,8 +1,8 @@
-import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
-import { authOptions } from '@/lib/auth';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { authOptions } from '@/lib/auth';
 
 import { DashboardNav } from './components/dashboard-nav';
 import { DashboardSidebar } from './components/dashboard-sidebar';
