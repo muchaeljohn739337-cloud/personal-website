@@ -77,8 +77,12 @@ async function setVercelEnvVar(
   try {
     // Validate DATABASE_URL format
     if (name === 'DATABASE_URL' && !validateDatabaseUrl(value)) {
-      console.log(`   ⚠️  Invalid DATABASE_URL format. Must start with postgresql:// or postgres://`);
-      console.log(`   ⚠️  Current value appears to be invalid. Please set manually in Vercel Dashboard.`);
+      console.log(
+        `   ⚠️  Invalid DATABASE_URL format. Must start with postgresql:// or postgres://`
+      );
+      console.log(
+        `   ⚠️  Current value appears to be invalid. Please set manually in Vercel Dashboard.`
+      );
       return false;
     }
 
@@ -144,9 +148,7 @@ async function main() {
 
     if (missing.includes('SUPABASE_SERVICE_ROLE_KEY')) {
       console.log('💡 Get SUPABASE_SERVICE_ROLE_KEY from:');
-      console.log(
-        '   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api\n'
-      );
+      console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api\n');
       console.log('   Add it to .env.local, then run this script again.\n');
     }
   }
