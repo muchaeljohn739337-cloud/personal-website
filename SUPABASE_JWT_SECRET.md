@@ -2,10 +2,9 @@
 
 ## JWT Secret from Supabase
 
-**Supabase JWT Secret:**
-```
-TP3SichwNoqTyKGfKIyee8u44WwyJQ/BXQGB6jmYFUHXyUhP1LaWZssSw9TTnV/viM6ntBEcNH0m7beYmUiXSw==
-```
+**⚠️ SECURITY:** Supabase JWT secret should NOT be committed to git.
+
+**Note:** This secret is configured in Supabase Dashboard and is used internally by Supabase. It does NOT need to be set as an environment variable in your application.
 
 ---
 

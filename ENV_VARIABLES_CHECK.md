@@ -79,7 +79,7 @@
 - Replace `[PASSWORD]` in database URLs with your actual Supabase password
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` is already set ✅
 - Make sure to set variables for **Production** environment
-- **Note:** Supabase JWT secret (`TP3SichwNoqTyKGfKIyee8u44WwyJQ/BXQGB6jmYFUHXyUhP1LaWZssSw9TTnV/viM6ntBEcNH0m7beYmUiXSw==`) is different from application `JWT_SECRET` - both are needed
+- **Note:** Supabase JWT secret is different from application `JWT_SECRET` - both are needed (set in Vercel Dashboard, never commit)
 
 ---
 

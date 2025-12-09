@@ -45,20 +45,24 @@ CRON_SECRET=0eG74xgFxSVwXJtl+V23XnHA1nclND5l87Fyz6FYG2Q=
 ## ✅ **Required Variables Checklist**
 
 ### **Core Secrets** (Generated Above)
+
 - [ ] `JWT_SECRET` - Use generated value above
 - [ ] `SESSION_SECRET` - Use generated value above
 - [ ] `NEXTAUTH_SECRET` - Use generated value above
 - [ ] `CRON_SECRET` - Use generated value above
 
 ### **Application URLs**
+
 - [ ] `NEXT_PUBLIC_APP_URL` = `https://advanciapayledger.com`
 - [ ] `NEXTAUTH_URL` = `https://advanciapayledger.com`
 
 ### **Database**
+
 - [ ] `DATABASE_URL` = Your production database connection string
 - [ ] `DIRECT_URL` = Your direct database connection string (optional)
 
 ### **Supabase** (⚠️ **CRITICAL - Rotate Service Role Key First**)
+
 - [ ] `NEXT_PUBLIC_SUPABASE_URL` = `https://xesecqcqzykvmrtxrzqi.supabase.co`
 - [ ] `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` = Your Supabase publishable key
 - [ ] `NEXT_PUBLIC_SUPABASE_ANON_KEY` = Your Supabase anon key (alternative)
@@ -90,11 +94,13 @@ CRON_SECRET=0eG74xgFxSVwXJtl+V23XnHA1nclND5l87Fyz6FYG2Q=
 ## ✅ **After Setting Variables**
 
 1. **Verify:**
+
    ```bash
    npm run verify:vercel:env
    ```
 
 2. **Run Deployment Checklist:**
+
    ```bash
    npm run deploy:checklist
    ```
@@ -115,9 +121,9 @@ CRON_SECRET=0eG74xgFxSVwXJtl+V23XnHA1nclND5l87Fyz6FYG2Q=
 
 ---
 
-**⚠️ IMPORTANT:** 
+**⚠️ IMPORTANT:**
+
 - Never commit these secrets to git
 - Set all variables for **Production** environment
 - Rotate Supabase Service Role Key before setting it
 - Redeploy after setting variables
-
