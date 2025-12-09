@@ -4,7 +4,9 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["iad1"],
+  "regions": [
+    "iad1"
+  ],
   "rewrites": [
     {
       "source": "/api/:path*",
@@ -34,7 +36,10 @@
       ]
     }
   ],
-  "domains": ["advanciapayledger.com", "www.advanciapayledger.com"],
+  "domains": [
+    "advanciapayledger.com",
+    "www.advanciapayledger.com"
+  ],
   "crons": [
     {
       "path": "/api/cron/health-check",

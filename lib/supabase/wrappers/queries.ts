@@ -33,12 +33,15 @@ export interface QueryResult<T> {
 
 /**
  * Generic query wrapper with error handling
+ * Note: Tables should be in 'api' schema for Supabase API access
+ * The Supabase client automatically uses the api schema when configured
  */
 export async function queryTable<T = unknown>(
   tableName: string,
   options: QueryOptions = {}
 ): Promise<QueryResult<T>> {
   try {
+    // Supabase client will use api schema if configured in Supabase Dashboard
     let query = supabase.from(tableName).select(options.select || '*', { count: 'exact' });
 
     // Apply filters

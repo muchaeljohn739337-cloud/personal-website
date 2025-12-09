@@ -54,11 +54,15 @@
     "test:supabase:auth": "npx tsx scripts/test-supabase-auth.ts",
     "setup:supabase:api:schema": "npx tsx scripts/setup-supabase-api-schema.ts",
     "setup:supabase:auto": "npx tsx scripts/supabase-auto-setup.ts",
+    "setup:supabase:complete": "npx tsx scripts/supabase-complete-setup.ts",
     "setup:supabase:buckets": "npx tsx scripts/setup-storage-buckets.ts",
+    "setup:deployment": "npx tsx scripts/supabase-vercel-cloudflare-setup.ts",
     "deploy:production": "npx tsx scripts/deploy-production.ts",
     "verify:legitimacy": "tsx scripts/verify-legitimacy.ts",
     "health:check": "tsx -e \"import('./lib/self-healing/system').then(m => m.runHealthCheck().then(h => console.log(JSON.stringify(h, null, 2))))\"",
-    "check:production": "npx tsx scripts/check-production-errors.ts"
+    "check:production": "npx tsx scripts/check-production-errors.ts",
+    "deploy:vercel:script": "bash scripts/deployment/deploy-vercel.sh",
+    "deploy:cloudflare:script": "bash scripts/deployment/deploy-cloudflare.sh"
   },
   "dependencies": {
     "@auth/core": "^0.41.1",
@@ -108,6 +112,7 @@
     "cookie": "^1.1.1",
     "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.3.1",
     "framer-motion": "^12.23.25",
     "ioredis": "^5.8.2",
     "jsonwebtoken": "^9.0.3",
