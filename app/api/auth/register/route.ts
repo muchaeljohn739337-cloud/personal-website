@@ -6,17 +6,28 @@ import { createEmailVerificationToken } from '@/lib/auth/email-verification';
 import { sendVerificationEmail } from '@/lib/email';
 import { prisma } from '@/lib/prismaClient';
 import { registerSchema } from '@/lib/validations/auth';
-import { withRateLimit } from '@/lib/security/redis-rate-limit';
+import { checkRedisRateLimit, redisRateLimitConfigs } from '@/lib/security/redis-rate-limit';
 
 export async function POST(req: NextRequest) {
   // Rate limiting
   const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
-  const rateLimit = await withRateLimit(`register:${ipAddress}`, 'api');
+  const rateLimit = await checkRedisRateLimit(
+    `register:${ipAddress}`,
+    redisRateLimitConfigs.api
+  );
   
-  if (!rateLimit.allowed) {
+  if (!rateLimit.success) {
     return NextResponse.json(
       { error: 'Too many registration attempts. Please try again later.' },
-      { status: 429, headers: rateLimit.headers }
+      {
+        status: 429,
+        headers: {
+          'X-RateLimit-Limit': redisRateLimitConfigs.api.maxRequests.toString(),
+          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+          'X-RateLimit-Reset': rateLimit.resetTime.toString(),
+          ...(rateLimit.retryAfter ? { 'Retry-After': rateLimit.retryAfter.toString() } : {}),
+        },
+      }
     );
   }
 

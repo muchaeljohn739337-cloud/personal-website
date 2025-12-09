@@ -8,7 +8,8 @@ import { prisma } from '@/lib/prismaClient';
 // SECURITY: This endpoint is disabled in production
 export async function POST(req: NextRequest) {
   // Block in production
-  if (process.env.NODE_ENV === 'production') {
+  const nodeEnv = process.env.NODE_ENV || 'development';
+  if (nodeEnv === 'production') {
     return NextResponse.json(
       { error: 'This endpoint is disabled in production. Use scripts/create-admin.ts instead.' },
       { status: 403 }
