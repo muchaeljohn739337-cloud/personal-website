@@ -24,12 +24,13 @@ export async function POST(req: NextRequest) {
     // Hash password
     const hashedPassword = await hashPassword(validatedData.password);
 
-    // Create user
+    // Create user (pending admin approval)
     const user = await prisma.user.create({
       data: {
         name: validatedData.name,
         email: validatedData.email,
         password: hashedPassword,
+        isApproved: false, // Requires admin approval before login
       },
     });
 

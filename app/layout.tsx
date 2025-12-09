@@ -5,6 +5,7 @@ import './globals.css';
 import { Providers } from '@/components/providers';
 import { LoadingScreen } from '@/components/ui/loading-screen';
 import { MonitoringInit } from '@/components/MonitoringInit';
+import { PerformanceOptimizer } from '@/components/PerformanceOptimizer';
 
 // Lazy load heavy components
 const AIChat = dynamic(() => import('@/components/AIChat'), {
@@ -93,6 +94,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <Providers>
           <MonitoringInit />
+          <PerformanceOptimizer />
           <LoadingScreen />
           {children}
           <AIChat />

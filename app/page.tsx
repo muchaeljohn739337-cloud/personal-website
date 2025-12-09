@@ -2,6 +2,7 @@
 
 import { Logo } from '@/components/Logo';
 import SecurityShield from '@/components/security/SecurityShield';
+import TrustBadges from '@/components/TrustBadges';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -1392,24 +1393,7 @@ export default function Home() {
               <SecurityShield variant="badge" />
 
               {/* Trust Badges */}
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20">
-                  <FiCheckCircle className="w-4 h-4 text-green-400" />
-                  <span className="text-sm text-green-400 font-medium">Verified Platform</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20">
-                  <FiRefreshCw className="w-4 h-4 text-amber-400" />
-                  <span className="text-sm text-amber-400 font-medium">30-Day Money Back</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20">
-                  <FiShield className="w-4 h-4 text-violet-400" />
-                  <span className="text-sm text-violet-400 font-medium">SOC 2 Certified</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20">
-                  <FiLock className="w-4 h-4 text-blue-400" />
-                  <span className="text-sm text-blue-400 font-medium">256-bit SSL</span>
-                </div>
-              </div>
+              <TrustBadges />
             </div>
           </div>
 

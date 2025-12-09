@@ -13,6 +13,8 @@ export default defineConfig({
     // Increase navigation timeout for slow page compilation
     navigationTimeout: 60000,
   },
+  // Fix Node.js compatibility
+  globalSetup: require.resolve('./e2e/global-setup.ts'),
   projects: [
     {
       name: 'chromium',

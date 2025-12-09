@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "build:worker": "npx @opennextjs/cloudflare",
+    "build:worker": "npm run build && npx @opennextjs/cloudflare",
     "preview:worker": "npx wrangler pages dev .vercel/output/static --compatibility-flags=nodejs_compat",
     "deploy:worker": "npx wrangler pages deploy .vercel/output/static",
     "start": "next start",
@@ -45,7 +45,11 @@
     "deploy:full": "npm run preprod:check && npm run security:check && npm run deploy:prod",
     "setup:prod": "bash scripts/setup-production.sh",
     "env:template": "node scripts/create-env-template.js",
-    "generate:secrets": "node scripts/generate-secrets.js"
+    "generate:secrets": "node scripts/generate-secrets.js",
+    "create-admin": "tsx scripts/create-admin.ts",
+    "test:crypto": "tsx scripts/test-crypto-payments.ts",
+    "verify:legitimacy": "tsx scripts/verify-legitimacy.ts",
+    "health:check": "tsx -e \"import('./lib/self-healing/system').then(m => m.runHealthCheck().then(h => console.log(JSON.stringify(h, null, 2))))\""
   },
   "dependencies": {
     "@auth/core": "^0.41.1",

@@ -14,10 +14,53 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Smooth Scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  * {
+    scroll-behavior: inherit;
+  }
+}
+
+/* Fast Button Response */
+button,
+a[role="button"],
+input[type="button"],
+input[type="submit"] {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active,
+a[role="button"]:active,
+input[type="button"]:active,
+input[type="submit"]:active {
+  transform: scale(0.98);
+  transition: transform 0.05s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent layout shift on button click */
+button:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 2px;
 }
 
 /* Premium Animations */

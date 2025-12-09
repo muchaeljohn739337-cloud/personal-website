@@ -58,6 +58,20 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Invalid credentials');
         }
 
+        // Check if user is suspended
+        if (user.isSuspended) {
+          console.log('[AUTH] User is suspended:', credentials.email);
+          throw new Error('Your account has been suspended. Please contact support.');
+        }
+
+        // Check admin approval - Admins bypass approval check
+        if (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN' && !user.isApproved) {
+          console.log('[AUTH] User not approved:', credentials.email);
+          throw new Error(
+            'Your account is pending admin approval. Please wait for approval before signing in.'
+          );
+        }
+
         console.log('[AUTH] Login successful for:', credentials.email);
         return {
           id: user.id,
@@ -103,17 +117,34 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account }) {
       // Allow OAuth sign in
       if (account?.provider !== 'credentials') {
+        // For OAuth users, check approval status
+        const existingUser = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: { role: true, isApproved: true, isSuspended: true },
+        });
+
+        if (!existingUser) return true; // New OAuth user
+
+        // Admins bypass checks
+        if (existingUser.role === 'ADMIN' || existingUser.role === 'SUPER_ADMIN') {
+          return true;
+        }
+
+        // Check suspension
+        if (existingUser.isSuspended) {
+          return false;
+        }
+
+        // Check approval
+        if (!existingUser.isApproved) {
+          return false;
+        }
+
         return true;
       }
-      // Check if email is verified for credentials
-      const existingUser = await prisma.user.findUnique({
-        where: { id: user.id },
-      });
-      if (!existingUser?.emailVerified) {
-        // For now, allow sign in even without email verification
-        // You can change this to return false and require verification
-        return true;
-      }
+
+      // For credentials, check is already done in authorize()
+      // Email verification is optional for now
       return true;
     },
   },

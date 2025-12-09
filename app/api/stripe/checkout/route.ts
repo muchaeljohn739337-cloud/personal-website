@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prismaClient';
-import { createCheckoutSession, createStripeCustomer } from '@/lib/stripe';
+import { createStripeCustomer } from '@/lib/stripe';
+import { createOptimizedCheckoutSession } from '@/lib/payments/stripe-enhanced';
 
 export async function POST(req: NextRequest) {
   try {
@@ -59,13 +60,16 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Create checkout session
-    const checkoutSession = await createCheckoutSession({
+    // Create optimized checkout session (Bank of America compatible)
+    const checkoutSession = await createOptimizedCheckoutSession({
       customerId: stripeCustomerId,
       priceId,
       successUrl: `${process.env.NEXTAUTH_URL}/dashboard/billing?success=true`,
       cancelUrl: `${process.env.NEXTAUTH_URL}/dashboard/billing?canceled=true`,
       organizationId,
+      metadata: {
+        userId: session.user.id,
+      },
     });
 
     return NextResponse.json({ url: checkoutSession.url });

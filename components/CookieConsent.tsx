@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { X, Settings, Cookie } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Cookie, Settings, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface CookiePreferences {
   necessary: boolean;
