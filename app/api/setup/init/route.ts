@@ -341,7 +341,8 @@ export async function GET(request: Request) {
     const email = process.env.ADMIN_EMAIL || 'admin@advanciapayledger.com';
     const password = process.env.ADMIN_PASSWORD || 'Admin@123456'; // ⚠️ Use ADMIN_PASSWORD env var in production!
 
-    if (!process.env.ADMIN_PASSWORD && process.env.NODE_ENV === 'production') {
+    const nodeEnv = process.env.NODE_ENV || 'development';
+    if (!process.env.ADMIN_PASSWORD && nodeEnv === 'production') {
       return NextResponse.json(
         { error: 'ADMIN_PASSWORD environment variable must be set in production!' },
         { status: 500 }
