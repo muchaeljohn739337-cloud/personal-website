@@ -35,15 +35,5 @@
         }
       ]
     }
-  ],
-  "domains": [
-    "advanciapayledger.com",
-    "www.advanciapayledger.com"
-  ],
-  "crons": [
-    {
-      "path": "/api/cron/health-check",
-      "schedule": "0 * * * *"
-    }
   ]
 }
