@@ -46,11 +46,11 @@
 
 ## ⚠️ Recommended (3 variables)
 
-| Variable                    | Value                                          | Status     |
-| --------------------------- | ---------------------------------------------- | ---------- |
+| Variable                    | Value                                    | Status     |
+| --------------------------- | ---------------------------------------- | ---------- |
 | `CRON_SECRET`               | `[Set in Vercel - Generate with script]` | ❌ Missing |
-| `SUPABASE_SERVICE_ROLE_KEY` | Get from Supabase dashboard                    | ❌ Missing |
-| `ANTHROPIC_API_KEY`         | Get from Anthropic console                     | ❌ Missing |
+| `SUPABASE_SERVICE_ROLE_KEY` | Get from Supabase dashboard              | ❌ Missing |
+| `ANTHROPIC_API_KEY`         | Get from Anthropic console               | ❌ Missing |
 
 ---
 
