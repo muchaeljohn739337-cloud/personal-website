@@ -6,9 +6,8 @@
  */
 
 import { execSync } from 'child_process';
-import { readFileSync, existsSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import * as readline from 'readline';
 
 const REQUIRED_VARS = [
   'DATABASE_URL',
@@ -110,14 +109,14 @@ async function main() {
     console.log('⚠️  Missing variables in .env.local:\n');
     missing.forEach((v) => console.log(`   - ${v}`));
     console.log('');
-    
+
     if (missing.includes('SUPABASE_SERVICE_ROLE_KEY')) {
       console.log('💡 Get SUPABASE_SERVICE_ROLE_KEY from:');
       console.log('   https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api\n');
     }
-    
+
     console.log('📝 Add missing variables to .env.local, then run this script again.\n');
-    
+
     if (missing.length === REQUIRED_VARS.length) {
       process.exit(1);
     }
@@ -130,20 +129,20 @@ async function main() {
 
   for (const envVar of varsToSet) {
     process.stdout.write(`Setting ${envVar.name}... `);
-    
+
     try {
       // Use PowerShell on Windows, bash on Unix
       const isWindows = process.platform === 'win32';
       const command = isWindows
         ? `echo ${envVar.value} | npx vercel env add ${envVar.name} production`
         : `echo "${envVar.value}" | npx vercel env add ${envVar.name} production`;
-      
-      execSync(command, { 
+
+      execSync(command, {
         stdio: 'pipe',
         encoding: 'utf-8',
-        shell: isWindows ? 'powershell.exe' : '/bin/bash'
+        shell: isWindows ? 'powershell.exe' : '/bin/bash',
       });
-      
+
       console.log('✅');
       successCount++;
     } catch (error) {
@@ -163,7 +162,9 @@ async function main() {
 
   if (failCount > 0) {
     console.log('💡 For failed variables, set them manually in Vercel Dashboard:\n');
-    console.log('   https://vercel.com/dashboard → Your Project → Settings → Environment Variables\n');
+    console.log(
+      '   https://vercel.com/dashboard → Your Project → Settings → Environment Variables\n'
+    );
   }
 
   if (successCount > 0) {
@@ -179,4 +180,3 @@ main().catch((error) => {
   console.error('\n❌ Error:', error);
   process.exit(1);
 });
-

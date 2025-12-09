@@ -6,7 +6,7 @@
  */
 
 import { execSync } from 'child_process';
-import { readFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 const REQUIRED_VARS = [
@@ -74,17 +74,17 @@ function setVercelEnvVar(name: string, value: string, environment: string = 'pro
     // Use Vercel CLI to set environment variable
     // Note: Vercel CLI doesn't have a direct command to set env vars
     // We'll use the API approach or provide instructions
-    
+
     console.log(`   Setting ${name} for ${environment}...`);
-    
+
     // Try using vercel env add (interactive, but we can pipe the value)
     const command = `echo "${value}" | npx vercel env add ${name} ${environment}`;
-    
+
     try {
-      execSync(command, { 
+      execSync(command, {
         stdio: 'pipe',
         input: value,
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       });
       return true;
     } catch (error) {
@@ -149,15 +149,17 @@ async function main() {
     });
     console.log('');
     console.log('💡 Please set these in .env.local first, then run this script again.\n');
-    
+
     if (missingVars.includes('DATABASE_URL')) {
       console.log('📋 DATABASE_URL format:');
       console.log('   postgresql://user:password@host:port/database?sslmode=require\n');
     }
-    
+
     if (missingVars.includes('SUPABASE_SERVICE_ROLE_KEY')) {
       console.log('📋 SUPABASE_SERVICE_ROLE_KEY:');
-      console.log('   Get from: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api');
+      console.log(
+        '   Get from: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api'
+      );
       console.log('   Use the NEW rotated service_role key\n');
     }
   }
@@ -205,7 +207,7 @@ echo "2. Run: npm run post-deploy"
 
   const scriptPath = join(process.cwd(), 'scripts', 'set-vercel-env.sh');
   require('fs').writeFileSync(scriptPath, scriptContent);
-  
+
   // Make it executable (Unix)
   try {
     execSync(`chmod +x ${scriptPath}`, { stdio: 'ignore' });
@@ -273,4 +275,3 @@ main().catch((error) => {
   console.error('\n❌ Error:', error);
   process.exit(1);
 });
-
