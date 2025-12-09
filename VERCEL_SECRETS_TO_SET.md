@@ -11,26 +11,31 @@
 **Select "Production" environment for each:**
 
 ### **1. JWT_SECRET**
+
 ```
 [Set in Vercel Dashboard - Do NOT commit to git]
 ```
 
 ### **2. SESSION_SECRET**
+
 ```
 [Set in Vercel Dashboard - Do NOT commit to git]
 ```
 
 ### **3. NEXTAUTH_SECRET**
+
 ```
 [Set in Vercel Dashboard - Do NOT commit to git]
 ```
 
 ### **4. CRON_SECRET**
+
 ```
 [Set in Vercel Dashboard - Do NOT commit to git]
 ```
 
 ### **5. SUPABASE_SERVICE_ROLE_KEY**
+
 ```
 [Set in Vercel Dashboard - Use NEW rotated key - Do NOT commit to git]
 ```
@@ -60,4 +65,3 @@
 ---
 
 **All secrets should be set directly in Vercel Dashboard, not in any files!**
-

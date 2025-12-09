@@ -2,13 +2,13 @@
 
 ## ✅ Currently Set in Vercel (5 variables)
 
-| Variable | Environment | Status |
-|----------|-------------|--------|
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | All | ✅ Set |
-| `GOOGLE_CLIENT_ID` | All | ✅ Set |
-| `GOOGLE_CLIENT_SECRET` | All | ✅ Set |
-| `GITHUB_CLIENT_ID` | Pre-Production | ✅ Set |
-| `GITHUB_CLIENT_SECRET` | Pre-Production | ✅ Set |
+| Variable                                       | Environment    | Status |
+| ---------------------------------------------- | -------------- | ------ |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | All            | ✅ Set |
+| `GOOGLE_CLIENT_ID`                             | All            | ✅ Set |
+| `GOOGLE_CLIENT_SECRET`                         | All            | ✅ Set |
+| `GITHUB_CLIENT_ID`                             | Pre-Production | ✅ Set |
+| `GITHUB_CLIENT_SECRET`                         | Pre-Production | ✅ Set |
 
 ---
 
@@ -16,41 +16,41 @@
 
 ### Core Secrets
 
-| Variable | Value | Status |
-|----------|-------|--------|
-| `JWT_SECRET` | `b9a736a15f83edb98b7bc9fd3742a2494a2d5c521272eab7bc2dd1c4f2bdcff22297322d2392b689929952d790445aa4e6075dd7c668b2d23637252c0276a87f` | ❌ Missing |
-| `SESSION_SECRET` | `7dbf9c4d52c147fb4313130a92fbe8f1095d0ee64bc6d95c7ed9d8fef639906154cbded5f0355860ea18fa18e09ba6675f70ef7a69630a67a3289cac6ac941bc` | ❌ Missing |
-| `NEXTAUTH_SECRET` | `VkGutwa6Sf73Jv34CieGpUd0dFBhzzTNTsZVpN2ZLUI=` | ❌ Missing |
+| Variable          | Value                                    | Status     |
+| ----------------- | ---------------------------------------- | ---------- |
+| `JWT_SECRET`      | `[Set in Vercel - Generate with script]` | ❌ Missing |
+| `SESSION_SECRET`  | `[Set in Vercel - Generate with script]` | ❌ Missing |
+| `NEXTAUTH_SECRET` | `[Set in Vercel - Generate with script]` | ❌ Missing |
 
 ### Database (Replace [PASSWORD] with your Supabase password)
 
-| Variable | Value | Status |
-|----------|-------|--------|
+| Variable       | Value                                                                                                                                    | Status     |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | `DATABASE_URL` | `postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require` | ❌ Missing |
-| `DIRECT_URL` | `postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require` | ❌ Missing |
+| `DIRECT_URL`   | `postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require`                | ❌ Missing |
 
 ### Application URLs
 
-| Variable | Value | Status |
-|----------|-------|--------|
+| Variable              | Value                           | Status     |
+| --------------------- | ------------------------------- | ---------- |
 | `NEXT_PUBLIC_APP_URL` | `https://advanciapayledger.com` | ❌ Missing |
-| `NEXTAUTH_URL` | `https://advanciapayledger.com` | ❌ Missing |
+| `NEXTAUTH_URL`        | `https://advanciapayledger.com` | ❌ Missing |
 
 ### Supabase
 
-| Variable | Value | Status |
-|----------|-------|--------|
+| Variable                   | Value                                      | Status     |
+| -------------------------- | ------------------------------------------ | ---------- |
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://xesecqcqzykvmrtxrzqi.supabase.co` | ❌ Missing |
 
 ---
 
 ## ⚠️ Recommended (3 variables)
 
-| Variable | Value | Status |
-|----------|-------|--------|
-| `CRON_SECRET` | `JbqOAWu5r7K7X+NxXP9vjsYz2DLwhgibxe0psq2Tz/g=` | ❌ Missing |
-| `SUPABASE_SERVICE_ROLE_KEY` | Get from Supabase dashboard | ❌ Missing |
-| `ANTHROPIC_API_KEY` | Get from Anthropic console | ❌ Missing |
+| Variable                    | Value                                          | Status     |
+| --------------------------- | ---------------------------------------------- | ---------- |
+| `CRON_SECRET`               | `[Set in Vercel - Generate with script]` | ❌ Missing |
+| `SUPABASE_SERVICE_ROLE_KEY` | Get from Supabase dashboard                    | ❌ Missing |
+| `ANTHROPIC_API_KEY`         | Get from Anthropic console                     | ❌ Missing |
 
 ---
 
@@ -90,4 +90,3 @@
 ---
 
 **Status**: 5/13 variables set. 8 critical variables need to be added to Vercel. 🚀
-

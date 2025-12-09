@@ -31,6 +31,7 @@
 You still need to set `JWT_SECRET` in Vercel for your Next.js application:
 
 **Generated Value:**
+
 ```
 JWT_SECRET=b9a736a15f83edb98b7bc9fd3742a2494a2d5c521272eab7bc2dd1c4f2bdcff22297322d2392b689929952d790445aa4e6075dd7c668b2d23637252c0276a87f
 ```
@@ -92,4 +93,3 @@ JWT_SECRET=b9a736a15f83edb98b7bc9fd3742a2494a2d5c521272eab7bc2dd1c4f2bdcff222973
 ---
 
 **Status**: Supabase JWT secret noted. Application JWT_SECRET still needs to be set separately. 🔐
-
