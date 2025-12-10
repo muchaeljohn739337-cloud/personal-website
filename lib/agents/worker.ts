@@ -273,7 +273,7 @@ export class AgentWorker {
         agentType: 'ORCHESTRATOR',
         action,
         message,
-        metadata: metadata || null,
+        metadata: metadata as Prisma.InputJsonValue,
       },
     });
 
