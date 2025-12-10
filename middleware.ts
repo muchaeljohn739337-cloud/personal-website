@@ -3,7 +3,11 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 import { getLoadBalancer } from './lib/infrastructure/load-balancer';
-import { shouldChallengeRequest, shouldProtectRoute, verifyBotIdRequest } from './lib/security/botid-protection';
+import {
+  shouldChallengeRequest,
+  shouldProtectRoute,
+  verifyBotIdRequest,
+} from './lib/security/botid-protection';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -40,7 +44,9 @@ export async function middleware(request: NextRequest) {
 
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 
-  // BotID protection for high-value routes
+  // BotID protection for high-value routes (DISABLED - needs configuration)
+  // TODO: Configure BotID protection properly before enabling
+  /*
   if (shouldProtectRoute(pathname)) {
     const shouldChallenge = await shouldChallengeRequest(request);
     if (shouldChallenge) {
@@ -63,6 +69,7 @@ export async function middleware(request: NextRequest) {
       }
     }
   }
+  */
 
   // Check authentication for protected routes
   if (!isPublicRoute && (pathname.startsWith('/dashboard') || pathname.startsWith('/admin'))) {
