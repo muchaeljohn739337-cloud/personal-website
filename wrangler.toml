@@ -1,0 +1,25 @@
+# Cloudflare Workers Configuration
+# For Next.js deployment via OpenNext
+
+name = "advanciapayledger"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "advanciapayledger"
+routes = [
+  { pattern = "advanciapayledger.com", zone_name = "advanciapayledger.com" },
+  { pattern = "www.advanciapayledger.com", zone_name = "advanciapayledger.com" }
+]
+
+# R2 Storage for caching
+[[r2_buckets]]
+binding = "CACHE"
+bucket_name = "advanciapayledger-cache"
+
+# Environment variables (set via wrangler secret put)
+# NEXT_PUBLIC_SUPABASE_URL
+# NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+# SUPABASE_SERVICE_ROLE_KEY
+# DATABASE_URL
+# NEXTAUTH_SECRET

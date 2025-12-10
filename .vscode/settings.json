@@ -1,0 +1,107 @@
+{
+  // Git Configuration
+  "git.autofetch": true,
+  "git.autoStash": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.fetchOnPull": true,
+  "git.pruneOnFetch": true,
+  "git.rebaseWhenSync": true,
+  "git.showPushSuccessNotification": true,
+  "git.untrackedChanges": "separate",
+
+  // Branch Protection
+  "git.branchProtection": ["main", "develop"],
+
+  // Commit Message Validation
+  "git.inputValidationLength": 72,
+  "git.inputValidationSubjectLength": 50,
+
+  // Editor Settings
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.markdownlint": "explicit"
+  },
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.trimAutoWhitespace": true,
+
+  // ESLint
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.format.enable": true,
+  "eslint.packageManager": "npm",
+  "eslint.run": "onSave",
+
+  // Prettier
+  "prettier.requireConfig": true,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.printWidth": 100,
+  "prettier.semi": true,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+
+  // Markdown
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on"
+  },
+  "markdownlint.config": {
+    "default": true,
+    "MD033": { "allowed_elements": ["kbd", "summary", "details"] },
+    "MD013": false,
+    "MD041": false
+  },
+
+  // TypeScript
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "relative",
+
+  // Files
+  "files.exclude": {
+    "**/.git": false,
+    "**/.next": true,
+    "**/node_modules": true
+  },
+
+  // Search
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/package-lock.json": true
+  },
+
+  // Formatting
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Prisma - use Prisma 5 syntax validation
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+
+  // Jest Configuration
+  "jest.jestCommandLine": "npm test --",
+  "jest.rootPath": ".",
+  "jest.disabledWorkspaceFolders": [".next", ".open-next", "node_modules"]
+}

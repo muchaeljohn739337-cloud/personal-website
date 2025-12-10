@@ -1,0 +1,11 @@
+# Robots.txt for advanciapayledger.com
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://advanciapayledger.com/sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /admin/
+Disallow: /api/
+Disallow: /dashboard/
