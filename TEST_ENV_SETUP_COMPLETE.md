@@ -116,6 +116,7 @@ bash scripts/setup-test-env.sh
    ```
 
 5. **Run tests:**
+
    ```bash
    npm test
    npm run test:e2e

@@ -2,7 +2,8 @@
 
 ## Executive Summary
 
-This document provides a comprehensive analysis of the responsive design implementation across the personal website. The site uses Tailwind CSS with a mobile-first approach, implementing responsive breakpoints throughout.
+This document provides a comprehensive analysis of the responsive design implementation across the personal website.
+The site uses Tailwind CSS with a mobile-first approach, implementing responsive breakpoints throughout.
 
 ---
 
@@ -152,7 +153,7 @@ From `lib/performance/image-optimizer.ts`:
 - ✅ **Good**: Single column on mobile, 4 columns on `md:`+
 - ✅ **Good**: Counter animations work across all sizes
 
-#### Typography
+#### Stats Typography
 
 ```tsx
 <p className="text-4xl md:text-5xl font-bold ...">
@@ -182,7 +183,7 @@ From `lib/performance/image-optimizer.ts`:
 - ✅ **Good**: Single column on mobile, 3 on `md:`+
 - ✅ **Good**: Cards scale appropriately
 
-#### Typography
+#### Pricing Typography
 
 ```tsx
 <h2 className="text-4xl md:text-5xl font-bold mb-6">

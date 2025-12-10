@@ -1,8 +1,9 @@
 # 🚀 Deploy Now - Step-by-Step Guide
 
-## ⚠️ CRITICAL: Remove Secrets First!
+## ⚠️ CRITICAL: Remove Secrets First
 
 **Before committing, remove backup file:**
+
 ```powershell
 # Remove backup file with secrets
 if (Test-Path .env.local.backup) {
@@ -83,6 +84,7 @@ git push origin main
 ```
 
 **This will:**
+
 - ✅ Trigger GitHub Actions CI
 - ✅ Auto-deploy to Vercel (if configured)
 - ✅ Run all tests
@@ -98,11 +100,14 @@ git push origin main
 **Current Issue:** May be incorrect or missing
 
 **Fix:**
+
 1. Get correct password from Supabase
 2. Update `DATABASE_URL`:
+
    ```
    postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require
    ```
+
 3. Replace `[YOUR-PASSWORD]` with actual password
 4. Save
 
@@ -122,6 +127,7 @@ git push origin main
 4. Check admin dashboard loads
 
 **If login fails:**
+
 - Check Vercel logs
 - Verify database connection
 - Check environment variables
