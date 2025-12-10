@@ -61,6 +61,7 @@ npm install @web3auth/modal @web3auth/base @web3auth/ethereum-provider
 1. Go to: https://dashboard.web3auth.io/organization/advanciapay/getting-started
 2. Copy your **Client ID**
 3. Add to `.env.local`:
+
    ```bash
    NEXT_PUBLIC_WEB3AUTH_CLIENT_ID=your_actual_client_id
    WEB3AUTH_NETWORK=mainnet

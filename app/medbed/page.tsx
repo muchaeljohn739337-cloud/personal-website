@@ -1,26 +1,26 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import {
-  FiHeart,
   FiActivity,
-  FiZap,
-  FiShield,
-  FiCpu,
-  FiTarget,
   FiArrowRight,
-  FiX,
-  FiCheck,
-  FiHeadphones,
   FiCalendar,
+  FiCheck,
   FiClock,
-  FiUser,
+  FiCpu,
+  FiHeadphones,
+  FiHeart,
   FiMail,
-  FiPhone,
   FiMessageSquare,
+  FiPhone,
+  FiShield,
+  FiTarget,
+  FiUser,
+  FiX,
+  FiZap,
 } from 'react-icons/fi';
 
 // Chamber types
@@ -37,8 +37,8 @@ const chambers = [
       'Immune system enhancement',
       'Pain signal neutralization',
     ],
-    color: 'from-emerald-500 to-teal-600',
-    bgColor: 'emerald',
+    color: 'from-indigo-500 to-blue-600',
+    bgColor: 'indigo',
     icon: FiHeart,
     duration: '45-90 min',
     price: '$2,500',
@@ -55,8 +55,8 @@ const chambers = [
       'Strength amplification',
       'Cognitive clarity boost',
     ],
-    color: 'from-violet-500 to-purple-600',
-    bgColor: 'violet',
+    color: 'from-pink-500 to-rose-600',
+    bgColor: 'pink',
     icon: FiZap,
     duration: '60-120 min',
     price: '$3,500',
@@ -73,8 +73,8 @@ const chambers = [
       'Genetic risk assessment',
       'Real-time biomarker analysis',
     ],
-    color: 'from-blue-500 to-cyan-600',
-    bgColor: 'blue',
+    color: 'from-indigo-500 to-purple-600',
+    bgColor: 'indigo',
     icon: FiCpu,
     duration: '30-45 min',
     price: '$1,800',
@@ -136,17 +136,16 @@ export default function MedBedPage() {
     return () => clearInterval(interval);
   }, [isDetecting, holdProgress]);
 
-  // Show support popup after 3 seconds
+  // Show support popup after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSupport(true);
-    }, 3000);
+    }, 5000);
     return () => clearTimeout(timer);
   }, []);
 
   const handleCashOut = () => {
-    // Check if user is logged in (simulated - would check auth state)
-    const isLoggedIn = false; // Replace with actual auth check
+    const isLoggedIn = false;
     if (isLoggedIn) {
       router.push('/dashboard');
     } else {
@@ -165,8 +164,7 @@ export default function MedBedPage() {
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Submit booking and redirect to admin
-    router.push('/dashboard/admin?booking=new');
+    router.push('/dashboard/medbed?booking=new');
   };
 
   const getHealthMessage = () => {
@@ -175,7 +173,7 @@ export default function MedBedPage() {
         return {
           title: 'Attention Required',
           message:
-            'Your vital signs indicate elevated stress levels. We recommend scheduling a Diagnostic Chamber Gamma session to ensure your wellbeing. Our caring team is here to support your health journey.',
+            'Your vital signs indicate elevated stress levels. We recommend scheduling a Diagnostic Chamber Gamma session.',
           color: 'text-red-400',
           bg: 'bg-red-500/10 border-red-500/20',
         };
@@ -183,7 +181,7 @@ export default function MedBedPage() {
         return {
           title: 'Slightly Elevated',
           message:
-            'Your heart rate is slightly above optimal range. Consider our Recovery Chamber Alpha for a rejuvenating session that will help restore balance to your system.',
+            'Your heart rate is slightly above optimal range. Consider our Recovery Chamber Alpha for a rejuvenating session.',
           color: 'text-amber-400',
           bg: 'bg-amber-500/10 border-amber-500/20',
         };
@@ -191,7 +189,7 @@ export default function MedBedPage() {
         return {
           title: 'Optimal Health Detected',
           message:
-            "Wonderful! Your vital signs are within optimal parameters. You're an excellent candidate for our Enhancement Chamber Beta to elevate your performance to new heights.",
+            "Wonderful! Your vital signs are within optimal parameters. You're an excellent candidate for our Enhancement Chamber Beta.",
           color: 'text-green-400',
           bg: 'bg-green-500/10 border-green-500/20',
         };
@@ -201,46 +199,32 @@ export default function MedBedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a12] text-white">
-      {/* Background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-transparent to-emerald-950/20" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-[100px] animate-pulse" />
-        {/* DNA Helix Pattern */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <pattern id="dna" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-              <circle cx="10" cy="10" r="1" fill="white" />
-            </pattern>
-            <rect width="100%" height="100%" fill="url(#dna)" />
-          </svg>
-        </div>
-      </div>
-
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50 dark:from-indigo-950 dark:via-slate-900 dark:to-pink-950 text-slate-900 dark:text-white">
       {/* Navigation */}
-      <nav className="relative z-20 border-b border-white/5">
+      <nav className="sticky top-0 z-50 border-b border-indigo-100 dark:border-indigo-900/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center shadow-lg">
                 <FiHeart className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="text-xl font-bold">Advancia</span>
-                <span className="text-xs text-emerald-400 block -mt-1">MedBed Division</span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">Advancia</span>
+                <span className="text-xs text-indigo-600 dark:text-indigo-400 block -mt-1">
+                  MedBed Division
+                </span>
               </div>
             </Link>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <button
                 onClick={handleCashOut}
-                className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="px-5 py-2 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-lg text-sm font-semibold text-white hover:opacity-90 transition-opacity shadow-md"
               >
                 Cash Out
               </button>
               <button
                 onClick={handleWithdraw}
-                className="px-6 py-2.5 border border-white/20 rounded-xl text-sm font-semibold hover:bg-white/5 transition-colors"
+                className="px-5 py-2 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
               >
                 Withdraw
               </button>
@@ -251,26 +235,25 @@ export default function MedBedPage() {
 
       {/* Welcome Banner */}
       {showWelcome && (
-        <div className="relative z-10 bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 border-b border-emerald-500/20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="relative z-10 bg-gradient-to-r from-indigo-500/10 via-pink-500/10 to-indigo-500/10 border-b border-indigo-200 dark:border-indigo-900/50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center animate-pulse">
-                  <FiHeart className="w-6 h-6 text-white" />
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center shadow-lg">
+                  <FiHeart className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold">
+                  <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                     Welcome to Advancia MedBed Quantum Healing Center! ✨
                   </h2>
-                  <p className="text-gray-400">
-                    Experience revolutionary cellular regeneration technology. Your journey to
-                    optimal health begins here.
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                    Experience revolutionary cellular regeneration technology
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setShowWelcome(false)}
-                className="text-gray-400 hover:text-white p-2"
+                className="text-slate-400 hover:text-slate-900 dark:hover:text-white p-2"
               >
                 <FiX className="w-5 h-5" />
               </button>
@@ -280,166 +263,139 @@ export default function MedBedPage() {
       )}
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-20 pb-16">
+      <section className="relative py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6">
-              <FiActivity className="w-4 h-4 text-emerald-400 animate-pulse" />
-              <span className="text-sm text-emerald-400">Quantum Healing Technology</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 mb-6">
+              <FiActivity className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <span className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
+                Quantum Healing Technology
+              </span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                Advanced
-              </span>{' '}
-              <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <span className="text-slate-900 dark:text-white">Advanced</span>{' '}
+              <span className="bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
                 MedBed Systems
               </span>
             </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
               Experience the future of healthcare with our revolutionary quantum healing chambers.
-              Cellular regeneration, cognitive enhancement, and predictive diagnostics—all powered
-              by cutting-edge technology.
+              Cellular regeneration, cognitive enhancement, and predictive diagnostics.
             </p>
           </div>
 
-          {/* Instant Settlement Card - Enhanced */}
-          <div className="max-w-md mx-auto mb-20">
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 rounded-3xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
-              <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-8 overflow-hidden">
-                {/* Animated rings */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-emerald-500/20 rounded-full animate-ping" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 border border-teal-500/10 rounded-full animate-pulse" />
-
-                <div className="relative z-10 text-center">
-                  <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                    <FiZap className="w-10 h-10 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2">Instant Settlement</h3>
-                  <p className="text-emerald-400 text-4xl font-bold mb-2">&lt; 2 seconds</p>
-                  <p className="text-gray-500 text-sm mb-6">
-                    Lightning-fast transaction processing with quantum-encrypted security
+          {/* Stats Cards */}
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-lg">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                  <FiZap className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                    &lt; 2 seconds
                   </p>
-                  <div className="flex items-center justify-center gap-4 text-sm">
-                    <div className="flex items-center gap-2 text-emerald-400">
-                      <FiShield className="w-4 h-4" />
-                      <span>Quantum Secured</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-teal-400">
-                      <FiTarget className="w-4 h-4" />
-                      <span>99.99% Uptime</span>
-                    </div>
-                  </div>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Instant Settlement</p>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+                  <FiShield className="w-4 h-4" />
+                  <span>Quantum Secured</span>
+                </div>
+                <div className="flex items-center gap-2 text-pink-600 dark:text-pink-400">
+                  <FiTarget className="w-4 h-4" />
+                  <span>99.99% Uptime</span>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Heart Rate Detection */}
-          <div className="max-w-2xl mx-auto mb-20">
-            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-8">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold mb-2">Biometric Health Scanner</h3>
-                <p className="text-gray-400">
-                  Press and hold the heart icon to initiate vital sign detection
+            {/* Heart Rate Scanner */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-lg">
+              <div className="text-center mb-4">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
+                  Biometric Health Scanner
+                </h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  Press and hold to detect heart rate
                 </p>
               </div>
-
               <div className="flex flex-col items-center">
-                {/* Heart Rate Display */}
-                <div className="relative mb-8">
+                <div className="relative mb-4">
                   <div
-                    className={`w-40 h-40 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    className={`w-32 h-32 rounded-full flex items-center justify-center transition-all duration-300 ${
                       isDetecting
-                        ? 'bg-gradient-to-br from-red-500/30 to-pink-500/30 scale-110'
-                        : 'bg-gradient-to-br from-red-500/20 to-pink-500/20'
+                        ? 'bg-gradient-to-br from-pink-500/30 to-rose-500/30 scale-110'
+                        : 'bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/20 dark:to-rose-900/20'
                     }`}
                   >
-                    {/* Progress ring */}
                     <svg className="absolute inset-0 w-full h-full -rotate-90">
                       <circle
-                        cx="80"
-                        cy="80"
-                        r="70"
+                        cx="64"
+                        cy="64"
+                        r="56"
                         fill="none"
-                        stroke="rgba(239, 68, 68, 0.2)"
-                        strokeWidth="8"
+                        stroke="rgba(236, 72, 153, 0.2)"
+                        strokeWidth="6"
                       />
                       <circle
-                        cx="80"
-                        cy="80"
-                        r="70"
+                        cx="64"
+                        cy="64"
+                        r="56"
                         fill="none"
                         stroke="url(#heartGradient)"
-                        strokeWidth="8"
+                        strokeWidth="6"
                         strokeLinecap="round"
-                        strokeDasharray={440}
-                        strokeDashoffset={440 - (440 * holdProgress) / 100}
+                        strokeDasharray={352}
+                        strokeDashoffset={352 - (352 * holdProgress) / 100}
                         className="transition-all duration-100"
                       />
                       <defs>
                         <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#ef4444" />
+                          <stop offset="0%" stopColor="#8b5cf6" />
                           <stop offset="100%" stopColor="#ec4899" />
                         </linearGradient>
                       </defs>
                     </svg>
                     <div className="text-center">
                       <FiHeart
-                        className={`w-12 h-12 mx-auto mb-2 ${
-                          isDetecting ? 'text-red-400 animate-pulse' : 'text-red-500'
+                        className={`w-10 h-10 mx-auto mb-1 ${
+                          isDetecting
+                            ? 'text-pink-500 animate-pulse'
+                            : 'text-indigo-500 dark:text-indigo-400'
                         }`}
                       />
-                      <p className="text-3xl font-bold">{heartRate}</p>
-                      <p className="text-xs text-gray-500">BPM</p>
+                      <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                        {heartRate}
+                      </p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">BPM</p>
                     </div>
                   </div>
                 </div>
-
-                {/* Hold Button */}
                 <button
                   onMouseDown={startHeartDetection}
                   onMouseUp={stopHeartDetection}
                   onMouseLeave={stopHeartDetection}
                   onTouchStart={startHeartDetection}
                   onTouchEnd={stopHeartDetection}
-                  className={`px-8 py-4 rounded-2xl font-semibold transition-all duration-300 ${
+                  className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                     isDetecting
-                      ? 'bg-gradient-to-r from-red-500 to-pink-500 scale-105'
-                      : 'bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-500/30 hover:border-red-500/50'
+                      ? 'bg-gradient-to-r from-indigo-500 to-pink-500 text-white scale-105 shadow-lg'
+                      : 'bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/30'
                   }`}
                 >
-                  {isDetecting
-                    ? `Detecting... ${holdProgress}%`
-                    : 'Press & Hold to Detect Heart Rate'}
+                  {isDetecting ? `Detecting... ${holdProgress}%` : 'Press & Hold to Detect'}
                 </button>
-
-                {/* Health Status Message */}
                 {healthStatus && (
                   <div
-                    className={`mt-8 p-6 rounded-2xl border ${getHealthMessage()?.bg} max-w-md text-center animate-fade-in`}
+                    className={`mt-4 p-4 rounded-xl border ${getHealthMessage()?.bg} max-w-sm text-center animate-fade-in`}
                   >
-                    <h4 className={`text-lg font-bold mb-2 ${getHealthMessage()?.color}`}>
+                    <h4 className={`text-sm font-bold mb-1 ${getHealthMessage()?.color}`}>
                       {getHealthMessage()?.title}
                     </h4>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                       {getHealthMessage()?.message}
                     </p>
-                    <button
-                      onClick={() => {
-                        setSelectedChamber(
-                          healthStatus === 'critical'
-                            ? 'gamma'
-                            : healthStatus === 'elevated'
-                              ? 'alpha'
-                              : 'beta'
-                        );
-                        setShowBooking(true);
-                      }}
-                      className="mt-4 px-6 py-2 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
-                    >
-                      Book Recommended Session
-                    </button>
                   </div>
                 )}
               </div>
@@ -447,44 +403,52 @@ export default function MedBedPage() {
           </div>
 
           {/* Chambers Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-20">
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
             {chambers.map((chamber) => (
               <div
                 key={chamber.id}
-                className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-8 hover:border-white/20 transition-all duration-300"
+                className="group relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 hover:shadow-2xl hover:border-indigo-300 dark:hover:border-indigo-700 transition-all duration-300"
               >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${chamber.color} opacity-0 group-hover:opacity-5 rounded-3xl transition-opacity`}
-                />
                 <div className="relative z-10">
                   <div
                     className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${chamber.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg`}
                   >
                     <chamber.icon className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold mb-1">{chamber.name}</h3>
-                  <p className={`text-sm text-${chamber.bgColor}-400 mb-4`}>{chamber.subtitle}</p>
-                  <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                  <h3 className="text-xl font-bold mb-1 text-slate-900 dark:text-white">
+                    {chamber.name}
+                  </h3>
+                  <p className="text-sm text-indigo-600 dark:text-indigo-400 mb-4 font-medium">
+                    {chamber.subtitle}
+                  </p>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
                     {chamber.description}
                   </p>
 
                   <ul className="space-y-2 mb-6">
                     {chamber.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-gray-500">
-                        <FiCheck className={`w-4 h-4 text-${chamber.bgColor}-400`} />
-                        {feature}
+                      <li
+                        key={i}
+                        className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400"
+                      >
+                        <FiCheck className="w-4 h-4 text-indigo-500 dark:text-indigo-400 flex-shrink-0" />
+                        <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-6 pb-6 border-b border-slate-200 dark:border-slate-700">
                     <div>
-                      <p className="text-xs text-gray-500">Duration</p>
-                      <p className="font-semibold">{chamber.duration}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Duration</p>
+                      <p className="font-semibold text-slate-900 dark:text-white">
+                        {chamber.duration}
+                      </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-gray-500">Starting at</p>
-                      <p className={`font-bold text-${chamber.bgColor}-400`}>{chamber.price}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Starting at</p>
+                      <p className="font-bold text-indigo-600 dark:text-indigo-400">
+                        {chamber.price}
+                      </p>
                     </div>
                   </div>
 
@@ -493,7 +457,7 @@ export default function MedBedPage() {
                       setSelectedChamber(chamber.id);
                       setShowBooking(true);
                     }}
-                    className={`w-full py-3 rounded-xl font-semibold bg-gradient-to-r ${chamber.color} hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
+                    className={`w-full py-3 rounded-xl font-semibold bg-gradient-to-r ${chamber.color} text-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-md`}
                   >
                     Book Session
                     <FiArrowRight className="w-4 h-4" />
@@ -508,29 +472,30 @@ export default function MedBedPage() {
       {/* Support Popup */}
       {showSupport && (
         <div className="fixed bottom-6 right-6 z-50 animate-slide-up">
-          <div className="relative bg-gradient-to-br from-violet-500/20 to-purple-500/20 backdrop-blur-xl rounded-2xl border border-violet-500/30 p-6 max-w-sm shadow-2xl">
+          <div className="relative bg-white dark:bg-slate-800 rounded-2xl border border-indigo-200 dark:border-indigo-800 p-6 max-w-sm shadow-2xl">
             <button
               onClick={() => setShowSupport(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-white"
+              className="absolute top-3 right-3 text-slate-400 hover:text-slate-900 dark:hover:text-white"
             >
               <FiX className="w-5 h-5" />
             </button>
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">
                 <FiHeadphones className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h4 className="font-bold mb-1">Quantum Health Concierge</h4>
-                <p className="text-sm text-gray-400 mb-4">
-                  Ready to embark on your wellness transformation? Our specialists are standing by
-                  to guide you.
+                <h4 className="font-bold mb-1 text-slate-900 dark:text-white">
+                  Quantum Health Concierge
+                </h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                  Ready to begin your wellness journey? Our specialists are here to help.
                 </p>
                 <button
                   onClick={() => {
                     setShowSupport(false);
                     setShowBooking(true);
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-violet-500 to-purple-500 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2"
+                  className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-lg text-sm font-semibold text-white hover:opacity-90 transition-opacity flex items-center gap-2 shadow-md"
                 >
                   Begin Your Journey
                   <FiArrowRight className="w-4 h-4" />
@@ -544,20 +509,22 @@ export default function MedBedPage() {
       {/* Booking Modal */}
       {showBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="relative bg-[#0a0a12] rounded-3xl border border-white/10 p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+          <div className="relative bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
             <button
               onClick={() => setShowBooking(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 dark:hover:text-white"
             >
               <FiX className="w-6 h-6" />
             </button>
 
             <div className="text-center mb-8">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center shadow-lg">
                 <FiCalendar className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-2">Schedule Your Session</h3>
-              <p className="text-gray-400">
+              <h3 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">
+                Schedule Your Session
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400">
                 {selectedChamber
                   ? `Booking: ${chambers.find((c) => c.id === selectedChamber)?.name}`
                   : 'Select your preferred chamber and time'}
@@ -568,21 +535,31 @@ export default function MedBedPage() {
               {/* Chamber Selection */}
               {!selectedChamber && (
                 <div>
-                  <label className="block text-sm font-medium mb-2">Select Chamber</label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <label className="block text-sm font-medium mb-3 text-slate-900 dark:text-white">
+                    Select Chamber
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
                     {chambers.map((chamber) => (
                       <button
                         key={chamber.id}
                         type="button"
                         onClick={() => setSelectedChamber(chamber.id)}
-                        className={`p-3 rounded-xl border text-center transition-all ${
+                        className={`p-4 rounded-xl border text-center transition-all ${
                           selectedChamber === chamber.id
-                            ? `border-${chamber.bgColor}-500 bg-${chamber.bgColor}-500/10`
-                            : 'border-white/10 hover:border-white/20'
+                            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20'
+                            : 'border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-700'
                         }`}
                       >
-                        <chamber.icon className="w-6 h-6 mx-auto mb-1" />
-                        <p className="text-xs">{chamber.id.toUpperCase()}</p>
+                        <chamber.icon
+                          className={`w-6 h-6 mx-auto mb-2 ${
+                            selectedChamber === chamber.id
+                              ? 'text-indigo-600 dark:text-indigo-400'
+                              : 'text-slate-400'
+                          }`}
+                        />
+                        <p className="text-xs font-medium text-slate-900 dark:text-white">
+                          {chamber.id.toUpperCase()}
+                        </p>
                       </button>
                     ))}
                   </div>
@@ -592,43 +569,49 @@ export default function MedBedPage() {
               {/* Personal Info */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium mb-2">Full Name</label>
+                  <label className="block text-sm font-medium mb-2 text-slate-900 dark:text-white">
+                    Full Name
+                  </label>
                   <div className="relative">
-                    <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                       type="text"
                       required
                       value={bookingData.name}
                       onChange={(e) => setBookingData({ ...bookingData, name: e.target.value })}
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-violet-500 focus:outline-none"
+                      className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-indigo-500 focus:outline-none text-slate-900 dark:text-white"
                       placeholder="Enter your full name"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
+                  <label className="block text-sm font-medium mb-2 text-slate-900 dark:text-white">
+                    Email
+                  </label>
                   <div className="relative">
-                    <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                       type="email"
                       required
                       value={bookingData.email}
                       onChange={(e) => setBookingData({ ...bookingData, email: e.target.value })}
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-violet-500 focus:outline-none"
+                      className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-indigo-500 focus:outline-none text-slate-900 dark:text-white"
                       placeholder="Email"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Phone</label>
+                  <label className="block text-sm font-medium mb-2 text-slate-900 dark:text-white">
+                    Phone
+                  </label>
                   <div className="relative">
-                    <FiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <FiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                       type="tel"
                       required
                       value={bookingData.phone}
                       onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })}
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-violet-500 focus:outline-none"
+                      className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-indigo-500 focus:outline-none text-slate-900 dark:text-white"
                       placeholder="Phone"
                     />
                   </div>
@@ -638,27 +621,31 @@ export default function MedBedPage() {
               {/* Date & Time */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Preferred Date</label>
+                  <label className="block text-sm font-medium mb-2 text-slate-900 dark:text-white">
+                    Preferred Date
+                  </label>
                   <div className="relative">
-                    <FiCalendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <FiCalendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                       type="date"
                       required
                       value={bookingData.date}
                       onChange={(e) => setBookingData({ ...bookingData, date: e.target.value })}
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-violet-500 focus:outline-none"
+                      className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-indigo-500 focus:outline-none text-slate-900 dark:text-white"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Preferred Time</label>
+                  <label className="block text-sm font-medium mb-2 text-slate-900 dark:text-white">
+                    Preferred Time
+                  </label>
                   <div className="relative">
-                    <FiClock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <FiClock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <select
                       required
                       value={bookingData.time}
                       onChange={(e) => setBookingData({ ...bookingData, time: e.target.value })}
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-violet-500 focus:outline-none appearance-none"
+                      className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-indigo-500 focus:outline-none appearance-none text-slate-900 dark:text-white"
                     >
                       <option value="">Select time</option>
                       <option value="09:00">9:00 AM</option>
@@ -675,13 +662,15 @@ export default function MedBedPage() {
 
               {/* Notes */}
               <div>
-                <label className="block text-sm font-medium mb-2">Additional Notes</label>
+                <label className="block text-sm font-medium mb-2 text-slate-900 dark:text-white">
+                  Additional Notes
+                </label>
                 <div className="relative">
-                  <FiMessageSquare className="absolute left-4 top-4 text-gray-500" />
+                  <FiMessageSquare className="absolute left-4 top-4 text-slate-400" />
                   <textarea
                     value={bookingData.notes}
                     onChange={(e) => setBookingData({ ...bookingData, notes: e.target.value })}
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-violet-500 focus:outline-none min-h-[100px]"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-indigo-500 focus:outline-none min-h-[100px] text-slate-900 dark:text-white"
                     placeholder="Any health conditions or special requirements..."
                   />
                 </div>
@@ -690,13 +679,13 @@ export default function MedBedPage() {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                className="w-full py-4 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-xl font-semibold text-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-lg"
               >
                 <FiCheck className="w-5 h-5" />
                 Confirm Booking
               </button>
 
-              <p className="text-center text-xs text-gray-500">
+              <p className="text-center text-xs text-slate-500 dark:text-slate-400">
                 By booking, you agree to our terms of service and privacy policy
               </p>
             </form>
@@ -705,30 +694,44 @@ export default function MedBedPage() {
       )}
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/5 py-12">
+      <footer className="border-t border-slate-200 dark:border-slate-800 py-12 bg-white/50 dark:bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center shadow-md">
                 <FiHeart className="w-4 h-4 text-white" />
               </div>
-              <span className="font-bold">Advancia MedBed</span>
+              <span className="font-bold text-slate-900 dark:text-white">Advancia MedBed</span>
             </div>
-            <div className="flex items-center gap-6 text-sm text-gray-500">
-              <Link href="/privacy" className="hover:text-white transition-colors">
+            <div className="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400">
+              <Link
+                href="/privacy"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
                 Privacy
               </Link>
-              <Link href="/terms" className="hover:text-white transition-colors">
+              <Link
+                href="/terms"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
                 Terms
               </Link>
-              <Link href="/faq" className="hover:text-white transition-colors">
+              <Link
+                href="/faq"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
                 FAQ
               </Link>
-              <Link href="/" className="hover:text-white transition-colors">
+              <Link
+                href="/"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
                 Home
               </Link>
             </div>
-            <p className="text-sm text-gray-500">© 2024 Advancia MedBed Division</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              © 2024 Advancia MedBed Division
+            </p>
           </div>
         </div>
       </footer>

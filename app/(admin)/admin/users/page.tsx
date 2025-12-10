@@ -11,11 +11,12 @@ import {
   RefreshCw,
   Search,
   Shield,
-  Sparkles,
   Trash2,
   UserCheck,
   Users,
 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { PremiumBadge } from '@/components/PremiumBadge';
@@ -47,13 +48,15 @@ interface Pagination {
 }
 
 const roleColors: Record<string, string> = {
-  SUPER_ADMIN: 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/30 ring-2 ring-red-300/50 dark:ring-red-400/30',
+  SUPER_ADMIN:
+    'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/30 ring-2 ring-red-300/50 dark:ring-red-400/30',
   ADMIN: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300',
   MODERATOR: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300',
   USER: 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300',
 };
 
 export default function AdminUsersPage() {
+  const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -127,10 +130,19 @@ export default function AdminUsersPage() {
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white">User Management</h1>
           <p className="mt-1 text-slate-500">Manage all users and their permissions</p>
         </div>
-        <Button onClick={() => fetchUsers(pagination?.page || 1)} variant="outline">
-          <RefreshCw className="mr-2 h-4 w-4" />
-          Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => router.push('/admin/users/add')}
+            className="bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:opacity-90"
+          >
+            <UserCheck className="mr-2 h-4 w-4" />
+            Add User
+          </Button>
+          <Button onClick={() => fetchUsers(pagination?.page || 1)} variant="outline">
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Refresh
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -188,8 +200,33 @@ export default function AdminUsersPage() {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <RefreshCw className="h-8 w-8 animate-spin text-slate-400" />
+            <div className="flex items-center justify-center py-20">
+              <div className="relative">
+                <div className="h-24 w-24 animate-spin-slow">
+                  <svg viewBox="0 0 200 200" className="h-full w-full">
+                    <defs>
+                      <linearGradient id="loaderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#6366f1" stopOpacity="1" />
+                        <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.8" />
+                        <stop offset="100%" stopColor="#ec4899" stopOpacity="1" />
+                      </linearGradient>
+                    </defs>
+                    <circle
+                      cx="100"
+                      cy="100"
+                      r="90"
+                      fill="none"
+                      stroke="url(#loaderGradient)"
+                      strokeWidth="4"
+                      strokeDasharray="200 100"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="h-4 w-4 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 shadow-lg" />
+                </div>
+              </div>
             </div>
           ) : users.length === 0 ? (
             <p className="text-center text-slate-500 py-12">No users found</p>
@@ -239,9 +276,7 @@ export default function AdminUsersPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          {user.role === 'SUPER_ADMIN' && (
-                            <PremiumBadge variant="icon" />
-                          )}
+                          {user.role === 'SUPER_ADMIN' && <PremiumBadge variant="icon" />}
                           <span
                             className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${roleColors[user.role]}`}
                           >
@@ -252,9 +287,7 @@ export default function AdminUsersPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          {user.role === 'SUPER_ADMIN' && (
-                            <PremiumBadge variant="compact" />
-                          )}
+                          {user.role === 'SUPER_ADMIN' && <PremiumBadge variant="compact" />}
                           {user.isSuspended ? (
                             <span className="flex items-center gap-1 text-red-600">
                               <Ban className="h-4 w-4" />

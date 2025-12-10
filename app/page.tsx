@@ -163,13 +163,13 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a0a12] text-slate-900 dark:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a12] text-slate-900 dark:text-white overflow-x-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-transparent to-purple-950/30" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-violet-600/15 rounded-full blur-[100px] animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-purple-600/10 rounded-full blur-[80px] animate-pulse delay-500" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-100/40 via-transparent to-purple-100/40 dark:from-violet-950/30 dark:via-transparent dark:to-purple-950/30" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-200/20 dark:bg-purple-600/15 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-200/20 dark:bg-violet-600/15 rounded-full blur-[100px] animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-violet-200/15 dark:bg-purple-600/10 rounded-full blur-[80px] animate-pulse delay-500" />
         {/* Grid Pattern */}
         <div
           className="absolute inset-0 opacity-[0.02]"
@@ -185,7 +185,7 @@ export default function Home() {
         id="navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#1e1e1e]/95 backdrop-blur-xl border-b border-slate-800/50 shadow-lg'
+            ? 'bg-white/95 dark:bg-[#1e1e1e]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/50 shadow-lg'
             : 'bg-transparent'
         }`}
         role="navigation"
@@ -258,14 +258,23 @@ export default function Home() {
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
             >
-              {mobileMenuOpen ? <FiX className="w-5 h-5" aria-hidden="true" /> : <FiMenu className="w-5 h-5" aria-hidden="true" />}
+              {mobileMenuOpen ? (
+                <FiX className="w-5 h-5" aria-hidden="true" />
+              ) : (
+                <FiMenu className="w-5 h-5" aria-hidden="true" />
+              )}
             </button>
           </div>
         </div>
 
         {/* Mobile Menu - Clean design */}
         {mobileMenuOpen && (
-          <div id="mobile-menu" className="lg:hidden bg-[#1e1e1e]/98 backdrop-blur-xl border-t border-slate-800/50" role="menu" aria-label="Mobile navigation menu">
+          <div
+            id="mobile-menu"
+            className="lg:hidden bg-[#1e1e1e]/98 backdrop-blur-xl border-t border-slate-800/50"
+            role="menu"
+            aria-label="Mobile navigation menu"
+          >
             <div className="px-4 py-4 space-y-1">
               {['Features', 'Pricing', 'About', 'Docs'].map((item) => (
                 <a
@@ -323,7 +332,11 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - Professional, clean layout */}
-      <section id="main-content" className="relative min-h-screen flex items-center pt-14" aria-label="Hero section">
+      <section
+        id="main-content"
+        className="relative min-h-screen flex items-center pt-14"
+        aria-label="Hero section"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -343,20 +356,31 @@ export default function Home() {
               </h1>
 
               {/* Description - Professional tone */}
-              <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
-                Join <span className="text-slate-900 dark:text-white font-medium">50,000+ businesses</span> who trust
-                Advancia for secure, lightning-fast payment processing. Start risk-free today.
+              <p className="text-lg text-slate-700 dark:text-slate-400 max-w-xl leading-relaxed">
+                Join{' '}
+                <span className="text-slate-900 dark:text-white font-semibold">
+                  50,000+ businesses
+                </span>{' '}
+                who trust Advancia for secure, lightning-fast payment processing. Start risk-free
+                today.
               </p>
 
               {/* CTA Buttons - Enhanced for Accessibility */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-2" role="group" aria-label="Call to action buttons">
+              <div
+                className="flex flex-col sm:flex-row gap-3 pt-2"
+                role="group"
+                aria-label="Call to action buttons"
+              >
                 <Link
                   href="/auth/register"
                   className="group relative px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900"
                   aria-label="Start your free trial - No credit card required"
                 >
                   Start Free Trial
-                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  <FiArrowRight
+                    className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                    aria-hidden="true"
+                  />
                 </Link>
                 <a
                   href="#features"
