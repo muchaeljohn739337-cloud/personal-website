@@ -5,17 +5,20 @@ import {
   CheckCircle,
   ChevronLeft,
   ChevronRight,
+  Crown,
   Edit,
   MoreHorizontal,
   RefreshCw,
   Search,
   Shield,
+  Sparkles,
   Trash2,
   UserCheck,
   Users,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+import { PremiumBadge } from '@/components/PremiumBadge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -44,6 +47,7 @@ interface Pagination {
 }
 
 const roleColors: Record<string, string> = {
+  SUPER_ADMIN: 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/30 ring-2 ring-red-300/50 dark:ring-red-400/30',
   ADMIN: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300',
   MODERATOR: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300',
   USER: 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300',
@@ -234,14 +238,23 @@ export default function AdminUsersPage() {
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <span
-                          className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${roleColors[user.role]}`}
-                        >
-                          {user.role}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          {user.role === 'SUPER_ADMIN' && (
+                            <PremiumBadge variant="icon" />
+                          )}
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${roleColors[user.role]}`}
+                          >
+                            {user.role === 'SUPER_ADMIN' && <Crown className="h-3 w-3" />}
+                            {user.role === 'SUPER_ADMIN' ? 'Super Admin' : user.role}
+                          </span>
+                        </div>
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
+                          {user.role === 'SUPER_ADMIN' && (
+                            <PremiumBadge variant="compact" />
+                          )}
                           {user.isSuspended ? (
                             <span className="flex items-center gap-1 text-red-600">
                               <Ban className="h-4 w-4" />
@@ -280,13 +293,13 @@ export default function AdminUsersPage() {
 
                           {showActionMenu === user.id && (
                             <div className="absolute right-0 top-full z-10 mt-1 w-48 rounded-lg border bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
-                              <button
-                                onClick={() => setSelectedUser(user)}
+                              <Link
+                                href={`/admin/users/${user.id}`}
                                 className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700"
                               >
                                 <Edit className="h-4 w-4" />
-                                Edit User
-                              </button>
+                                View Details
+                              </Link>
                               {!user.isVerified && (
                                 <button
                                   onClick={() => handleAction(user.id, 'verify')}

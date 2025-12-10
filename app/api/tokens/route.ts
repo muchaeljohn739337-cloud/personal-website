@@ -5,8 +5,22 @@ import { authOptions } from '@/lib/auth';
 import { getOrCreateTokenWallet, getTransactionHistory, TOKEN_CONFIG } from '@/lib/tokens';
 
 // GET /api/tokens - Get user's token wallet
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
+    // Apply API protection
+    const protection = await protectAPI(req, {
+      requireAuth: true,
+      requireRole: 'USER',
+      rateLimit: 'sensitive',
+    });
+
+    if (!protection.allowed) {
+      return protection.response || NextResponse.json(
+        { error: 'Access denied' },
+        { status: 403 }
+      );
+    }
+
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

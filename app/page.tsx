@@ -2,6 +2,7 @@
 
 import { Logo } from '@/components/Logo';
 import SecurityShield from '@/components/security/SecurityShield';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import TrustBadges from '@/components/TrustBadges';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
@@ -162,7 +163,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a12] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-white dark:bg-[#0a0a12] text-slate-900 dark:text-white overflow-x-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-transparent to-purple-950/30" />
@@ -181,11 +182,14 @@ export default function Home() {
 
       {/* Navigation - Modern VS Code-inspired design */}
       <nav
+        id="navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
             ? 'bg-[#1e1e1e]/95 backdrop-blur-xl border-b border-slate-800/50 shadow-lg'
             : 'bg-transparent'
         }`}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
@@ -200,28 +204,28 @@ export default function Home() {
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="px-3 py-1.5 text-sm text-slate-400 hover:text-white transition-colors rounded hover:bg-slate-800/50 font-medium"
+                  className="px-3 py-1.5 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors rounded hover:bg-slate-100 dark:hover:bg-slate-800/50 font-medium"
                 >
                   {item}
                 </a>
               ))}
               <Link
                 href="/faq"
-                className="px-3 py-1.5 text-sm text-slate-400 hover:text-white transition-colors rounded hover:bg-slate-800/50 font-medium"
+                className="px-3 py-1.5 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors rounded hover:bg-slate-100 dark:hover:bg-slate-800/50 font-medium"
               >
                 FAQ
               </Link>
-              <div className="h-4 w-px bg-slate-700 mx-2" />
+              <div className="h-4 w-px bg-slate-300 dark:bg-slate-700 mx-2" />
               <Link
                 href="/medbed"
-                className="px-3 py-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition-colors rounded hover:bg-emerald-500/10 flex items-center gap-1.5 font-medium"
+                className="px-3 py-1.5 text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors rounded hover:bg-emerald-50 dark:hover:bg-emerald-500/10 flex items-center gap-1.5 font-medium"
               >
                 <FiHeart className="w-3.5 h-3.5" />
                 MedBed
               </Link>
               <Link
                 href="/crypto"
-                className="px-3 py-1.5 text-sm text-amber-400 hover:text-amber-300 transition-colors rounded hover:bg-amber-500/10 flex items-center gap-1.5 font-medium"
+                className="px-3 py-1.5 text-sm text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors rounded hover:bg-amber-50 dark:hover:bg-amber-500/10 flex items-center gap-1.5 font-medium"
               >
                 <FiTrendingUp className="w-3.5 h-3.5" />
                 Crypto
@@ -230,9 +234,10 @@ export default function Home() {
 
             {/* Auth Buttons - VS Code style */}
             <div className="hidden lg:flex items-center gap-2">
+              <ThemeToggle variant="icon" />
               <Link
                 href="/auth/login"
-                className="px-4 py-1.5 text-sm text-slate-300 hover:text-white transition-colors font-medium"
+                className="px-4 py-1.5 text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
               >
                 Sign In
               </Link>
@@ -248,17 +253,19 @@ export default function Home() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-slate-400 hover:text-white rounded transition-colors"
-              aria-label="Toggle menu"
+              className="lg:hidden p-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
-              {mobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
+              {mobileMenuOpen ? <FiX className="w-5 h-5" aria-hidden="true" /> : <FiMenu className="w-5 h-5" aria-hidden="true" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Menu - Clean design */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#1e1e1e]/98 backdrop-blur-xl border-t border-slate-800/50">
+          <div id="mobile-menu" className="lg:hidden bg-[#1e1e1e]/98 backdrop-blur-xl border-t border-slate-800/50" role="menu" aria-label="Mobile navigation menu">
             <div className="px-4 py-4 space-y-1">
               {['Features', 'Pricing', 'About', 'Docs'].map((item) => (
                 <a
@@ -316,7 +323,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - Professional, clean layout */}
-      <section className="relative min-h-screen flex items-center pt-14">
+      <section id="main-content" className="relative min-h-screen flex items-center pt-14" aria-label="Hero section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -330,31 +337,33 @@ export default function Home() {
 
               {/* Heading - Clean typography */}
               <h1 className="text-4xl md:text-6xl font-bold leading-tight tracking-tight">
-                <span className="text-white">The Future of</span>
+                <span className="text-slate-900 dark:text-white">The Future of</span>
                 <br />
-                <span className="text-blue-400">Digital Finance</span>
+                <span className="text-blue-600 dark:text-blue-400">Digital Finance</span>
               </h1>
 
               {/* Description - Professional tone */}
-              <p className="text-lg text-slate-400 max-w-xl leading-relaxed">
-                Join <span className="text-white font-medium">50,000+ businesses</span> who trust
+              <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
+                Join <span className="text-slate-900 dark:text-white font-medium">50,000+ businesses</span> who trust
                 Advancia for secure, lightning-fast payment processing. Start risk-free today.
               </p>
 
-              {/* CTA Buttons - VS Code style */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              {/* CTA Buttons - Enhanced for Accessibility */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2" role="group" aria-label="Call to action buttons">
                 <Link
                   href="/auth/register"
-                  className="group relative px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded transition-all flex items-center justify-center gap-2"
+                  className="group relative px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                  aria-label="Start your free trial - No credit card required"
                 >
                   Start Free Trial
-                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </Link>
                 <a
                   href="#features"
-                  className="group px-6 py-3 text-base font-semibold rounded border border-slate-700 hover:border-slate-600 bg-slate-800/50 hover:bg-slate-800 transition-all flex items-center justify-center gap-2 text-slate-300 hover:text-white"
+                  className="group px-6 py-3 text-base font-semibold rounded border border-slate-700 hover:border-slate-600 bg-slate-800/50 hover:bg-slate-800 transition-all flex items-center justify-center gap-2 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                  aria-label="Watch product demo video"
                 >
-                  <FiActivity className="w-4 h-4" />
+                  <FiActivity className="w-4 h-4" aria-hidden="true" />
                   Watch Demo
                 </a>
               </div>
@@ -640,18 +649,18 @@ export default function Home() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 dark:text-gray-500">
           <span className="text-xs uppercase tracking-wider">Scroll to explore</span>
-          <div className="w-6 h-10 rounded-full border-2 border-gray-700 flex justify-center pt-2">
-            <div className="w-1 h-2 bg-gray-500 rounded-full animate-bounce" />
+          <div className="w-6 h-10 rounded-full border-2 border-slate-300 dark:border-gray-700 flex justify-center pt-2">
+            <div className="w-1 h-2 bg-slate-400 dark:bg-gray-500 rounded-full animate-bounce" />
           </div>
         </div>
       </section>
 
       {/* Logos Section */}
-      <section className="relative z-10 py-12 md:py-16 border-y border-white/5">
+      <section className="relative z-10 py-12 md:py-16 border-y border-slate-200 dark:border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-xs md:text-sm text-gray-500 mb-6 md:mb-8 uppercase tracking-wider">
+          <p className="text-center text-xs md:text-sm text-slate-600 dark:text-gray-500 mb-6 md:mb-8 uppercase tracking-wider">
             Trusted by Industry Leaders
           </p>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center">
@@ -666,8 +675,8 @@ export default function Home() {
                 key={brand.name}
                 className="group flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-all duration-300"
               >
-                <brand.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-400 group-hover:text-violet-400 transition-colors" />
-                <span className="text-xs text-gray-600 group-hover:text-gray-400 transition-colors hidden sm:block">
+                <brand.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-slate-400 dark:text-gray-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors" />
+                <span className="text-xs text-slate-600 dark:text-gray-600 group-hover:text-slate-800 dark:group-hover:text-gray-400 transition-colors hidden sm:block">
                   {brand.name}
                 </span>
               </div>

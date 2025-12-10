@@ -82,9 +82,13 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
           case 'signout':
             signOut({ callbackUrl: '/' });
             break;
-          case 'theme':
+          case 'theme': {
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
             document.documentElement.classList.toggle('dark');
+            // Persist to localStorage
+            localStorage.setItem('theme', currentTheme === 'dark' ? 'light' : 'dark');
             break;
+          }
           case 'docs':
             window.open('/docs', '_blank');
             break;

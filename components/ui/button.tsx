@@ -100,6 +100,8 @@ export interface ButtonProps
   isLoading?: boolean;
   loadingStyle?: 'spinner' | 'dots' | 'pulse';
   asChild?: boolean;
+  'aria-label'?: string;
+  'aria-describedby'?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -132,15 +134,28 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
     };
 
+    // Auto-add aria-label for icon-only buttons
+    const isIconOnly = size === 'icon' && !children;
+    const ariaLabel = props['aria-label'] || (isIconOnly ? props.title : undefined);
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         disabled={disabled || isLoading}
+        aria-label={ariaLabel}
+        aria-busy={isLoading}
+        aria-disabled={disabled || isLoading}
         {...props}
       >
         {isLoading && <LoadingComponent />}
-        {isLoading ? <span className="opacity-90">Processing...</span> : children}
+        {isLoading ? (
+          <span className="opacity-90" aria-live="polite">
+            Processing...
+          </span>
+        ) : (
+          children
+        )}
       </Comp>
     );
   }

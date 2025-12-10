@@ -63,6 +63,62 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+/* Accessibility: Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:focus,
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Enhanced Focus Indicators */
+*:focus-visible {
+  outline: 2px solid rgb(59, 130, 246);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Ensure focus is visible in dark mode */
+.dark *:focus-visible {
+  outline-color: rgb(96, 165, 250);
+}
+
+/* Skip Link Styles */
+a[href^='#main-content'],
+a[href^='#navigation'] {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: rgb(37, 99, 235);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 100;
+  border-radius: 4px;
+}
+
+a[href^='#main-content']:focus,
+a[href^='#navigation']:focus {
+  top: 0;
+}
+
 /* Premium Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }

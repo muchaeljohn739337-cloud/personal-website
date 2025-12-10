@@ -6,13 +6,30 @@ import { cn } from '@/lib/utils/cn';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
+  label?: string;
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
+  'aria-required'?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, error, ...props }, ref) => {
+  ({ className, type, error, label, id, 'aria-label': ariaLabel, 'aria-describedby': ariaDescribedBy, required, ...props }, ref) => {
+    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+    const errorId = error ? `${inputId}-error` : undefined;
+    const labelId = label ? `${inputId}-label` : undefined;
+    const describedBy = [ariaDescribedBy, errorId, labelId].filter(Boolean).join(' ') || undefined;
+
     return (
       <div className="w-full">
+        {label && (
+          <label htmlFor={inputId} id={labelId} className="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">
+            {label}
+            {required && <span className="text-red-500 ml-1" aria-label="required">*</span>}
+          </label>
+        )}
         <input
+          id={inputId}
           type={type}
           className={cn(
             'flex h-11 w-full rounded-lg border bg-white px-4 py-2 text-sm shadow-sm transition-all',
@@ -24,9 +41,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className
           )}
           ref={ref}
+          aria-label={ariaLabel || (label ? undefined : 'Input field')}
+          aria-describedby={describedBy}
+          aria-invalid={error ? true : undefined}
+          aria-required={required}
+          required={required}
           {...props}
         />
-        {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+        {error && (
+          <p id={errorId} className="mt-1 text-sm text-red-500" role="alert" aria-live="polite">
+            {error}
+          </p>
+        )}
       </div>
     );
   }

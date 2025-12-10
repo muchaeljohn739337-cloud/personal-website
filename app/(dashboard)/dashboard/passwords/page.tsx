@@ -81,14 +81,14 @@ const generatePassword = (length: number = 16): string => {
 };
 
 const categories = [
-  { value: 'social', label: 'Social Media', icon: '👥' },
-  { value: 'finance', label: 'Finance & Banking', icon: '💰' },
-  { value: 'work', label: 'Work & Business', icon: '💼' },
-  { value: 'shopping', label: 'Shopping', icon: '🛒' },
-  { value: 'entertainment', label: 'Entertainment', icon: '🎬' },
-  { value: 'email', label: 'Email', icon: '📧' },
-  { value: 'cloud', label: 'Cloud Services', icon: '☁️' },
-  { value: 'other', label: 'Other', icon: '📁' },
+  { value: 'social', label: 'Social Media', icon: 'Users' },
+  { value: 'finance', label: 'Finance & Banking', icon: 'DollarSign' },
+  { value: 'work', label: 'Work & Business', icon: 'Briefcase' },
+  { value: 'shopping', label: 'Shopping', icon: 'ShoppingCart' },
+  { value: 'entertainment', label: 'Entertainment', icon: 'Film' },
+  { value: 'email', label: 'Email', icon: 'Mail' },
+  { value: 'cloud', label: 'Cloud Services', icon: 'Cloud' },
+  { value: 'other', label: 'Other', icon: 'Folder' },
 ];
 
 export default function PasswordManagerPage() {

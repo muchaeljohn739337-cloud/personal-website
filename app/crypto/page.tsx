@@ -261,10 +261,10 @@ export default function CryptoPage() {
                   <FiStar className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold">Welcome to Advancia Crypto Exchange! 🚀</h2>
+                  <h2 className="text-xl font-bold">Welcome to Advancia Crypto Exchange</h2>
                   <p className="text-gray-400">
-                    Trade Trump coins, recover lost crypto, and access premium digital assets with
-                    institutional-grade security.
+                    Trade digital assets, recover lost cryptocurrency, and access premium tokens
+                    with institutional-grade security.
                   </p>
                 </div>
               </div>

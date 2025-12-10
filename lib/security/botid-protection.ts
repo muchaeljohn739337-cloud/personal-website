@@ -11,6 +11,11 @@ const BOTID_ENABLED = process.env.BOTID_ENABLED === 'true';
 const BOTID_SECRET_KEY = process.env.BOTID_SECRET_KEY;
 const BOTID_SITE_KEY = process.env.NEXT_PUBLIC_BOTID_SITE_KEY;
 
+// Cloudflare Turnstile (Web3) - Primary bot protection
+const TURNSTILE_ENABLED = !!process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
+const TURNSTILE_SECRET_KEY = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY;
+
 export interface BotIdResult {
   verified: boolean;
   isBot: boolean;
@@ -88,8 +93,32 @@ export async function verifyBotIdRequest(request: NextRequest): Promise<BotIdRes
       };
     }
 
-    // Verify token with your bot protection service
-    // This can be integrated with reCAPTCHA, hCaptcha, Turnstile, etc.
+    // Verify token with Cloudflare Turnstile (Web3) - Primary
+    if (TURNSTILE_ENABLED && TURNSTILE_SECRET_KEY) {
+      const verificationResponse = await fetch(
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            secret: TURNSTILE_SECRET_KEY,
+            response: botIdToken,
+          }),
+        }
+      );
+
+      const result = await verificationResponse.json();
+
+      return {
+        verified: result.success || false,
+        isBot: !result.success,
+        isVerifiedBot: false,
+        riskScore: result.success ? 0 : 1,
+        reason: result.success ? undefined : 'Turnstile verification failed',
+      };
+    }
+
+    // Fallback to BotID if Turnstile not configured
     if (BOTID_SECRET_KEY) {
       const verificationResponse = await fetch(
         'https://challenges.cloudflare.com/turnstile/v0/siteverify',
