@@ -1,11 +1,15 @@
 /**
  * BotID Protection
- * Invisible CAPTCHA for high-value pages and routes
- * Powered by Kasada Deep Analysis
+ * Bot detection and verification for high-value pages and routes
+ * Can be integrated with Cloudflare Bot Management, reCAPTCHA, or custom solutions
  */
 
-import { verifyBotId } from 'botid';
 import type { NextRequest } from 'next/server';
+
+// Environment configuration
+const BOTID_ENABLED = process.env.BOTID_ENABLED === 'true';
+const BOTID_SECRET_KEY = process.env.BOTID_SECRET_KEY;
+const BOTID_SITE_KEY = process.env.NEXT_PUBLIC_BOTID_SITE_KEY;
 
 export interface BotIdResult {
   verified: boolean;
@@ -44,35 +48,84 @@ export function shouldProtectRoute(pathname: string): boolean {
  */
 export async function verifyBotIdRequest(request: NextRequest): Promise<BotIdResult> {
   try {
+    // If BotID is not enabled, skip verification (allow all)
+    if (!BOTID_ENABLED) {
+      return {
+        verified: true,
+        isBot: false,
+        isVerifiedBot: false,
+        reason: 'BotID protection disabled',
+      };
+    }
+
+    // Check Cloudflare Bot Management headers (if behind Cloudflare)
+    const cfBotScore = request.headers.get('cf-bot-management-score');
+    const cfVerifiedBot = request.headers.get('cf-bot-management-verified-bot');
+
+    if (cfBotScore) {
+      const score = parseInt(cfBotScore);
+      return {
+        verified: score < 30, // Cloudflare scores: 0-29 = likely bot, 30-100 = likely human
+        isBot: score < 30,
+        isVerifiedBot: cfVerifiedBot === 'true',
+        riskScore: score / 100,
+        reason: score >= 30 ? undefined : 'Cloudflare bot score too low',
+      };
+    }
+
     // Get BotID token from header or cookie
     const botIdToken =
       request.headers.get('x-botid-token') ||
       request.cookies.get('botid-token')?.value ||
-      request.headers.get('authorization')?.replace('Bearer ', '');
+      request.headers.get('x-captcha-token');
 
     if (!botIdToken) {
       return {
         verified: false,
         isBot: false,
         isVerifiedBot: false,
-        reason: 'No BotID token provided',
+        reason: 'No verification token provided',
       };
     }
 
-    // Verify token with BotID
-    const verification = await verifyBotId(botidToken);
+    // Verify token with your bot protection service
+    // This can be integrated with reCAPTCHA, hCaptcha, Turnstile, etc.
+    if (BOTID_SECRET_KEY) {
+      const verificationResponse = await fetch(
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            secret: BOTID_SECRET_KEY,
+            response: botIdToken,
+          }),
+        }
+      );
 
+      const result = await verificationResponse.json();
+
+      return {
+        verified: result.success || false,
+        isBot: !result.success,
+        isVerifiedBot: false,
+        riskScore: result.success ? 0 : 1,
+        reason: result.success ? undefined : 'Token verification failed',
+      };
+    }
+
+    // Fallback: no verification configured
     return {
-      verified: verification.verified,
-      isBot: verification.isBot || false,
-      isVerifiedBot: verification.isVerifiedBot || false,
-      riskScore: verification.riskScore,
-      reason: verification.verified ? undefined : 'BotID verification failed',
+      verified: true, // Allow by default if not configured
+      isBot: false,
+      isVerifiedBot: false,
+      reason: 'No verification service configured',
     };
   } catch (error) {
     console.error('BotID verification error:', error);
+    // On error, allow through (fail open) to avoid blocking legitimate users
     return {
-      verified: false,
+      verified: true,
       isBot: false,
       isVerifiedBot: false,
       reason: error instanceof Error ? error.message : 'Verification error',
@@ -158,5 +211,3 @@ export function getBotIdChallengeResponse(request: NextRequest): Response {
     }
   );
 }
-
-

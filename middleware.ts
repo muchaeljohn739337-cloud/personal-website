@@ -44,10 +44,8 @@ export async function middleware(request: NextRequest) {
 
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 
-  // BotID protection for high-value routes (DISABLED - needs configuration)
-  // TODO: Configure BotID protection properly before enabling
-  /*
-  if (shouldProtectRoute(pathname)) {
+  // BotID protection for high-value routes (controlled by BOTID_ENABLED env var)
+  if (shouldProtectRoute(pathname) && process.env.BOTID_ENABLED === 'true') {
     const shouldChallenge = await shouldChallengeRequest(request);
     if (shouldChallenge) {
       const botIdResult = await verifyBotIdRequest(request);
@@ -69,7 +67,6 @@ export async function middleware(request: NextRequest) {
       }
     }
   }
-  */
 
   // Check authentication for protected routes
   if (!isPublicRoute && (pathname.startsWith('/dashboard') || pathname.startsWith('/admin'))) {
