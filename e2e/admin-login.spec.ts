@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 /**
  * Admin Login Test
  * Tests admin authentication with provided credentials
  */
 test.describe('Admin Login', () => {
-  test('should login with admin credentials', async ({ page }) => {
+  test('should login with admin credentials', async ({ page }: { page: Page }) => {
     // Navigate to login page
     await page.goto('/auth/login');
 
@@ -29,7 +29,7 @@ test.describe('Admin Login', () => {
     expect(userEmail).toContain('superadmin@advanciapayledger.com');
   });
 
-  test('should access admin dashboard', async ({ page }) => {
+  test('should access admin dashboard', async ({ page }: { page: Page }) => {
     // Login first
     await page.goto('/auth/login');
     await page.fill('input[type="email"]', 'superadmin@advanciapayledger.com');
