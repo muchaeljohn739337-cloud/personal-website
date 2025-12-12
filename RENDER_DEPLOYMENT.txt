@@ -1,0 +1,199 @@
+═══════════════════════════════════════════════════════════════
+  RENDER DEPLOYMENT CHECKLIST - Advancia PayLedger
+═══════════════════════════════════════════════════════════════
+
+📅 Date: December 5, 2025
+🎯 Goal: Successful production deployment on Render
+✅ Status: Ready to deploy
+
+═══════════════════════════════════════════════════════════════
+  STEP 1: PUSH CODE TO GITHUB
+═══════════════════════════════════════════════════════════════
+
+The following changes are committed locally and ready to push:
+✅ render.yaml - Optimized deployment configuration
+✅ backend/prisma/schema.prisma - Fixed PostgreSQL configuration
+✅ backend/.env.test - Updated with correct port
+✅ Documentation files created
+
+TO PUSH TO GITHUB:
+------------------
+git push origin staging
+
+(Note: You may need to authenticate with GitHub)
+
+═══════════════════════════════════════════════════════════════
+  STEP 2: RENDER BACKEND SERVICE CONFIGURATION
+═══════════════════════════════════════════════════════════════
+
+Service Name: advancia-backend-upnrf
+Region: Oregon
+
+BUILD SETTINGS:
+--------------
+Root Directory:      backend
+Build Command:       npm ci --production=false && npm run build
+Pre-Deploy Command:  npx prisma migrate deploy
+Start Command:       npm run start:render
+
+HEALTH CHECK:
+------------
+Health Check Path:   /api/health
+
+═══════════════════════════════════════════════════════════════
+  STEP 3: REQUIRED ENVIRONMENT VARIABLES
+═══════════════════════════════════════════════════════════════
+
+CRITICAL (Must be set):
+----------------------
+✅ NODE_ENV=production
+✅ DATABASE_URL=[Get from Render PostgreSQL Internal URL]
+✅ JWT_SECRET=[Generate: openssl rand -base64 32]
+✅ SESSION_SECRET=[Generate: openssl rand -base64 32]
+✅ FRONTEND_URL=https://www.advanciapayledger.com
+✅ PORT=4000
+✅ HOST=0.0.0.0
+✅ API_PREFIX=/api
+✅ CORS_ORIGINS=https://www.advanciapayledger.com,https://advanciapayledger.com
+
+PAYMENT GATEWAYS (Add when ready):
+----------------------------------
+⚪ STRIPE_SECRET_KEY=[For credit card payments]
+⚪ STRIPE_WEBHOOK_SECRET=[For Stripe webhooks]
+⚪ CRYPTO_COM_API_KEY=[For Crypto.com Pay integration]
+⚪ CRYPTO_COM_SECRET_KEY=[For Crypto.com Pay]
+⚪ CRYPTO_COM_WEBHOOK_SECRET=[For Crypto.com webhooks]
+⚪ ALCHEMY_PAY_API_KEY=[For Alchemy Pay integration]
+⚪ ALCHEMY_PAY_SECRET_KEY=[For Alchemy Pay]
+⚪ ALCHEMY_PAY_MERCHANT_ID=[Your Alchemy merchant ID]
+⚪ ALCHEMY_PAY_WEBHOOK_SECRET=[For Alchemy webhooks]
+
+OTHER OPTIONAL:
+--------------
+⚪ SENDGRID_API_KEY=[For emails]
+⚪ REDIS_URL=[For caching]
+⚪ SENTRY_DSN=[For error tracking]
+
+═══════════════════════════════════════════════════════════════
+  STEP 4: DATABASE CONFIGURATION
+═══════════════════════════════════════════════════════════════
+
+Database Name: advancia-db
+Database: advancia_prod
+User: advancia_user
+Region: Virginia
+
+IMPORTANT:
+---------
+✅ Use INTERNAL Database URL for DATABASE_URL environment variable
+   Format: postgresql://advancia_user:[password]@[internal-host]/advancia_prod
+
+✅ Migrations will run automatically via preDeployCommand
+
+═══════════════════════════════════════════════════════════════
+  STEP 5: VERIFY DEPLOYMENT
+═══════════════════════════════════════════════════════════════
+
+After deployment completes, run:
+-------------------------------
+bash scripts/verify-deployment.sh
+
+Or manually test:
+----------------
+curl https://api.advanciapayledger.com/api/health
+
+Expected response:
+{
+  "status": "ok",
+  "timestamp": "2025-12-05T...",
+  "uptime": 123
+}
+
+═══════════════════════════════════════════════════════════════
+  STEP 6: MONITOR DEPLOYMENT
+═══════════════════════════════════════════════════════════════
+
+Watch for these in Render logs:
+------------------------------
+✅ "==> Cloning from https://github.com/..."
+✅ "==> Running build command 'npm ci --production=false && npm run build'..."
+✅ "✔ Generated Prisma Client"
+✅ "==> Running pre-deploy command 'npx prisma migrate deploy'..."
+✅ "Running migrations..."
+✅ "==> Starting service with 'npm run start:render'..."
+✅ "🚀 Server running on port 4000"
+✅ "🔧 Configuration loaded successfully"
+✅ "✅ Database connected successfully"
+
+═══════════════════════════════════════════════════════════════
+  TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+
+Issue: "DATABASE_URL is required"
+Fix: Add DATABASE_URL to environment variables in Render
+
+Issue: "Authentication failed against database"
+Fix: Verify DATABASE_URL uses Internal Database URL from Render
+
+Issue: "Prisma Client not generated"
+Fix: Build command includes "npm run build" which runs prisma generate
+
+Issue: "Migration failed"
+Fix: Check Pre-Deploy Command logs, ensure database is accessible
+
+Issue: "Port already in use"
+Fix: Render sets PORT automatically, app uses process.env.PORT
+
+Issue: "Module not found"
+Fix: Ensure build command includes --production=false
+
+═══════════════════════════════════════════════════════════════
+  DEPLOYMENT TIMELINE
+═══════════════════════════════════════════════════════════════
+
+Expected Duration: 5-10 minutes
+
+Phase 1: Clone Repository (30 seconds)
+Phase 2: Install Dependencies (2-3 minutes)
+Phase 3: Build Application (1-2 minutes)
+Phase 4: Pre-Deploy (Migrations) (30 seconds)
+Phase 5: Start Service (30 seconds)
+Phase 6: Health Check (10 seconds)
+
+═══════════════════════════════════════════════════════════════
+  SUCCESS CRITERIA
+═══════════════════════════════════════════════════════════════
+
+✅ Build completes without errors
+✅ Migrations run successfully
+✅ Server starts on port 4000
+✅ Health endpoint returns 200 OK
+✅ Database connection verified
+✅ No errors in logs
+
+═══════════════════════════════════════════════════════════════
+  NEXT STEPS AFTER SUCCESSFUL DEPLOYMENT
+═══════════════════════════════════════════════════════════════
+
+1. ✅ Verify health endpoint
+2. ✅ Test API endpoints
+3. ✅ Check database has data
+4. ✅ Monitor error logs
+5. ⚪ Set up monitoring (Sentry)
+6. ⚪ Configure custom domain
+7. ⚪ Set up SSL certificate
+8. ⚪ Enable auto-deploy
+
+═══════════════════════════════════════════════════════════════
+  CONTACT & SUPPORT
+═══════════════════════════════════════════════════════════════
+
+Render Documentation: https://render.com/docs
+Render Status: https://status.render.com
+Support: https://render.com/support
+
+═══════════════════════════════════════════════════════════════
+
+🎉 You're ready to deploy! Push your code and watch the magic happen!
+
+═══════════════════════════════════════════════════════════════

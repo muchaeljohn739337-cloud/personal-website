@@ -1,0 +1,59 @@
+2025-12-01T19:02:53.904Z eslint:cli CLI args: [ '--debug', 'src/**/*.{ts,tsx,js,jsx}', '--ext', '.ts,.tsx,.js,.jsx' ]
+2025-12-01T19:02:53.912Z eslint:cli Using flat config? false
+2025-12-01T19:02:53.921Z eslint:cli Running on files
+2025-12-01T19:02:53.945Z eslintrc:config-array-factory Loading JSON config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\package.json
+2025-12-01T19:02:53.948Z eslintrc:ignore-pattern Create with: [ IgnorePattern { patterns: [ '/**/node_modules/*' ], basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', loose: false } ]
+2025-12-01T19:02:53.950Z eslintrc:ignore-pattern   processed: { basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', patterns: [ '/**/node_modules/*' ] }
+2025-12-01T19:02:53.951Z eslintrc:ignore-pattern Create with: [ IgnorePattern { patterns: [ '/**/node_modules/*' ], basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', loose: false } ]
+2025-12-01T19:02:53.951Z eslintrc:ignore-pattern   processed: { basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', patterns: [ '/**/node_modules/*' ] }
+2025-12-01T19:02:53.952Z eslint:file-enumerator Start to iterate files: [ 'src/**/*.{ts,tsx,js,jsx}' ]
+2025-12-01T19:02:53.953Z eslint:file-enumerator Glob: src/**/*.{ts,tsx,js,jsx}
+2025-12-01T19:02:53.956Z eslint:file-enumerator recursive? true
+2025-12-01T19:02:53.957Z eslint:file-enumerator Enter the directory: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src
+2025-12-01T19:02:53.957Z eslintrc:cascading-config-array-factory Load config files for C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src.
+2025-12-01T19:02:53.958Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src.
+2025-12-01T19:02:53.959Z eslintrc:config-array-factory Config file not found on C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src
+2025-12-01T19:02:53.959Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend.
+2025-12-01T19:02:53.961Z eslintrc:config-array-factory Loading JSON config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:02:53.961Z eslintrc:config-array-factory Config file found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:02:53.962Z eslintrc:config-array-factory Loading {extends:"next/core-web-vitals"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:02:53.966Z eslintrc:config-array-factory package.json was not found: Package subpath './core-web-vitals/package.json' is not defined by "exports" in C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-config-next\package.json
+2025-12-01T19:02:53.966Z eslintrc:config-array-factory Loaded: eslint-config-next/core-web-vitals (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-config-next\dist\core-web-vitals.js)
+2025-12-01T19:02:53.966Z eslintrc:config-array-factory Loading JS config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-config-next\dist\core-web-vitals.js
+2025-12-01T19:02:58.499Z eslint:rules Loading rule 'consistent-return' (remaining=291)
+2025-12-01T19:02:58.551Z eslint:rules Loading rule 'dot-notation' (remaining=290)
+2025-12-01T19:02:58.574Z eslint:rules Loading rule 'init-declarations' (remaining=289)
+2025-12-01T19:02:58.581Z eslint:rules Loading rule 'max-params' (remaining=288)
+2025-12-01T19:02:58.673Z eslint:rules Loading rule 'no-dupe-class-members' (remaining=287)
+2025-12-01T19:02:58.708Z eslint:rules Loading rule 'no-empty-function' (remaining=286)
+2025-12-01T19:02:58.817Z eslint:rules Loading rule 'no-invalid-this' (remaining=285)
+2025-12-01T19:02:58.823Z eslint:rules Loading rule 'no-loop-func' (remaining=284)
+2025-12-01T19:02:58.829Z eslint:rules Loading rule 'no-loss-of-precision' (remaining=283)
+2025-12-01T19:02:58.834Z eslint:rules Loading rule 'no-magic-numbers' (remaining=282)
+2025-12-01T19:02:58.910Z eslint:rules Loading rule 'no-restricted-imports' (remaining=281)
+2025-12-01T19:02:59.102Z eslint:rules Loading rule 'no-unused-expressions' (remaining=280)
+2025-12-01T19:02:59.125Z eslint:rules Loading rule 'no-useless-constructor' (remaining=279)
+2025-12-01T19:02:59.163Z eslint:rules Loading rule 'prefer-destructuring' (remaining=278)
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Object'
+    |     property 'configs' -> object with constructor 'Object'
+    |     property 'flat' -> object with constructor 'Object'
+    |     ...
+    |     property 'plugins' -> object with constructor 'Object'
+    --- property 'react' closes the circle
+Referenced from: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+    at JSON.stringify (<anonymous>)
+    at C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@eslint\eslintrc\dist\eslintrc.cjs:2156:45
+    at Array.map (<anonymous>)
+    at ConfigValidator.formatErrors (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@eslint\eslintrc\dist\eslintrc.cjs:2147:23)
+    at ConfigValidator.validateConfigSchema (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@eslint\eslintrc\dist\eslintrc.cjs:2177:84)
+    at ConfigArrayFactory._normalizeConfigData (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@eslint\eslintrc\dist\eslintrc.cjs:3019:19)
+    at ConfigArrayFactory._loadConfigData (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@eslint\eslintrc\dist\eslintrc.cjs:2984:21)
+    at ConfigArrayFactory._loadExtendedShareableConfig (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@eslint\eslintrc\dist\eslintrc.cjs:3285:21)
+    at ConfigArrayFactory._loadExtends (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@eslint\eslintrc\dist\eslintrc.cjs:3156:25)
+    at ConfigArrayFactory._normalizeObjectConfigDataBody (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@eslint\eslintrc\dist\eslintrc.cjs:3095:25)

@@ -1,0 +1,174 @@
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\admin\ai-workers\page.tsx
+  55:10  warning  'socket' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  58:62  warning  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  76:52  warning  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\admin\security\page.tsx
+  205:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\admin\token-flow\page.tsx
+   73:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   79:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   87:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  132:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  494:9   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\admin\withdrawals\page.tsx
+  45:126  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  79:23   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\analytics\smart-metrics\route.ts
+  9:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\compliance\assess-risk\route.ts
+  12:35  warning  'context' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\compliance\check\route.ts
+  13:44  warning  'type' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\compliance\detect-fraud\route.ts
+  13:13  warning  'transactionId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  13:28  warning  'userId' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  13:36  warning  'amount' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  13:44  warning  'patterns' is assigned a value but never used       @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\compliance\status\route.ts
+  12:11  warning  'userId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\errors\analyze\route.ts
+  12:20  warning  'stack' is assigned a value but never used           @typescript-eslint/no-unused-vars
+  12:27  warning  'componentStack' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  12:43  warning  'userAgent' is assigned a value but never used       @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\insights\generate\route.ts
+  13:22  warning  'userId' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  13:30  warning  'dataPoints' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\insights\personalization\route.ts
+  59:13  warning  'userId' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  59:21  warning  'preferences' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  59:34  warning  'aiEnabled' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\insights\smart-date-range\route.ts
+  12:13  warning  'context' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  12:22  warning  'goal' is assigned a value but never used     @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\security\analyze-session\route.ts
+  13:13  warning  'userId' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  13:21  warning  'sessionData' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\security\assess-login\route.ts
+  13:13  warning  'email' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  13:20  warning  'ip' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  13:24  warning  'userAgent' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  13:35  warning  'timestamp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\security\bot-detection\route.ts
+  12:13  warning  'userAgent' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  12:24  warning  'behavior' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  12:34  warning  'timing' is assigned a value but never used     @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\security\detect-anomaly\route.ts
+  13:13  warning  'userId' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  13:21  warning  'activity' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  13:31  warning  'context' is assigned a value but never used   @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\ui\autocomplete\route.ts
+  12:27  warning  'userId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\ai\ui\smart-search\route.ts
+  12:20  warning  'context' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  12:29  warning  'userId' is assigned a value but never used   @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\api\health\route.ts
+  9:27  warning  '_request' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\auth\verify-otp\page.tsx
+  117:15  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  187:50  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  226:65  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\maintenance\page.tsx
+   95:17  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  104:17  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  114:68  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\medbeds\booking-success\page.tsx
+  12:9   warning  'sessionId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  14:42  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  35:48  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\AdminBalanceManager.tsx
+  37:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\CryptoTrading.tsx
+   28:6   warning  React Hook useEffect has a missing dependency: 'fetchCryptoPrices'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  108:13  warning  'data' is assigned a value but never used                                                                             @typescript-eslint/no-unused-vars
+  121:21  warning  Unexpected any. Specify a different type                                                                              @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\OtpLogin.tsx
+  11:10  warning  'authMethod' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\QuickActions.tsx
+   17:56  warning  Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  102:6   warning  React Hook useEffect has a missing dependency: 'defaultActions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\SendTransaction.tsx
+  327:24  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\SummaryCardAI.tsx
+  43:20  warning  'getPrediction' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\TokenWallet.tsx
+  111:6  warning  React Hook useEffect has an unnecessary dependency: 'API_URL'. Either exclude it or remove the dependency array. Outer scope values like 'API_URL' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\TransactionHistory.tsx
+  37:9  warning  The 'fetchTransactions' function makes the dependencies of useEffect Hook (at line 35) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchTransactions' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\admin\AIAnalyticsWidgets.tsx
+  137:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\components\admin\WithdrawalManagementTab.tsx
+   10:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  283:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\hooks\useAIGenerator.ts
+   17:11  warning  'SocketEvents' is defined but never used  @typescript-eslint/no-unused-vars
+  119:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  167:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  221:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\lib\ai-brain\AISecurityContext.tsx
+  187:21  warning  'payload' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  199:52  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  202:32  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\lib\ai-brain\AIWebContext.tsx
+  44:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\lib\auth.ts
+   86:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   94:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  100:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  103:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  103:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  104:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  104:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\utils\sentry.ts
+  46:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:97  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\utils\toast.ts
+   24:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   40:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   52:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   64:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   79:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  101:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 93 problems (0 errors, 93 warnings)
+

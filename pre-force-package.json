@@ -1,0 +1,60 @@
+{
+  "name": "modular-saas-platform",
+  "version": "1.0.0",
+  "description": "Modular SaaS Platform with Next.js Frontend and Express Backend",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "launch": "node launch.js",
+    "start": "node launch.js",
+    "dev": "node launch.js",
+    "guardian": "cd backend && node src/ai/ai_orchestrator.js",
+    "setup": "npm run setup:backend && npm run setup:frontend && npm run setup:db",
+    "setup:backend": "cd backend && npm install",
+    "setup:frontend": "cd frontend && npm install",
+    "setup:db": "cd backend && npx prisma migrate deploy && npx prisma generate",
+    "seed:admin": "cd backend && node scripts/create-admin.js",
+    "import:users": "cd backend && node scripts/import-users.js",
+    "health": "curl http://localhost:4000/api/health && curl http://localhost:3000/api/healthcheck",
+    "status": "curl http://localhost/status",
+    "stop": "pm2 stop all",
+    "restart": "pm2 restart all",
+    "logs": "pm2 logs --lines 50",
+    "monit": "pm2 monit",
+    "prisma:generate": "cd backend && prisma generate",
+    "prisma:migrate:dev": "cd backend && prisma migrate dev --name init",
+    "prisma:migrate:deploy": "cd backend && prisma migrate deploy",
+    "prisma:db:push": "cd backend && prisma db push",
+    "deploy": "bash ./scripts/deploy.sh",
+    "backup": "bash ./scripts/backup_db.sh",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "saas",
+    "nextjs",
+    "express",
+    "prisma",
+    "docker"
+  ],
+  "author": "mucha",
+  "license": "PRIVATE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muchaeljohn739337-cloud/modular-saas-platform.git"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.4"
+  }
+}

@@ -1,0 +1,72 @@
+con
+Admin-only deduction routes
+	•	Ledger + audit logging
+
+Admin-only deduction routes
+	•	Ledger + audit logging
+
+
+ledger
+------
+id (PK)
+user_id (FK)
+type (DEDUCTION | CREDIT | ADJUSTMENT)
+amount
+currency
+actor_id (FK to admin)
+reason
+status (PENDING | APPROVED | REJECTED)
+tx_hash (optional, for crypto)
+created_at
+updated_at
+audit_logs
+----------
+id (PK)
+action (string, e.g., "deduction")
+user_id
+admin_id
+details (JSON)
+timestamp
+Every deduction is automatically logged in audit_logs.
+	•	Includes:
+	•	action = “deduction”
+	•	admin_id = who performed it
+	•	user_id
+	•	details = amount, currency, reason, ledger ID
+	•	timestamp
+
+Purpose:
+	•	Full traceability
+	•	Compliance with finance/audit regulations
+	•	Helps AI Supervisor flag suspicious admin deductions
+
+⸻
+
+5. AI Orchestrator Integration
+	•	Dad / Orchestrator: Receives deduction task → routes to Admin route.
+	•	Mom / Supervisor: Checks for:
+	•	is_suspended status
+	•	Reason field filled correctly
+	•	Duplicate deductions
+	•	Audit log: automatically updated for Orchestrator + AI monitoring.
+
+⸻
+
+Admin-only route ensures users cannot self-deduct.
+	•	Ledger table tracks every financial action.
+	•	Audit logs ensure traceability & compliance.
+	•	Fully integrates with AI Orchestrator for monitoring and safety.
+	•	User-friendly messages maintain clarity and professionalism.<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+</Project>

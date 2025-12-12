@@ -1,0 +1,245 @@
+2025-12-01T19:08:15.152Z eslint:cli CLI args: [ '--debug', 'src/**/*.{ts,tsx,js,jsx}', '--ext', '.ts,.tsx,.js,.jsx' ]
+2025-12-01T19:08:15.161Z eslint:cli Using flat config? false
+2025-12-01T19:08:15.174Z eslint:cli Running on files
+2025-12-01T19:08:15.206Z eslintrc:config-array-factory Loading JSON config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\package.json
+2025-12-01T19:08:15.209Z eslintrc:ignore-pattern Create with: [ IgnorePattern { patterns: [ '/**/node_modules/*' ], basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', loose: false } ]
+2025-12-01T19:08:15.212Z eslintrc:ignore-pattern   processed: { basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', patterns: [ '/**/node_modules/*' ] }
+2025-12-01T19:08:15.213Z eslintrc:ignore-pattern Create with: [ IgnorePattern { patterns: [ '/**/node_modules/*' ], basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', loose: false } ]
+2025-12-01T19:08:15.213Z eslintrc:ignore-pattern   processed: { basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', patterns: [ '/**/node_modules/*' ] }
+2025-12-01T19:08:15.215Z eslint:file-enumerator Start to iterate files: [ 'src/**/*.{ts,tsx,js,jsx}' ]
+2025-12-01T19:08:15.217Z eslint:file-enumerator Glob: src/**/*.{ts,tsx,js,jsx}
+2025-12-01T19:08:15.224Z eslint:file-enumerator recursive? true
+2025-12-01T19:08:15.224Z eslint:file-enumerator Enter the directory: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src
+2025-12-01T19:08:15.225Z eslintrc:cascading-config-array-factory Load config files for C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src.
+2025-12-01T19:08:15.225Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src.
+2025-12-01T19:08:15.228Z eslintrc:config-array-factory Config file not found on C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src
+2025-12-01T19:08:15.228Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend.
+2025-12-01T19:08:15.230Z eslintrc:config-array-factory Loading JSON config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:08:15.230Z eslintrc:config-array-factory Config file found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:08:15.231Z eslintrc:config-array-factory Loading {extends:"next/core-web-vitals"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:08:15.238Z eslintrc:config-array-factory package.json was not found: Cannot find module 'eslint-config-next/core-web-vitals/package.json'
+Require stack:
+- C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:08:15.238Z eslintrc:config-array-factory Loaded: eslint-config-next/core-web-vitals (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\core-web-vitals.js)
+2025-12-01T19:08:15.239Z eslintrc:config-array-factory Loading JS config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\core-web-vitals.js
+2025-12-01T19:08:15.244Z eslintrc:config-array-factory Loading {extends:"C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\core-web-vitals.js
+2025-12-01T19:08:15.245Z eslintrc:config-array-factory package.json was not found: Cannot find module 'C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js/package.json'
+Require stack:
+- C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\core-web-vitals.js
+2025-12-01T19:08:15.245Z eslintrc:config-array-factory Loaded: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js)
+2025-12-01T19:08:15.245Z eslintrc:config-array-factory Loading JS config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:15.281Z eslintrc:config-array-factory Loading {extends:"plugin:react/recommended"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:15.282Z eslintrc:config-array-factory Loading plugin "react" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:15.287Z eslintrc:config-array-factory Loaded: eslint-plugin-react@7.37.5 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-react\index.js)
+2025-12-01T19:08:16.793Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-react\index.js loaded in: 1506ms
+2025-12-01T19:08:16.794Z eslintrc:config-array-factory Loading plugin "react" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-react\index.js
+2025-12-01T19:08:16.795Z eslintrc:config-array-factory Loaded: eslint-plugin-react@7.37.5 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-react\index.js)
+2025-12-01T19:08:16.795Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-react\index.js loaded in: 0ms
+2025-12-01T19:08:16.795Z eslintrc:config-array-factory Loading {extends:"plugin:react-hooks/recommended"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:16.795Z eslintrc:config-array-factory Loading plugin "react-hooks" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:16.801Z eslintrc:config-array-factory Loaded: eslint-plugin-react-hooks@5.0.0-canary-7118f5dd7-20230705 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-plugin-react-hooks\index.js)
+2025-12-01T19:08:16.809Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-plugin-react-hooks\index.js loaded in: 8ms
+2025-12-01T19:08:16.809Z eslintrc:config-array-factory Loading plugin "react-hooks" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-plugin-react-hooks\index.js
+2025-12-01T19:08:16.811Z eslintrc:config-array-factory Loaded: eslint-plugin-react-hooks@5.0.0-canary-7118f5dd7-20230705 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-plugin-react-hooks\index.js)
+2025-12-01T19:08:16.811Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-plugin-react-hooks\index.js loaded in: 0ms
+2025-12-01T19:08:16.811Z eslintrc:config-array-factory Loading {extends:"plugin:@next/next/recommended"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:16.811Z eslintrc:config-array-factory Loading plugin "@next/next" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:16.816Z eslintrc:config-array-factory Loaded: @next/eslint-plugin-next@14.2.33 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js)
+2025-12-01T19:08:16.946Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js loaded in: 130ms
+2025-12-01T19:08:16.946Z eslintrc:config-array-factory Loading plugin "@next/next" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js
+2025-12-01T19:08:16.949Z eslintrc:config-array-factory Loaded: @next/eslint-plugin-next@14.2.33 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js)
+2025-12-01T19:08:16.949Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js loaded in: 0ms
+2025-12-01T19:08:16.950Z eslintrc:config-array-factory Loading parser "./parser.js" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:16.953Z eslintrc:config-array-factory package.json was not found: Cannot find module './parser.js/package.json'
+Require stack:
+- C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:16.953Z eslintrc:config-array-factory Loaded: ./parser.js (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\parser.js)
+2025-12-01T19:08:17.338Z eslintrc:config-array-factory Loading plugin "import" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:17.340Z eslintrc:config-array-factory Loaded: eslint-plugin-import@2.32.0 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-import\lib\index.js)
+2025-12-01T19:08:18.144Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-import\lib\index.js loaded in: 804ms
+2025-12-01T19:08:18.144Z eslintrc:config-array-factory Loading plugin "react" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:18.145Z eslintrc:config-array-factory Loaded: eslint-plugin-react@7.37.5 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-react\index.js)
+2025-12-01T19:08:18.145Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-react\index.js loaded in: 0ms
+2025-12-01T19:08:18.145Z eslintrc:config-array-factory Loading plugin "jsx-a11y" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:18.148Z eslintrc:config-array-factory Loaded: eslint-plugin-jsx-a11y@6.10.2 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-jsx-a11y\lib\index.js)
+2025-12-01T19:08:19.111Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint-plugin-jsx-a11y\lib\index.js loaded in: 963ms
+2025-12-01T19:08:19.113Z eslintrc:config-array-factory Loading parser "@typescript-eslint/parser" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\index.js
+2025-12-01T19:08:19.117Z eslintrc:config-array-factory Loaded: @typescript-eslint/parser@8.48.0 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\parser\dist\index.js)
+2025-12-01T19:08:21.205Z eslintrc:config-array-factory Loading {extends:"plugin:@next/next/core-web-vitals"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\core-web-vitals.js
+2025-12-01T19:08:21.205Z eslintrc:config-array-factory Loading plugin "@next/next" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\core-web-vitals.js
+2025-12-01T19:08:21.206Z eslintrc:config-array-factory Loaded: @next/eslint-plugin-next@14.2.33 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js)
+2025-12-01T19:08:21.206Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js loaded in: 0ms
+2025-12-01T19:08:21.207Z eslintrc:config-array-factory Loading {extends:"plugin:@next/next/recommended"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js
+2025-12-01T19:08:21.207Z eslintrc:config-array-factory Loading plugin "@next/next" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js
+2025-12-01T19:08:21.207Z eslintrc:config-array-factory Loaded: @next/eslint-plugin-next@14.2.33 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js)
+2025-12-01T19:08:21.207Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js loaded in: 0ms
+2025-12-01T19:08:21.208Z eslintrc:config-array-factory Loading plugin "@next/next" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js
+2025-12-01T19:08:21.209Z eslintrc:config-array-factory Loaded: @next/eslint-plugin-next@14.2.33 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js)
+2025-12-01T19:08:21.209Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js loaded in: 0ms
+2025-12-01T19:08:21.210Z eslintrc:config-array-factory Loading plugin "@next/next" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js
+2025-12-01T19:08:21.211Z eslintrc:config-array-factory Loaded: @next/eslint-plugin-next@14.2.33 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js)
+2025-12-01T19:08:21.211Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\@next\eslint-plugin-next\dist\index.js loaded in: 0ms
+2025-12-01T19:08:21.211Z eslintrc:config-array-factory Loading {extends:"next/typescript"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:08:21.216Z eslintrc:config-array-factory package.json was not found: Cannot find module 'eslint-config-next/typescript/package.json'
+Require stack:
+- C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\.eslintrc.json
+2025-12-01T19:08:21.217Z eslintrc:config-array-factory Loaded: eslint-config-next/typescript (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\typescript.js)
+2025-12-01T19:08:21.217Z eslintrc:config-array-factory Loading JS config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\typescript.js
+2025-12-01T19:08:21.220Z eslintrc:config-array-factory Loading {extends:"plugin:@typescript-eslint/recommended"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\typescript.js
+2025-12-01T19:08:21.221Z eslintrc:config-array-factory Loading plugin "@typescript-eslint" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint-config-next\typescript.js
+2025-12-01T19:08:21.225Z eslintrc:config-array-factory Loaded: @typescript-eslint/eslint-plugin@8.48.0 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\index.js)
+2025-12-01T19:08:22.244Z eslint:rules Loading rule 'consistent-return' (remaining=291)
+2025-12-01T19:08:22.323Z eslint:rules Loading rule 'dot-notation' (remaining=290)
+2025-12-01T19:08:22.377Z eslint:rules Loading rule 'init-declarations' (remaining=289)
+2025-12-01T19:08:22.387Z eslint:rules Loading rule 'max-params' (remaining=288)
+2025-12-01T19:08:22.605Z eslint:rules Loading rule 'no-dupe-class-members' (remaining=287)
+2025-12-01T19:08:22.661Z eslint:rules Loading rule 'no-empty-function' (remaining=286)
+2025-12-01T19:08:23.023Z eslint:rules Loading rule 'no-invalid-this' (remaining=285)
+2025-12-01T19:08:23.045Z eslint:rules Loading rule 'no-loop-func' (remaining=284)
+2025-12-01T19:08:23.057Z eslint:rules Loading rule 'no-loss-of-precision' (remaining=283)
+2025-12-01T19:08:23.071Z eslint:rules Loading rule 'no-magic-numbers' (remaining=282)
+2025-12-01T19:08:23.338Z eslint:rules Loading rule 'no-restricted-imports' (remaining=281)
+2025-12-01T19:08:23.701Z eslint:rules Loading rule 'no-unused-expressions' (remaining=280)
+2025-12-01T19:08:23.726Z eslint:rules Loading rule 'no-useless-constructor' (remaining=279)
+2025-12-01T19:08:23.761Z eslint:rules Loading rule 'prefer-destructuring' (remaining=278)
+2025-12-01T19:08:24.009Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\index.js loaded in: 2784ms
+2025-12-01T19:08:24.010Z eslintrc:config-array-factory Loading {extends:"./configs/eslintrc/base"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\index.js
+2025-12-01T19:08:24.011Z eslintrc:config-array-factory package.json was not found: Cannot find module './configs/eslintrc/base/package.json'
+Require stack:
+- C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\index.js
+2025-12-01T19:08:24.011Z eslintrc:config-array-factory Loaded: ./configs/eslintrc/base (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\configs\eslintrc\base.js)
+2025-12-01T19:08:24.012Z eslintrc:config-array-factory Loading JS config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\configs\eslintrc\base.js
+2025-12-01T19:08:24.015Z eslintrc:config-array-factory Loading parser "@typescript-eslint/parser" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\configs\eslintrc\base.js
+2025-12-01T19:08:24.020Z eslintrc:config-array-factory Loaded: @typescript-eslint/parser@8.48.0 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\parser\dist\index.js)
+2025-12-01T19:08:24.020Z eslintrc:config-array-factory Loading plugin "@typescript-eslint" from C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\configs\eslintrc\base.js
+2025-12-01T19:08:24.023Z eslintrc:config-array-factory Loaded: @typescript-eslint/eslint-plugin@8.48.0 (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\index.js)
+2025-12-01T19:08:24.023Z eslintrc:config-array-factory Plugin C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\index.js loaded in: 0ms
+2025-12-01T19:08:24.023Z eslintrc:config-array-factory Loading {extends:"./configs/eslintrc/eslint-recommended"} relative to C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\index.js
+2025-12-01T19:08:24.025Z eslintrc:config-array-factory package.json was not found: Cannot find module './configs/eslintrc/eslint-recommended/package.json'
+Require stack:
+- C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\index.js
+2025-12-01T19:08:24.025Z eslintrc:config-array-factory Loaded: ./configs/eslintrc/eslint-recommended (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\configs\eslintrc\eslint-recommended.js)
+2025-12-01T19:08:24.025Z eslintrc:config-array-factory Loading JS config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\configs\eslintrc\eslint-recommended.js
+2025-12-01T19:08:24.029Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform.
+2025-12-01T19:08:24.032Z eslintrc:config-array-factory Loading package.json config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\package.json
+2025-12-01T19:08:24.032Z eslintrc:config-array-factory Loading JSON config file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\package.json
+2025-12-01T19:08:24.034Z eslintrc:config-array-factory Error reading package.json file: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\package.json
+2025-12-01T19:08:24.034Z eslintrc:config-array-factory Config file not found on C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform
+2025-12-01T19:08:24.034Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop.
+2025-12-01T19:08:24.035Z eslintrc:config-array-factory Config file not found on C:\Users\mucha.DESKTOP-H7T9NPM\Desktop
+2025-12-01T19:08:24.035Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM.
+2025-12-01T19:08:24.035Z eslintrc:cascading-config-array-factory Stop traversing because of considered root.
+2025-12-01T19:08:24.036Z eslintrc:config-array-factory Loading package.json config file: C:\Users\mucha.DESKTOP-H7T9NPM\package.json
+2025-12-01T19:08:24.036Z eslintrc:config-array-factory Loading JSON config file: C:\Users\mucha.DESKTOP-H7T9NPM\package.json
+2025-12-01T19:08:24.037Z eslintrc:config-array-factory Error reading package.json file: C:\Users\mucha.DESKTOP-H7T9NPM\package.json
+2025-12-01T19:08:24.080Z eslint:rules Loading rule 'constructor-super' (remaining=290)
+2025-12-01T19:08:24.084Z eslint:rules Loading rule 'getter-return' (remaining=289)
+2025-12-01T19:08:24.103Z eslint:rules Loading rule 'no-class-assign' (remaining=288)
+2025-12-01T19:08:24.105Z eslint:rules Loading rule 'no-const-assign' (remaining=287)
+2025-12-01T19:08:24.108Z eslint:rules Loading rule 'no-dupe-args' (remaining=286)
+2025-12-01T19:08:24.110Z eslint:rules Loading rule 'no-dupe-class-members' (remaining=285)
+2025-12-01T19:08:24.114Z eslint:rules Loading rule 'no-dupe-keys' (remaining=284)
+2025-12-01T19:08:24.117Z eslint:rules Loading rule 'no-func-assign' (remaining=283)
+2025-12-01T19:08:24.120Z eslint:rules Loading rule 'no-import-assign' (remaining=282)
+2025-12-01T19:08:24.124Z eslint:rules Loading rule 'no-new-native-nonconstructor' (remaining=281)
+2025-12-01T19:08:24.127Z eslint:rules Loading rule 'no-new-symbol' (remaining=280)
+2025-12-01T19:08:24.129Z eslint:rules Loading rule 'no-obj-calls' (remaining=279)
+2025-12-01T19:08:24.135Z eslint:rules Loading rule 'no-redeclare' (remaining=278)
+2025-12-01T19:08:24.137Z eslint:rules Loading rule 'no-setter-return' (remaining=277)
+2025-12-01T19:08:24.142Z eslint:rules Loading rule 'no-this-before-super' (remaining=276)
+2025-12-01T19:08:24.145Z eslint:rules Loading rule 'no-undef' (remaining=275)
+2025-12-01T19:08:24.149Z eslint:rules Loading rule 'no-unreachable' (remaining=274)
+2025-12-01T19:08:24.152Z eslint:rules Loading rule 'no-unsafe-negation' (remaining=273)
+2025-12-01T19:08:24.155Z eslint:rules Loading rule 'no-var' (remaining=272)
+2025-12-01T19:08:24.158Z eslint:rules Loading rule 'no-with' (remaining=271)
+2025-12-01T19:08:24.160Z eslint:rules Loading rule 'prefer-const' (remaining=270)
+2025-12-01T19:08:24.169Z eslint:rules Loading rule 'prefer-rest-params' (remaining=269)
+2025-12-01T19:08:24.172Z eslint:rules Loading rule 'prefer-spread' (remaining=268)
+2025-12-01T19:08:24.183Z eslint:rules Loading rule 'no-array-constructor' (remaining=267)
+2025-12-01T19:08:24.194Z eslint:rules Loading rule 'no-unused-expressions' (remaining=266)
+2025-12-01T19:08:24.201Z eslint:rules Loading rule 'no-unused-vars' (remaining=265)
+2025-12-01T19:08:24.220Z eslintrc:cascading-config-array-factory Configuration was determined: ConfigArray(15) [ { type: 'config', name: 'DefaultIgnorePattern', filePath: '', criteria: null, env: undefined, globals: undefined, ignorePattern: IgnorePattern { patterns: [Array], basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', loose: false }, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: undefined, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: undefined, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js ┬╗ plugin:react/recommended', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\eslint-plugin-react\\index.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: { ecmaFeatures: [Object] }, plugins: { react: [Object] }, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { 'react/display-name': 2, 'react/jsx-key': 2, 'react/jsx-no-comment-textnodes': 2, 'react/jsx-no-duplicate-props': 2, 'react/jsx-no-target-blank': 2, 'react/jsx-no-undef': 2, 'react/jsx-uses-react': 2, 'react/jsx-uses-vars': 2, 'react/no-children-prop': 2, 'react/no-danger-with-children': 2, 'react/no-deprecated': 2, 'react/no-direct-mutation-state': 2, 'react/no-find-dom-node': 2, 'react/no-is-mounted': 2, 'react/no-render-return-value': 2, 'react/no-string-refs': 2, 'react/no-unescaped-entities': 2, 'react/no-unknown-property': 2, 'react/no-unsafe': 0, 'react/prop-types': 2, 'react/react-in-jsx-scope': 2, 'react/require-render-return': 2 }, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js ┬╗ plugin:react-hooks/recommended', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-plugin-react-hooks\\index.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: { 'react-hooks': [Object] }, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { 'react-hooks/rules-of-hooks': 'error', 'react-hooks/exhaustive-deps': 'warn' }, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js ┬╗ plugin:@next/next/recommended', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\@next\\eslint-plugin-next\\dist\\index.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: { '@next/next': [Object] }, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { '@next/next/google-font-display': 'warn', '@next/next/google-font-preconnect': 'warn', '@next/next/next-script-for-ga': 'warn', '@next/next/no-async-client-component': 'warn', '@next/next/no-before-interactive-script-outside-document': 'warn', '@next/next/no-css-tags': 'warn', '@next/next/no-head-element': 'warn', '@next/next/no-html-link-for-pages': 'warn', '@next/next/no-img-element': 'warn', '@next/next/no-page-custom-font': 'warn', '@next/next/no-styled-jsx-in-document': 'warn', '@next/next/no-sync-scripts': 'warn', '@next/next/no-title-in-document-head': 'warn', '@next/next/no-typos': 'warn', '@next/next/no-unwanted-polyfillio': 'warn', '@next/next/inline-script-id': 'error', '@next/next/no-assign-module-variable': 'error', '@next/next/no-document-import-in-page': 'error', '@next/next/no-duplicate-head': 'error', '@next/next/no-head-import-in-document': 'error', '@next/next/no-script-component-in-head': 'error' }, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js', criteria: null, env: { browser: true, node: true }, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: { error: null, filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\parser.js', id: './parser.js', importerName: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js', importerPath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js' }, parserOptions: { requireConfigFile: false, sourceType: 'module', allowImportExportEverywhere: true, babelOptions: [Object] }, plugins: { import: [Object], react: [Object], 'jsx-a11y': [Object] }, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { 'import/no-anonymous-default-export': 'warn', 'react/no-unknown-property': 'off', 'react/react-in-jsx-scope': 'off', 'react/prop-types': 'off', 'jsx-a11y/alt-text': [Array], 'jsx-a11y/aria-props': 'warn', 'jsx-a11y/aria-proptypes': 'warn', 'jsx-a11y/aria-unsupported-elements': 'warn', 'jsx-a11y/role-has-required-aria-props': 'warn', 'jsx-a11y/role-supports-aria-props': 'warn', 'react/jsx-no-target-blank': 'off' }, settings: { react: [Object], 'import/parsers': [Object], 'import/resolver': [Object] } }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js#overrides[0]', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js', criteria: { includes: [Array], excludes: null, basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend' }, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: { error: null, filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\@typescript-eslint\\parser\\dist\\index.js', id: '@typescript-eslint/parser', importerName: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js#overrides[0]', importerPath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\index.js' }, parserOptions: { sourceType: 'module' }, plugins: undefined, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: undefined, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ plugin:@next/next/core-web-vitals ┬╗ plugin:@next/next/recommended', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\@next\\eslint-plugin-next\\dist\\index.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: { '@next/next': [Object] }, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { '@next/next/google-font-display': 'warn', '@next/next/google-font-preconnect': 'warn', '@next/next/next-script-for-ga': 'warn', '@next/next/no-async-client-component': 'warn', '@next/next/no-before-interactive-script-outside-document': 'warn', '@next/next/no-css-tags': 'warn', '@next/next/no-head-element': 'warn', '@next/next/no-html-link-for-pages': 'warn', '@next/next/no-img-element': 'warn', '@next/next/no-page-custom-font': 'warn', '@next/next/no-styled-jsx-in-document': 'warn', '@next/next/no-sync-scripts': 'warn', '@next/next/no-title-in-document-head': 'warn', '@next/next/no-typos': 'warn', '@next/next/no-unwanted-polyfillio': 'warn', '@next/next/inline-script-id': 'error', '@next/next/no-assign-module-variable': 'error', '@next/next/no-document-import-in-page': 'error', '@next/next/no-duplicate-head': 'error', '@next/next/no-head-import-in-document': 'error', '@next/next/no-script-component-in-head': 'error' }, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals ┬╗ plugin:@next/next/core-web-vitals', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\@next\\eslint-plugin-next\\dist\\index.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: { '@next/next': [Object] }, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { '@next/next/no-html-link-for-pages': 'error', '@next/next/no-sync-scripts': 'error' }, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/core-web-vitals', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\core-web-vitals.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: undefined, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: undefined, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/typescript ┬╗ plugin:@typescript-eslint/recommended ┬╗ ./configs/eslintrc/base', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\@typescript-eslint\\eslint-plugin\\dist\\configs\\eslintrc\\base.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: { error: null, filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\@typescript-eslint\\parser\\dist\\index.js', id: '@typescript-eslint/parser', importerName: '.eslintrc.json ┬╗ eslint-config-next/typescript ┬╗ plugin:@typescript-eslint/recommended ┬╗ ./configs/eslintrc/base', importerPath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\@typescript-eslint\\eslint-plugin\\dist\\configs\\eslintrc\\base.js' }, parserOptions: { sourceType: 'module' }, plugins: { '@typescript-eslint': [Object] }, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: undefined, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/typescript ┬╗ plugin:@typescript-eslint/recommended ┬╗ ./configs/eslintrc/eslint-recommended', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\@typescript-eslint\\eslint-plugin\\dist\\configs\\eslintrc\\eslint-recommended.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: undefined, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: undefined, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/typescript ┬╗ plugin:@typescript-eslint/recommended ┬╗ ./configs/eslintrc/eslint-recommended#overrides[0]', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\@typescript-eslint\\eslint-plugin\\dist\\configs\\eslintrc\\eslint-recommended.js', criteria: { includes: [Array], excludes: null, basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend' }, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: undefined, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { 'constructor-super': 'off', 'getter-return': 'off', 'no-class-assign': 'off', 'no-const-assign': 'off', 'no-dupe-args': 'off', 'no-dupe-class-members': 'off', 'no-dupe-keys': 'off', 'no-func-assign': 'off', 'no-import-assign': 'off', 'no-new-native-nonconstructor': 'off', 'no-new-symbol': 'off', 'no-obj-calls': 'off', 'no-redeclare': 'off', 'no-setter-return': 'off', 'no-this-before-super': 'off', 'no-undef': 'off', 'no-unreachable': 'off', 'no-unsafe-negation': 'off', 'no-var': 'error', 'no-with': 'off', 'prefer-const': 'error', 'prefer-rest-params': 'error', 'prefer-spread': 'error' }, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/typescript ┬╗ plugin:@typescript-eslint/recommended', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\@typescript-eslint\\eslint-plugin\\dist\\index.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: undefined, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { '@typescript-eslint/ban-ts-comment': 'error', 'no-array-constructor': 'off', '@typescript-eslint/no-array-constructor': 'error', '@typescript-eslint/no-duplicate-enum-values': 'error', '@typescript-eslint/no-empty-object-type': 'error', '@typescript-eslint/no-explicit-any': 'error', '@typescript-eslint/no-extra-non-null-assertion': 'error', '@typescript-eslint/no-misused-new': 'error', '@typescript-eslint/no-namespace': 'error', '@typescript-eslint/no-non-null-asserted-optional-chain': 'error', '@typescript-eslint/no-require-imports': 'error', '@typescript-eslint/no-this-alias': 'error', '@typescript-eslint/no-unnecessary-type-constraint': 'error', '@typescript-eslint/no-unsafe-declaration-merging': 'error', '@typescript-eslint/no-unsafe-function-type': 'error', 'no-unused-expressions': 'off', '@typescript-eslint/no-unused-expressions': 'error', 'no-unused-vars': 'off', '@typescript-eslint/no-unused-vars': 'error', '@typescript-eslint/no-wrapper-object-types': 'error', '@typescript-eslint/prefer-as-const': 'error', '@typescript-eslint/prefer-namespace-keyword': 'error', '@typescript-eslint/triple-slash-reference': 'error' }, settings: undefined }, { type: 'config', name: '.eslintrc.json ┬╗ eslint-config-next/typescript', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\node_modules\\eslint-config-next\\typescript.js', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: undefined, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: undefined, settings: undefined }, { type: 'config', name: '.eslintrc.json', filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\.eslintrc.json', criteria: null, env: undefined, globals: undefined, ignorePattern: undefined, noInlineConfig: undefined, parser: undefined, parserOptions: undefined, plugins: undefined, processor: undefined, reportUnusedDisableDirectives: undefined, root: undefined, rules: { '@typescript-eslint/no-explicit-any': 'warn', '@typescript-eslint/no-unused-vars': 'warn', 'react/no-unescaped-entities': 'warn' }, settings: undefined } ] on C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src
+2025-12-01T19:08:24.226Z eslintrc:ignore-pattern Create with: [ IgnorePattern { patterns: [ '/**/node_modules/*' ], basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', loose: false } ]
+2025-12-01T19:08:24.227Z eslintrc:ignore-pattern   processed: { basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', patterns: [ '/**/node_modules/*' ] }
+2025-12-01T19:08:24.229Z eslintrc:ignore-pattern Check {
+  filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\src\\app\\',
+  dot: false,
+  relativePath: 'src/app/',
+  result: false
+}
+2025-12-01T19:08:24.229Z eslint:file-enumerator Enter the directory: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app
+2025-12-01T19:08:24.232Z eslintrc:cascading-config-array-factory Load config files for C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app.
+2025-12-01T19:08:24.233Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app.
+2025-12-01T19:08:24.234Z eslintrc:config-array-factory Config file not found on C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app
+2025-12-01T19:08:24.234Z eslintrc:cascading-config-array-factory Cache hit: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src.
+2025-12-01T19:08:24.235Z eslintrc:ignore-pattern Check {
+  filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\src\\app\\about\\',
+  dot: false,
+  relativePath: 'src/app/about/',
+  result: false
+}
+2025-12-01T19:08:24.236Z eslint:file-enumerator Enter the directory: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about
+2025-12-01T19:08:24.236Z eslintrc:cascading-config-array-factory Load config files for C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about.
+2025-12-01T19:08:24.236Z eslintrc:cascading-config-array-factory No cache found: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about.
+2025-12-01T19:08:24.237Z eslintrc:config-array-factory Config file not found on C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about
+2025-12-01T19:08:24.237Z eslintrc:cascading-config-array-factory Cache hit: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app.
+2025-12-01T19:08:24.240Z eslintrc:ignore-pattern Create with: [ IgnorePattern { patterns: [ '/**/node_modules/*' ], basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', loose: false } ]
+2025-12-01T19:08:24.240Z eslintrc:ignore-pattern   processed: { basePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend', patterns: [ '/**/node_modules/*' ] }
+2025-12-01T19:08:24.240Z eslintrc:ignore-pattern Check {
+  filePath: 'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\frontend\\src\\app\\about\\page.tsx',
+  dot: false,
+  relativePath: 'src/app/about/page.tsx',
+  result: false
+}
+2025-12-01T19:08:24.240Z eslint:file-enumerator Yield: page.tsx
+2025-12-01T19:08:24.240Z eslintrc:cascading-config-array-factory Load config files for C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about.
+2025-12-01T19:08:24.240Z eslintrc:cascading-config-array-factory Cache hit: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about.
+2025-12-01T19:08:24.242Z eslint:cli-engine Lint C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx
+2025-12-01T19:08:24.242Z eslint:linter Linting code for C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx (pass 1)
+2025-12-01T19:08:24.242Z eslint:linter Verify
+2025-12-01T19:08:24.242Z eslint:linter With ConfigArray: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx
+2025-12-01T19:08:24.249Z eslint:linter Parsing: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx
+2025-12-01T19:08:24.368Z eslint:linter Parsing successful: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx
+2025-12-01T19:08:24.368Z eslint:linter Scope analysis: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx
+2025-12-01T19:08:24.368Z eslint:linter Scope analysis successful: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx
+2025-12-01T19:08:24.384Z eslint:linter An error occurred while traversing
+2025-12-01T19:08:24.384Z eslint:linter Filename: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx
+2025-12-01T19:08:24.385Z eslint:linter Parser Options: {
+  ecmaFeatures: { globalReturn: false, jsx: true },
+  sourceType: 'module',
+  requireConfigFile: false,
+  allowImportExportEverywhere: true,
+  babelOptions: {
+    presets: [ 'next/babel' ],
+    caller: { supportsTopLevelAwait: true }
+  },
+  ecmaVersion: undefined
+}
+2025-12-01T19:08:24.385Z eslint:linter Parser Path: C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\parser\dist\index.js
+2025-12-01T19:08:24.385Z eslint:linter Settings: {
+  react: { version: 'detect' },
+  'import/parsers': {
+    'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\@typescript-eslint\\parser\\dist\\index.js': [ '.ts', '.mts', '.cts', '.tsx', '.d.ts' ]
+  },
+  'import/resolver': {
+    'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\eslint-import-resolver-node\\index.js': { extensions: [Array] },
+    'C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\node_modules\\eslint-import-resolver-typescript\\lib\\index.cjs': { alwaysTryTypes: true }
+  }
+}
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Error while loading rule '@typescript-eslint/no-unused-expressions': Cannot read properties of undefined (reading 'allowShortCircuit')
+Occurred while linting C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\src\app\about\page.tsx
+    at Object.create (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\eslint\lib\rules\no-unused-expressions.js:85:5)
+    at create (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\eslint-plugin\dist\rules\no-unused-expressions.js:30:32)
+    at Object.create (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\node_modules\@typescript-eslint\utils\dist\eslint-utils\RuleCreator.js:31:20)
+    at createRuleListeners (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint\lib\linter\linter.js:895:21)
+    at C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint\lib\linter\linter.js:1066:110
+    at Array.forEach (<anonymous>)
+    at runRules (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint\lib\linter\linter.js:1003:34)
+    at Linter._verifyWithoutProcessors (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint\lib\linter\linter.js:1355:31)
+    at Linter._verifyWithConfigArray (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint\lib\linter\linter.js:1807:21)
+    at Linter.verify (C:\Users\mucha.DESKTOP-H7T9NPM\Desktop\-modular-saas-platform\frontend\node_modules\eslint\lib\linter\linter.js:1437:65)

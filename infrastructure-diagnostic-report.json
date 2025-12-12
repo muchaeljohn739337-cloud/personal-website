@@ -1,0 +1,122 @@
+{
+  "timestamp": "2025-11-03T19:27:44.404Z",
+  "issues": {
+    "RENDER_BACKEND_404": {
+      "name": "Render Backend 404 Error",
+      "url": "https://advancia-backend-upnrf.onrender.com",
+      "description": "Backend service returning 404 on direct access",
+      "status": "UNKNOWN",
+      "fixes": [
+        "Check Render service status and logs",
+        "Verify build configuration and environment variables",
+        "Check if service is suspended due to inactivity",
+        "Verify database connectivity",
+        "Check application startup logs"
+      ]
+    },
+    "CUSTOM_FRONTEND_522": {
+      "name": "Custom Frontend 522 Error",
+      "url": "https://advanciapayledger.com",
+      "description": "Cloudflare 522 connection timeout to origin",
+      "status": "UNKNOWN",
+      "fixes": [
+        "Check Vercel deployment status",
+        "Verify DNS configuration for custom domain",
+        "Check Cloudflare DNS settings",
+        "Verify SSL certificate status",
+        "Check Vercel domain configuration"
+      ]
+    },
+    "CUSTOM_API_502": {
+      "name": "Custom API 502 Error",
+      "url": "https://api.advanciapayledger.com",
+      "description": "Bad gateway error on custom API domain",
+      "status": "UNKNOWN",
+      "fixes": [
+        "Check Render custom domain configuration",
+        "Verify DNS settings for API subdomain",
+        "Check SSL certificate for custom domain",
+        "Verify Render service is running",
+        "Check load balancer configuration"
+      ]
+    },
+    "SSL_CERTIFICATES": {
+      "name": "SSL Certificate Issues",
+      "description": "SSL certificates not validating properly",
+      "status": "UNKNOWN",
+      "fixes": [
+        "Check Let's Encrypt certificate status",
+        "Verify domain ownership in hosting platforms",
+        "Check DNS CAA records",
+        "Verify certificate renewal process",
+        "Check mixed content issues"
+      ]
+    }
+  },
+  "testResults": {
+    "RENDER_BACKEND_404": {
+      "name": "Render Backend 404 Error",
+      "url": "https://advancia-backend-upnrf.onrender.com",
+      "statusCode": 404,
+      "expectedStatus": 200,
+      "success": false,
+      "responseTime": 1986,
+      "sslValid": true,
+      "error": null
+    },
+    "CUSTOM_FRONTEND_522": {
+      "name": "Custom Frontend 522 Error",
+      "url": "https://advanciapayledger.com",
+      "statusCode": 522,
+      "expectedStatus": 200,
+      "success": false,
+      "responseTime": 604,
+      "sslValid": true,
+      "error": null
+    },
+    "CUSTOM_API_502": {
+      "name": "Custom API 502 Error",
+      "url": "https://api.advanciapayledger.com",
+      "statusCode": 200,
+      "expectedStatus": 200,
+      "success": true,
+      "responseTime": 866,
+      "sslValid": true,
+      "error": null
+    },
+    "VERCEL_FRONTEND": {
+      "name": "Vercel Frontend (Working)",
+      "url": "https://modular-saas-platform-frontend.vercel.app",
+      "statusCode": 200,
+      "expectedStatus": 200,
+      "success": true,
+      "responseTime": 374,
+      "sslValid": true,
+      "error": null
+    },
+    "CUSTOM_API_HEALTH": {
+      "name": "Custom API Health",
+      "url": "https://api.advanciapayledger.com/api/health",
+      "statusCode": 200,
+      "expectedStatus": 200,
+      "success": true,
+      "responseTime": 1010,
+      "sslValid": true,
+      "error": null
+    }
+  },
+  "recommendations": {
+    "priority1": [
+      "Check Render service status and logs",
+      "Verify Vercel deployment and domain configuration",
+      "Validate DNS settings for custom domains",
+      "Check SSL certificate status"
+    ],
+    "priority2": [
+      "Re-run diagnostic script after fixes",
+      "Use comprehensive production verification",
+      "Set up monitoring and alerts",
+      "Document troubleshooting procedures"
+    ]
+  }
+}

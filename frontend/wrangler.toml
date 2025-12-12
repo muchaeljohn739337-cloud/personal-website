@@ -1,0 +1,41 @@
+name = "advancia-ai-connector"
+main = "functions/ai-connector.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Account Configuration
+account_id = "74ecde4d46d4b399c7295cf599d2886b"
+
+# KV Namespaces for data storage
+[[kv_namespaces]]
+binding = "ADVANCIA_DATA"
+id = "3bdece1ca0824daeaaecaccfd220895c"
+
+# Durable Objects for AI state management
+[durable_objects]
+bindings = [
+  { name = "AI_STATE", class_name = "AIStateManager" }
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["AIStateManager"]
+
+# Development settings
+[dev]
+port = 8787
+local_protocol = "http"
+
+# Production environment
+[env.production]
+name = "advancia-ai-connector"
+
+[env.production.vars]
+NODE_ENV = "production"
+
+# Preview environment
+[env.preview]
+name = "advancia-ai-connector-preview"
+
+[env.preview.vars]
+NODE_ENV = "preview"

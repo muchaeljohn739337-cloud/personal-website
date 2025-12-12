@@ -1,0 +1,233 @@
+# Approval Policy for AI-Proposed Changes
+# Defines risk levels, thresholds, and approval requirements
+
+version: "1.0"
+enabled: true
+
+# Risk level definitions and approval requirements
+risk_levels:
+  LOW:
+    description: "Non-destructive changes, minor bugfixes, logging updates"
+    auto_apply: true
+    min_confidence: 0.85
+    approvals_required: 0
+    approver_roles: []
+    require_2fa: false
+    delay_seconds: 0
+    sandbox_required: false
+    examples:
+      - "Update log message text"
+      - "Fix typo in error message"
+      - "Add new read-only API endpoint"
+      - "Update documentation"
+
+  MEDIUM:
+    description: "Config changes, DB migrations, feature flags, partial downtime"
+    auto_apply: false
+    min_confidence: 0.75
+    approvals_required: 1
+    approver_roles: ["admin", "ops"]
+    require_2fa: false
+    delay_seconds: 0
+    sandbox_required: true
+    sandbox_timeout_seconds: 600
+    examples:
+      - "Database schema migration (additive only)"
+      - "Update environment configuration"
+      - "Change rate limit thresholds"
+      - "Deploy new microservice version"
+      - "Update API endpoint logic"
+    rollback_plan_required: true
+
+  HIGH:
+    description: "Wallet transfers, production DB changes, account operations, security changes"
+    auto_apply: false
+    min_confidence: 0.90
+    approvals_required: 2
+    approver_roles: ["admin"]
+    require_2fa: true
+    delay_seconds: 3600 # 1 hour delay unless emergency unfreeze
+    sandbox_required: true
+    sandbox_timeout_seconds: 1800
+    examples:
+      - "Process cryptocurrency withdrawal"
+      - "Modify user account balance"
+      - "Delete production database records"
+      - "Change authentication logic"
+      - "Update payment processing code"
+      - "Suspend user account"
+    rollback_plan_required: true
+    impact_analysis_required: true
+    change_window_required: true
+
+  EMERGENCY:
+    description: "System-wide lockdown, active attack response, critical security incident"
+    auto_apply: false
+    min_confidence: 0.95
+    approvals_required: 2
+    approver_roles: ["admin"]
+    require_2fa: true
+    delay_seconds: 0 # No delay for emergencies
+    sandbox_required: false # Skip sandbox in emergencies
+    immediate_notification: true
+    examples:
+      - "Enable system-wide lockdown mode"
+      - "Block IP ranges during active attack"
+      - "Disable compromised user accounts"
+      - "Emergency database rollback"
+      - "Activate incident response playbook"
+    post_mortem_required: true
+
+# Role-Based Access Control (RBAC)
+roles:
+  admin:
+    description: "Full system administrator"
+    permissions:
+      - approve_low
+      - approve_medium
+      - approve_high
+      - approve_emergency
+      - access_audit_logs
+      - pause_automation
+      - trigger_rollback
+      - emergency_unfreeze
+      - view_all_metrics
+    require_2fa: true
+
+  ops:
+    description: "Operations team member"
+    permissions:
+      - approve_low
+      - approve_medium
+      - view_metrics
+      - access_audit_logs
+      - trigger_rollback
+    require_2fa: false
+
+  viewer:
+    description: "Read-only access"
+    permissions:
+      - view_metrics
+      - view_audit_logs
+    require_2fa: false
+
+# Confidence thresholds for auto-approval
+confidence_thresholds:
+  auto_apply_low: 0.85
+  auto_apply_medium: 0.90 # Not used since medium requires approval
+  flag_for_review: 0.70 # Below this, always flag for manual review
+  reject_automatic: 0.50 # Below this, automatically reject
+
+# Sandbox test requirements
+sandbox:
+  enabled: true
+  timeout_default: 600 # 10 minutes
+  timeout_max: 1800 # 30 minutes
+  resource_limits:
+    cpu: "1000m"
+    memory: "2Gi"
+    disk: "10Gi"
+  network_isolation: true
+  required_tests:
+    - unit_tests
+    - integration_tests
+    - security_scan
+  pass_criteria:
+    min_test_coverage: 0.80
+    max_security_issues: 0
+    max_failed_tests: 0
+
+# Change windows (when high-risk changes can be applied)
+change_windows:
+  production:
+    allowed_days: ["tuesday", "wednesday", "thursday"]
+    allowed_hours: "02:00-06:00" # UTC
+    timezone: "UTC"
+    blackout_dates:
+      - "2025-12-24" # Christmas Eve
+      - "2025-12-25" # Christmas
+      - "2025-12-31" # New Year's Eve
+      - "2026-01-01" # New Year's Day
+
+  staging:
+    allowed_days: ["monday", "tuesday", "wednesday", "thursday", "friday"]
+    allowed_hours: "00:00-23:59"
+    timezone: "UTC"
+
+# Approval workflow settings
+workflow:
+  approval_timeout: 86400 # 24 hours
+  reminder_interval: 3600 # 1 hour
+  escalation_after: 14400 # 4 hours
+  auto_reject_after_timeout: false
+
+  notifications:
+    channels:
+      - slack
+      - email
+      - in_app
+
+    slack:
+      webhook_env: "SLACK_APPROVALS_WEBHOOK"
+      mention_approvers: true
+
+    email:
+      from: "mom-ai@advancia.com"
+      template: "approval_request"
+
+# Audit and compliance
+audit:
+  log_all_decisions: true
+  log_approval_requests: true
+  log_denials: true
+  retention_days: 365
+  immutable: true
+
+  required_fields:
+    - request_id
+    - user_id
+    - timestamp
+    - risk_level
+    - confidence_score
+    - decision
+    - approvers
+    - execution_result
+
+# Rate limiting for AI operations
+rate_limits:
+  max_proposals_per_hour: 100
+  max_high_risk_per_day: 10
+  max_emergency_per_day: 5
+  max_sandbox_runs_per_hour: 50
+
+# Rollback configuration
+rollback:
+  automatic_on_failure: true
+  keep_backup_versions: 5
+  backup_retention_days: 30
+
+  triggers:
+    - error_rate_increase: 0.10 # 10% increase
+    - response_time_increase: 2.0 # 2x slower
+    - health_check_failures: 3
+    - manual_trigger: true
+
+# Monitoring and alerting
+monitoring:
+  track_approval_times: true
+  track_confidence_accuracy: true
+  track_sandbox_results: true
+  track_rollback_frequency: true
+
+  alerts:
+    - condition: "approval_time > 3600"
+      severity: MEDIUM
+      message: "Approval taking longer than 1 hour"
+
+    - condition: "confidence_drift > 0.20"
+      severity: HIGH
+      message: "AI confidence accuracy drifting"
+
+    - condition: "rollback_rate > 0.10"
+      severity: HIGH
+      message: "High rollback rate detected"

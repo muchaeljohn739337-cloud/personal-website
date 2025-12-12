@@ -1,0 +1,62 @@
+{
+  "pipelineId": "pipeline_1764533794893_6hyo56lrp",
+  "projectPath": "C:\\Users\\mucha.DESKTOP-H7T9NPM\\Desktop\\-modular-saas-platform\\backend",
+  "environment": "development",
+  "startTime": "2025-11-30T20:16:34.893Z",
+  "steps": [
+    {
+      "step": 1,
+      "name": "auto_lint",
+      "status": "success",
+      "duration": 338,
+      "details": {
+        "success": true,
+        "filesScanned": 12,
+        "violationsFound": 2373,
+        "violationsFixed": 2373,
+        "duration": 338
+      }
+    },
+    {
+      "step": 2,
+      "name": "stack_solver",
+      "status": "success",
+      "duration": 67028,
+      "details": {
+        "success": true,
+        "errorsDetected": 14,
+        "errorsFixed": 11,
+        "packagesInstalled": 3,
+        "duration": 67028
+      }
+    },
+    {
+      "step": 3,
+      "name": "ai_visioning",
+      "status": "success",
+      "duration": 8,
+      "details": {
+        "success": true,
+        "plansAnalyzed": 1,
+        "errorsDetected": 0,
+        "correctionsApplied": 0,
+        "duration": 8
+      }
+    },
+    {
+      "step": 4,
+      "name": "debugging_ai",
+      "status": "success",
+      "duration": 7,
+      "details": {
+        "success": true,
+        "errorsDetected": 0,
+        "errorsFixed": 0,
+        "testsGenerated": 0,
+        "duration": 7
+      }
+    }
+  ],
+  "success": true,
+  "issuesFixed": 2384
+}

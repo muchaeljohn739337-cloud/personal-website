@@ -1,0 +1,2324 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // NOTE: This configuration is correct for Prisma 6.x (current version: 6.19.0)
+  // Prisma 7 will require moving connection URL to prisma.config.ts
+  // The warning can be safely ignored until we upgrade to Prisma 7
+}
+
+model RPAExecution {
+  id          String      @id
+  workflowId  String
+  status      String      @default("RUNNING")
+  trigger     Json
+  steps       Json
+  error       String?
+  startedAt   DateTime    @default(now())
+  completedAt DateTime?
+  RPAWorkflow RPAWorkflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  @@index([workflowId])
+  @@index([status])
+  @@index([startedAt])
+}
+
+model RPAWorkflow {
+  id           String         @id
+  name         String
+  description  String?
+  trigger      Json
+  actions      Json
+  enabled      Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime
+  createdById  String
+  RPAExecution RPAExecution[]
+  users        users          @relation(fields: [createdById], references: [id])
+
+  @@index([enabled])
+  @@index([createdById])
+}
+
+model activity_logs {
+  id        String   @id
+  userId    String?
+  action    String
+  ipAddress String
+  userAgent String
+  metadata  Json?
+  createdAt DateTime @default(now())
+}
+
+model admin_login_logs {
+  id        Int      @id @default(autoincrement())
+  email     String
+  phone     String?
+  status    String
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([email])
+}
+
+model admin_portfolios {
+  id        String   @id
+  currency  String   @unique
+  balance   Decimal  @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+}
+
+model admin_settings {
+  id                   String   @id
+  btcAddress           String?
+  ethAddress           String?
+  usdtAddress          String?
+  ltcAddress           String?
+  otherAddresses       String?
+  exchangeRateBtc      Decimal?
+  exchangeRateEth      Decimal?
+  exchangeRateUsdt     Decimal?
+  processingFeePercent Decimal  @default(2.5)
+  minPurchaseAmount    Decimal  @default(10)
+  debitCardPriceUSD    Decimal  @default(1000)
+  updatedAt            DateTime
+  createdAt            DateTime @default(now())
+}
+
+model admin_transfers {
+  id        String   @id
+  adminId   String?
+  userId    String?
+  currency  String
+  amount    Decimal
+  note      String?
+  source    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([currency])
+}
+
+model ai_generations {
+  id          String    @id
+  userId      String
+  type        String
+  model       String
+  prompt      String
+  output      String?
+  imageUrl    String?
+  metadata    String?
+  status      String    @default("pending")
+  error       String?
+  createdAt   DateTime  @default(now())
+  lastRotated DateTime?
+  users       users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([type])
+  @@index([userId])
+}
+
+model ai_models {
+  id              String    @id
+  name            String
+  version         String
+  modelType       String
+  accuracy        Decimal?
+  precision       Decimal?
+  recall          Decimal?
+  f1Score         Decimal?
+  trainingSamples Int       @default(0)
+  modelPath       String?
+  isActive        Boolean   @default(false)
+  trainedBy       String?
+  trainedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime
+
+  @@index([isActive])
+  @@index([modelType])
+}
+
+model ai_suggestions {
+  id           String    @id
+  user_id      String
+  type         String
+  content      String
+  accepted     Boolean   @default(false)
+  dismissed_at DateTime?
+  created_at   DateTime  @default(now())
+
+  @@index([created_at])
+  @@index([type])
+  @@index([user_id])
+}
+
+model ai_training_data {
+  id         String    @id
+  userId     String?
+  ipAddress  String
+  userAgent  String
+  features   Json
+  label      Boolean
+  verifiedBy String?
+  verifiedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([createdAt])
+  @@index([verifiedBy])
+  @@index([label])
+}
+
+model ai_usage_metrics {
+  id               String   @id
+  userId           String
+  date             DateTime @default(now())
+  textGenerations  Int      @default(0)
+  codeGenerations  Int      @default(0)
+  imageGenerations Int      @default(0)
+  tokensUsed       Int      @default(0)
+  costUSD          Decimal  @default(0)
+  users            users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([date])
+  @@index([userId])
+}
+
+model app_roles {
+  id         String   @id
+  name       String   @unique
+  token      String   @unique
+  policies   Json
+  expires_at DateTime
+  created_by String
+  created_at DateTime @default(now())
+
+  @@index([expires_at])
+  @@index([token])
+  @@index([name])
+}
+
+model audit_logs {
+  id             String   @id
+  userId         String?
+  adminId        String?  // Admin who performed the action (for ledger operations)
+  action         String
+  resourceType   String?  // Made optional for ledger operations
+  resourceId     String?  // Made optional for ledger operations
+  changes        Json?
+  previousValues Json?
+  newValues      Json?
+  details        Json?    // Additional details for financial operations
+  metadata       Json?
+  ipAddress      String?
+  userAgent      String?
+  severity       String?
+  timestamp      DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  user  users? @relation("audit_user_rel", fields: [userId], references: [id], onDelete: Cascade)
+  admin users? @relation("audit_admin_rel", fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([timestamp])
+  @@index([resourceId])
+  @@index([resourceType])
+  @@index([userId])
+  @@index([adminId])
+}
+
+model backup_codes {
+  id        String    @id
+  userId    String
+  code      String    @unique
+  isUsed    Boolean   @default(false)
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([isUsed])
+  @@index([code])
+  @@index([userId])
+}
+
+model blockchain_verifications {
+  id            String    @id
+  manifest_hash String
+  version       String
+  tx_hash       String?   @unique
+  record_id     Int?
+  status        String    @default("PENDING")
+  blockchain    String    @default("polygon")
+  confirmed_at  DateTime?
+  created_at    DateTime  @default(now())
+
+  @@index([created_at])
+  @@index([version])
+  @@index([status])
+}
+
+model bot_detections {
+  id         String    @id
+  userId     String?
+  ipAddress  String
+  userAgent  String
+  isBot      Boolean
+  confidence Decimal
+  riskScore  Decimal   @default(0)
+  signals    Json?
+  action     String?
+  reviewedBy String?
+  reviewedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([createdAt])
+  @@index([isBot])
+  @@index([ipAddress])
+  @@index([userId])
+}
+
+model chat_messages {
+  id         String   @id
+  sessionId  String
+  senderType String
+  senderId   String?
+  content    String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+}
+
+model chat_sessions {
+  id              String   @id
+  userId          String?
+  status          String   @default("open")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime
+  assignedAdminId String?
+}
+
+model click_events {
+  id         String   @id
+  userId     String?
+  eventName  String
+  ipAddress  String
+  userAgent  String
+  isRobot    Boolean  @default(false)
+  confidence Decimal?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([isRobot])
+  @@index([eventName])
+  @@index([userId])
+}
+
+model codebase_index {
+  id          String   @id
+  filePath    String   @unique
+  content     String
+  embedding   String?
+  lastIndexed DateTime @default(now())
+
+  @@index([lastIndexed])
+  @@index([filePath])
+}
+
+model compliance_alerts {
+  id               String    @id
+  alert_type       String
+  severity         String
+  user_id          String?
+  transaction_id   String?
+  description      String
+  details          Json?
+  status           String    @default("OPEN")
+  assigned_to      String?
+  resolution_notes String?
+  created_at       DateTime  @default(now())
+  resolved_at      DateTime?
+
+  @@index([created_at])
+  @@index([user_id])
+  @@index([severity])
+  @@index([status])
+}
+
+model compliance_logs {
+  id                String   @id
+  jurisdiction      String
+  event_type        String
+  user_id           String?
+  payment_id        String?
+  payload           Json
+  compliance_result Json
+  processor         String?
+  risk_score        Decimal?
+  violations        Json?
+  auto_corrected    Boolean  @default(false)
+  timestamp         DateTime @default(now())
+  created_at        DateTime @default(now())
+
+  @@index([processor])
+  @@index([timestamp])
+  @@index([user_id])
+  @@index([event_type])
+  @@index([jurisdiction])
+}
+
+model consultation_messages {
+  id             String   @id
+  consultationId String
+  senderType     String
+  senderId       String
+  content        String
+  attachmentUrl  String?
+  createdAt      DateTime @default(now())
+}
+
+model consultations {
+  id           String    @id
+  patientId    String
+  doctorId     String
+  status       String    @default("SCHEDULED")
+  scheduledAt  DateTime?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  symptoms     String?
+  diagnosis    String?
+  prescription String?
+  notes        String?
+  videoRoomId  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime
+}
+
+model copilot_feedback {
+  id            String        @id
+  taskId        String
+  userId        String
+  rating        Int
+  comment       String?
+  timestamp     DateTime      @default(now())
+  copilot_tasks copilot_tasks @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([rating])
+  @@index([userId])
+  @@index([taskId])
+}
+
+model copilot_interactions {
+  id        String   @id
+  userId    String
+  sessionId String
+  message   String
+  response  String
+  timestamp DateTime @default(now())
+
+  @@index([timestamp])
+  @@index([sessionId])
+  @@index([userId])
+}
+
+model copilot_tasks {
+  id               String             @id
+  type             String
+  description      String
+  context          Json?
+  status           String             @default("pending")
+  result           Json?
+  error            String?
+  createdAt        DateTime           @default(now())
+  completedAt      DateTime?
+  copilot_feedback copilot_feedback[]
+
+  @@index([createdAt])
+  @@index([type])
+  @@index([status])
+}
+
+model crisis_events {
+  id          String    @id
+  type        String
+  severity    Int
+  description String
+  indicators  Json
+  actions     Json?
+  resolved_at DateTime?
+  created_at  DateTime  @default(now())
+
+  @@index([created_at])
+  @@index([severity])
+  @@index([type])
+}
+
+model crypto_orders {
+  id                String    @id
+  userId            String
+  cryptoType        String
+  usdAmount         Decimal
+  cryptoAmount      Decimal
+  exchangeRate      Decimal
+  processingFee     Decimal
+  totalUsd          Decimal
+  status            String    @default("PENDING")
+  adminAddress      String
+  txHash            String?
+  adminNotes        String?
+  userWalletAddress String?
+  stripeSessionId   String?
+  completedAt       DateTime?
+  cancelledAt       DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime
+
+  @@index([createdAt])
+  @@index([cryptoType])
+  @@index([status])
+  @@index([userId])
+}
+
+model crypto_withdrawals {
+  id                String    @id
+  userId            String
+  cryptoType        String
+  cryptoAmount      Decimal
+  usdEquivalent     Decimal
+  withdrawalAddress String
+  status            String    @default("PENDING")
+  adminApprovedBy   String?
+  adminNotes        String?
+  txHash            String?
+  networkFee        Decimal?
+  approvedAt        DateTime?
+  rejectedAt        DateTime?
+  completedAt       DateTime?
+  cancelledAt       DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime
+  users             users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([cryptoType])
+  @@index([status])
+  @@index([userId])
+}
+
+model debit_cards {
+  id             String   @id
+  userId         String
+  cardNumber     String   @unique
+  cardHolderName String
+  expiryMonth    Int
+  expiryYear     Int
+  cvv            String
+  cardType       String   @default("virtual")
+  status         String   @default("ACTIVE")
+  balance        Decimal  @default(0)
+  dailyLimit     Decimal  @default(1000)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime
+
+  @@index([status])
+  @@index([cardNumber])
+  @@index([userId])
+}
+
+model doctors {
+  id             String    @id
+  email          String
+  passwordHash   String
+  firstName      String
+  lastName       String
+  specialization String
+  licenseNumber  String
+  phoneNumber    String?
+  status         String    @default("PENDING")
+  verifiedAt     DateTime?
+  verifiedBy     String?
+  inviteCode     String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime
+}
+
+model eth_activity {
+  id                String   @id
+  userId            String?
+  address           String
+  addressNormalized String
+  type              String
+  txHash            String?  @unique
+  amountEth         Decimal
+  status            String
+  confirmations     Int      @default(0)
+  blockNumber       Int?
+  note              String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime
+
+  @@index([createdAt])
+  @@index([type])
+  @@index([addressNormalized])
+}
+
+model fraud_scores {
+  id            String    @id
+  userId        String
+  transactionId String?
+  score         Decimal
+  factors       Json?
+  status        String    @default("pending")
+  reviewedBy    String?
+  reviewedAt    DateTime?
+  createdAt     DateTime  @default(now())
+
+  @@index([status])
+  @@index([score])
+  @@index([transactionId])
+  @@index([userId])
+}
+
+model health_readings {
+  id               String   @id
+  userId           String
+  heartRate        Int?
+  bloodPressureSys Int?
+  bloodPressureDia Int?
+  steps            Int?
+  sleepHours       Decimal?
+  sleepQuality     String?
+  weight           Decimal?
+  temperature      Decimal?
+  oxygenLevel      Int?
+  stressLevel      String?
+  mood             String?
+  deviceId         String?
+  deviceType       String?
+  metadata         String?
+  notes            String?
+  recordedAt       DateTime @default(now())
+  createdAt        DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([recordedAt])
+  @@index([userId])
+}
+
+model ip_blocks {
+  id        String    @id
+  ip        String    @unique
+  reason    String?
+  until     DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+
+  @@index([updatedAt])
+}
+
+model jurisdiction_rules {
+  id                   String   @id
+  jurisdiction         String   @unique
+  regulators           String
+  requirements         Json
+  allowed_processors   String
+  restricted_countries String
+  compliance_level     String
+  enabled              Boolean  @default(true)
+  last_updated         DateTime @default(now())
+  created_at           DateTime @default(now())
+
+  @@index([compliance_level])
+  @@index([enabled])
+}
+
+model loans {
+  id               String    @id
+  userId           String
+  amount           Decimal
+  interestRate     Decimal
+  termMonths       Int
+  monthlyPayment   Decimal
+  remainingBalance Decimal
+  status           String    @default("pending")
+  purpose          String
+  startDate        DateTime  @default(now())
+  dueDate          DateTime
+  approvedBy       String?
+  approvedAt       DateTime?
+  paidOffAt        DateTime?
+  defaultedAt      DateTime?
+  cancelledAt      DateTime?
+  adminNotes       String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([userId])
+}
+
+model market_intelligence {
+  id         String   @id
+  source     String
+  category   String
+  data       Json
+  sentiment  String?
+  importance Int      @default(5)
+  created_at DateTime @default(now())
+
+  @@index([sentiment])
+  @@index([source])
+  @@index([created_at, category])
+}
+
+model medbeds_bookings {
+  id              String   @id
+  userId          String
+  chamberType     String
+  chamberName     String
+  sessionDate     DateTime
+  duration        Int
+  cost            Decimal
+  paymentMethod   String
+  paymentStatus   String   @default("pending")
+  transactionId   String?
+  stripeSessionId String?
+  status          String   @default("scheduled")
+  effectiveness   Int?
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime
+  users           users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([paymentStatus])
+  @@index([status])
+  @@index([sessionDate])
+  @@index([userId])
+}
+
+model notification_logs {
+  id             String    @id
+  notificationId String
+  channel        String
+  status         String
+  errorMessage   String?
+  sentAt         DateTime  @default(now())
+  deliveredAt    DateTime?
+  metadata       Json?
+
+  @@index([channel])
+  @@index([sentAt])
+  @@index([status])
+  @@index([notificationId])
+}
+
+model notification_preferences {
+  id                String   @id
+  userId            String   @unique
+  emailEnabled      Boolean  @default(true)
+  smsEnabled        Boolean  @default(false)
+  inAppEnabled      Boolean  @default(true)
+  pushEnabled       Boolean  @default(true)
+  transactionAlerts Boolean  @default(true)
+  securityAlerts    Boolean  @default(true)
+  systemAlerts      Boolean  @default(true)
+  rewardAlerts      Boolean  @default(true)
+  adminAlerts       Boolean  @default(true)
+  promotionalEmails Boolean  @default(false)
+  enableDigest      Boolean  @default(false)
+  digestFrequency   String   @default("daily")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime
+}
+
+model notifications {
+  id          String    @id
+  userId      String
+  type        String
+  priority    String    @default("normal")
+  category    String
+  title       String
+  message     String
+  data        Json?
+  isRead      Boolean   @default(false)
+  readAt      DateTime?
+  emailSent   Boolean   @default(false)
+  emailSentAt DateTime?
+  smsSent     Boolean   @default(false)
+  smsSentAt   DateTime?
+  pushSent    Boolean   @default(false)
+  pushSentAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+
+  @@index([priority])
+  @@index([category])
+  @@index([createdAt])
+  @@index([isRead])
+  @@index([userId])
+}
+
+model oal_audit_log {
+  id          String   @id
+  object      String
+  action      String
+  location    String
+  subjectId   String?
+  metadata    Json?
+  status      String   @default("PENDING")
+  createdById String
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+
+  @@index([createdAt])
+  @@index([subjectId])
+  @@index([createdById])
+  @@index([status])
+  @@index([location])
+  @@index([action])
+  @@index([object])
+}
+
+model processor_configs {
+  id                   String    @id
+  processor_id         String    @unique
+  processor_name       String
+  jurisdictions        String
+  features             String
+  fees                 Json
+  settlement_time_days Int
+  max_amount           Decimal
+  rating               Decimal   @default(0.80)
+  enabled              Boolean   @default(true)
+  api_credentials      Json?
+  last_health_check    DateTime?
+  created_at           DateTime  @default(now())
+  updated_at           DateTime  @default(now())
+
+  @@index([processor_id])
+  @@index([enabled])
+}
+
+model push_subscriptions {
+  id         String   @id
+  userId     String
+  endpoint   String
+  p256dh     String
+  auth       String
+  deviceInfo Json?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+
+  @@unique([userId, endpoint])
+  @@index([isActive])
+  @@index([userId])
+}
+
+model rewards {
+  id          String    @id
+  userId      String
+  type        String
+  amount      Decimal
+  status      String    @default("PENDING")
+  title       String
+  description String
+  metadata    String?
+  expiresAt   DateTime?
+  claimedAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([createdAt])
+  @@index([type])
+  @@index([status])
+  @@index([userId])
+}
+
+model risk_assessments {
+  id                      String    @id
+  user_id                 String
+  transaction_id          String?
+  risk_score              Decimal
+  risk_level              String
+  risk_factors            Json
+  assessment_reason       String?
+  adaptive_policy_applied Boolean   @default(false)
+  assessed_at             DateTime  @default(now())
+  expires_at              DateTime?
+  created_at              DateTime  @default(now())
+
+  @@index([expires_at])
+  @@index([assessed_at])
+  @@index([risk_level])
+  @@index([user_id])
+}
+
+model scam_addresses {
+  address     String   @id
+  blockchain  String
+  category    String
+  severity    Int
+  source      String
+  reported_at DateTime
+  created_at  DateTime @default(now())
+
+  @@index([category])
+  @@index([blockchain, severity])
+}
+
+model security_patches {
+  id            String    @id
+  type          String
+  vulnerability String
+  fix           String
+  status        String    @default("PENDING")
+  applied_by    String?
+  applied_at    DateTime?
+  created_at    DateTime  @default(now())
+
+  @@index([created_at])
+  @@index([type])
+  @@index([status])
+}
+
+model sessions {
+  id        String   @id
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
+
+model support_tickets {
+  id         String    @id
+  userId     String
+  subject    String
+  message    String
+  category   String    @default("GENERAL")
+  status     String    @default("OPEN")
+  priority   String    @default("MEDIUM")
+  response   String?
+  resolvedBy String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime
+  resolvedAt DateTime?
+
+  @@index([status])
+  @@index([userId])
+}
+
+model system_alerts {
+  id          String    @id
+  alertType   String
+  severity    String
+  title       String
+  description String
+  serviceName String?
+  isResolved  Boolean   @default(false)
+  resolvedAt  DateTime?
+  resolvedBy  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+
+  @@index([createdAt])
+  @@index([isResolved])
+  @@index([severity])
+  @@index([alertType])
+}
+
+model system_config {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String
+  updatedAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model system_status {
+  id            String   @id
+  serviceName   String
+  status        String
+  responseTime  Int?
+  uptime        Decimal?
+  lastChecked   DateTime @default(now())
+  statusMessage String?
+  alertLevel    String   @default("none")
+  metadata      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime
+
+  @@index([lastChecked])
+  @@index([alertLevel])
+  @@index([status])
+  @@index([serviceName])
+}
+
+model token_transactions {
+  id          String   @id
+  walletId    String
+  amount      Decimal
+  type        String
+  status      String   @default("COMPLETED")
+  description String?
+  toAddress   String?
+  fromAddress String?
+  txHash      String?
+  metadata    String?
+  createdAt   DateTime @default(now())
+
+  @@index([status])
+  @@index([type])
+  @@index([createdAt])
+  @@index([walletId])
+}
+
+model token_wallets {
+  id             String   @id
+  userId         String   @unique
+  balance        Decimal  @default(0)
+  tokenType      String   @default("ADVANCIA")
+  lockedBalance  Decimal  @default(0)
+  lifetimeEarned Decimal  @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime
+
+  @@index([userId])
+}
+
+model transactions {
+  id          String   @id
+  userId      String
+  amount      Decimal
+  type        String
+  description String?
+  category    String?
+  status      String   @default("COMPLETED")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+  @@index([userId])
+}
+
+model uploaded_files {
+  id          String   @id
+  userId      String
+  category    String   @default("documents")
+  filename    String
+  key         String   @unique
+  url         String?
+  size        Int
+  contentType String
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+  users       users    @relation(fields: [userId], references: [id])
+
+  @@index([userId, category])
+}
+
+model user_preferences {
+  user_id          String   @unique
+  dashboard_layout Json?
+  features         Json?
+  suggestions      Json?
+  interaction_log  Json?
+  updated_at       DateTime
+  created_at       DateTime @default(now())
+}
+
+model user_tiers {
+  id              String   @id
+  userId          String   @unique
+  currentTier     String   @default("bronze")
+  points          Int      @default(0)
+  lifetimePoints  Int      @default(0)
+  lifetimeRewards Decimal  @default(0)
+  streak          Int      @default(0)
+  longestStreak   Int      @default(0)
+  lastActiveDate  DateTime @default(now())
+  achievements    String?
+  badges          String?
+  referralCode    String?  @unique
+  referredBy      String?
+  totalReferrals  Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime
+
+  @@index([referralCode])
+  @@index([points])
+  @@index([currentTier])
+  @@index([userId])
+}
+
+model users {
+  id                 String               @id
+  email              String               @unique
+  username           String               @unique
+  passwordHash       String
+  firstName          String?
+  lastName           String?
+  role               String               @default("USER")
+  usdBalance         Decimal              @default(0)
+  active             Boolean              @default(true)
+  emailVerified      Boolean              @default(false)
+  emailVerifiedAt    DateTime?
+  lastLogin          DateTime?
+  termsAccepted      Boolean              @default(false)
+  termsAcceptedAt    DateTime?
+  totpSecret         String?
+  totpEnabled        Boolean              @default(false)
+  totpVerified       Boolean              @default(false)
+  backupCodes        String?
+  ethWalletAddress   String?              @unique
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  btcBalance         Decimal              @default(0)
+  ethBalance         Decimal              @default(0)
+  usdtBalance        Decimal              @default(0)
+  // Google OAuth fields
+  googleId           String?              @unique
+  profilePicture     String?
+  // Block/Ban tracking
+  blockedAt          DateTime?
+  blockedReason      String?
+  blockedBy          String? // Admin user ID who blocked
+  // Soft delete support
+  deletedAt          DateTime?
+  deletedBy          String? // Admin user ID who deleted
+  RPAWorkflow        RPAWorkflow[]
+  ai_generations     ai_generations[]
+  ai_usage_metrics   ai_usage_metrics[]
+  crypto_withdrawals crypto_withdrawals[]
+  medbeds_bookings   medbeds_bookings[]
+  uploaded_files     uploaded_files[]
+  subscriptions      Subscription[]
+  blogPosts          BlogPost[]           @relation("BlogAuthor")
+  blogComments       BlogComment[]        @relation("BlogCommentAuthor")
+  
+  // Project Management Relations
+  ownedProjects      Project[]            @relation("ProjectOwner")
+  projectMemberships ProjectMember[]      @relation("ProjectMembership")
+  assignedTasks      Task[]               @relation("TaskAssignee")
+  reportedTasks      Task[]               @relation("TaskReporter")
+  taskComments       TaskComment[]        @relation("TaskComments")
+  taskAttachments    TaskAttachment[]     @relation("TaskAttachments")
+  timeEntries        TimeEntry[]          @relation("TimeEntries")
+  
+  // Financial Ledger Relations
+  ledger_entries     financial_ledger[]   @relation("ledger_user")
+  ledger_actions     financial_ledger[]   @relation("ledger_actor")
+  
+  // Audit Log Relations
+  audit_logs_user    audit_logs[]         @relation("audit_user_rel")
+  audit_logs_admin   audit_logs[]         @relation("audit_admin_rel")
+  
+  // Account suspension (uses existing blockedAt/blockedBy fields)
+  suspended          Boolean              @default(false)
+  
+  // User Wallet Relations
+  wallets            user_wallets[]       @relation("user_wallet_owner")
+  
+  // Crypto Relations
+  crypto_deposits_made     crypto_deposits[]       @relation("crypto_deposit_user")
+  crypto_deposits_reviewed crypto_deposits[]       @relation("crypto_deposit_reviewer")
+  crypto_ledger_user       crypto_ledger[]         @relation("crypto_ledger_user")
+  crypto_ledger_actor      crypto_ledger[]         @relation("crypto_ledger_actor")
+  crypto_balances          user_crypto_balances[]  @relation("user_crypto_balance")
+}
+
+model vault_audit_logs {
+  id            String   @id
+  user_id       String
+  action        String
+  secret_key    String
+  timestamp     DateTime @default(now())
+  ip_address    String?
+  user_agent    String?
+  success       Boolean  @default(true)
+  error_message String?
+  mfa_verified  Boolean  @default(false)
+
+  @@index([timestamp])
+  @@index([secret_key])
+  @@index([action])
+  @@index([user_id])
+}
+
+model vault_secrets {
+  id              String    @id
+  key             String    @unique
+  encrypted_value String
+  iv              String
+  version         Int       @default(1)
+  metadata        Json?
+  rotationPolicy  Json?
+  created_by      String
+  created_at      DateTime  @default(now())
+  last_rotated    DateTime?
+
+  @@index([last_rotated])
+  @@index([created_by])
+  @@index([key])
+}
+
+// ============================================================================
+// AI CORE - Half Brain Cell System
+// ============================================================================
+
+// Workflow definitions - what the AI can do
+model AIWorkflow {
+  id               String   @id @default(uuid())
+  name             String   @unique
+  description      String
+  category         String // "automation", "monitoring", "code_suggestion", "data_collection", "orchestration"
+  triggerType      String // "event", "scheduled", "manual"
+  cronSchedule     String? // for scheduled triggers
+  enabled          Boolean  @default(true)
+  requiresApproval Boolean  @default(true) // critical tasks need human approval
+  riskLevel        String   @default("medium") // "low", "medium", "high", "critical"
+  aiModel          String   @default("gpt-4") // "gpt-4", "gpt-3.5-turbo", "claude-3"
+  config           String // JSON configuration
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  tasks      AITask[]
+  executions AIWorkflowExecution[]
+
+  @@index([category])
+  @@index([enabled])
+  @@index([triggerType])
+  @@map("ai_workflows")
+}
+
+// Task queue - individual units of work
+model AITask {
+  id          String               @id @default(uuid())
+  workflowId  String
+  workflow    AIWorkflow           @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  executionId String?
+  execution   AIWorkflowExecution? @relation(fields: [executionId], references: [id], onDelete: SetNull)
+
+  taskType String // "email", "report", "code_fix", "monitoring", "data_collection"
+  priority Int    @default(5) // 1-10, higher = more urgent
+  status   String @default("pending") // "pending", "in_progress", "awaiting_approval", "approved", "rejected", "completed", "failed"
+
+  input        String // JSON input data
+  aiSuggestion String? // AI's proposed action/solution
+  aiReasoning  String? // Why AI suggests this
+  aiConfidence Decimal? @default(0) // 0-1 confidence score
+
+  output          String? // Result after execution
+  error           String?
+  executionTimeMs Int?
+
+  // Human feedback
+  reviewedBy        String?
+  reviewedAt        DateTime?
+  approvalStatus    String? // "approved", "rejected", "modified"
+  humanFeedback     String? // Learning data
+  humanModification String? // What human changed
+
+  attempts   Int @default(0)
+  maxRetries Int @default(3)
+
+  scheduledFor DateTime?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([workflowId])
+  @@index([executionId])
+  @@index([status])
+  @@index([priority])
+  @@index([taskType])
+  @@index([scheduledFor])
+  @@map("ai_tasks")
+}
+
+// Workflow execution tracking
+model AIWorkflowExecution {
+  id         String     @id @default(uuid())
+  workflowId String
+  workflow   AIWorkflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  status      String  @default("running") // "running", "completed", "failed", "cancelled"
+  triggeredBy String // "system", "user:{userId}", "event:{eventType}"
+  triggerData String? // JSON data that triggered this
+
+  tasksTotal     Int @default(0)
+  tasksCompleted Int @default(0)
+  tasksFailed    Int @default(0)
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  duration    Int? // milliseconds
+
+  error String?
+
+  tasks AITask[]
+
+  @@index([workflowId])
+  @@index([status])
+  @@index([startedAt])
+  @@map("ai_workflow_executions")
+}
+
+// AI learning database - feedback loop
+model AILearning {
+  id     String @id @default(uuid())
+  taskId String @unique
+
+  taskType          String
+  aiSuggestion      String // What AI proposed
+  humanDecision     String // What human chose (approved/rejected/modified)
+  humanModification String? // What human changed
+  feedback          String? // Human's explanation
+
+  wasCorrect   Boolean? // Did AI suggestion work out?
+  outcomeNotes String? // Post-execution notes
+
+  context  String // JSON - situational context
+  patterns String? // JSON - identified patterns
+
+  createdAt DateTime @default(now())
+
+  @@index([taskType])
+  @@index([humanDecision])
+  @@index([wasCorrect])
+  @@index([createdAt])
+  @@map("ai_learning")
+}
+
+// System monitoring - AI watches for issues
+model AIMonitoringAlert {
+  id String @id @default(uuid())
+
+  alertType String // "error", "downtime", "performance", "security", "anomaly"
+  severity  String // "info", "warning", "error", "critical"
+  source    String // where the issue was detected
+
+  title       String
+  description String
+  detectedBy  String @default("ai_monitor") // "ai_monitor", "system", "user"
+
+  aiAnalysis   String? // AI's analysis of the issue
+  aiSuggestion String? // AI's suggested fix
+  aiConfidence Decimal? @default(0)
+
+  status     String  @default("open") // "open", "investigating", "resolved", "false_positive"
+  assignedTo String?
+
+  resolvedBy String?
+  resolvedAt DateTime?
+  resolution String? // How it was fixed
+
+  metadata String? // JSON - additional data
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([alertType])
+  @@index([severity])
+  @@index([status])
+  @@index([createdAt])
+  @@map("ai_monitoring_alerts")
+}
+
+// Monitoring rules
+model AIMonitoringRule {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  type        String // "error", "performance", "security", "usage", "custom"
+  condition   String // JSON condition
+  threshold   Float?
+  severity    String    @default("medium")
+  enabled     Boolean   @default(true)
+  lastCheck   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([type])
+  @@index([enabled])
+  @@map("ai_monitoring_rules")
+}
+
+// Alerts table (distinct from AIMonitoringAlert)
+model AIAlert {
+  id        String   @id @default(uuid())
+  ruleId    String
+  message   String
+  metadata  String // JSON metadata
+  severity  String
+  status    String   @default("open")
+  createdAt DateTime @default(now())
+
+  @@index([ruleId])
+  @@index([status])
+  @@index([severity])
+  @@map("ai_alerts")
+}
+
+// AI-generated reports
+model AIReport {
+  id String @id @default(uuid())
+
+  reportType String // "daily", "weekly", "monthly", "incident", "custom"
+  category   String // "usage", "performance", "security", "business", "technical"
+
+  title   String
+  summary String // Executive summary
+  content String // Full report content (Markdown)
+
+  format String @default("markdown") // "markdown", "json", "html"
+
+  generatedBy String @default("ai_core") // "ai_core", "scheduled_job"
+  aiModel     String @default("gpt-4")
+
+  // Data sources
+  dataFrom    DateTime // Period start
+  dataTo      DateTime // Period end
+  dataSources String // JSON - what data was used
+
+  // Insights and recommendations
+  insights        String? // JSON array of key insights
+  recommendations String? // JSON array of recommendations
+
+  status String @default("generated") // "generated", "reviewed", "published", "archived"
+
+  reviewedBy  String?
+  reviewedAt  DateTime?
+  publishedAt DateTime?
+
+  recipients String? // JSON array of who received this
+
+  createdAt DateTime @default(now())
+
+  @@index([reportType])
+  @@index([category])
+  @@index([status])
+  @@index([createdAt])
+  @@map("ai_reports")
+}
+
+// AI system configuration and settings
+model AISystemConfig {
+  id String @id @default(uuid())
+
+  key   String @unique // config key
+  value String // config value (JSON)
+
+  category    String // "llm", "queue", "monitoring", "workflow", "learning"
+  description String
+
+  isEncrypted Boolean @default(false)
+
+  updatedBy String?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([category])
+  @@map("ai_system_config")
+}
+
+// ============================================
+// MONETIZATION MODELS - Subscriptions & Billing
+// ============================================
+
+// Pricing plans for SaaS subscription tiers
+model PricingPlan {
+  id String @id @default(uuid())
+
+  name        String  @unique // "Free", "Starter", "Pro", "Enterprise"
+  slug        String  @unique // "free", "starter", "pro", "enterprise"
+  description String?
+
+  // Pricing
+  priceMonthly Decimal @default(0)
+  priceYearly  Decimal @default(0)
+  currency     String  @default("USD")
+
+  // Stripe integration
+  stripePriceIdMonthly String? @unique
+  stripePriceIdYearly  String? @unique
+  stripeProductId      String? @unique
+
+  // Limits
+  aiRequestsPerDay   Int @default(50)
+  aiRequestsPerMonth Int @default(1500)
+  storageGb          Int @default(1)
+  maxTeamMembers     Int @default(1)
+
+  // Feature flags (JSON)
+  features String @default("{}") // JSON: {"api_access": true, "priority_support": false}
+
+  // Meta
+  isActive     Boolean @default(true)
+  displayOrder Int     @default(0)
+  badge        String? // "POPULAR", "BEST VALUE"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  subscriptions Subscription[]
+
+  @@index([isActive])
+  @@index([displayOrder])
+  @@map("pricing_plans")
+}
+
+// User subscriptions
+model Subscription {
+  id String @id @default(uuid())
+
+  userId String
+  planId String
+
+  // Status
+  status String @default("active") // active, cancelled, past_due, paused, trialing
+
+  // Billing period
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+
+  // Trial
+  trialStart DateTime?
+  trialEnd   DateTime?
+
+  // Stripe
+  stripeSubscriptionId String? @unique
+  stripeCustomerId     String?
+
+  // Cancellation
+  cancelAtPeriodEnd  Boolean   @default(false)
+  cancelledAt        DateTime?
+  cancellationReason String?
+
+  // Metadata
+  metadata String? // JSON for custom fields
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user         users         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan         PricingPlan   @relation(fields: [planId], references: [id])
+  invoices     Invoice[]
+  usageRecords UsageRecord[]
+
+  @@unique([userId, status]) // Only one active subscription per user
+  @@index([userId])
+  @@index([planId])
+  @@index([status])
+  @@index([stripeSubscriptionId])
+  @@map("subscriptions")
+}
+
+// Invoices for subscription billing
+model Invoice {
+  id String @id @default(uuid())
+
+  subscriptionId String
+  userId         String
+
+  // Amount
+  amountDue  Decimal
+  amountPaid Decimal @default(0)
+  currency   String  @default("USD")
+
+  // Status
+  status String @default("draft") // draft, open, paid, void, uncollectible
+
+  // Stripe
+  stripeInvoiceId       String? @unique
+  stripePaymentIntentId String?
+  hostedInvoiceUrl      String?
+  invoicePdfUrl         String?
+
+  // Dates
+  dueDate DateTime?
+  paidAt  DateTime?
+
+  // Line items (JSON)
+  lineItems String @default("[]")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+
+  @@index([subscriptionId])
+  @@index([userId])
+  @@index([status])
+  @@index([stripeInvoiceId])
+  @@map("invoices")
+}
+
+// Usage-based billing records
+model UsageRecord {
+  id String @id @default(uuid())
+
+  subscriptionId String
+  userId         String
+
+  // Usage metrics
+  resourceType String // "ai_request", "storage", "api_call", "agent_execution"
+  quantity     Int    @default(1)
+
+  // Billing
+  unitPrice  Decimal?
+  totalPrice Decimal?
+
+  // Period
+  periodStart DateTime
+  periodEnd   DateTime
+
+  // Status
+  billed    Boolean   @default(false)
+  billedAt  DateTime?
+  invoiceId String?
+
+  // Stripe
+  stripeUsageRecordId String?
+
+  // Metadata
+  metadata String? // JSON: {"model": "gpt-4", "tokens": 1500}
+
+  createdAt DateTime @default(now())
+
+  // Relations
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+
+  @@index([subscriptionId])
+  @@index([userId])
+  @@index([resourceType])
+  @@index([periodStart, periodEnd])
+  @@index([billed])
+  @@map("usage_records")
+}
+
+// AI usage tracking for billing and limits
+model AIUsageQuota {
+  id String @id @default(uuid())
+
+  userId String @unique
+
+  // Current period usage
+  aiRequestsToday     Int @default(0)
+  aiRequestsThisMonth Int @default(0)
+
+  // Limits (cached from plan)
+  dailyLimit   Int @default(50)
+  monthlyLimit Int @default(1500)
+
+  // Reset tracking
+  lastDailyReset   DateTime @default(now())
+  lastMonthlyReset DateTime @default(now())
+
+  // Overage
+  overageAllowed Boolean  @default(false)
+  overageRate    Decimal? // Price per additional request
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("ai_usage_quotas")
+}
+
+// ============================================================================
+// BLOG & CMS SYSTEM
+// ============================================================================
+
+model BlogCategory {
+  id             String         @id @default(uuid())
+  name           String         @unique
+  slug           String         @unique
+  description    String?
+  parentId       String?
+  parent         BlogCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children       BlogCategory[] @relation("CategoryHierarchy")
+  posts          BlogPost[]
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([slug])
+  @@index([parentId])
+  @@map("blog_categories")
+}
+
+model BlogPost {
+  id String @id @default(uuid())
+
+  // Basic fields
+  title           String
+  slug            String  @unique
+  excerpt         String?
+  contentMarkdown String // Markdown source
+  contentHtml     String // Rendered HTML
+
+  // Author & category
+  authorId   String
+  author     users         @relation("BlogAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags       String? // Comma-separated tags
+
+  // Publishing workflow
+  status       String    @default("DRAFT") // DRAFT, SCHEDULED, PUBLISHED, ARCHIVED
+  publishedAt  DateTime?
+  scheduledFor DateTime?
+  archivedAt   DateTime?
+
+  // SEO & Analytics
+  seoTitle        String?
+  seoDescription  String?
+  seoKeywords     String? // Comma-separated
+  canonicalUrl    String?
+  structuredData  String? // JSON-LD schema
+  readTimeMinutes Int?
+  viewCount       Int     @default(0)
+
+  // AI Generation tracking
+  aiGenerated Boolean @default(false)
+  aiModel     String? // "gpt-4", "claude-3-sonnet", etc.
+  aiPrompt    String?
+  aiJobId     String?
+
+  // Featured & pinned
+  featured Boolean @default(false)
+  pinned   Boolean @default(false)
+
+  // Relations
+  media       BlogMedia[]
+  comments    BlogComment[]
+  socialPosts SocialMediaPost[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([authorId])
+  @@index([categoryId])
+  @@index([status])
+  @@index([publishedAt])
+  @@index([featured])
+  @@map("blog_posts")
+}
+
+model BlogMedia {
+  id     String   @id @default(uuid())
+  postId String
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  url      String
+  type     String // "image", "video", "file"
+  filename String
+  mimeType String
+  size     Int // bytes
+  width    Int?
+  height   Int?
+  altText  String?
+  caption  String?
+
+  // Storage
+  s3Key  String?
+  cdnUrl String?
+
+  // AI generated
+  aiGenerated Boolean @default(false)
+  aiPrompt    String?
+
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([postId])
+  @@index([type])
+  @@map("blog_media")
+}
+
+model BlogComment {
+  id     String   @id @default(uuid())
+  postId String
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId    String?
+  author      users?  @relation("BlogCommentAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  authorName  String // For guest comments
+  authorEmail String? // For guest comments
+
+  content  String
+  parentId String?
+  parent   BlogComment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  BlogComment[] @relation("CommentReplies")
+
+  status     String    @default("PENDING") // PENDING, APPROVED, SPAM, DELETED
+  approved   Boolean   @default(false)
+  approvedBy String?
+  approvedAt DateTime?
+
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([postId])
+  @@index([authorId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("blog_comments")
+}
+
+// ============================================================================
+// SEO AUTOMATION
+// ============================================================================
+
+model SEOAudit {
+  id     String  @id @default(uuid())
+  postId String?
+  url    String
+
+  // Scores
+  overallScore   Int // 0-100
+  technicalScore Int
+  contentScore   Int
+  mobileFriendly Boolean
+  pageSpeed      Int? // 0-100
+
+  // Issues found
+  missingMetaTags String? // JSON array
+  brokenLinks     String? // JSON array
+  missingAltText  String? // JSON array
+  keywordIssues   String? // JSON array
+
+  // Recommendations
+  suggestions String? // JSON array of fixes
+
+  // Status
+  status       String  @default("PENDING") // PENDING, COMPLETED, FAILED
+  errorMessage String?
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([postId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("seo_audits")
+}
+
+model Sitemap {
+  id String @id @default(uuid())
+
+  urls      String // JSON array of sitemap entries
+  totalUrls Int
+
+  generated   Boolean   @default(false)
+  generatedAt DateTime?
+  submitted   Boolean   @default(false)
+  submittedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@map("sitemaps")
+}
+
+// ============================================================================
+// SOCIAL MEDIA AUTO-POSTING
+// ============================================================================
+
+model SocialMediaAccount {
+  id     String @id @default(uuid())
+  userId String
+
+  platform    String // "twitter", "linkedin", "facebook", "instagram"
+  accountName String
+  accountId   String // Platform-specific ID
+
+  // OAuth tokens (encrypted in vault)
+  vaultKeyAccess  String // Reference to vault_secrets
+  vaultKeyRefresh String?
+
+  active   Boolean @default(true)
+  verified Boolean @default(false)
+
+  // Metadata
+  profileImageUrl String?
+  followerCount   Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  posts SocialMediaPost[]
+
+  @@unique([userId, platform, accountId])
+  @@index([userId])
+  @@index([platform])
+  @@map("social_media_accounts")
+}
+
+model SocialMediaPost {
+  id String @id @default(uuid())
+
+  // Source
+  blogPostId String?
+  blogPost   BlogPost? @relation(fields: [blogPostId], references: [id], onDelete: SetNull)
+
+  // Account
+  accountId String
+  account   SocialMediaAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  // Content
+  content   String
+  mediaUrls String? // JSON array
+  hashtags  String? // Comma-separated
+
+  // Scheduling
+  status       String    @default("DRAFT") // DRAFT, SCHEDULED, POSTED, FAILED
+  scheduledFor DateTime?
+  postedAt     DateTime?
+
+  // Platform response
+  platformPostId String? // Twitter tweet ID, LinkedIn post URN, etc.
+  platformUrl    String?
+  errorMessage   String?
+
+  // Analytics
+  likes        Int       @default(0)
+  shares       Int       @default(0)
+  comments     Int       @default(0)
+  clicks       Int       @default(0)
+  impressions  Int       @default(0)
+  lastSyncedAt DateTime?
+
+  // AI generated content
+  aiGenerated Boolean @default(false)
+  aiModel     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([accountId])
+  @@index([blogPostId])
+  @@index([status])
+  @@index([scheduledFor])
+  @@index([postedAt])
+  @@map("social_media_posts")
+}
+
+// Project Management Models
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  ownerId     String
+  status      String   @default("PLANNING") // PLANNING, ACTIVE, ON_HOLD, COMPLETED, ARCHIVED
+  priority    String   @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  startDate   DateTime?
+  endDate     DateTime?
+  budget      Float?
+  progress    Int      @default(0) // 0-100
+  visibility  String   @default("PRIVATE") // PRIVATE, TEAM, PUBLIC
+  metadata    String?  // JSON
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner       users    @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  tasks       Task[]
+  sprints     Sprint[]
+  boards      KanbanBoard[]
+  members     ProjectMember[]
+  tags        ProjectTag[]
+
+  @@index([ownerId])
+  @@index([status])
+  @@index([priority])
+  @@map("projects")
+}
+
+model ProjectMember {
+  id        String   @id @default(uuid())
+  projectId String
+  userId    String
+  role      String   @default("MEMBER") // OWNER, ADMIN, MEMBER, VIEWER
+  joinedAt  DateTime @default(now())
+
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      users    @relation("ProjectMembership", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([projectId])
+  @@index([userId])
+  @@map("project_members")
+}
+
+model Task {
+  id              String    @id @default(uuid())
+  projectId       String
+  sprintId        String?
+  boardId         String?
+  columnId        String?
+  title           String
+  description     String?
+  status          String    @default("TODO") // TODO, IN_PROGRESS, IN_REVIEW, DONE, BLOCKED
+  priority        String    @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  assigneeId      String?
+  reporterId      String
+  estimatedHours  Float?
+  actualHours     Float?
+  dueDate         DateTime?
+  completedAt     DateTime?
+  position        Int       @default(0)
+  aiGenerated     Boolean   @default(false)
+  aiSuggestions   String?   // JSON
+  metadata        String?   // JSON
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sprint          Sprint?   @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+  board           KanbanBoard? @relation(fields: [boardId], references: [id], onDelete: SetNull)
+  assignee        users?    @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  reporter        users     @relation("TaskReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  
+  dependencies    TaskDependency[] @relation("DependentTask")
+  dependents      TaskDependency[] @relation("BlockingTask")
+  comments        TaskComment[]
+  attachments     TaskAttachment[]
+  timeEntries     TimeEntry[]
+  tags            TaskTag[]
+
+  @@index([projectId])
+  @@index([sprintId])
+  @@index([boardId])
+  @@index([assigneeId])
+  @@index([status])
+  @@index([priority])
+  @@map("tasks")
+}
+
+model TaskDependency {
+  id              String   @id @default(uuid())
+  taskId          String
+  dependsOnTaskId String
+  type            String   @default("BLOCKS") // BLOCKS, RELATED_TO
+  createdAt       DateTime @default(now())
+
+  task            Task     @relation("DependentTask", fields: [taskId], references: [id], onDelete: Cascade)
+  dependsOnTask   Task     @relation("BlockingTask", fields: [dependsOnTaskId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, dependsOnTaskId])
+  @@index([taskId])
+  @@index([dependsOnTaskId])
+  @@map("task_dependencies")
+}
+
+model Sprint {
+  id          String    @id @default(uuid())
+  projectId   String
+  name        String
+  goal        String?
+  startDate   DateTime
+  endDate     DateTime
+  status      String    @default("PLANNED") // PLANNED, ACTIVE, COMPLETED, CANCELLED
+  velocity    Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks       Task[]
+
+  @@index([projectId])
+  @@index([status])
+  @@map("sprints")
+}
+
+model KanbanBoard {
+  id          String   @id @default(uuid())
+  projectId   String
+  name        String
+  description String?
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  columns     KanbanColumn[]
+  tasks       Task[]
+
+  @@index([projectId])
+  @@map("kanban_boards")
+}
+
+model KanbanColumn {
+  id          String   @id @default(uuid())
+  boardId     String
+  name        String
+  position    Int
+  limit       Int?     // WIP limit
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  board       KanbanBoard @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  @@index([boardId])
+  @@map("kanban_columns")
+}
+
+model TaskComment {
+  id        String   @id @default(uuid())
+  taskId    String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      users    @relation("TaskComments", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([userId])
+  @@map("task_comments")
+}
+
+model TaskAttachment {
+  id        String   @id @default(uuid())
+  taskId    String
+  userId    String
+  filename  String
+  fileUrl   String
+  fileSize  Int
+  mimeType  String
+  createdAt DateTime @default(now())
+
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      users    @relation("TaskAttachments", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@map("task_attachments")
+}
+
+model TimeEntry {
+  id          String   @id @default(uuid())
+  taskId      String
+  userId      String
+  hours       Float
+  description String?
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user        users    @relation("TimeEntries", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([userId])
+  @@index([date])
+  @@map("time_entries")
+}
+
+model ProjectTag {
+  id        String   @id @default(uuid())
+  projectId String
+  name      String
+  color     String?
+  createdAt DateTime @default(now())
+
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@map("project_tags")
+}
+
+model TaskTag {
+  id        String   @id @default(uuid())
+  taskId    String
+  name      String
+  color     String?
+  createdAt DateTime @default(now())
+
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@map("task_tags")
+}
+
+// ============================================================================
+// JOB QUEUE & BACKGROUND PROCESSING
+// ============================================================================
+
+model JobLog {
+  id          String    @id
+  type        String
+  status      String    // 'pending' | 'processing' | 'completed' | 'failed' | 'delayed'
+  data        String?   // JSON
+  result      String?   // JSON
+  error       String?
+  attempts    Int       @default(0)
+  maxAttempts Int       @default(3)
+  priority    Int       @default(1)
+  delay       Int       @default(0)
+  startedAt   DateTime?
+  completedAt DateTime?
+  failedAt    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+  @@index([priority])
+  @@map("job_logs")
+}
+
+// ============================================================
+// FINANCIAL LEDGER SYSTEM
+// ============================================================
+// Purpose: Track all admin financial operations
+// Features: Deductions, Credits, Adjustments with audit trail
+// ============================================================
+
+model financial_ledger {
+  id        String   @id
+  userId    String
+  type      String   // 'DEDUCTION' | 'CREDIT' | 'ADJUSTMENT'
+  amount    Decimal  @db.Decimal(18, 8)
+  currency  String
+  actorId   String   // Admin who performed the action
+  reason    String   @db.Text
+  status    String   // 'PENDING' | 'APPROVED' | 'REJECTED'
+  txHash    String?  // Optional blockchain transaction hash
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  user  users @relation("ledger_user", fields: [userId], references: [id], onDelete: Cascade)
+  actor users @relation("ledger_actor", fields: [actorId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([actorId])
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+  @@map("financial_ledger")
+}
+
+model user_wallets {
+  id        String   @id
+  userId    String
+  currency  String   // 'USD', 'BTC', 'ETH', 'USDT', 'USDC', 'DAI'
+  balance   Decimal  @default(0) @db.Decimal(18, 8)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  user users @relation("user_wallet_owner", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, currency], name: "userId_currency")
+  @@index([userId])
+  @@index([currency])
+  @@map("user_wallets")
+}
+
+// ============================================================
+// CRYPTO TRANSACTION SYSTEM (Additional Models)
+// ============================================================
+// Note: crypto_withdrawals already exists above (line ~492)
+// Adding new models for comprehensive crypto tracking
+// ============================================================
+
+model crypto_deposits {
+  id             String    @id
+  userId         String
+  currency       String    // 'BTC', 'ETH', 'USDT', 'USDC', 'DAI'
+  amount         Decimal   @db.Decimal(18, 8)
+  walletAddress  String    // Deposit address
+  txHash         String?   // Blockchain transaction hash
+  status         String    // 'PENDING', 'APPROVED', 'REJECTED', 'CONFIRMED'
+  reviewedBy     String?   // Admin ID who approved/rejected
+  reviewedAt     DateTime?
+  rejectionReason String?  @db.Text
+  momIncidentId  String?   // Link to Mom AI incident
+  confirmations  Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime
+
+  user     users  @relation("crypto_deposit_user", fields: [userId], references: [id], onDelete: Cascade)
+  reviewer users? @relation("crypto_deposit_reviewer", fields: [reviewedBy], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([currency])
+  @@index([createdAt])
+  @@map("crypto_deposits")
+}
+
+model crypto_ledger {
+  id        String   @id
+  userId    String
+  type      String   // 'DEPOSIT', 'WITHDRAWAL', 'ADJUSTMENT'
+  amount    Decimal  @db.Decimal(18, 8)
+  currency  String
+  txHash    String?
+  actorId   String   // Admin or system who performed action
+  status    String   // 'PENDING', 'APPROVED', 'REJECTED'
+  createdAt DateTime @default(now())
+
+  user  users @relation("crypto_ledger_user", fields: [userId], references: [id], onDelete: Cascade)
+  actor users @relation("crypto_ledger_actor", fields: [actorId], references: [id])
+
+  @@index([userId])
+  @@index([type])
+  @@index([currency])
+  @@index([createdAt])
+  @@map("crypto_ledger")
+}
+
+model user_crypto_balances {
+  id        String   @id
+  userId    String
+  currency  String
+  balance   Decimal  @default(0) @db.Decimal(18, 8)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  user users @relation("user_crypto_balance", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, currency], name: "userId_currency")
+  @@index([userId])
+  @@index([currency])
+  @@map("user_crypto_balances")
+}
+
+// Note: audit_logs model already exists above with fields:
+// - id, userId, adminId, action, details, timestamp, etc.
+// - Updated to support financial ledger operations
+
+// Add suspended field to users model for account freeze/unfreeze
+// Note: This requires adding to existing users model if not present
+// suspended Boolean @default(false)
+

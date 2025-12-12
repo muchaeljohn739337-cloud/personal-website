@@ -1,0 +1,208 @@
+<!-- SUBJECT: Transaction Confirmation - {{transactionType}} -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Notification</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f4f4f7;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px 30px;
+        text-align: center;
+        color: white;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+      }
+      .content {
+        padding: 40px 30px;
+      }
+      .content h2 {
+        color: #667eea;
+        font-size: 22px;
+        margin-top: 0;
+      }
+      .content p {
+        margin: 16px 0;
+        color: #555;
+      }
+      .transaction-details {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 20px;
+        margin: 25px 0;
+      }
+      .transaction-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .transaction-row:last-child {
+        border-bottom: none;
+      }
+      .transaction-label {
+        font-weight: 500;
+        color: #666;
+      }
+      .transaction-value {
+        font-weight: 600;
+        color: #333;
+      }
+      .amount-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 6px;
+        text-align: center;
+        margin: 25px 0;
+      }
+      .amount-box .label {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 8px;
+      }
+      .amount-box .amount {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0;
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .status-success {
+        background: #d4edda;
+        color: #155724;
+      }
+      .status-pending {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .status-failed {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .button {
+        display: inline-block;
+        padding: 14px 32px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        margin: 20px 0;
+        transition: transform 0.2s;
+      }
+      .button:hover {
+        transform: translateY(-2px);
+      }
+      .footer {
+        background: #f8f9fa;
+        padding: 30px;
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+        border-top: 1px solid #e0e0e0;
+      }
+      .footer a {
+        color: #667eea;
+        text-decoration: none;
+      }
+      @media only screen and (max-width: 600px) {
+        .container {
+          margin: 0;
+          border-radius: 0;
+        }
+        .header,
+        .content {
+          padding: 30px 20px;
+        }
+        .transaction-row {
+          flex-direction: column;
+        }
+        .transaction-value {
+          margin-top: 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>💳 Transaction Notification</h1>
+      </div>
+
+      <div class="content">
+        <h2>Hi {{name}},</h2>
+
+        <p>Your transaction has been processed. Here are the details:</p>
+
+        <div class="amount-box">
+          <div class="label">Transaction Amount</div>
+          <div class="amount">{{amount}} {{currency}}</div>
+        </div>
+
+        <div class="transaction-details">
+          <div class="transaction-row">
+            <span class="transaction-label">Transaction Type</span>
+            <span class="transaction-value">{{transactionType}}</span>
+          </div>
+          <div class="transaction-row">
+            <span class="transaction-label">Date & Time</span>
+            <span class="transaction-value">{{date}}</span>
+          </div>
+          <div class="transaction-row">
+            <span class="transaction-label">Status</span>
+            <span class="transaction-value">
+              <span class="status-badge status-{{status}}">{{status}}</span>
+            </span>
+          </div>
+        </div>
+
+        <p>You can view full transaction details and download receipts in your account dashboard.</p>
+
+        <div style="text-align: center">
+          <a href="#" class="button">View Transaction Details</a>
+        </div>
+
+        <p style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 4px; font-size: 14px">
+          <strong>🔒 Security Note:</strong> We will never ask you to share your password, PIN, or sensitive account
+          information via email. If you notice any suspicious activity, please contact our support team immediately.
+        </p>
+
+        <p style="margin-top: 30px">
+          Best regards,<br />
+          <strong>The SaaS Platform Team</strong>
+        </p>
+      </div>
+
+      <div class="footer">
+        <p>This email was sent to {{to}}.</p>
+        <p><a href="#">View All Transactions</a> | <a href="#">Contact Support</a> | <a href="#">Privacy Policy</a></p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,139 @@
+name: Full Stack Deployment
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run All Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: 📦 Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: 🧪 Run backend tests
+        working-directory: ./backend
+        run: npm test
+        env:
+          NODE_ENV: test
+          DATABASE_URL: postgresql://test:test@localhost:5432/test_db?schema=public
+
+      - name: 📦 Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: 🔨 Build frontend
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: https://api.advanciapayledger.com
+
+  deploy-backend:
+    name: Deploy Backend
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: 🚀 Trigger Render deployment
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+
+      - name: ⏳ Wait for deployment
+        run: sleep 90
+
+      - name: 🏥 Backend health check
+        run: |
+          for i in {1..10}; do
+            if curl -f https://api.advanciapayledger.com/api/health; then
+              echo "✅ Backend healthy"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 10
+          done
+          exit 1
+
+  deploy-frontend:
+    name: Deploy Frontend
+    needs: deploy-backend
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: 📦 Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: 🚀 Deploy to Vercel
+        working-directory: ./frontend
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  post-deploy-tests:
+    name: Post-Deployment Verification
+    needs: [deploy-backend, deploy-frontend]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧪 Test backend endpoints
+        run: |
+          echo "Testing backend health..."
+          curl -f https://api.advanciapayledger.com/api/health
+
+          echo "Testing system status..."
+          curl -f https://api.advanciapayledger.com/api/system/status || echo "May require auth"
+
+      - name: 🧪 Test frontend
+        run: |
+          echo "Testing frontend..."
+          curl -f https://advanciapayledger.com
+
+      - name: 📊 Deployment summary
+        run: |
+          echo "✅ Full stack deployment successful!"
+          echo "Backend: https://api.advanciapayledger.com"
+          echo "Frontend: https://advanciapayledger.com"
+          echo "Deployed at: $(date)"
+
+      - name: 🔔 Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Deployment verification failed!"
+          echo "Check logs and rollback if necessary"

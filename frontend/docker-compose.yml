@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # Backend API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: advancia-api
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/advancia
+      - JWT_SECRET=${JWT_SECRET}
+      - FRONTEND_URL=${FRONTEND_URL}
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - advancia-network
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: advancia-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=advancia
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - advancia-network
+
+  # Redis Cache (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: advancia-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - advancia-network
+
+networks:
+  advancia-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,83 @@
+{
+  "timestamp": "2025-11-03T19:17:17.819Z",
+  "summary": {
+    "totalTests": 6,
+    "successCount": 3,
+    "successRate": "50%",
+    "overallStatus": "ISSUES DETECTED ❌"
+  },
+  "results": [
+    {
+      "name": "Frontend (Vercel)",
+      "url": "https://modular-saas-platform-frontend.vercel.app",
+      "type": "frontend",
+      "expectedStatus": 200,
+      "description": "Next.js application served by Vercel",
+      "status": "SUCCESS",
+      "actualStatus": 200,
+      "responseTime": 1829,
+      "sslStatus": "VALID",
+      "success": true
+    },
+    {
+      "name": "Backend API (Render)",
+      "url": "https://advancia-backend-upnrf.onrender.com",
+      "type": "backend",
+      "expectedStatus": 200,
+      "description": "Express.js API server on Render",
+      "status": "FAILED",
+      "actualStatus": 404,
+      "responseTime": 1718,
+      "sslStatus": "VALID",
+      "success": false
+    },
+    {
+      "name": "API Health Check",
+      "url": "https://advancia-backend-upnrf.onrender.com/api/health",
+      "type": "api",
+      "expectedStatus": 200,
+      "description": "Backend health endpoint",
+      "status": "FAILED",
+      "actualStatus": 404,
+      "responseTime": 956,
+      "sslStatus": "VALID",
+      "success": false
+    },
+    {
+      "name": "Custom Frontend Domain",
+      "url": "https://advanciapayledger.com",
+      "type": "custom-frontend",
+      "expectedStatus": 200,
+      "description": "Custom domain pointing to Vercel",
+      "status": "FAILED",
+      "actualStatus": 522,
+      "responseTime": 1740,
+      "sslStatus": "VALID",
+      "success": false
+    },
+    {
+      "name": "Custom API Domain",
+      "url": "https://api.advanciapayledger.com",
+      "type": "custom-api",
+      "expectedStatus": 200,
+      "description": "Custom domain pointing to Render",
+      "status": "SUCCESS",
+      "actualStatus": 200,
+      "responseTime": 3805,
+      "sslStatus": "VALID",
+      "success": true
+    },
+    {
+      "name": "Custom API Health",
+      "url": "https://api.advanciapayledger.com/api/health",
+      "type": "custom-api",
+      "expectedStatus": 200,
+      "description": "Custom API health endpoint",
+      "status": "SUCCESS",
+      "actualStatus": 200,
+      "responseTime": 822,
+      "sslStatus": "VALID",
+      "success": true
+    }
+  ]
+}

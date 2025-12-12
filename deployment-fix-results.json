@@ -1,0 +1,45 @@
+{
+  "timestamp": "2025-11-03T19:35:15.589Z",
+  "renderStatus": {
+    "status": "ISSUES",
+    "message": "Service not responding properly"
+  },
+  "vercelStatus": {
+    "status": "HEALTHY",
+    "message": "Frontend deployment is working"
+  },
+  "domainStatus": {
+    "Frontend Domain": {
+      "statusCode": 522,
+      "success": false
+    },
+    "API Domain": {
+      "statusCode": 200,
+      "success": true
+    }
+  },
+  "manualFixesRequired": 2,
+  "recommendations": [
+    {
+      "service": "Render Backend",
+      "actions": [
+        "Go to https://dashboard.render.com",
+        "Find \"advancia-backend-upnrf\" service",
+        "Check if status shows \"Suspended\"",
+        "Click \"Resume\" if suspended",
+        "Check \"Logs\" tab for errors",
+        "Verify environment variables"
+      ]
+    },
+    {
+      "service": "Custom Domains",
+      "actions": [
+        "Check DNS settings point to correct services",
+        "Verify domain ownership in Vercel/Render",
+        "Wait for DNS propagation (24-48 hours)",
+        "Check SSL certificate status",
+        "Use DNS checker tools to verify"
+      ]
+    }
+  ]
+}

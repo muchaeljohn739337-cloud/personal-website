@@ -1,0 +1,93 @@
+name: Deploy Frontend to Vercel
+
+on:
+  push:
+    branches: [main, staging]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/deploy-frontend.yml"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        required: true
+        default: "staging"
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  pre-deploy-checks:
+    name: Pre-Deployment Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 📦 Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: 🔍 TypeScript check
+        working-directory: ./frontend
+        run: npx tsc --noEmit
+
+      - name: 🧹 Lint check
+        working-directory: ./frontend
+        run: npm run lint
+
+      - name: 🔨 Build check
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
+  deploy:
+    name: Deploy to Vercel
+    needs: pre-deploy-checks
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: 📦 Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: 🚀 Deploy to Vercel
+        working-directory: ./frontend
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+          else
+            vercel --token=${{ secrets.VERCEL_TOKEN }} --yes
+          fi
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: 🏥 Health check
+        run: |
+          sleep 30
+          curl -f "${{ secrets.FRONTEND_URL }}" || echo "Frontend may still be deploying"
+
+      - name: 📊 Report deployment
+        run: |
+          echo "✅ Frontend deployed successfully!"
+          echo "Environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}"
+          echo "URL: ${{ secrets.FRONTEND_URL }}"

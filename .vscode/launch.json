@@ -1,0 +1,90 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "🔧 Backend: Debug",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect=9229", "--loader", "tsx"],
+      "cwd": "${workspaceFolder}/backend",
+      "skipFiles": ["<node_internals>/"],
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      },
+      "envFile": "${workspaceFolder}/backend/.env",
+      "restart": true,
+      "program": "${workspaceFolder}/backend/src/index.ts"
+    },
+    {
+      "name": "🔍 Backend: Debug Prisma & Database",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/"],
+      "program": "${workspaceFolder}/backend/src/index.ts",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect=9229", "--loader", "tsx"],
+      "cwd": "${workspaceFolder}/backend",
+      "envFile": "${workspaceFolder}/backend/.env",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "prisma:*",
+        "PRISMA_LOG_LEVEL": "query"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "⚡ Frontend: Debug Next.js",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/"],
+      "program": "${workspaceFolder}/frontend/node_modules/next/dist/bin/next",
+      "args": ["dev"],
+      "env": {
+        "NODE_ENV": "development",
+        "NEXTAUTH_URL": "http://localhost:3000",
+        "NEXT_PUBLIC_API_URL": "http://localhost:4000"
+      },
+      "runtimeArgs": ["--inspect=9230"],
+      "cwd": "${workspaceFolder}/frontend",
+      "console": "integratedTerminal",
+      "outFiles": ["${workspaceFolder}/frontend/.next/**/*.js"]
+    },
+    {
+      "name": "🔗 Attach to Backend",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "skipFiles": ["<node_internals>/"]
+    },
+    {
+      "name": "🐘 Prisma Studio",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/node_modules/.bin/prisma",
+      "args": ["studio"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "envFile": "${workspaceFolder}/backend/.env"
+    },
+    {
+      "name": "🤖 RPA Worker",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/scripts/rpaWorker.ts",
+      "runtimeArgs": ["--loader", "tsx"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/backend/.env"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "🚀 Full Stack: Backend + Frontend",
+      "configurations": ["🔧 Backend: Debug", "⚡ Frontend: Debug Next.js"],
+      "stopAll": true
+    }
+  ]
+}

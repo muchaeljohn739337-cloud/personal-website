@@ -1,0 +1,23 @@
+name = "web3-auth-edge"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+workers_dev = true
+
+# KV Namespaces for nonce and rate limiting storage
+kv_namespaces = [
+  { binding = "WEB3_NONCES", id = "your-nonces-kv-id", preview_id = "your-preview-nonces-kv-id" },
+  { binding = "RATE_LIMITS", id = "your-ratelimit-kv-id", preview_id = "your-preview-ratelimit-kv-id" }
+]
+
+# Environment variables (secrets should be set via wrangler secret put)
+[vars]
+BACKEND_URL = "https://your-backend-api.com"
+
+# Optional: Custom domain routing
+# [env.production]
+# route = "auth.yourdomain.com/*"
+# vars = { BACKEND_URL = "https://api.yourdomain.com" }
+
+# Optional: Development environment
+# [env.development]
+# vars = { BACKEND_URL = "http://localhost:3001" }

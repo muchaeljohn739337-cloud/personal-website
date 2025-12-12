@@ -1,0 +1,171 @@
+
+> advancia-pay-ledger-frontend@1.0.0 lint
+> next lint
+
+
+./src/app/admin/ai-workers/page.tsx
+55:10  Warning: 'socket' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+58:62  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+76:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/admin/security/page.tsx
+205:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/admin/token-flow/page.tsx
+73:28  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+79:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+87:30  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+116:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+132:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+494:9  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/admin/withdrawals/page.tsx
+45:126  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+79:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/ai/compliance/assess-risk/route.ts
+12:35  Warning: 'context' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/compliance/check/route.ts
+13:44  Warning: 'type' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/compliance/detect-fraud/route.ts
+13:13  Warning: 'transactionId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:28  Warning: 'userId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:36  Warning: 'amount' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:44  Warning: 'patterns' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/compliance/status/route.ts
+12:11  Warning: 'userId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/errors/analyze/route.ts
+12:20  Warning: 'stack' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:27  Warning: 'componentStack' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:43  Warning: 'userAgent' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/insights/generate/route.ts
+13:22  Warning: 'userId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:30  Warning: 'dataPoints' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/insights/personalization/route.ts
+59:13  Warning: 'userId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+59:21  Warning: 'preferences' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+59:34  Warning: 'aiEnabled' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/insights/smart-date-range/route.ts
+12:13  Warning: 'context' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:22  Warning: 'goal' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/security/analyze-session/route.ts
+13:13  Warning: 'userId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:21  Warning: 'sessionData' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/security/assess-login/route.ts
+13:13  Warning: 'email' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:20  Warning: 'ip' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:24  Warning: 'userAgent' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:35  Warning: 'timestamp' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/security/bot-detection/route.ts
+12:13  Warning: 'userAgent' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:24  Warning: 'behavior' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:34  Warning: 'timing' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/security/detect-anomaly/route.ts
+13:13  Warning: 'userId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:21  Warning: 'activity' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:31  Warning: 'context' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/ui/autocomplete/route.ts
+12:27  Warning: 'userId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ai/ui/smart-search/route.ts
+12:20  Warning: 'context' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:29  Warning: 'userId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/auth/verify-otp/page.tsx
+117:15  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+187:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+226:65  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/maintenance/page.tsx
+95:17  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+104:17  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+114:68  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/medbeds/booking-success/page.tsx
+12:9  Warning: 'sessionId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+14:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+35:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/admin/AIAnalyticsWidgets.tsx
+137:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/admin/WithdrawalManagementTab.tsx
+10:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+283:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/AdminBalanceManager.tsx
+37:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/CryptoTrading.tsx
+28:6  Warning: React Hook useEffect has a missing dependency: 'fetchCryptoPrices'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+108:13  Warning: 'data' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+121:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/OtpLogin.tsx
+11:10  Warning: 'authMethod' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/QuickActions.tsx
+17:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+102:6  Warning: React Hook useEffect has a missing dependency: 'defaultActions'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/SendTransaction.tsx
+327:24  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/SummaryCardAI.tsx
+43:20  Warning: 'getPrediction' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/TokenWallet.tsx
+111:6  Warning: React Hook useEffect has an unnecessary dependency: 'API_URL'. Either exclude it or remove the dependency array. Outer scope values like 'API_URL' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+
+./src/components/TransactionHistory.tsx
+37:9  Warning: The 'fetchTransactions' function makes the dependencies of useEffect Hook (at line 35) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchTransactions' in its own useCallback() Hook.  react-hooks/exhaustive-deps
+
+./src/hooks/useAIGenerator.ts
+17:11  Warning: 'SocketEvents' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+119:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+143:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+167:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+221:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/ai-brain/AISecurityContext.tsx
+187:21  Warning: 'payload' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+199:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+202:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/ai-brain/AIWebContext.tsx
+44:16  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/auth.ts
+86:14  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+94:27  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+100:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+103:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+103:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+104:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+104:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/utils/sentry.ts
+46:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+60:97  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/utils/toast.ts
+24:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+40:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+52:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+64:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+79:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+101:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

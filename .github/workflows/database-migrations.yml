@@ -1,0 +1,75 @@
+name: Database Migrations
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Migration action"
+        required: true
+        type: choice
+        options:
+          - status
+          - deploy
+          - rollback
+      environment:
+        description: "Target environment"
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  migration:
+    name: Run Migration
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: 📦 Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: 🔍 Validate Prisma schema
+        working-directory: ./backend
+        run: npx prisma validate
+
+      - name: 📋 Check migration status
+        if: github.event.inputs.action == 'status'
+        working-directory: ./backend
+        run: npx prisma migrate status
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: 🚀 Deploy migrations
+        if: github.event.inputs.action == 'deploy'
+        working-directory: ./backend
+        run: |
+          echo "⚠️  Deploying migrations to ${{ github.event.inputs.environment }}"
+          npx prisma migrate deploy
+          echo "✅ Migrations deployed successfully"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: ⏮️ Rollback migration
+        if: github.event.inputs.action == 'rollback'
+        working-directory: ./backend
+        run: |
+          echo "⚠️  Rolling back last migration on ${{ github.event.inputs.environment }}"
+          echo "Manual rollback required - check Prisma documentation"
+          exit 1
+
+      - name: 🔔 Notify result
+        if: always()
+        run: |
+          echo "Migration action: ${{ github.event.inputs.action }}"
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          echo "Status: ${{ job.status }}"

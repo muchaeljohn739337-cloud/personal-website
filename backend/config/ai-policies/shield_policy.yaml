@@ -1,0 +1,349 @@
+# Shield Security Policy - SIEM Rules and Auto-Response
+# Defines correlation rules, threat detection, and automated responses
+
+version: "1.0"
+enabled: true
+
+# Threat scoring system
+threat_scoring:
+  enabled: true
+  decay_rate: 10 # Points removed per hour
+  decay_interval: 3600 # 1 hour in seconds
+
+  thresholds:
+    low: 20
+    medium: 50
+    high: 80
+    critical: 100
+    lockdown: 150 # Auto-lockdown at this score
+
+  weights:
+    sql_injection: 50
+    xss_attempt: 30
+    path_traversal: 20
+    brute_force: 10
+    admin_access: 10
+    ddos_pattern: 40
+    malware_signature: 100
+    ransomware_pattern: 100
+    credential_leak: 80
+    api_abuse: 15
+
+# SIEM correlation rules
+correlation_rules:
+  # Rule 1: Multiple failed login attempts
+  - id: "CR001"
+    name: "Brute Force Attack Detection"
+    severity: HIGH
+    enabled: true
+    conditions:
+      - event_type: "authentication_failure"
+        count: 5
+        time_window: 900 # 15 minutes
+        group_by: "source_ip"
+    actions:
+      - type: "increase_threat_score"
+        points: 30
+      - type: "block_ip"
+        duration: 3600
+      - type: "alert"
+        channels: ["elasticsearch", "slack"]
+      - type: "create_incident"
+        severity: "HIGH"
+
+  # Rule 2: Suspicious withdrawal pattern
+  - id: "CR002"
+    name: "Suspicious Withdrawal Activity"
+    severity: CRITICAL
+    enabled: true
+    conditions:
+      - event_type: "withdrawal_request"
+        field: "amount"
+        operator: ">"
+        threshold_multiplier: 10 # 10x average
+        time_window: 300 # 5 minutes
+    actions:
+      - type: "hold_account"
+        duration: 3600
+      - type: "alert"
+        channels: ["pagerduty", "slack", "email"]
+      - type: "create_incident"
+        severity: "CRITICAL"
+      - type: "require_admin_approval"
+        approvers_required: 2
+
+  # Rule 3: Rapid API key usage from multiple IPs
+  - id: "CR003"
+    name: "API Key Compromise Detection"
+    severity: HIGH
+    enabled: true
+    conditions:
+      - event_type: "api_request"
+        distinct_field: "source_ip"
+        count: 10
+        time_window: 60 # 1 minute
+        group_by: "api_key"
+    actions:
+      - type: "suspend_api_key"
+        duration: 1800
+      - type: "alert"
+        channels: ["slack", "email"]
+      - type: "notify_user"
+        method: "email"
+
+  # Rule 4: Database query anomaly
+  - id: "CR004"
+    name: "Abnormal Database Query Pattern"
+    severity: MEDIUM
+    enabled: true
+    conditions:
+      - event_type: "database_query"
+        field: "execution_time"
+        operator: ">"
+        threshold: 5000 # 5 seconds
+        count: 3
+        time_window: 300
+    actions:
+      - type: "alert"
+        channels: ["slack"]
+      - type: "create_incident"
+        severity: "MEDIUM"
+      - type: "enable_query_logging"
+
+  # Rule 5: Multi-vector attack detection
+  - id: "CR005"
+    name: "Coordinated Attack Pattern"
+    severity: CRITICAL
+    enabled: true
+    conditions:
+      - event_types: ["sql_injection", "xss_attempt", "brute_force"]
+        min_distinct_types: 2
+        time_window: 600 # 10 minutes
+        group_by: "source_ip"
+    actions:
+      - type: "emergency_lockdown"
+        scope: "ip"
+      - type: "increase_threat_score"
+        points: 100
+      - type: "alert"
+        channels: ["pagerduty", "slack", "email"]
+      - type: "cloudflare_block"
+        duration: 86400 # 24 hours
+
+# Auto-response actions
+auto_response:
+  enabled: true
+
+  actions:
+    block_ip:
+      enabled: true
+      default_duration: 3600 # 1 hour
+      max_duration: 86400 # 24 hours
+      whitelist:
+        - "127.0.0.1"
+        - "::1"
+      backend: "iptables" # or "cloudflare"
+
+    hold_account:
+      enabled: true
+      require_2fa_unlock: true
+      notify_user: true
+      create_support_ticket: true
+
+    suspend_api_key:
+      enabled: true
+      notify_owner: true
+      allow_self_unlock: false
+
+    emergency_lockdown:
+      enabled: true
+      notify_admins: true
+      channels: ["pagerduty", "slack", "email", "sms"]
+      allow_admin_override: true
+      auto_unlock_threshold: 50 # Unlock when threat score drops below
+
+    cloudflare_block:
+      enabled: false # Requires Cloudflare API setup
+      api_key_env: "CLOUDFLARE_API_KEY"
+      zone_id_env: "CLOUDFLARE_ZONE_ID"
+      challenge_first: true # Show challenge page before blocking
+
+# Incident management
+incidents:
+  auto_create: true
+
+  severity_mapping:
+    LOW:
+      response_time_sla: 86400 # 24 hours
+      escalation_time: 172800 # 48 hours
+    MEDIUM:
+      response_time_sla: 14400 # 4 hours
+      escalation_time: 28800 # 8 hours
+    HIGH:
+      response_time_sla: 3600 # 1 hour
+      escalation_time: 7200 # 2 hours
+    CRITICAL:
+      response_time_sla: 900 # 15 minutes
+      escalation_time: 1800 # 30 minutes
+
+  notification_channels:
+    LOW: ["email"]
+    MEDIUM: ["slack", "email"]
+    HIGH: ["slack", "email", "pagerduty"]
+    CRITICAL: ["pagerduty", "slack", "email", "sms"]
+
+  playbooks:
+    brute_force_attack: "playbooks/brute_force.md"
+    sql_injection: "playbooks/sql_injection.md"
+    suspicious_withdrawal: "playbooks/suspicious_withdrawal.md"
+    api_key_compromise: "playbooks/api_key_compromise.md"
+    ddos_attack: "playbooks/ddos_mitigation.md"
+
+# Elasticsearch / SIEM configuration
+elasticsearch:
+  enabled: true
+  url_env: "ELASTICSEARCH_URL"
+
+  indices:
+    security_events: "security-events"
+    audit_logs: "audit-logs"
+    threat_intel: "threat-intelligence"
+
+  retention:
+    security_events: 90 # days
+    audit_logs: 365 # days
+    threat_intel: 180 # days
+
+  alerting:
+    enabled: true
+    check_interval: 60 # seconds
+
+  correlation:
+    enabled: true
+    lookback_window: 3600 # 1 hour
+
+# Threat intelligence feeds
+threat_intel:
+  enabled: true
+
+  feeds:
+    - name: "abuse_ch"
+      url: "https://urlhaus.abuse.ch/downloads/text/"
+      type: "url"
+      update_interval: 3600
+      enabled: true
+
+    - name: "emerging_threats"
+      url: "https://rules.emergingthreats.net/blockrules/compromised-ips.txt"
+      type: "ip"
+      update_interval: 3600
+      enabled: true
+
+  auto_block:
+    enabled: false # Manual review recommended
+    require_confidence: 0.90
+
+# IP reputation system
+ip_reputation:
+  enabled: true
+
+  sources:
+    - "internal_events"
+    - "threat_intel_feeds"
+
+  scoring:
+    clean: 0
+    suspicious: 25
+    malicious: 75
+    blocked: 100
+
+  decay:
+    enabled: true
+    rate: 5 # Points per day
+
+  auto_block_threshold: 75
+
+# Rate limiting for security
+rate_limiting:
+  auth_endpoints:
+    max_attempts: 5
+    window: 900 # 15 minutes
+    block_duration: 3600 # 1 hour
+
+  api_endpoints:
+    max_requests: 100
+    window: 60 # 1 minute
+    block_duration: 300 # 5 minutes
+
+  admin_endpoints:
+    max_requests: 50
+    window: 60
+    block_duration: 600
+
+# Monitoring and metrics
+monitoring:
+  enabled: true
+
+  metrics:
+    - name: "threat_score_distribution"
+      type: "histogram"
+    - name: "blocked_ips_count"
+      type: "gauge"
+    - name: "correlation_rule_matches"
+      type: "counter"
+    - name: "incident_count_by_severity"
+      type: "counter"
+    - name: "auto_response_actions"
+      type: "counter"
+
+  dashboards:
+    - name: "Security Overview"
+      url: "/grafana/d/security-overview"
+    - name: "Threat Intelligence"
+      url: "/grafana/d/threat-intel"
+    - name: "Incident Response"
+      url: "/grafana/d/incident-response"
+
+# Compliance and audit
+compliance:
+  log_all_actions: true
+  immutable_logs: true
+
+  retention:
+    security_logs: 365
+    audit_logs: 2555 # 7 years
+    incident_reports: 2555
+
+  export:
+    enabled: true
+    format: "json"
+    encryption: true
+    destination: "s3" # or "azure-blob"
+
+# Kill switch configuration
+kill_switch:
+  enabled: true
+
+  triggers:
+    - condition: "threat_score > 150"
+      action: "lockdown_all"
+    - condition: "active_incidents > 10"
+      severity: "CRITICAL"
+      action: "lockdown_all"
+    - condition: "failed_auth_rate > 0.80"
+      action: "lockdown_auth"
+
+  lockdown_modes:
+    lockdown_all:
+      allow_admin: true
+      allow_health_checks: true
+      duration: 3600 # Auto-unlock after 1 hour
+
+    lockdown_auth:
+      disable_new_logins: true
+      allow_existing_sessions: true
+      duration: 1800
+
+  notifications:
+    immediate: true
+    channels: ["pagerduty", "slack", "email", "sms"]

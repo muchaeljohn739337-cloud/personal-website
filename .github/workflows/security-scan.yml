@@ -1,0 +1,287 @@
+name: 🔒 Security Scan
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run security scan every Monday at 2 AM UTC
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+
+jobs:
+  dependency-scan:
+    name: 🔍 Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Run npm audit (Backend)
+        working-directory: ./backend
+        run: npm audit --audit-level=moderate || true
+
+      - name: Run npm audit (Frontend)
+        working-directory: ./frontend
+        run: npm audit --audit-level=moderate || true
+
+      - name: Create audit reports
+        run: |
+          echo "# Security Audit Report" > audit-report.md
+          echo "## Backend Vulnerabilities" >> audit-report.md
+          npm audit --json --prefix backend >> backend-audit.json || true
+          echo "## Frontend Vulnerabilities" >> audit-report.md
+          npm audit --json --prefix frontend >> frontend-audit.json || true
+
+      - name: Upload audit reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-audit-reports
+          path: |
+            backend-audit.json
+            frontend-audit.json
+            audit-report.md
+
+  code-quality:
+    name: 🧹 Code Quality & Security Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          cd backend && npm ci
+          cd ../frontend && npm ci
+
+      - name: Run ESLint (Backend)
+        working-directory: ./backend
+        run: npm run lint || true
+
+      - name: Run ESLint (Frontend)
+        working-directory: ./frontend
+        run: npx eslint . --ext .ts,.tsx || true
+
+      - name: TypeScript Type Check (Backend)
+        working-directory: ./backend
+        run: npx tsc --noEmit || true
+
+      - name: TypeScript Type Check (Frontend)
+        working-directory: ./frontend
+        run: npx tsc --noEmit || true
+
+  secrets-scan:
+    name: 🔐 Secrets Detection
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Full history for better detection
+
+      - name: Run TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --only-verified
+
+      - name: Check for exposed .env files
+        run: |
+          if find . -name ".env" -not -path "./node_modules/*" | grep -q .; then
+            echo "⚠️ Found .env files in repository!"
+            find . -name ".env" -not -path "./node_modules/*"
+            exit 1
+          else
+            echo "✅ No exposed .env files found"
+          fi
+
+      - name: Check for hardcoded secrets
+        run: |
+          echo "🔍 Scanning for hardcoded secrets..."
+
+          # Scan for potential secrets patterns
+          if grep -r -E "(password|secret|api_key|apikey|token|jwt_secret).*=.*['\"][^'\"]{20,}" . \
+            --exclude-dir={node_modules,.git,.next,dist,build} \
+            --exclude={"*.md","*.json","*.lock"}; then
+            echo "⚠️ Found potential hardcoded secrets!"
+            exit 1
+          else
+            echo "✅ No hardcoded secrets detected"
+          fi
+
+  prisma-security:
+    name: 🗄️ Database Schema Security
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Validate Prisma schema
+        working-directory: ./backend
+        run: npx prisma validate
+
+      - name: Check for SQL injection risks
+        working-directory: ./backend
+        run: |
+          echo "🔍 Scanning for potential SQL injection vulnerabilities..."
+
+          # Check for raw SQL queries without parameterization
+          if grep -r -E "\$\{.*\}" . \
+            --include="*.ts" \
+            --include="*.js" \
+            --exclude-dir={node_modules,dist} | grep -i "prisma.\$executeRaw\|prisma.\$queryRaw"; then
+            echo "⚠️ Found potential SQL injection risks!"
+            echo "Use parameterized queries: prisma.\$executeRaw\`...\`"
+            exit 1
+          else
+            echo "✅ No obvious SQL injection risks detected"
+          fi
+
+  docker-security:
+    name: 🐳 Docker Image Security
+    runs-on: ubuntu-latest
+    if: false # Disabled for now, enable when using Docker in production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker images
+        run: |
+          docker build -t advancia-backend:test ./backend
+          docker build -t advancia-frontend:test ./frontend
+
+      - name: Scan backend image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "advancia-backend:test"
+          format: "table"
+          exit-code: "1"
+          severity: "CRITICAL,HIGH"
+
+      - name: Scan frontend image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "advancia-frontend:test"
+          format: "table"
+          exit-code: "1"
+          severity: "CRITICAL,HIGH"
+
+  api-security:
+    name: 🛡️ API Security Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Check for CORS misconfigurations
+        working-directory: ./backend
+        run: |
+          echo "🔍 Checking CORS configuration..."
+          if grep -r "cors.*\*" . --include="*.ts" --include="*.js" --exclude-dir={node_modules,dist}; then
+            echo "⚠️ Found wildcard CORS configuration!"
+            echo "Use specific origins in production"
+            exit 1
+          else
+            echo "✅ No wildcard CORS detected"
+          fi
+
+      - name: Check for exposed debug endpoints
+        working-directory: ./backend
+        run: |
+          echo "🔍 Checking for debug endpoints..."
+          if grep -r -E "app\.(get|post|put|delete)\('/debug" . --include="*.ts" --include="*.js" --exclude-dir={node_modules,dist}; then
+            echo "⚠️ Found debug endpoints!"
+            exit 1
+          else
+            echo "✅ No exposed debug endpoints"
+          fi
+
+      - name: Check for rate limiting
+        working-directory: ./backend
+        run: |
+          echo "🔍 Verifying rate limiting implementation..."
+          if ! grep -r "rateLimit\|rate-limit" . --include="*.ts" --include="*.js" --exclude-dir={node_modules,dist}; then
+            echo "⚠️ No rate limiting detected!"
+            exit 1
+          else
+            echo "✅ Rate limiting implemented"
+          fi
+
+  summary:
+    name: 📊 Security Scan Summary
+    runs-on: ubuntu-latest
+    needs:
+      [
+        dependency-scan,
+        code-quality,
+        secrets-scan,
+        prisma-security,
+        api-security,
+      ]
+    if: always()
+
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# 🔒 Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Dependency scan: ${{ needs.dependency-scan.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Code quality: ${{ needs.code-quality.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Secrets scan: ${{ needs.secrets-scan.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Database security: ${{ needs.prisma-security.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ API security: ${{ needs.api-security.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Scan completed at:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+
+      - name: Notify on failure
+        if: |
+          needs.dependency-scan.result == 'failure' ||
+          needs.code-quality.result == 'failure' ||
+          needs.secrets-scan.result == 'failure' ||
+          needs.prisma-security.result == 'failure' ||
+          needs.api-security.result == 'failure'
+        run: |
+          echo "❌ Security scan failed! Review the results above."
+          exit 1

@@ -1,0 +1,118 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - button "← Back to Users" [ref=e5] [cursor=pointer]
+      - generic [ref=e6]:
+        - heading "User Details" [level=1] [ref=e7]
+        - button "Suspend User" [ref=e8] [cursor=pointer]
+    - generic [ref=e9]:
+      - button "Switch to Overview tab" [ref=e10] [cursor=pointer]: Overview
+      - button "Switch to Transactions tab" [ref=e11] [cursor=pointer]: Transactions
+      - button "Switch to Activity tab" [ref=e12] [cursor=pointer]: Activity
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - heading "User Profile" [level=2] [ref=e17]
+          - generic [ref=e18]:
+            - generic [ref=e20]:
+              - heading "System Admin" [level=3] [ref=e21]
+              - paragraph [ref=e22]: "@adminpayledger"
+            - generic [ref=e23]:
+              - generic [ref=e24]: Email
+              - paragraph [ref=e25]: admin@advanciapayledger.com
+            - generic [ref=e26]:
+              - generic [ref=e27]: Role
+              - generic [ref=e28]:
+                - button "Set role to USER" [ref=e29] [cursor=pointer]: USER
+                - button "Set role to STAFF" [ref=e30] [cursor=pointer]: STAFF
+                - button "Set role to ADMIN" [ref=e31] [cursor=pointer]: ADMIN
+            - generic [ref=e32]:
+              - generic [ref=e33]: Status
+              - generic [ref=e34]: ACTIVE
+            - generic [ref=e35]:
+              - generic [ref=e36]:
+                - generic [ref=e37]: Joined
+                - paragraph [ref=e38]: Dec 4, 2025, 08:25 AM
+              - generic [ref=e39]:
+                - generic [ref=e40]: Last Login
+                - paragraph [ref=e41]: Never
+        - generic [ref=e42]:
+          - heading "Balances & Tier" [level=2] [ref=e44]
+          - generic [ref=e45]:
+            - generic [ref=e46]:
+              - generic [ref=e47]: USD Balance
+              - paragraph [ref=e48]: $0.00
+            - generic [ref=e49]:
+              - generic [ref=e50]:
+                - generic [ref=e51]: ADVANCIA Tokens
+                - paragraph [ref=e52]: "0"
+              - generic [ref=e53]:
+                - generic [ref=e54]: Locked Tokens
+                - paragraph [ref=e55]: "0"
+            - generic [ref=e56]:
+              - generic [ref=e57]: Lifetime Tokens Earned
+              - paragraph [ref=e58]: "0"
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - generic [ref=e61]: Current Tier
+                - generic [ref=e62]: bronze
+              - generic [ref=e63]:
+                - generic [ref=e64]:
+                  - generic [ref=e65]: Current Points
+                  - paragraph [ref=e66]: "0"
+                - generic [ref=e67]:
+                  - generic [ref=e68]: Lifetime Points
+                  - paragraph [ref=e69]: "0"
+      - generic [ref=e70]:
+        - generic [ref=e71]:
+          - heading "Add Balance" [level=3] [ref=e72]
+          - paragraph [ref=e73]: Add USD, BTC, ETH, or USDT to user's balance
+        - generic [ref=e74]:
+          - generic [ref=e75]:
+            - paragraph [ref=e76]: USD Balance
+            - paragraph [ref=e77]: $0.00
+          - generic [ref=e78]:
+            - paragraph [ref=e79]: BTC Balance
+            - paragraph [ref=e80]: 0.00000000 BTC
+          - generic [ref=e81]:
+            - paragraph [ref=e82]: ETH Balance
+            - paragraph [ref=e83]: 0.000000 ETH
+          - generic [ref=e84]:
+            - paragraph [ref=e85]: USDT Balance
+            - paragraph [ref=e86]: 0.00 USDT
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - generic [ref=e89]: Balance Type
+            - combobox "Select balance type" [ref=e90]:
+              - option "USD ($)" [selected]
+              - option "Bitcoin (BTC)"
+              - option "Ethereum (ETH)"
+              - option "Tether (USDT)"
+          - generic [ref=e91]:
+            - generic [ref=e92]: Amount
+            - spinbutton "Amount to add" [ref=e93]
+          - generic [ref=e94]:
+            - generic [ref=e95]: Description (Optional)
+            - textbox "Description" [ref=e96]:
+              - /placeholder: Reason for adding balance
+          - button "Add 0 USD" [disabled] [ref=e97]
+        - paragraph [ref=e99]:
+          - strong [ref=e100]: "Note:"
+          - text: All balance additions are logged in the audit trail and will trigger a real-time update for the user.
+      - generic [ref=e101]:
+        - heading "KYC Status" [level=2] [ref=e103]
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - generic [ref=e106]:
+              - generic [ref=e107]: Verification Status
+              - generic [ref=e108]: PENDING
+            - generic [ref=e109]:
+              - button "Approve" [ref=e110] [cursor=pointer]
+              - button "Reject" [ref=e111] [cursor=pointer]
+          - paragraph [ref=e112]: No KYC documents submitted.
+  - button "Open Advancia Help" [ref=e113] [cursor=pointer]: AI
+  - alert [ref=e114]
+```

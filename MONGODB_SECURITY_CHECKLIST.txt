@@ -1,0 +1,51 @@
+MongoDB Atlas Security Configuration Checklist
+==============================================
+Date: December 4, 2025
+
+COMPLETED STEPS:
+[ ] 1. Added security contact email in Organization Settings
+      Email: support@advanciapayledger.com or security@advanciapayledger.com
+      Verified: Yes/No
+
+[ ] 2. Enabled MFA on MongoDB Atlas account
+      Method: Authenticator App
+      Recovery codes saved: Yes/No
+      Tested login with MFA: Yes/No
+
+[ ] 3. Reviewed IP access list
+      Removed 0.0.0.0/0: Yes/No
+      Added Render IPs: Yes/No (Count: ___)
+      Added dev machine IP: Yes/No
+
+[ ] 4. Retrieved Render outbound IPs
+      IPs documented: Yes/No
+      Location: Render Dashboard → Service → Settings
+
+[ ] 5. Set up security@advanciapayledger.com
+      Email created: Yes/No
+      Forwarding configured: Yes/No
+      Tested: Yes/No
+
+ADDITIONAL SECURITY MEASURES:
+[ ] Enabled encryption at rest (MongoDB Atlas free tier includes this)
+[ ] Enabled audit logs (requires M10+ cluster)
+[ ] Set up monitoring alerts
+[ ] Documented MongoDB credentials in password manager
+[ ] Added backup administrator to organization
+[ ] Tested MongoDB connection from Render
+
+NOTES:
+- MongoDB Atlas Dashboard: https://cloud.mongodb.com
+- Render Dashboard: https://dashboard.render.com
+- Security email: security@advanciapayledger.com
+- Recovery codes stored in: [SECURE LOCATION]
+
+POST-CONFIGURATION TEST:
+1. Run: cd backend && node test-mongodb.js
+2. Expected: Connection successful with restricted IPs
+3. If fails: Check IP whitelist includes Render/current machine
+
+EMERGENCY CONTACTS:
+- MongoDB Support: https://support.mongodb.com
+- Render Support: https://render.com/support
+- Platform Admin: [YOUR EMAIL]

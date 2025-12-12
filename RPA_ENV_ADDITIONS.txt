@@ -1,0 +1,45 @@
+# ================================
+# RPA DEPLOYMENT AUTOMATION
+# ================================
+# Render.com API credentials for automated deployments
+RENDER_SERVICE_ID="srv-xxxxxxxxxxxxx"  # Your Render service ID
+RENDER_API_KEY="rnd_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  # Your Render API key
+
+# Cloudflare CDN cache management
+CLOUDFLARE_ZONE_ID="your-cloudflare-zone-id"  # Found in Cloudflare Dashboard → Overview
+CLOUDFLARE_API_TOKEN="your-cloudflare-api-token"  # Create at Cloudflare → My Profile → API Tokens
+
+# Deployment behavior (optional)
+AUTO_ROLLBACK="false"  # Set to "true" to auto-revert on deployment failure
+CHECK_LOCAL_HEALTH="false"  # Set to "true" to check local services before deploying
+
+# ================================
+# GITHUB REPOSITORY SECRETS
+# ================================
+# These should be added to: Repository → Settings → Secrets and variables → Actions
+# Required secrets:
+#   - RENDER_SERVICE_ID
+#   - RENDER_API_KEY
+#   - CLOUDFLARE_ZONE_ID (optional but recommended)
+#   - CLOUDFLARE_API_TOKEN (optional but recommended)
+#   - BACKEND_URL (defaults to https://api.advanciapayledger.com)
+#   - ADMIN_EMAIL (for notifications)
+
+# ================================
+# HOW TO GET CREDENTIALS
+# ================================
+# 
+# RENDER:
+# 1. Go to https://dashboard.render.com
+# 2. Select your service → Settings
+# 3. Copy "Service ID" (starts with srv-)
+# 4. Go to Account Settings → API Keys
+# 5. Create new API key
+# 
+# CLOUDFLARE:
+# 1. Go to https://dash.cloudflare.com
+# 2. Select your domain
+# 3. Copy "Zone ID" from Overview page (right sidebar)
+# 4. Go to My Profile → API Tokens
+# 5. Create Token → Edit zone DNS template → Add Zone.Cache Purge permission
+# 6. Copy the generated token

@@ -1,0 +1,205 @@
+# Moderation Rules for Mom AI Output Filtering
+# These rules are applied to ALL AI-generated outputs before execution
+
+version: "1.0"
+enabled: true
+
+# Block outputs containing private key patterns
+private_keys:
+  enabled: true
+  severity: CRITICAL
+  patterns:
+    - '-----BEGIN (RSA|DSA|EC|OPENSSH) PRIVATE KEY-----'
+    - '-----BEGIN ENCRYPTED PRIVATE KEY-----'
+    - 'PRIVATE KEY BLOCK-----'
+  action: BLOCK
+  alert: true
+  notify_admin: true
+
+# Block database credential patterns
+credentials:
+  enabled: true
+  severity: CRITICAL
+  patterns:
+    - 'password\s*[:=]\s*["\']?[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:,.<>?]{8,}'
+    - 'DATABASE_URL\s*[:=]\s*["\']?postgresql://'
+    - 'DB_PASSWORD\s*[:=]'
+    - 'API_KEY\s*[:=]\s*["\']?[a-zA-Z0-9_\-]{20,}'
+    - 'SECRET_KEY\s*[:=]'
+    - 'JWT_SECRET\s*[:=]'
+  action: BLOCK
+  alert: true
+  notify_admin: true
+
+# Block SQL injection payloads
+sql_injection:
+  enabled: true
+  severity: HIGH
+  patterns:
+    - "UNION\\s+SELECT"
+    - "DROP\\s+TABLE"
+    - "DELETE\\s+FROM\\s+users"
+    - "'; DROP TABLE"
+    - "admin' OR '1'='1"
+    - "1=1--"
+  action: BLOCK
+  alert: true
+
+# Block XSS attack patterns
+xss_patterns:
+  enabled: true
+  severity: HIGH
+  patterns:
+    - '<script[^>]*>.*?</script>'
+    - 'javascript:'
+    - 'on(load|error|click|mouseover)\s*='
+    - '<iframe[^>]*>'
+    - 'eval\('
+    - 'document\.cookie'
+  action: BLOCK
+  alert: true
+
+# Block command injection patterns
+command_injection:
+  enabled: true
+  severity: CRITICAL
+  patterns:
+    - 'rm\s+-rf\s+/'
+    - 'sudo\s+rm'
+    - ';\s*rm\s+-rf'
+    - 'mkfs\.'
+    - 'dd\s+if=/dev/zero'
+    - '> /etc/(passwd|shadow)'
+    - 'chmod\s+777\s+/etc'
+  action: BLOCK
+  alert: true
+  notify_admin: true
+
+# Block reverse shell patterns
+reverse_shell:
+  enabled: true
+  severity: CRITICAL
+  patterns:
+    - 'bash\s+-i\s+>&\s+/dev/tcp/'
+    - 'nc\s+-e\s+/bin/(ba)?sh'
+    - 'python.*socket.*subprocess'
+    - 'perl.*Socket.*exec'
+    - '/bin/sh\s+\|\s+nc'
+  action: BLOCK
+  alert: true
+  notify_admin: true
+
+# Block file path traversal
+path_traversal:
+  enabled: true
+  severity: HIGH
+  patterns:
+    - '\.\./\.\./\.\.'
+    - '\.\.\\\.\.\\\.\./'
+    - '/etc/shadow'
+    - '/etc/passwd'
+    - '\.\./'
+  action: BLOCK
+  alert: true
+
+# Detect PII (Personal Identifiable Information)
+pii_detection:
+  enabled: true
+  severity: MEDIUM
+  patterns:
+    - '\b\d{3}-\d{2}-\d{4}\b' # SSN
+    - '\b\d{16}\b' # Credit card
+    - '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b' # Email (case insensitive)
+    - '\b\d{3}[-.]?\d{3}[-.]?\d{4}\b' # Phone number
+  action: REDACT
+  alert: true
+  redact_with: "[REDACTED]"
+
+# Block malware signatures
+malware_patterns:
+  enabled: true
+  severity: CRITICAL
+  patterns:
+    - 'WannaCry'
+    - 'Petya'
+    - 'NotPetya'
+    - '\.encrypted$'
+    - '\.locked$'
+    - '\.crypto$'
+    - 'DECRYPT_INSTRUCTION'
+  action: BLOCK
+  alert: true
+  notify_admin: true
+  trigger_lockdown: true
+
+# Block cryptocurrency mining code
+crypto_mining:
+  enabled: true
+  severity: HIGH
+  patterns:
+    - 'coinhive'
+    - 'crypto-loot'
+    - 'CoinImp'
+    - 'monero.*mining'
+  action: BLOCK
+  alert: true
+
+# General suspicious activity patterns
+suspicious_activity:
+  enabled: true
+  severity: MEDIUM
+  patterns:
+    - 'base64.*exec'
+    - 'eval\(atob\('
+    - 'String\.fromCharCode'
+    - 'unescape\(%'
+  action: FLAG
+  alert: true
+
+# Actions configuration
+actions:
+  BLOCK:
+    description: "Completely block the output and return error"
+    response_code: 403
+    response_message: "Content blocked by moderation system"
+  
+  REDACT:
+    description: "Replace sensitive content with placeholder"
+    log_original: true
+  
+  FLAG:
+    description: "Allow but flag for admin review"
+    require_review: true
+  
+  ALERT:
+    description: "Send alert to monitoring system"
+    channels:
+      - elasticsearch
+      - slack
+      - pagerduty
+
+# Notification settings
+notifications:
+  slack:
+    enabled: true
+    webhook_env: "SLACK_SECURITY_WEBHOOK"
+    severity_threshold: HIGH
+  
+  pagerduty:
+    enabled: false
+    api_key_env: "PAGERDUTY_API_KEY"
+    severity_threshold: CRITICAL
+  
+  email:
+    enabled: true
+    recipients:
+      - admin@advancia.com
+    severity_threshold: CRITICAL
+
+# Audit logging
+audit:
+  enabled: true
+  log_all_checks: true
+  retention_days: 365
+  immutable: true
+  destination: elasticsearch

@@ -1,0 +1,26 @@
+name: CI - Validate Postgres init file
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate-init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate Postgres init SQL
+        run: |
+          echo "Checking db/init-db.sql presence and type"
+          if [ ! -e db/init-db.sql ]; then
+            echo "ERROR: db/init-db.sql not found. Create db/init-db.sql with CREATE DATABASE saasdb;"
+            exit 1
+          fi
+          if [ -d db/init-db.sql ]; then
+            echo "ERROR: db/init-db.sql is a directory (should be a file). Check docker-compose volume mapping."
+            ls -la db || true
+            exit 1
+          fi
+          echo "db/init-db.sql exists; printing first 50 lines"
+          head -n 50 db/init-db.sql || true
