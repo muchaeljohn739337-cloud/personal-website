@@ -62,13 +62,13 @@ import blogRouter from "./routes/blog";
 import consultationRouter from "./routes/consultation";
 import copilotRouter, { setCopilotSocketIO } from "./routes/copilot";
 import cryptoRouter, { setCryptoSocketIO } from "./routes/crypto";
-import debitCardRouter, { setDebitCardSocketIO } from "./routes/debitCard";
+// import debitCardRouter, { setDebitCardSocketIO } from "./routes/debitCard"; // Temporarily disabled
 import deploymentRouter from "./routes/deployment";
-import exchangeRouter from "./routes/exchange";
+// import exchangeRouter from "./routes/exchange"; // Temporarily disabled
 import filesRouter from "./routes/files";
-import googleAuthRouter from "./routes/google-auth";
-import governanceRouter from "./routes/governance";
-import healthRouter from "./routes/health";
+// import googleAuthRouter from "./routes/google-auth"; // Temporarily disabled
+// import governanceRouter from "./routes/governance"; // Temporarily disabled
+// import healthRouter from "./routes/health"; // Temporarily disabled
 import healthReadingsRouter from "./routes/health-readings";
 import internalRouter from "./routes/internal";
 import ipBlocksRouter from "./routes/ipBlocks";
@@ -77,21 +77,21 @@ import markdownFixerRouter from "./routes/markdownFixer";
 import marketingRouter from "./routes/marketing";
 import medbedsRouter, { setMedbedsSocketIO } from "./routes/medbeds";
 import oalRouter, { setOALSocketIO } from "./routes/oal";
-import paymentsRouter, { handleStripeWebhook, setPaymentsSocketIO } from "./routes/payments";
-import projectRouter from "./routes/project";
+// import paymentsRouter, { handleStripeWebhook, setPaymentsSocketIO } from "./routes/payments"; // Temporarily disabled
+// import projectRouter from "./routes/project"; // Temporarily disabled
 import rewardsRouter, { setRewardSocketIO } from "./routes/rewards";
 import rpaRouter, { setRPASocketIO } from "./routes/rpa";
 import securityLevelRouter from "./routes/securityLevel";
 import seoRouter from "./routes/seo";
 import sessionsRouter, { setBroadcastSessions as setSessionsBroadcast } from "./routes/sessions";
-import socialMediaRouter from "./routes/socialMedia";
+// import socialMediaRouter from "./routes/socialMedia"; // Temporarily disabled
 import subscribersRouter from "./routes/subscribers";
 import supportRouter, { setSupportSocketIO } from "./routes/support";
-import systemRouter from "./routes/system";
+// import systemRouter from "./routes/system"; // Temporarily disabled
 import tokensRouter, { setTokenSocketIO } from "./routes/tokens";
 import transactionsRouter, { setTransactionSocketIO } from "./routes/transactions";
 import adminUsersRouter, { setAdminUsersSocketIO } from "./routes/users";
-import vaultRouter, { setVaultSocketIO } from "./routes/vault";
+// import vaultRouter, { setVaultSocketIO } from "./routes/vault"; // Temporarily disabled
 import withdrawalsRouter, { setWithdrawalSocketIO } from "./routes/withdrawals";
 import { jobService } from "./services/JobService";
 import { setSocketIO as setNotificationSocket } from "./services/notificationService";
@@ -140,7 +140,7 @@ app.use(
 );
 
 // Stripe webhook MUST use raw body, so register it BEFORE express.json()
-app.post("/api/payments/webhook", express.raw({ type: "application/json" }), handleStripeWebhook);
+// app.post("/api/payments/webhook", express.raw({ type: "application/json" }), handleStripeWebhook); // Temporarily disabled
 
 // JSON parser and common middlewares AFTER webhook
 app.use(express.json());
@@ -156,7 +156,7 @@ if (process.env.NODE_ENV !== "development") {
 app.use("/api", rateLimit({ windowMs: 60_000, maxRequests: 300 }));
 
 // Health check endpoint (critical for production monitoring)
-app.use("/api", healthRouter);
+// app.use("/api", healthRouter); // Temporarily disabled
 
 // IP check endpoint for debugging (shows real IP and whitelist status)
 app.get("/api/check-ip", checkIPRoute);
@@ -187,9 +187,9 @@ Allow: /api/health
 });
 
 // Regular routes
-app.use("/api/payments", paymentsRouter);
+// app.use("/api/payments", paymentsRouter); // Temporarily disabled
 app.use("/api/crypto", cryptoRouter);
-app.use("/api/debit-card", debitCardRouter);
+// app.use("/api/debit-card", debitCardRouter); // Temporarily disabled
 app.use("/api/medbeds", medbedsRouter);
 app.use("/api/support", supportRouter);
 app.use("/api/admin/analytics", ipWhitelistMiddleware, analyticsRouter);
@@ -197,7 +197,7 @@ app.use("/api/ai-analytics", aiAnalyticsRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/auth/totp", totpRouter); // TOTP/2FA Management
 app.use("/api/auth/web3", web3AuthRouter); // Web3 Wallet Authentication (SIWE)
-app.use("/api/auth/google", googleAuthRouter); // Google OAuth Authentication
+// app.use("/api/auth/google", googleAuthRouter); // Temporarily disabled // Google OAuth Authentication
 app.use("/api/admin", ipWhitelistMiddleware, adminUsersRouter);
 app.use("/api/admin", ipWhitelistMiddleware, adminRouter);
 app.use("/api/admin/security", ipWhitelistMiddleware, adminSecurityRouter); // AI & Security Monitoring
@@ -216,7 +216,7 @@ app.use("/api/transactions", transactionsRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/consultation", consultationRouter);
 app.use("/api/admin/doctors", adminDoctorsRouter);
-app.use("/api/system", systemRouter);
+// app.use("/api/system", systemRouter); // Temporarily disabled
 app.use("/api/marketing", marketingRouter);
 app.use("/api/subscribers", subscribersRouter);
 app.use("/api/bot-check", botCheckRouter);
@@ -235,18 +235,18 @@ app.use("/api/agents", agentRoutes);
 app.use("/api/internal", internalRouter);
 app.use("/api/files", filesRouter);
 app.use("/api/jobs", jobsRouter);
-app.use("/api/governance", governanceRouter);
+// app.use("/api/governance", governanceRouter); // Temporarily disabled
 app.use("/api/ai-workers", aiWorkersRouter); // AI Worker Management System
 app.use("/api/deployment", deploymentRouter); // AI Deployment Agent - Manual Trigger & Status
-app.use("/api/vault", vaultRouter); // HashiCorp Vault Integration - Admin Secret Management
+// app.use("/api/vault", vaultRouter); // Temporarily disabled // HashiCorp Vault Integration - Admin Secret Management
 app.use("/api/copilot", copilotRouter); // AI Copilot - LLM-Powered Code Generation & Task Automation
 app.use("/api/ai-generator", aiGeneratorRouter); // AI Generator - Text/Code/Image Generation with Multi-Model Support
 app.use("/api/ai-workflows", aiWorkflowsRouter); // AI Core - Half Brain Cell Workflows & Task Automation
 app.use("/api/blog", blogRouter); // Blog & CMS System with AI Content Generation
 app.use("/api/seo", seoRouter); // SEO Automation & Sitemap Generation
-app.use("/api/social-media", socialMediaRouter); // Multi-Channel Auto-Posting (Twitter, LinkedIn, Facebook)
-app.use("/api/projects", projectRouter); // Project Management (Projects, Tasks, Sprints, Kanban)
-app.use("/api/exchange", exchangeRouter);
+// app.use("/api/social-media", socialMediaRouter); // Temporarily disabled // Multi-Channel Auto-Posting (Twitter, LinkedIn, Facebook)
+// app.use("/api/projects", projectRouter); // Temporarily disabled // Project Management (Projects, Tasks, Sprints, Kanban)
+// app.use("/api/exchange", exchangeRouter); // Temporarily disabled
 app.use("/api/crypto/deposits", cryptoDepositsRouter); // Crypto Deposits - User-Facing API
 app.use("/api/crypto/withdrawals", cryptoWithdrawalsRouter); // Crypto Withdrawals - User-Facing API
 app.use("/api/crypto/admin", ipWhitelistMiddleware, cryptoAdminRouter); // Crypto Admin - Dad Console Approval
@@ -325,7 +325,7 @@ export function broadcastSessions() {
 setNotificationSocket(io);
 setTransactionSocketIO(io);
 setAdminUsersSocketIO(io);
-setDebitCardSocketIO(io);
+// setDebitCardSocketIO(io); // Temporarily disabled
 setMedbedsSocketIO(io);
 setCryptoSocketIO(io);
 setCryptoDepositsSocketIO(io);
@@ -334,7 +334,7 @@ setAdminLedgerSocketIO(io);
 setRewardSocketIO(io);
 setChatSocketIO(io);
 setSupportSocketIO(io);
-setPaymentsSocketIO(io);
+// setPaymentsSocketIO(io); // Temporarily disabled
 setWithdrawalSocketIO(io);
 setOALSocketIO(io);
 setTokenSocketIO(io);
