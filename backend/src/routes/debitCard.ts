@@ -1,7 +1,7 @@
 import { Router } from "express";
 import type { Server as IOServer } from "socket.io";
 import Stripe from "stripe";
-import { config } from "../config";
+import config from "../config";
 import { authenticateToken, requireAdmin } from "../middleware/auth";
 import prisma from "../prismaClient";
 

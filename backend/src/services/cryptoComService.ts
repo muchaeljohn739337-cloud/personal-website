@@ -120,7 +120,7 @@ class CryptoComService {
   verifyWebhookSignature(payload: string, signature: string): boolean {
     const expectedSignature = crypto.createHmac("sha256", this.webhookSecret).update(payload).digest("hex");
 
-    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
+    return crypto.timingSafeEqual(Buffer.from(signature) as any, Buffer.from(expectedSignature) as any);
   }
 
   /**

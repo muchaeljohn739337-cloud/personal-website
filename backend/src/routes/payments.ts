@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Server } from "socket.io";
 import Stripe from "stripe";
-import { config } from "../config";
+import config from "../config";
 import { aiRateLimiter } from "../middleware/aiRateLimiter";
 import { authenticateToken, requireAdmin } from "../middleware/auth";
 import prisma from "../prismaClient";
@@ -14,8 +14,9 @@ export const setPaymentsSocketIO = (ioServer: Server) => {
   io = ioServer;
 };
 
-const stripeClient = config.stripeSecretKey
-  ? new Stripe(config.stripeSecretKey, {
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const stripeClient = stripeSecretKey
+  ? new Stripe(stripeSecretKey, {
       apiVersion: "2023-10-16",
     })
   : null;
@@ -58,8 +59,8 @@ router.post("/checkout-session", authenticateToken as any, aiRateLimiter("stripe
         },
       ],
       metadata: mergedMetadata,
-      success_url: `${config.frontendUrl}/payments/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${config.frontendUrl}/payments/cancel`,
+      success_url: `${process.env.FRONTEND_URL || "http://localhost:3000"}/payments/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.FRONTEND_URL || "http://localhost:3000"}/payments/cancel`,
     });
 
     return res.json({ url: session.url, id: session.id });
@@ -127,7 +128,7 @@ router.post("/refund-request", authenticateToken as any, aiRateLimiter("stripe")
     }
 
     // Verify payment belongs to user
-    const transaction = await prisma.transaction.findFirst({
+    const transaction = await prisma.transactions.findFirst({
       where: {
         userId,
         description: {
@@ -158,14 +159,14 @@ router.post("/refund-request", authenticateToken as any, aiRateLimiter("stripe")
     await prisma.audit_logs.create({
       data: {
         action: "REFUND_REQUESTED",
-        userId,
+        userId: String(userId),
         resourceType: "PAYMENT",
-        resourceId: paymentId,
-        changes: JSON.stringify({
+        resourceId: String(paymentId),
+        changes: {
           amount: transaction.amount,
           reason,
           requestedAt: new Date().toISOString(),
-        }),
+        },
         ipAddress: req.ip || "127.0.0.1",
         userAgent: req.headers["user-agent"] || "Unknown",
       },
@@ -202,7 +203,7 @@ router.post("/admin/refund/:paymentId", authenticateToken as any, requireAdmin a
     }
 
     // Get user details for email notification
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { id: userId },
       select: { email: true, username: true, usdBalance: true },
     });
@@ -229,7 +230,7 @@ router.post("/admin/refund/:paymentId", authenticateToken as any, requireAdmin a
 
     // Update user balance and create refund transaction
     await prisma.$transaction(async (tx: any) => {
-      await tx.user.update({
+      await tx.users.update({
         where: { id: userId },
         data: {
           usdBalance: {
@@ -238,7 +239,7 @@ router.post("/admin/refund/:paymentId", authenticateToken as any, requireAdmin a
         },
       });
 
-      await tx.transaction.create({
+      await tx.transactions.create({
         data: {
           userId,
           type: "debit",
@@ -313,8 +314,9 @@ router.post("/admin/refund/:paymentId", authenticateToken as any, requireAdmin a
 // Webhook handler (to be mounted before express.json in index.ts)
 export const handleStripeWebhook = async (req: any, res: any) => {
   const sig = req.headers["stripe-signature"];
+  const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  if (!stripeClient || !config.stripeWebhookSecret) {
+  if (!stripeClient || !stripeWebhookSecret) {
     console.warn("Stripe webhook received but Stripe is not fully configured");
     return res.status(400).send("Webhook Error");
   }
@@ -324,7 +326,7 @@ export const handleStripeWebhook = async (req: any, res: any) => {
       ? (req.body as Buffer)
       : Buffer.from(typeof req.body === "string" ? req.body : JSON.stringify(req.body));
 
-    const event = stripeClient.webhooks.constructEvent(rawBody, sig as string, config.stripeWebhookSecret);
+    const event = stripeClient.webhooks.constructEvent(rawBody, sig as string, stripeWebhookSecret);
 
     switch (event.type) {
       case "checkout.session.completed": {
@@ -339,7 +341,7 @@ export const handleStripeWebhook = async (req: any, res: any) => {
         const amount = Number(session.amount_total) / 100;
 
         // Get user details for email
-        const user = await prisma.user.findUnique({
+        const user = await prisma.users.findUnique({
           where: { id: userId },
           select: { email: true, username: true },
         });
@@ -347,7 +349,7 @@ export const handleStripeWebhook = async (req: any, res: any) => {
         // Begin transaction
         await prisma.$transaction(async (tx: any) => {
           // Credit user's balance
-          await tx.user.update({
+          await tx.users.update({
             where: { id: userId },
             data: {
               usdBalance: {
@@ -429,13 +431,13 @@ export const handleStripeWebhook = async (req: any, res: any) => {
           await prisma.audit_logs.create({
             data: {
               action: "PAYMENT_FAILED",
-              userId,
+              userId: String(userId),
               resourceType: "PAYMENT",
-              resourceId: paymentIntent.id,
-              changes: JSON.stringify({
+              resourceId: String(paymentIntent.id),
+              changes: {
                 amount: paymentIntent.amount / 100,
                 error: paymentIntent.last_payment_error?.message || "Unknown error",
-              }),
+              },
               ipAddress: "127.0.0.1",
               userAgent: "Stripe Webhook",
             },

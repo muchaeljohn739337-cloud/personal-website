@@ -123,10 +123,16 @@ router.post("/", authenticateToken, async (req: Request, res: Response) => {
     const userId = (req as any).user.userId;
 
     const project = await projectService.createProject({
-      ...validated,
+      name: validated.name,
+      description: validated.description,
       ownerId: userId,
+      status: validated.status,
+      priority: validated.priority,
       startDate: validated.startDate ? new Date(validated.startDate) : undefined,
       endDate: validated.endDate ? new Date(validated.endDate) : undefined,
+      budget: validated.budget,
+      visibility: validated.visibility,
+      metadata: validated.metadata,
     });
 
     res.status(201).json(project);
@@ -252,9 +258,20 @@ router.post("/tasks", authenticateToken, async (req: Request, res: Response) => 
     const userId = (req as any).user.userId;
 
     const task = await projectService.createTask({
-      ...validated,
+      projectId: validated.projectId,
+      title: validated.title,
       reporterId: userId,
+      sprintId: validated.sprintId,
+      boardId: validated.boardId,
+      columnId: validated.columnId,
+      description: validated.description,
+      status: validated.status,
+      priority: validated.priority,
+      assigneeId: validated.assigneeId,
+      estimatedHours: validated.estimatedHours,
       dueDate: validated.dueDate ? new Date(validated.dueDate) : undefined,
+      position: validated.position,
+      metadata: validated.metadata,
     });
 
     res.status(201).json(task);
@@ -425,9 +442,12 @@ router.post("/:projectId/sprints", authenticateToken, async (req: Request, res: 
     const validated = CreateSprintSchema.parse({ ...req.body, projectId: req.params.projectId });
 
     const sprint = await projectService.createSprint({
-      ...validated,
+      projectId: validated.projectId,
+      name: validated.name,
+      goal: validated.goal,
       startDate: new Date(validated.startDate),
       endDate: new Date(validated.endDate),
+      status: validated.status,
     });
 
     res.status(201).json(sprint);
@@ -502,7 +522,13 @@ router.delete("/sprints/:id", authenticateToken, async (req: Request, res: Respo
 router.post("/:projectId/boards", authenticateToken, async (req: Request, res: Response) => {
   try {
     const validated = CreateBoardSchema.parse({ ...req.body, projectId: req.params.projectId });
-    const board = await projectService.createKanbanBoard(validated);
+    const board = await projectService.createKanbanBoard({
+      projectId: validated.projectId,
+      name: validated.name,
+      description: validated.description,
+      isDefault: validated.isDefault,
+      columns: validated.columns,
+    });
     res.status(201).json(board);
   } catch (error: any) {
     if (error instanceof z.ZodError) {

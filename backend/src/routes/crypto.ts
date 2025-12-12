@@ -2,7 +2,7 @@ import { Decimal } from "decimal.js";
 import { Router } from "express";
 import { Server } from "socket.io";
 import Stripe from "stripe";
-import { config } from "../config";
+import config from "../config";
 import { aiRateLimiter } from "../middleware/aiRateLimiter";
 import { authenticateToken } from "../middleware/auth";
 import prisma from "../prismaClient";

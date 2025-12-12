@@ -1,5 +1,5 @@
 import express from "express";
-import { config } from "../config";
+import config from "../config";
 import prisma from "../prismaClient";
 
 const router = express.Router();
@@ -7,9 +7,9 @@ const router = express.Router();
 // GET /api/system/cors-origins - returns computed allowed CORS origins
 router.get("/cors-origins", (req, res) => {
   return res.json({
-    allowedOrigins: config.allowedOrigins,
-    count: config.allowedOrigins.length,
-    nodeEnv: config.nodeEnv,
+    allowedOrigins: config.server.cors.origins,
+    count: config.server.cors.origins.length,
+    nodeEnv: config.server.env,
   });
 });
 

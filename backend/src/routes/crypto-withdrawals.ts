@@ -56,12 +56,13 @@ router.post("/", authenticateToken, async (req, res) => {
     const withdrawal = await prisma.crypto_withdrawals.create({
       data: {
         userId,
-        amount: new Decimal(amount),
-        currency,
-        destinationWallet,
+        cryptoAmount: new Decimal(amount),
+        cryptoType: currency,
+        withdrawalAddress: destinationWallet,
         sourceWallet: platformWallet.address,
         networkFee: new Decimal(networkFee),
         totalAmount,
+        usdEquivalent: new Decimal(0), // TODO: Calculate actual USD value
         status: "PENDING",
         requiresApproval: shouldRequireApproval(amount, currency),
       },
@@ -103,7 +104,7 @@ router.post("/", authenticateToken, async (req, res) => {
     if (io) {
       io.to(`user-${userId}`).emit("crypto-withdrawal-created", {
         withdrawalId: withdrawal.id,
-        amount: serializeDecimal(withdrawal.amount),
+        amount: serializeDecimal(withdrawal.cryptoAmount),
         currency,
         status: "PENDING",
         message: getUserFriendlyStatus("WITHDRAWAL", "PENDING"),
@@ -204,7 +205,7 @@ function shouldRequireApproval(amount: string, currency: string): boolean {
 async function processWithdrawal(withdrawalId: string) {
   const withdrawal = await prisma.crypto_withdrawals.findUnique({
     where: { id: withdrawalId },
-    include: { user: true },
+    include: { users: true },
   });
 
   if (!withdrawal) throw new Error("Withdrawal not found");
@@ -212,10 +213,10 @@ async function processWithdrawal(withdrawalId: string) {
   try {
     // Execute blockchain transaction (simplified)
     const txHash = await executeBlockchainTransaction(
-      withdrawal.currency,
-      withdrawal.sourceWallet,
-      withdrawal.destinationWallet,
-      withdrawal.amount.toString()
+      withdrawal.cryptoType,
+      withdrawal.sourceWallet || "",
+      withdrawal.withdrawalAddress,
+      withdrawal.cryptoAmount.toString()
     );
 
     // Update withdrawal with tx hash
@@ -228,12 +229,12 @@ async function processWithdrawal(withdrawalId: string) {
     });
 
     // Create ledger entry
-    await prisma.cryptoLedger.create({
+    await prisma.crypto_ledger.create({
       data: {
         userId: withdrawal.userId,
         type: "WITHDRAWAL",
-        amount: withdrawal.amount,
-        currency: withdrawal.currency,
+        amount: withdrawal.cryptoAmount,
+        currency: withdrawal.cryptoType,
         txHash,
         status: "APPROVED",
       },
@@ -243,8 +244,8 @@ async function processWithdrawal(withdrawalId: string) {
     if (io) {
       io.to(`user-${withdrawal.userId}`).emit("crypto-withdrawal-approved", {
         withdrawalId,
-        amount: serializeDecimal(withdrawal.amount),
-        currency: withdrawal.currency,
+        amount: serializeDecimal(withdrawal.cryptoAmount),
+        currency: withdrawal.cryptoType,
         txHash,
         message: getUserFriendlyStatus("WITHDRAWAL", "APPROVED"),
       });
@@ -263,12 +264,12 @@ async function processWithdrawal(withdrawalId: string) {
       where: {
         userId_currency: {
           userId: withdrawal.userId,
-          currency: withdrawal.currency,
+          currency: withdrawal.cryptoType,
         },
       },
       data: {
         balance: {
-          increment: withdrawal.totalAmount,
+          increment: withdrawal.totalAmount || withdrawal.cryptoAmount,
         },
       },
     });
@@ -287,7 +288,7 @@ async function processWithdrawal(withdrawalId: string) {
 async function analyzeWithdrawalAsync(withdrawalId: string) {
   const withdrawal = await prisma.crypto_withdrawals.findUnique({
     where: { id: withdrawalId },
-    include: { user: true },
+    include: { users: true },
   });
 
   if (!withdrawal) return;
@@ -301,9 +302,9 @@ async function analyzeWithdrawalAsync(withdrawalId: string) {
   });
 
   const riskScore = calculateRiskScore({
-    amount: withdrawal.amount.toNumber(),
-    userTier: withdrawal.user.tier,
-    kycStatus: withdrawal.user.kycStatus,
+    amount: withdrawal.cryptoAmount.toNumber(),
+    userTier: withdrawal.users.tier,
+    kycStatus: withdrawal.users.kycStatus,
     velocityCount: recentWithdrawals,
   });
 
@@ -326,9 +327,9 @@ async function analyzeWithdrawalAsync(withdrawalId: string) {
       metadata: {
         withdrawalId,
         userId: withdrawal.userId,
-        amount: withdrawal.amount.toString(),
-        currency: withdrawal.currency,
-        destinationWallet: withdrawal.destinationWallet,
+        amount: withdrawal.cryptoAmount.toString(),
+        currency: withdrawal.cryptoType,
+        destinationWallet: withdrawal.withdrawalAddress,
         riskScore,
       },
     });

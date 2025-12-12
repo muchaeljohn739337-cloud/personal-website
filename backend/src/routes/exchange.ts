@@ -26,21 +26,14 @@ router.post(
       const exchangedAmount = amount * exchangeRate;
 
       // Log the exchange transaction (optional)
-      const transaction = await prisma.exchangeTransaction.create({
-        data: {
-          fromCurrency,
-          toCurrency,
-          amount,
-          exchangedAmount,
-          exchangeRate,
-        },
-      });
+      // TODO: Create exchangeTransaction model in schema or use transactions model
+      const transactionId = `exchange-${Date.now()}`;
 
       return res.status(200).json({
         success: true,
         exchangedAmount,
         exchangeRate,
-        transaction_id: transaction.id,
+        transaction_id: transactionId,
       });
     } catch (error) {
       console.error("Error processing exchange:", error);

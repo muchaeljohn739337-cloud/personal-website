@@ -62,7 +62,7 @@ class ResendService {
         to: Array.isArray(options.to) ? options.to : [options.to],
         subject: options.subject,
         html: options.html,
-        reply_to: options.replyTo,
+        replyTo: options.replyTo,
         cc: options.cc,
         bcc: options.bcc,
         attachments: options.attachments,

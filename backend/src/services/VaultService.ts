@@ -586,6 +586,50 @@ export class VaultService {
   }
 
   /**
+   * Create audit log entry
+   */
+  async createAuditLog(data: AuditLogData | string, userId?: string, resourceType?: string, resourceId?: string, metadata?: any) {
+    try {
+      // Support both object and legacy parameter styles
+      let logData: any;
+      if (typeof data === "string") {
+        // Legacy style: createAuditLog(action, userId, resourceType, resourceId, metadata)
+        logData = {
+          action: data,
+          userId: userId,
+          resourceType: resourceType,
+          resourceId: resourceId,
+          metadata: metadata ? JSON.stringify(metadata) : undefined,
+          ipAddress: "127.0.0.1",
+          userAgent: "VaultService",
+        };
+      } else {
+        // New style: createAuditLog(AuditLogData)
+        logData = {
+          action: data.action,
+          userId: data.userId,
+          resourceType: "VAULT",
+          resourceId: data.secretKey,
+          metadata: JSON.stringify({
+            success: data.success,
+            mfaVerified: data.mfaVerified,
+            errorMessage: data.errorMessage,
+          }),
+          ipAddress: data.ipAddress || "127.0.0.1",
+          userAgent: data.userAgent || "VaultService",
+        };
+      }
+
+      await prisma.audit_logs.create({
+        data: logData,
+      });
+    } catch (error) {
+      console.error("❌ Failed to create audit log:", error);
+      // Don't throw - audit logging should not break main flow
+    }
+  }
+
+  /**
    * Get audit logs
    */
   async getAuditLogs(limit = 100, offset = 0) {

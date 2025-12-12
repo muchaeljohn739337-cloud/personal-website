@@ -3,6 +3,7 @@ import * as nodemailer from "nodemailer";
 import { Server as SocketServer } from "socket.io";
 import webpush from "web-push";
 import prisma from "../prismaClient";
+import { resendService } from "./resendService";
 
 // Configure VAPID (will be set from env)
 const vapidPublicKey = process.env.VAPID_PUBLIC_KEY || "";

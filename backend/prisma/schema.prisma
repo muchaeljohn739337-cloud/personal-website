@@ -496,6 +496,10 @@ model crypto_withdrawals {
   cryptoAmount      Decimal
   usdEquivalent     Decimal
   withdrawalAddress String
+  sourceWallet      String?
+  totalAmount       Decimal?
+  requiresApproval  Boolean   @default(false)
+  agentAnalysis     Json?
   status            String    @default("PENDING")
   adminApprovedBy   String?
   adminNotes        String?

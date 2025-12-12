@@ -246,7 +246,7 @@ router.get("/processors", async (req: Request, res: Response) => {
       where: {
         enabled: true,
         jurisdictions: {
-          has: detectedJurisdiction,
+          contains: detectedJurisdiction,
         },
       },
       select: {
@@ -351,7 +351,7 @@ router.get("/compliance/:transactionId", authenticateToken, async (req: Request,
     // Get risk assessment if exists
     const riskAssessment = await prisma.risk_assessments.findFirst({
       where: { transaction_id: transactionId },
-      orderBy: { assessedAt: "desc" },
+      orderBy: { assessed_at: "desc" },
     });
 
     // Get compliance alerts if any
@@ -468,9 +468,9 @@ router.put("/rules/:jurisdiction", authenticateToken, requireAdmin, async (req: 
         regulators: regulators || undefined,
         requirements: requirements || undefined,
         allowed_processors: allowed_processors || undefined,
-        restrictedCountries: restricted_countries || undefined,
-        complianceLevel: compliance_level || undefined,
-        lastUpdated: new Date(),
+        restricted_countries: restricted_countries || undefined,
+        compliance_level: compliance_level || undefined,
+        last_updated: new Date(),
       },
     });
 
@@ -519,8 +519,8 @@ router.put("/alerts/:alertId/resolve", authenticateToken, requireAdmin, async (r
       data: {
         status,
         resolution_notes: resolution_notes || "",
-        resolvedAt: new Date(),
-        assignedTo: (req as any).user?.id, // From authenticateToken middleware
+        resolved_at: new Date(),
+        assigned_to: (req as any).user?.id, // From authenticateToken middleware
       },
     });
 

@@ -247,16 +247,16 @@ export class EmailService {
       await prisma.audit_logs.create({
         data: {
           action: "EMAIL_SEND_FAILED",
-          userId: null,
+          userId: undefined,
           resourceType: "EMAIL",
           resourceId: options.template,
-          changes: JSON.stringify(options),
-          metadata: JSON.stringify({
+          changes: options,
+          metadata: {
             error: error.message,
             timestamp: new Date().toISOString(),
-          }),
-          ip_address: "127.0.0.1",
-          user_agent: "EmailService",
+          },
+          ipAddress: "127.0.0.1",
+          userAgent: "EmailService",
         },
       });
     } catch (dbError) {

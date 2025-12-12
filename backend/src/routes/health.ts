@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import os from "os";
-import { config } from "../config";
+import config from "../config";
 import prisma from "../prismaClient";
 
 const router = express.Router();
@@ -69,7 +69,7 @@ router.get("/health/detailed", async (req: Request, res: Response) => {
     try {
       // Get recent transaction count (last hour)
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-      const recentTransactions = await prisma.transaction.count({
+      const recentTransactions = await prisma.transactions.count({
         where: {
           createdAt: {
             gte: oneHourAgo,
@@ -94,7 +94,7 @@ router.get("/health/detailed", async (req: Request, res: Response) => {
     const serviceStatus = {
       database: "connected",
       redis: process.env.REDIS_URL ? "configured" : "not-configured",
-      stripe: config.stripeSecretKey ? "configured" : "not-configured",
+      stripe: process.env.STRIPE_SECRET_KEY ? "configured" : "not-configured",
       sendgrid: process.env.SENDGRID_API_KEY ? "configured" : "not-configured",
       smtp: process.env.SMTP_HOST ? "configured" : "not-configured",
       vault: process.env.VAULT_ADDR ? "configured" : "not-configured",
@@ -202,8 +202,8 @@ router.get("/health/detailed", async (req: Request, res: Response) => {
       // Environment
       environment: {
         nodeEnv: process.env.NODE_ENV || "development",
-        frontendUrl: config.frontendUrl,
-        port: config.port,
+        frontendUrl: process.env.FRONTEND_URL || "http://localhost:3000",
+        port: config.server.port,
       },
     });
   } catch (error: any) {

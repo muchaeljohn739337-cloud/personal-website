@@ -102,8 +102,14 @@ router.post("/posts", authenticateToken, requireAdmin, async (req: Request, res:
 
     const data = validation.data;
     const post = await socialMediaService.createSocialMediaPost({
-      ...data,
+      accountId: data.accountId,
+      content: data.content,
+      blogPostId: data.blogPostId,
+      mediaUrls: data.mediaUrls,
+      hashtags: data.hashtags,
       scheduledFor: data.scheduledFor ? new Date(data.scheduledFor) : undefined,
+      aiGenerated: data.aiGenerated,
+      aiModel: data.aiModel,
     });
 
     res.status(201).json(post);
