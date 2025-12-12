@@ -1,7 +1,4 @@
 {
-  // CRITICAL: Remove secrets from workspace settings
-  // "secrets.passphrase": "Good_mother1!?", // MOVED TO USER SETTINGS FOR SECURITY
-
   // CSS/Styling
   "css.lint.unknownAtRules": "ignore",
 
@@ -10,17 +7,12 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-<<<<<<< HEAD
-=======
     "source.fixAll.markdownlint": "explicit",
->>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
     "source.organizeImports": "explicit"
   },
   "editor.rulers": [80, 120],
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-<<<<<<< HEAD
-=======
   "editor.trimAutoWhitespace": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
@@ -32,36 +24,21 @@
     "comments": "off",
     "strings": "on"
   },
->>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
+  "editor.parameterHints.enabled": true,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.suggest.showKeywords": true,
+  "editor.suggest.showSnippets": true,
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.minimap.enabled": true,
+  "editor.minimap.maxColumn": 120,
 
   // TypeScript/JavaScript Settings
   "typescript.preferences.preferTypeOnlyAutoImports": true,
   "typescript.suggest.autoImports": true,
-  "javascript.preferences.preferTypeOnlyAutoImports": true,
-
-  // File Associations
-  "files.associations": {
-    "*.env*": "dotenv",
-    "docker-compose*.yml": "dockercompose",
-    "Dockerfile*": "dockerfile",
-    "*.prisma": "prisma"
-  },
-
-<<<<<<< HEAD
-  // Git Settings
-  "git.autofetch": true,
-  "git.enableSmartCommit": true,
-  "git.confirmSync": false,
-
-  // GitLens Settings - Deployment Drift Filter
-  "gitlens.advanced.messages": {
-    "suppressCommitHasNoPreviousCommitWarning": false
-=======
-  // TypeScript
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.includePackageJsonAutoImports": "on",
-  "typescript.suggest.autoImports": true,
   "typescript.suggest.paths": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
@@ -69,16 +46,30 @@
   "typescript.inlayHints.variableTypes.enabled": true,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.tsserver.maxTsServerMemory": 4096,
+  "javascript.preferences.preferTypeOnlyAutoImports": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
 
-  // Files
+  // File Associations
+  "files.associations": {
+    "*.env*": "dotenv",
+    "docker-compose*.yml": "dockercompose",
+    "Dockerfile*": "dockerfile",
+    "*.prisma": "prisma",
+    "*.css": "tailwindcss"
+  },
   "files.exclude": {
     "**/.git": false,
+    "**/.DS_Store": true,
     "**/.next": true,
     "**/.open-next": true,
     "**/.vercel": true,
     "**/node_modules": true,
     "**/.turbo": true,
-    "**/coverage": true
+    "**/coverage": true,
+    "**/dist": true,
+    "**/build": true
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
@@ -88,109 +79,14 @@
     "**/.open-next/**": true,
     "**/.vercel/**": true,
     "**/.turbo/**": true,
-    "**/coverage/**": true
->>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
+    "**/coverage/**": true,
+    "**/dist/**": true,
+    "**/data/chromadb/**": true,
+    "**/backups/**": true
   },
-  "gitlens.views.commits.files.layout": "tree",
-  "gitlens.views.repositories.files.layout": "tree",
+  "files.maxMemoryForLargeFilesMB": 4096,
 
-<<<<<<< HEAD
-  // GitLens Filter Presets for Deployment Tracking
-  "gitlens.views.commits.filters.preset": {
-    "deployment-drift": {
-      "name": "🚀 Deployment Drift (Render/Cloudflare)",
-      "description": "Show commits that changed deployment workflows, configs, and startup scripts (excludes Vercel)",
-      "filters": {
-        "branches": {
-          "include": ["main", "deploy/*", "ci/*"]
-        },
-        "paths": {
-          "include": [
-            ".github/workflows/**",
-            "render.yaml",
-            "render.*.yaml",
-            "wrangler.toml",
-            "docker-compose.yml",
-            "Dockerfile",
-            "**/Dockerfile*",
-            "scripts/deploy*.sh",
-            "scripts/deploy*.ps1",
-            "scripts/start*.sh",
-            "scripts/start*.ps1",
-            "**/deploy*.sh",
-            "**/deploy*.ps1",
-            "backend/Procfile",
-            "backend/package.json",
-            "frontend/package.json",
-            ".env.example",
-            "**/.env.example",
-            "backend/prisma/schema.prisma",
-            "backend/src/index.ts",
-            "backend/src/app.ts",
-            "frontend/next.config.js",
-            "frontend/middleware.ts"
-          ],
-          "exclude": [
-            "**/*vercel*",
-            "**/*Vercel*",
-            "**/vercel.json",
-            "VERCEL*.md",
-            "**/node_modules/**",
-            "**/dist/**",
-            "**/.next/**"
-          ]
-        },
-        "authors": {
-          "include": [],
-          "exclude": []
-        }
-      }
-    },
-    "render-only": {
-      "name": "🎯 Render Only",
-      "description": "Isolate Render-specific deployments and configurations",
-      "filters": {
-        "paths": {
-          "include": [
-            "render.yaml",
-            "render.*.yaml",
-            ".github/workflows/deploy-render*.yml",
-            ".github/workflows/*render*.yml",
-            "backend/Procfile",
-            "RENDER*.md",
-            "**/*RENDER*.md"
-          ],
-          "exclude": ["**/node_modules/**"]
-        }
-      }
-    },
-    "cloudflare-only": {
-      "name": "☁️ Cloudflare Only",
-      "description": "Isolate Cloudflare Workers/Pages deployments",
-      "filters": {
-        "paths": {
-          "include": [
-            "wrangler.toml",
-            "wrangler*.toml",
-            ".github/workflows/*cloudflare*.yml",
-            "CLOUDFLARE*.md",
-            "**/*CLOUDFLARE*.md"
-          ],
-          "exclude": ["**/node_modules/**"]
-        }
-      }
-    },
-    "ci-workflows": {
-      "name": "⚙️ CI/CD Workflows",
-      "description": "All GitHub Actions workflow changes",
-      "filters": {
-        "paths": {
-          "include": [".github/workflows/**"],
-          "exclude": ["**/*vercel*"]
-        }
-      }
-=======
-  // Search
+  // Search Settings
   "search.exclude": {
     "**/node_modules": true,
     "**/.next": true,
@@ -201,8 +97,21 @@
     "**/build": true,
     "**/.turbo": true,
     "**/coverage": true,
-    "**/.git_disabled": true
+    "**/backups": true,
+    "**/.venv": true
   },
+
+  // Git Settings
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+
+  // GitLens Settings
+  "gitlens.advanced.messages": {
+    "suppressCommitHasNoPreviousCommitWarning": false
+  },
+  "gitlens.views.commits.files.layout": "tree",
+  "gitlens.views.repositories.files.layout": "tree",
 
   // Formatting
   "[typescript]": {
@@ -217,51 +126,41 @@
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
-  // Prisma - use Prisma 5 syntax validation
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   },
-
-  // Jest Configuration
-  "jest.jestCommandLine": "npm test --",
-  "jest.rootPath": ".",
-  "jest.disabledWorkspaceFolders": [".next", ".open-next", "node_modules"],
-
-  // Settings Sync for Windsurf, Cursor, and VS Code
-  "settingsSync.ignoredExtensions": [],
-  "settingsSync.ignoredSettings": [],
-  "settingsSync.keybindingsPerPlatform": true,
-
-  // AI Assistant Settings (Shared across editors)
-  "github.copilot.enable": {
-    "*": true,
-    "yaml": true,
-    "plaintext": true,
-    "markdown": true
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "github.copilot.editor.enableAutoCompletions": true,
-
-  // Windsurf/Cursor Compatibility
-  "workbench.editor.enablePreview": true,
-  "workbench.editor.enablePreviewFromQuickOpen": false,
-  "workbench.startupEditor": "none",
-
-  // Terminal Sync
-  "terminal.integrated.defaultProfile.windows": "PowerShell",
-  "terminal.integrated.profiles.windows": {
-    "PowerShell": {
-      "source": "PowerShell",
-      "icon": "terminal-powershell"
->>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
-    }
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[dockercompose]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+  },
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-containers"
   },
 
   // Testing Settings
   "jest.autoEnable": false,
-  "jest.disabledWorkspaceFolders": ["Advancia Pay Ledger (Root)", "Frontend"],
+  "jest.disabledWorkspaceFolders": ["Advancia Pay Ledger (Root)", "Frontend", ".next", ".open-next", "node_modules"],
   "jest.rootPath": "backend",
+  "jest.jestCommandLine": "npm test --",
   "playwright.showTrace": true,
+  "playwright.reuseBrowser": true,
 
   // ESLint Settings
   "eslint.workingDirectories": ["backend", "frontend"],
@@ -272,61 +171,32 @@
     "typescriptreact"
   ],
 
-  // Search Settings
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/build": true,
-    "**/.next": true,
-    "**/coverage": true,
-    "**/backups": true,
-    "**/.venv": true
-  },
-
-<<<<<<< HEAD
   // Security
   "security.workspace.trust.untrustedFiles": "open",
 
-  // YAML: map GitHub Actions schema to workflows and reduce false positives
+  // YAML Schema
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": ".github/workflows/*"
   },
-  "[dockercompose]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-containers"
-  },
-  "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-containers"
-  },
-
-  // ==========================================
-  // AI AGENT & COPILOT CONFIGURATION
-  // ==========================================
 
   // GitHub Copilot Settings
   "github.copilot.enable": {
     "*": true,
     "yaml": true,
-    "plaintext": false,
+    "plaintext": true,
     "markdown": true,
     "typescript": true,
     "javascript": true,
     "prisma": true
   },
-  "github.copilot.advanced": {
-    "debug.overrideEngine": "gpt-4",
-    "debug.testOverrideProxyUrl": "",
-    "debug.filterLogCategories": []
-  },
-  "github.copilot.chat.localeOverride": "auto",
-  "github.copilot.inlineSuggest.enable": true,
+  "github.copilot.editor.enableAutoCompletions": true,
 
-  // AI-Powered Code Analysis
+  // Error Lens
   "errorLens.enabled": true,
-  "errorLens.enabledDiagnosticLevels": ["error", "warning", "info", "hint"],
+  "errorLens.enabledDiagnosticLevels": ["error", "warning"],
   "errorLens.followCursor": "activeLine",
-  "errorLens.messageTemplate": "$message - $source",
 
-  // REST Client for AI API Testing
+  // REST Client
   "rest-client.environmentVariables": {
     "$shared": {
       "apiUrl": "http://localhost:4000"
@@ -339,222 +209,22 @@
     }
   },
   "rest-client.previewResponseInUntitledDocument": true,
-  "rest-client.defaultHeaders": {
-    "Content-Type": "application/json"
-  },
 
-  // Prisma Language Server
+  // Prisma
   "prisma.fileWatcher": true,
-  "prisma.trace.server": "messages",
 
-  // AI Agent Development Snippets
-  "editor.quickSuggestions": {
-    "other": "on",
-    "comments": "off",
-    "strings": "on"
-  },
-  "editor.suggestSelection": "first",
-  "editor.parameterHints.enabled": true,
-  "editor.suggest.snippetsPreventQuickSuggestions": false,
-
-  // Code Intelligence for AI Workers
-  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "typescript.inlayHints.parameterNames.enabled": "all",
-  "typescript.inlayHints.variableTypes.enabled": true,
-  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "javascript.inlayHints.parameterNames.enabled": "all",
-
-  // AI Task & TODO Management
+  // TODO Tree
   "todo-tree.general.tags": [
-    "TODO",
-    "FIXME",
-    "BUG",
-    "HACK",
-    "NOTE",
-    "AI:",
-    "AGENT:",
-    "RAG:",
-    "LLM:",
-    "OPTIMIZE:"
-  ],
-  "todo-tree.highlights.customHighlight": {
-    "AI:": {
-      "icon": "hubot",
-      "foreground": "#00BFFF",
-      "iconColour": "#00BFFF"
-    },
-    "AGENT": {
-      "icon": "🤖",
-      "foreground": "#0000FF",
-      "iconColour": "#0000FF"
-    },
-    "RAG:": {
-      "icon": "database",
-      "foreground": "#9370DB",
-      "iconColour": "#9370DB"
-    },
-    "LLM": {
-      "icon": "🧠",
-      "foreground": "#800080",
-      "iconColour": "#800080"
-    },
-    "OPTIMIZE:": {
-      "icon": "zap",
-      "foreground": "#32CD32",
-      "iconColour": "#32CD32"
-    }
-  },
-
-  // AI Agent Workspace Organization
-  "files.exclude": {
-    "**/.git": true,
-    "**/.DS_Store": true,
-    "**/node_modules": true,
-    "**/.next": true,
-    "**/dist": true,
-    "**/build": true,
-    "**/.turbo": true,
-    "**/coverage": true
-  },
-
-  // AI Model File Watching (ChromaDB, embeddings)
-  "files.watcherExclude": {
-    "**/node_modules/**": true,
-    "**/.git/objects/**": true,
-    "**/dist/**": true,
-    "**/.next/**": true,
-    "**/data/chromadb/**": true,
-    "**/backups/**": true
-  },
-
-  // AI-Optimized Terminal
-  "terminal.integrated.defaultProfile.windows": "PowerShell",
-  "terminal.integrated.env.windows": {
-    "NODE_ENV": "development"
-  },
-
-  // Better Comments for AI Agent Documentation
-  "better-comments.tags": [
-    {
-      "tag": "!",
-      "color": "#FF2D00",
-      "strikethrough": false,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
-    },
-    {
-      "tag": "?",
-      "color": "#3498DB",
-      "strikethrough": false,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
-    },
-    {
-      "tag": "//",
-      "color": "#474747",
-      "strikethrough": true,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
-    },
-    {
-      "tag": "todo",
-      "color": "#FF8C00",
-      "strikethrough": false,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
-    },
-    {
-      "tag": "*",
-      "color": "#98C379",
-      "strikethrough": false,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
-    },
-    {
-      "tag": "AI:",
-      "color": "#00BFFF",
-      "strikethrough": false,
-      "underline": true,
-      "backgroundColor": "transparent",
-      "bold": true,
-      "italic": false
-    },
-    {
-      "tag": "AGENT:",
-      "color": "#FFD700",
-      "strikethrough": false,
-      "underline": true,
-      "backgroundColor": "transparent",
-      "bold": true,
-      "italic": false
-    }
+    "TODO", "FIXME", "BUG", "HACK", "NOTE", "AI:", "AGENT:", "RAG:", "LLM:", "OPTIMIZE:"
   ],
 
-  // Path Intellisense for AI Agent Imports
+  // Path IntelliSense
   "path-intellisense.mappings": {
     "@": "${workspaceFolder}/frontend/src",
     "~": "${workspaceFolder}/backend/src"
   },
 
-  // Import Cost Analysis for AI Dependencies
-  "importCost.largePackageColor": "#d44e40",
-  "importCost.mediumPackageColor": "#d8a024",
-  "importCost.smallPackageColor": "#6cc24a",
-  "importCost.typescriptExtensions": ["\\.tsx?$"],
-  "importCost.javascriptExtensions": ["\\.jsx?$"],
-
-  // Markdown for AI Documentation
-  "markdown.preview.fontSize": 14,
-  "markdown.extension.toc.levels": "2..6",
-  "markdown.extension.print.absoluteImgPath": false,
-
-  // Code Spell Checker (ignore AI/tech terms)
-  "cSpell.words": [
-    "advancia",
-    "chromadb",
-    "copilot",
-    "openai",
-    "langchain",
-    "pinecone",
-    "vectorstore",
-    "embeddings",
-    "ioredis",
-    "prisma",
-    "socketio",
-    "totp",
-    "vapid",
-    "ethers",
-    "hardhat",
-    "solidity",
-    "cryptocurrency",
-    "blockchain",
-    "metamask",
-    "wagmi",
-    "viem",
-    "trpc"
-  ],
-  "editor.aiStats.enabled": true
-=======
-  // Cline Extension Settings
-  "cline.enabled": true,
-  "cline.autoApprove": false,
-  "cline.showNotifications": true,
-
-  // Next.js Specific Settings
-  "next.serverActions.enabled": true,
-  "next.experimental.serverActions": true,
-
-  // Tailwind CSS IntelliSense
+  // Tailwind CSS
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)"]
@@ -565,23 +235,6 @@
   },
   "tailwindCSS.emmetCompletions": true,
   "tailwindCSS.validate": true,
-  "tailwindCSS.lint.cssConflict": "warning",
-  "tailwindCSS.lint.invalidApply": "error",
-  "tailwindCSS.lint.invalidConfigPath": "error",
-  "tailwindCSS.lint.invalidScreen": "error",
-  "tailwindCSS.lint.invalidTailwindDirective": "error",
-  "tailwindCSS.lint.invalidVariant": "error",
-  "tailwindCSS.lint.recommendedVariantOrder": "warning",
-
-  // Path IntelliSense for @/* alias
-  "path-intellisense.mappings": {
-    "@": "${workspaceFolder}/personal-website"
-  },
-
-  // File Associations
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
 
   // Emmet
   "emmet.includeLanguages": {
@@ -590,66 +243,33 @@
   },
   "emmet.triggerExpansionOnTab": true,
 
-  // CSS
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // Terminal
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    }
   },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-
-  // JSON
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+  "terminal.integrated.env.windows": {
+    "NODE_ENV": "development"
   },
 
-  // YAML
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-
-  // Performance
-  "files.maxMemoryForLargeFilesMB": 4096,
-  "typescript.tsserver.maxTsServerMemory": 4096,
-  "typescript.tsserver.watchOptions": {
-    "watchFile": "useFsEvents",
-    "watchDirectory": "useFsEvents",
-    "fallbackPolling": "dynamicPriority",
-    "synchronousWatchDirectory": true,
-    "excludeDirectories": ["**/node_modules", "**/.next", "**/.open-next"]
-  },
-
-  // IntelliSense
-  "editor.suggest.snippetsPreventQuickSuggestions": false,
-  "editor.suggest.showKeywords": true,
-  "editor.suggest.showSnippets": true,
-  "editor.acceptSuggestionOnCommitCharacter": true,
-  "editor.acceptSuggestionOnEnter": "on",
+  // Workbench
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.startupEditor": "none",
 
   // Breadcrumbs
   "breadcrumbs.enabled": true,
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
 
-  // Minimap
-  "editor.minimap.enabled": true,
-  "editor.minimap.maxColumn": 120,
-
-  // Error Lens (if installed)
-  "errorLens.enabled": true,
-  "errorLens.enabledDiagnosticLevels": ["error", "warning"],
-
-  // Playwright
-  "playwright.reuseBrowser": true,
-  "playwright.showTrace": true,
-
-  // Sentry (if using Sentry extension)
-  "sentry.enable": true
->>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
+  // Code Spell Checker
+  "cSpell.words": [
+    "advancia", "chromadb", "copilot", "openai", "langchain", "pinecone",
+    "vectorstore", "embeddings", "ioredis", "prisma", "socketio", "totp",
+    "vapid", "ethers", "hardhat", "solidity", "cryptocurrency", "blockchain",
+    "metamask", "wagmi", "viem", "trpc"
+  ]
 }

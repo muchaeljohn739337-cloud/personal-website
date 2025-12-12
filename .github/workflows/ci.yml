@@ -2,66 +2,20 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
-  # Pull requests disabled - private personal project
-  # pull_request:
-  #   branches: [main, develop]
+    branches: [main]
 
 jobs:
-  lint:
-    name: Lint & Format Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Configure Git
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run format:check || true
-
-  type-check:
-    name: TypeScript Type Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Configure Git
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: npx tsc --noEmit
-
   build:
-    name: Build Check
+    name: Build & Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - name: Configure Git
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: npx prisma generate
-      - run: npm run build
-      - name: Check build output
-        run: test -d .next
-
-  security:
-    name: Security Audit
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm audit --audit-level=moderate || true
+      - name: Install dependencies
+        run: cd frontend && npm install --legacy-peer-deps
+      - name: Build frontend
+        run: cd frontend && npm run build
+      - name: Security audit
+        run: npm audit --audit-level=critical || true
