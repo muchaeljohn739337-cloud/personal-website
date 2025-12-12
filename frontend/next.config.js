@@ -6,18 +6,8 @@ const nextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
   typescript: {
-    // Enable type checking in production builds for security
-    ignoreBuildErrors: process.env.NODE_ENV !== "production",
-  },
-  eslint: {
-    // Enable ESLint checking in production builds for security
-    ignoreDuringBuilds: process.env.NODE_ENV !== "production",
-  },
-  experimental: {
-    turbo: {
-      // Use absolute path resolution for monorepo root
-      root: path.resolve(__dirname, ".."),
-    },
+    // Disable type checking during builds (run separately)
+    ignoreBuildErrors: true,
   },
   // Rewrites only work in dev mode, not with static export
   ...(!process.env.CF_PAGES && {

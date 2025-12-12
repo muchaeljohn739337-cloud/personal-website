@@ -13,7 +13,7 @@
     "dev": "next dev -H 127.0.0.1 -p 3000",
     "dev:3001": "next dev -H 127.0.0.1 -p 3001",
     "dev:open": "next dev -p 3000 --turbo",
-    "build": "next build --no-lint",
+    "build": "next build",
     "start": "next start",
     "start:standalone": "cross-env HOSTNAME=127.0.0.1 PORT=3000 node .next/standalone/server.js",
     "test": "echo \"✅ Frontend tests passed (placeholder)\" && exit 0",

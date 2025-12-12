@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Transaction {
   id: string;
@@ -27,20 +27,24 @@ export default function TransactionHistory() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>("all"); // all, sent, received
   const [statusFilter, setStatusFilter] = useState<string>("all"); // all, completed, pending, failed
+  const [userId, setUserId] = useState<string | null>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
-  useEffect(() => {
-    fetchTransactions();
-  }, [fetchTransactions]);
-
-  const fetchTransactions = async () => {
+  const fetchTransactions = useCallback(async () => {
     try {
-      const token = localStorage.getItem("token");
-      const userId = localStorage.getItem("userId");
+      const token = typeof window !== 'undefined' ? localStorage.getItem("token") : null;
+      const storedUserId = typeof window !== 'undefined' ? localStorage.getItem("userId") : null;
+      
+      if (!token || !storedUserId) {
+        setLoading(false);
+        return;
+      }
+      
+      setUserId(storedUserId);
 
       const response = await fetch(
-        `${API_URL}/api/transactions?userId=${userId}&limit=50`,
+        `${API_URL}/api/transactions?userId=${storedUserId}&limit=50`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -55,11 +59,13 @@ export default function TransactionHistory() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_URL]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
 
   const filteredTransactions = transactions.filter((tx) => {
-    const userId = localStorage.getItem("userId");
-
     // Type filter
     if (filter === "sent" && tx.sender?.id !== userId) return false;
     if (filter === "received" && tx.recipient?.id !== userId) return false;
@@ -96,7 +102,7 @@ export default function TransactionHistory() {
       case "withdrawal":
         return "💸";
       case "purchase":
-        return "🛒";
+        return "��";
       default:
         return "💱";
     }
@@ -226,7 +232,6 @@ export default function TransactionHistory() {
           </div>
         ) : (
           filteredTransactions.map((tx) => {
-            const userId = localStorage.getItem("userId");
             const isSent = tx.sender?.id === userId;
             const counterparty = isSent ? tx.recipient : tx.sender;
 
