@@ -2,51 +2,66 @@ name: CI
 
 on:
   push:
-    branches: [main, fix/eslint-revert-20251201]
-  pull_request:
-    branches: [main]
+    branches: [main, develop]
+  # Pull requests disabled - private personal project
+  # pull_request:
+  #   branches: [main, develop]
 
 jobs:
-  backend:
-    name: Backend Build
+  lint:
+    name: Lint & Format Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - name: Configure Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: '20'
           cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-        working-directory: backend
-      - name: Generate Prisma client
-        run: npx prisma generate
-        working-directory: backend
-      - name: Lint
-        run: npm run lint || true
-        working-directory: backend
-      - name: Build
-        run: npm run build
-        working-directory: backend
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check || true
 
-  frontend:
-    name: Frontend Build
+  type-check:
+    name: TypeScript Type Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - name: Configure Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: '20'
           cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-        working-directory: frontend
-      - name: Lint
-        run: npm run lint || true
-        working-directory: frontend
-      - name: Build
-        run: npm run build
-        working-directory: frontend
-        env:
-          NEXT_PUBLIC_API_URL: https://api.advanciapayledger.com
-          NODE_ENV: production
+      - run: npm ci
+      - run: npx tsc --noEmit
+
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Configure Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npm run build
+      - name: Check build output
+        run: test -d .next
+
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm audit --audit-level=moderate || true

@@ -10,11 +10,29 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
+<<<<<<< HEAD
+=======
+    "source.fixAll.markdownlint": "explicit",
+>>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
     "source.organizeImports": "explicit"
   },
   "editor.rulers": [80, 120],
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
+<<<<<<< HEAD
+=======
+  "editor.trimAutoWhitespace": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggestSelection": "first",
+  "editor.wordBasedSuggestions": "off",
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
+  },
+>>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
 
   // TypeScript/JavaScript Settings
   "typescript.preferences.preferTypeOnlyAutoImports": true,
@@ -29,6 +47,7 @@
     "*.prisma": "prisma"
   },
 
+<<<<<<< HEAD
   // Git Settings
   "git.autofetch": true,
   "git.enableSmartCommit": true,
@@ -37,10 +56,45 @@
   // GitLens Settings - Deployment Drift Filter
   "gitlens.advanced.messages": {
     "suppressCommitHasNoPreviousCommitWarning": false
+=======
+  // TypeScript
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.suggest.autoImports": true,
+  "typescript.suggest.paths": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+
+  // Files
+  "files.exclude": {
+    "**/.git": false,
+    "**/.next": true,
+    "**/.open-next": true,
+    "**/.vercel": true,
+    "**/node_modules": true,
+    "**/.turbo": true,
+    "**/coverage": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/.open-next/**": true,
+    "**/.vercel/**": true,
+    "**/.turbo/**": true,
+    "**/coverage/**": true
+>>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
   },
   "gitlens.views.commits.files.layout": "tree",
   "gitlens.views.repositories.files.layout": "tree",
 
+<<<<<<< HEAD
   // GitLens Filter Presets for Deployment Tracking
   "gitlens.views.commits.filters.preset": {
     "deployment-drift": {
@@ -135,6 +189,71 @@
           "exclude": ["**/*vercel*"]
         }
       }
+=======
+  // Search
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/.open-next": true,
+    "**/.vercel": true,
+    "**/package-lock.json": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.turbo": true,
+    "**/coverage": true,
+    "**/.git_disabled": true
+  },
+
+  // Formatting
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Prisma - use Prisma 5 syntax validation
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+
+  // Jest Configuration
+  "jest.jestCommandLine": "npm test --",
+  "jest.rootPath": ".",
+  "jest.disabledWorkspaceFolders": [".next", ".open-next", "node_modules"],
+
+  // Settings Sync for Windsurf, Cursor, and VS Code
+  "settingsSync.ignoredExtensions": [],
+  "settingsSync.ignoredSettings": [],
+  "settingsSync.keybindingsPerPlatform": true,
+
+  // AI Assistant Settings (Shared across editors)
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+
+  // Windsurf/Cursor Compatibility
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.startupEditor": "none",
+
+  // Terminal Sync
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+>>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
     }
   },
 
@@ -164,6 +283,7 @@
     "**/.venv": true
   },
 
+<<<<<<< HEAD
   // Security
   "security.workspace.trust.untrustedFiles": "open",
 
@@ -424,4 +544,112 @@
     "trpc"
   ],
   "editor.aiStats.enabled": true
+=======
+  // Cline Extension Settings
+  "cline.enabled": true,
+  "cline.autoApprove": false,
+  "cline.showNotifications": true,
+
+  // Next.js Specific Settings
+  "next.serverActions.enabled": true,
+  "next.experimental.serverActions": true,
+
+  // Tailwind CSS IntelliSense
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)"]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.validate": true,
+  "tailwindCSS.lint.cssConflict": "warning",
+  "tailwindCSS.lint.invalidApply": "error",
+  "tailwindCSS.lint.invalidConfigPath": "error",
+  "tailwindCSS.lint.invalidScreen": "error",
+  "tailwindCSS.lint.invalidTailwindDirective": "error",
+  "tailwindCSS.lint.invalidVariant": "error",
+  "tailwindCSS.lint.recommendedVariantOrder": "warning",
+
+  // Path IntelliSense for @/* alias
+  "path-intellisense.mappings": {
+    "@": "${workspaceFolder}/personal-website"
+  },
+
+  // File Associations
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
+  // Emmet
+  "emmet.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
+  },
+  "emmet.triggerExpansionOnTab": true,
+
+  // CSS
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // JSON
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  // YAML
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  // Performance
+  "files.maxMemoryForLargeFilesMB": 4096,
+  "typescript.tsserver.maxTsServerMemory": 4096,
+  "typescript.tsserver.watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": ["**/node_modules", "**/.next", "**/.open-next"]
+  },
+
+  // IntelliSense
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.suggest.showKeywords": true,
+  "editor.suggest.showSnippets": true,
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.acceptSuggestionOnEnter": "on",
+
+  // Breadcrumbs
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.filePath": "on",
+  "breadcrumbs.symbolPath": "on",
+
+  // Minimap
+  "editor.minimap.enabled": true,
+  "editor.minimap.maxColumn": 120,
+
+  // Error Lens (if installed)
+  "errorLens.enabled": true,
+  "errorLens.enabledDiagnosticLevels": ["error", "warning"],
+
+  // Playwright
+  "playwright.reuseBrowser": true,
+  "playwright.showTrace": true,
+
+  // Sentry (if using Sentry extension)
+  "sentry.enable": true
+>>>>>>> 4cec24e (feat: disable pull requests and improve admin console)
 }
