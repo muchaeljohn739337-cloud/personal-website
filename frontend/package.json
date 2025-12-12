@@ -52,7 +52,6 @@
     "heroicons": "^2.2.0",
     "jsonwebtoken": "^9.0.0",
     "lucide-react": "^0.344.0",
-    "n8n": "^1.17.0",
     "next": "^16.0.10",
     "next-auth": "^4.24.12",
     "qrcode": "^1.5.4",
