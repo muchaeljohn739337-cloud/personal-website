@@ -50,7 +50,8 @@ function loadLocalEnv(): Record<string, string> {
   return env;
 }
 
-function setVercelEnvVar(name: string, value: string): Promise<boolean> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function _setVercelEnvVar(name: string, value: string): Promise<boolean> {
   return new Promise((resolve) => {
     try {
       // Use echo to pipe value to vercel env add

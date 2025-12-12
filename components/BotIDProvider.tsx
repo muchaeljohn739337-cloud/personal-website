@@ -32,7 +32,7 @@ export function BotIDProvider({ children, enabled = true }: BotIDProviderProps) 
           strategy="afterInteractive"
           onLoad={() => {
             // BotID script loaded
-            if (typeof window !== 'undefined' && (window as any).botid) {
+            if (typeof window !== 'undefined' && (window as Window & { botid?: unknown }).botid) {
               console.log('BotID loaded successfully');
             }
           }}
@@ -42,5 +42,3 @@ export function BotIDProvider({ children, enabled = true }: BotIDProviderProps) 
     </>
   );
 }
-
-

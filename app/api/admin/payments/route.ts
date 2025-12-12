@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { Prisma, TransactionType, TransactionStatus, CryptoPaymentStatus } from '@prisma/client';
 
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prismaClient';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
@@ -28,12 +31,17 @@ export async function GET(req: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     // Get payments from Transaction and CryptoPayment models
-    const whereTransaction: any = { type: 'PAYMENT' };
-    const whereCrypto: any = {};
+    const whereTransaction: Prisma.TransactionWhereInput = { type: TransactionType.PAYMENT };
+    const whereCrypto: Prisma.CryptoPaymentWhereInput = {};
 
     if (status) {
-      whereTransaction.status = status.toUpperCase();
-      whereCrypto.status = status.toUpperCase();
+      const upperStatus = status.toUpperCase();
+      if (Object.values(TransactionStatus).includes(upperStatus as TransactionStatus)) {
+        whereTransaction.status = upperStatus as TransactionStatus;
+      }
+      if (Object.values(CryptoPaymentStatus).includes(upperStatus as CryptoPaymentStatus)) {
+        whereCrypto.status = upperStatus as CryptoPaymentStatus;
+      }
     }
 
     const [transactions, cryptoPayments] = await Promise.all([
@@ -102,4 +110,3 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

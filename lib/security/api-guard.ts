@@ -11,18 +11,15 @@ import { protectAPI, type APIProtectionConfig } from './api-protection';
  * Wrapper function to protect API route handlers
  */
 export function withAPIGuard(
-  handler: (req: NextRequest, context?: any) => Promise<Response>,
+  handler: (req: NextRequest, context?: Record<string, unknown>) => Promise<Response>,
   config: APIProtectionConfig = {}
 ) {
-  return async (req: NextRequest, context?: any): Promise<Response> => {
+  return async (req: NextRequest, context?: Record<string, unknown>): Promise<Response> => {
     // Apply protection
     const protection = await protectAPI(req, config);
 
     if (!protection.allowed) {
-      return protection.response || NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      );
+      return protection.response || NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
     // Add rate limit headers to response
@@ -45,7 +42,7 @@ export function withAPIGuard(
 export async function requireRole(
   request: NextRequest,
   requiredRole: 'USER' | 'ADMIN' | 'SUPER_ADMIN' | 'MODERATOR'
-): Promise<{ allowed: boolean; token?: any; response?: NextResponse }> {
+): Promise<{ allowed: boolean; token?: Record<string, unknown>; response?: NextResponse }> {
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
@@ -95,7 +92,7 @@ export async function requireRole(
  */
 export async function requireAuth(
   request: NextRequest
-): Promise<{ allowed: boolean; token?: any; response?: NextResponse }> {
+): Promise<{ allowed: boolean; token?: Record<string, unknown>; response?: NextResponse }> {
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
@@ -113,4 +110,3 @@ export async function requireAuth(
 
   return { allowed: true, token };
 }
-

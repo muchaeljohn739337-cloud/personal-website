@@ -9,7 +9,8 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 const VERCEL_TOKEN = 'v9pIjTwBISOBcptBXinj5YHu';
-const VERCEL_TEAM_ID = 'advanciapayledger'; // Update if different
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _VERCEL_TEAM_ID = 'advanciapayledger'; // Update if different
 const VERCEL_PROJECT_ID = 'prj_HQeqbbLNwAvvT5vdL3krVh9vndDH';
 const VERCEL_API_URL = 'https://api.vercel.com';
 

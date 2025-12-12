@@ -69,7 +69,12 @@ function checkVercelAuth(): boolean {
   }
 }
 
-function setVercelEnvVar(name: string, value: string, environment: string = 'production'): boolean {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function _setVercelEnvVar(
+  name: string,
+  value: string,
+  environment: string = 'production'
+): boolean {
   try {
     // Use Vercel CLI to set environment variable
     // Note: Vercel CLI doesn't have a direct command to set env vars

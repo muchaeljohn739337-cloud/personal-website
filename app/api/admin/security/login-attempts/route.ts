@@ -4,6 +4,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prismaClient';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -31,19 +33,24 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json({
-      attempts: logs.map((log) => ({
-        id: log.id,
-        email: (log.metadata as any)?.email || 'Unknown',
-        ipAddress: log.ipAddress || 'Unknown',
-        userAgent: (log.metadata as any)?.userAgent || 'Unknown',
-        success: log.severity === 'INFO',
-        timestamp: log.createdAt.toISOString(),
-        location: log.ipAddress ? 'Unknown' : undefined,
-      })),
+      attempts: logs.map((log) => {
+        const metadata =
+          typeof log.metadata === 'object' && log.metadata !== null
+            ? (log.metadata as Record<string, unknown>)
+            : {};
+        return {
+          id: log.id,
+          email: (metadata.email as string) || 'Unknown',
+          ipAddress: log.ipAddress || 'Unknown',
+          userAgent: (metadata.userAgent as string) || 'Unknown',
+          success: log.severity === 'INFO',
+          timestamp: log.createdAt.toISOString(),
+          location: log.ipAddress ? 'Unknown' : undefined,
+        };
+      }),
     });
   } catch (error) {
     console.error('Login attempts error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-
