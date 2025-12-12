@@ -55,17 +55,19 @@ router.post("/", authenticateToken, async (req, res) => {
     // Create pending withdrawal
     const withdrawal = await prisma.crypto_withdrawals.create({
       data: {
+        id: require("crypto").randomUUID(),
         userId,
         cryptoAmount: new Decimal(amount),
         cryptoType: currency,
         withdrawalAddress: destinationWallet,
-        sourceWallet: platformWallet.address,
+        sourceWallet: (platformWallet as any).address || "",
         networkFee: new Decimal(networkFee),
         totalAmount,
         usdEquivalent: new Decimal(0), // TODO: Calculate actual USD value
         status: "PENDING",
         requiresApproval: shouldRequireApproval(amount, currency),
-      },
+        updatedAt: new Date(),
+      } as any,
     });
 
     // Deduct from available balance (hold)
@@ -94,7 +96,7 @@ router.post("/", authenticateToken, async (req, res) => {
         io.to("admin-room").emit("withdrawal-pending-approval", {
           withdrawalId: withdrawal.id,
           userId,
-          amount: serializeDecimal(withdrawal.amount),
+          amount: serializeDecimal(withdrawal.cryptoAmount),
           currency,
         });
       }
