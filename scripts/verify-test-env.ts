@@ -120,4 +120,3 @@ console.log('');
 
 // Exit with appropriate code
 process.exit(allGood ? 0 : 1);
-

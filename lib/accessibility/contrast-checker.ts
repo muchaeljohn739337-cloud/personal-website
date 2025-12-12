@@ -1,7 +1,7 @@
 /**
  * Color Contrast Checker
  * Checks if color combinations meet WCAG 2.1 AA standards
- * 
+ *
  * WCAG Requirements:
  * - Normal text (16px): 4.5:1 contrast ratio
  * - Large text (18px+ or 14px+ bold): 3:1 contrast ratio
@@ -38,10 +38,7 @@ function getLuminance(r: number, g: number, b: number): number {
  * Calculate contrast ratio between two colors
  * Formula from WCAG 2.1: https://www.w3.org/WAI/GL/wiki/Contrast_ratio
  */
-export function getContrastRatio(
-  color1: string,
-  color2: string
-): number | null {
+export function getContrastRatio(color1: string, color2: string): number | null {
   const rgb1 = hexToRgb(color1);
   const rgb2 = hexToRgb(color2);
 
@@ -100,19 +97,19 @@ export const COMMON_COLORS = {
   textPrimary: '#ffffff',
   textSecondary: '#94a3b8', // slate-400
   textMuted: '#64748b', // slate-500
-  
+
   // Background colors
   bgPrimary: '#0f172a', // slate-900
   bgSecondary: '#1e293b', // slate-800
   bgTertiary: '#334155', // slate-700
-  
+
   // Accent colors
   blue: '#3b82f6', // blue-500
   blueDark: '#2563eb', // blue-600
   violet: '#8b5cf6', // violet-500
   emerald: '#10b981', // emerald-500
   red: '#ef4444', // red-500
-  
+
   // UI colors
   border: '#334155', // slate-700
   borderLight: '#475569', // slate-600
@@ -135,11 +132,11 @@ export function checkCommonColors(): Array<{
     { fg: COMMON_COLORS.textSecondary, bg: COMMON_COLORS.bgPrimary, large: false },
     { fg: COMMON_COLORS.textMuted, bg: COMMON_COLORS.bgPrimary, large: false },
     { fg: COMMON_COLORS.blue, bg: COMMON_COLORS.bgPrimary, large: false },
-    
+
     // Large text
     { fg: COMMON_COLORS.textPrimary, bg: COMMON_COLORS.bgPrimary, large: true },
     { fg: COMMON_COLORS.textSecondary, bg: COMMON_COLORS.bgPrimary, large: true },
-    
+
     // Buttons
     { fg: '#ffffff', bg: COMMON_COLORS.blue, large: false },
     { fg: '#ffffff', bg: COMMON_COLORS.blueDark, large: false },
@@ -160,4 +157,3 @@ export function checkCommonColors(): Array<{
     };
   });
 }
-

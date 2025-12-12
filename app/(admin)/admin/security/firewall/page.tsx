@@ -1,6 +1,6 @@
 'use client';
 
-import { Ban, Globe, RefreshCw, Shield, TrendingUp } from 'lucide-react';
+import { Ban, Globe, Shield, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,9 @@ interface FirewallRule {
 }
 
 export default function FirewallManagementPage() {
-  const [rules, setRules] = useState<FirewallRule[]>([]);
+  const [_rules, _setRules] = useState<FirewallRule[]>([]);
+  void _rules;
+  void _setRules;
   const [showAddForm, setShowAddForm] = useState(false);
 
   // Mock data
@@ -108,27 +110,45 @@ export default function FirewallManagementPage() {
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-medium">Type</label>
-                <select className="mt-1 flex h-11 w-full rounded-lg border bg-white px-4 py-2 text-sm">
+                <label htmlFor="rule-type" className="text-sm font-medium">
+                  Type
+                </label>
+                <select
+                  id="rule-type"
+                  className="mt-1 flex h-11 w-full rounded-lg border bg-white px-4 py-2 text-sm"
+                >
                   <option>IP</option>
                   <option>COUNTRY</option>
                   <option>USER_AGENT</option>
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium">Action</label>
-                <select className="mt-1 flex h-11 w-full rounded-lg border bg-white px-4 py-2 text-sm">
+                <label htmlFor="rule-action" className="text-sm font-medium">
+                  Action
+                </label>
+                <select
+                  id="rule-action"
+                  className="mt-1 flex h-11 w-full rounded-lg border bg-white px-4 py-2 text-sm"
+                >
                   <option>BLOCK</option>
                   <option>ALLOW</option>
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium">Value</label>
-                <Input placeholder="IP, country code, or user agent" className="mt-1" />
+                <label htmlFor="rule-value" className="text-sm font-medium">
+                  Value
+                </label>
+                <Input
+                  id="rule-value"
+                  placeholder="IP, country code, or user agent"
+                  className="mt-1"
+                />
               </div>
               <div>
-                <label className="text-sm font-medium">Reason</label>
-                <Input placeholder="Reason for this rule" className="mt-1" />
+                <label htmlFor="rule-reason" className="text-sm font-medium">
+                  Reason
+                </label>
+                <Input id="rule-reason" placeholder="Reason for this rule" className="mt-1" />
               </div>
             </div>
             <div className="flex gap-2">
@@ -189,4 +209,3 @@ export default function FirewallManagementPage() {
     </div>
   );
 }
-

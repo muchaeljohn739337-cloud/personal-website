@@ -22,6 +22,7 @@ try {
 console.log('2️⃣ Checking Prisma client...');
 try {
   const { prisma } = require('../lib/prismaClient');
+  void prisma; // Verify it's loaded
   console.log('   ✅ Prisma client loaded\n');
 } catch (error) {
   console.log('   ⚠️  Prisma client warning (database may not be connected)\n');

@@ -19,6 +19,7 @@ import {
   Settings,
   Smartphone,
   Sparkles,
+  User,
   UserCog,
   Users,
   Wallet,
@@ -32,6 +33,7 @@ import { cn } from '@/lib/utils/cn';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
+  { name: 'My Account', href: '/dashboard/account', icon: User },
   { name: 'AI Agents', href: '/dashboard/agents', icon: Bot },
   { name: 'Automations', href: '/dashboard/automations', icon: Zap },
   { name: 'Communications', href: '/dashboard/communications', icon: Phone },

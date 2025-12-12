@@ -27,11 +27,13 @@
 ## 🔐 Login Information
 
 **Development:**
+
 - URL: `http://localhost:3000/auth/login`
 - Email: `superadmin@advanciapayledger.com`
 - Password: `QAZwsxEDC1!?`
 
 **Production:**
+
 - URL: `https://advanciapayledger.com/auth/login`
 - Email: `superadmin@advanciapayledger.com`
 - Password: `QAZwsxEDC1!?`
@@ -48,4 +50,3 @@
 ---
 
 **Status**: ✅ **ADMIN LOGIN VERIFIED AND READY**
-

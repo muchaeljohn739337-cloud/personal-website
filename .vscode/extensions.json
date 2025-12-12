@@ -32,6 +32,7 @@
     "graphql.vscode-graphql-syntax",
 
     // Database
+    "prisma.prisma",
     "mtxr.sqltools",
     "redis.redis-for-vscode",
 

@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  Activity,
-  AlertTriangle,
-  CheckCircle2,
-  Clock,
-  Database,
-  RefreshCw,
-  Server,
-  Zap,
-} from 'lucide-react';
+import { Activity, Database, RefreshCw, Server, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -53,7 +44,6 @@ interface SystemLog {
 export default function SystemAdminPage() {
   const [health, setHealth] = useState<SystemHealth | null>(null);
   const [logs, setLogs] = useState<SystemLog[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchSystemData();
@@ -79,25 +69,6 @@ export default function SystemAdminPage() {
       }
     } catch (error) {
       console.error('Failed to fetch system data:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'healthy':
-      case 'connected':
-      case 'operational':
-        return 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950';
-      case 'degraded':
-      case 'slow':
-        return 'text-amber-600 bg-amber-50 dark:bg-amber-950';
-      case 'down':
-      case 'disconnected':
-        return 'text-red-600 bg-red-50 dark:bg-red-950';
-      default:
-        return 'text-slate-600 bg-slate-50 dark:bg-slate-950';
     }
   };
 
@@ -118,9 +89,7 @@ export default function SystemAdminPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
-            System Monitoring
-          </h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">System Monitoring</h1>
           <p className="mt-1 text-slate-500 dark:text-slate-400">
             Monitor system health, logs, and background jobs
           </p>
@@ -154,9 +123,7 @@ export default function SystemAdminPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold capitalize">{health.database.status}</div>
-              <p className="text-xs text-muted-foreground">
-                Latency: {health.database.latency}ms
-              </p>
+              <p className="text-xs text-muted-foreground">Latency: {health.database.latency}ms</p>
             </CardContent>
           </Card>
 
@@ -167,9 +134,7 @@ export default function SystemAdminPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold capitalize">{health.api.status}</div>
-              <p className="text-xs text-muted-foreground">
-                Response: {health.api.responseTime}ms
-              </p>
+              <p className="text-xs text-muted-foreground">Response: {health.api.responseTime}ms</p>
             </CardContent>
           </Card>
 
@@ -277,4 +242,3 @@ function LogsTable({
     </div>
   );
 }
-

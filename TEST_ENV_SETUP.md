@@ -13,6 +13,7 @@ This guide helps you set up test environment variables for CI/CD workflows and l
 **Purpose:** Test database connection for unit and E2E tests
 
 **Format:**
+
 ```
 postgresql://user:password@host:port/database
 ```
@@ -20,11 +21,13 @@ postgresql://user:password@host:port/database
 **Options:**
 
 #### Option A: Local PostgreSQL (Recommended for Development)
+
 ```bash
 DATABASE_URL_TEST=postgresql://test:test@localhost:5432/test
 ```
 
 **Setup:**
+
 ```bash
 # Create test database
 createdb test
@@ -36,6 +39,7 @@ psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE test TO test;"
 ```
 
 #### Option B: Supabase Test Database
+
 ```bash
 DATABASE_URL_TEST=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/test_db?pgbouncer=true
 ```
@@ -43,6 +47,7 @@ DATABASE_URL_TEST=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us
 **Note:** Create a separate test database in Supabase for testing.
 
 #### Option C: Docker PostgreSQL (Quick Setup)
+
 ```bash
 # Run test database in Docker
 docker run --name test-postgres \
@@ -63,11 +68,13 @@ DATABASE_URL_TEST=postgresql://test:test@localhost:5433/test
 **Purpose:** Email address for E2E test user authentication
 
 **Format:**
+
 ```
 test@example.com
 ```
 
 **Recommendations:**
+
 - Use a test email that doesn't require verification
 - Or configure email verification to be skipped in test environment
 - Example: `test@example.com` or `e2e-test@advanciapayledger.com`
@@ -79,11 +86,13 @@ test@example.com
 **Purpose:** Password for E2E test user
 
 **Format:**
+
 ```
 test_password_123
 ```
 
 **Security Notes:**
+
 - Use a simple password for testing (not production)
 - This is only used in test environments
 - Never use production passwords
@@ -95,11 +104,13 @@ test_password_123
 ### Local Development
 
 1. **Create `.env.test.local` file:**
+
 ```bash
 cp env.example .env.test.local
 ```
 
 2. **Update test variables:**
+
 ```bash
 # Edit .env.test.local
 DATABASE_URL_TEST=postgresql://test:test@localhost:5432/test
@@ -108,6 +119,7 @@ TEST_USER_PASSWORD=test_password_123
 ```
 
 3. **Run tests:**
+
 ```bash
 # Unit tests
 npm test
@@ -157,6 +169,7 @@ npm run test:e2e
 #### Method 2: Fallback Values (No Setup Required)
 
 If you don't set GitHub secrets, the workflow uses fallback values:
+
 - `DATABASE_URL_TEST`: `postgresql://test:test@localhost:5432/test`
 - Other variables use default test values
 
@@ -226,6 +239,7 @@ npm run test:e2e
 ### Issue: Tests fail with "Database connection error"
 
 **Solution:**
+
 1. Verify `DATABASE_URL_TEST` is correct
 2. Ensure test database is running
 3. Check database credentials
@@ -234,6 +248,7 @@ npm run test:e2e
 ### Issue: E2E tests fail with "Authentication error"
 
 **Solution:**
+
 1. Verify `TEST_USER_EMAIL` and `TEST_USER_PASSWORD` are set
 2. Ensure test user exists in database
 3. Check if email verification is required (disable in test mode)
@@ -241,6 +256,7 @@ npm run test:e2e
 ### Issue: GitHub Actions tests fail
 
 **Solution:**
+
 1. Check GitHub secrets are set correctly
 2. Verify secret names match workflow file
 3. Check workflow logs for specific error messages
@@ -282,18 +298,20 @@ npm run test:e2e
 ## Summary
 
 ✅ **Local Development:**
+
 - Create `.env.test.local` with test variables
 - Set up local test database
 
 ✅ **GitHub Actions:**
+
 - Add secrets: `DATABASE_URL_TEST`, `TEST_USER_EMAIL`, `TEST_USER_PASSWORD`
 - Or rely on fallback values (may have limitations)
 
 ✅ **Verification:**
+
 - Run tests locally
 - Check GitHub Actions workflow runs
 
 ---
 
-*Last Updated: 2024*
-
+_Last Updated: 2024_

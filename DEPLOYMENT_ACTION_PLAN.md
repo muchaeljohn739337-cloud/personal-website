@@ -58,6 +58,7 @@ CRON_SECRET=RfbURq7b8yKsHPbVp1vj3u5v9yuFbzW28mPyWgGij/E=
 3. **Add Each Variable (Select "Production" environment):**
 
 **Core Secrets:**
+
 ```
 JWT_SECRET=O8GK90C/4OTkv9LIdGD/1w3ecr6Rg9D7ReBVSjvimzo=
 SESSION_SECRET=bifpAT0dkstelnqiF2ODAymOhY6ywIQntGB22Li8ABM=
@@ -66,18 +67,21 @@ CRON_SECRET=RfbURq7b8yKsHPbVp1vj3u5v9yuFbzW28mPyWgGij/E=
 ```
 
 **Application URLs:**
+
 ```
 NEXT_PUBLIC_APP_URL=https://advanciapayledger.com
 NEXTAUTH_URL=https://advanciapayledger.com
 ```
 
 **Database:**
+
 ```
 DATABASE_URL=<your_production_database_url>
 DIRECT_URL=<your_production_direct_database_url>  # Optional
 ```
 
 **Supabase:**
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xesecqcqzykvmrtxrzqi.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=<your_publishable_key>
@@ -85,6 +89,7 @@ SUPABASE_SERVICE_ROLE_KEY=<new_rotated_key_from_step_1>
 ```
 
 **Optional but Recommended:**
+
 ```
 REDIS_URL=<your_redis_url>  # If using Redis
 SMTP_HOST=<your_smtp_host>  # If sending emails
@@ -110,6 +115,7 @@ npm run deploy:checklist
 ```
 
 This will verify:
+
 - ✅ Security checks
 - ✅ Environment variables
 - ✅ Build process
@@ -155,6 +161,7 @@ npx prisma migrate status
 #### 5.1 Deploy Application
 
 **Option A: Via Vercel Dashboard**
+
 1. Go to: https://vercel.com/dashboard
 2. Select project: `personal-website`
 3. Go to **Deployments**
@@ -162,6 +169,7 @@ npx prisma migrate status
 5. Wait for deployment to complete
 
 **Option B: Via CLI**
+
 ```bash
 npm run deploy:prod
 ```
@@ -179,6 +187,7 @@ npm run migrate:prod
 ```
 
 **Or via Vercel:**
+
 - Go to Vercel Dashboard → Project Settings → Environment Variables
 - Add `DATABASE_URL` if not already set
 - Run migrations manually or via CI/CD
@@ -194,6 +203,7 @@ npm run verify:prod
 ```
 
 **Or manually:**
+
 ```bash
 curl https://advanciapayledger.com/api/health
 ```
@@ -253,18 +263,22 @@ curl https://advanciapayledger.com/api/health
 Update webhook URLs in payment provider dashboards:
 
 **Stripe:**
+
 - URL: `https://advanciapayledger.com/api/stripe/webhook`
 - Dashboard: https://dashboard.stripe.com/webhooks
 
 **LemonSqueezy:**
+
 - URL: `https://advanciapayledger.com/api/payments/lemonsqueezy/webhook`
 - Dashboard: https://app.lemonsqueezy.com/settings/webhooks
 
 **NOWPayments:**
+
 - URL: `https://advanciapayledger.com/api/payments/nowpayments/webhook`
 - Dashboard: https://nowpayments.io/dashboard
 
 **Alchemy Pay:**
+
 - URL: `https://advanciapayledger.com/api/payments/alchemypay/webhook`
 - Dashboard: https://dashboard.alchemypay.org
 
@@ -333,6 +347,7 @@ Before announcing launch:
    - Review build logs for errors
 
 2. **Verify Environment Variables:**
+
    ```bash
    npm run verify:vercel:env
    ```
@@ -374,6 +389,7 @@ Before announcing launch:
 ## 📚 **Quick Reference**
 
 **Commands:**
+
 ```bash
 # Generate secrets
 npm run generate:prod:secrets
@@ -398,6 +414,7 @@ npm run verify:prod
 ```
 
 **Links:**
+
 - Vercel Dashboard: https://vercel.com/dashboard
 - Supabase Dashboard: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi
 - Project URL: https://advanciapayledger.com
@@ -425,5 +442,3 @@ npm run verify:prod
 
 **Last Updated:** 2025-01-27  
 **Status:** Ready for deployment - Follow steps in order
-
-

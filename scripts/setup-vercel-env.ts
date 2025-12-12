@@ -175,7 +175,9 @@ required.forEach((envVar, index) => {
   console.log(`${index + 1}. ${envVar.name}`);
   console.log(`   Description: ${envVar.description}`);
   if (envVar.value && !envVar.value.includes('your_') && !envVar.value.includes('[PASSWORD]')) {
-    console.log(`   Value: ${envVar.value.substring(0, 50)}${envVar.value.length > 50 ? '...' : ''}`);
+    console.log(
+      `   Value: ${envVar.value.substring(0, 50)}${envVar.value.length > 50 ? '...' : ''}`
+    );
   } else {
     console.log(`   Value: [NEEDS TO BE SET]`);
   }
@@ -189,7 +191,9 @@ if (optional.length > 0) {
     console.log(`${index + 1}. ${envVar.name}`);
     console.log(`   Description: ${envVar.description}`);
     if (envVar.value && !envVar.value.includes('your_') && !envVar.value.includes('[PASSWORD]')) {
-      console.log(`   Value: ${envVar.value.substring(0, 50)}${envVar.value.length > 50 ? '...' : ''}`);
+      console.log(
+        `   Value: ${envVar.value.substring(0, 50)}${envVar.value.length > 50 ? '...' : ''}`
+      );
     } else {
       console.log(`   Value: [OPTIONAL]`);
     }
@@ -215,4 +219,3 @@ required
   });
 
 console.log('\n✅ Setup guide generated!\n');
-

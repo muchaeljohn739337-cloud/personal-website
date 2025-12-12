@@ -64,10 +64,7 @@ export default function PaymentsAdminPage() {
         throw new Error('Failed to fetch payment data');
       }
 
-      const [statsData, paymentsData] = await Promise.all([
-        statsRes.json(),
-        paymentsRes.json(),
-      ]);
+      const [statsData, paymentsData] = await Promise.all([statsRes.json(), paymentsRes.json()]);
 
       setStats(statsData);
       setPayments(paymentsData.payments || []);
@@ -259,11 +256,11 @@ export default function PaymentsAdminPage() {
                     ) : (
                       filteredPayments.map((payment) => (
                         <TableRow key={payment.id}>
-                          <TableCell className="font-mono text-xs">{payment.id.slice(0, 8)}</TableCell>
-                          <TableCell>{payment.userEmail}</TableCell>
-                          <TableCell>
-                            {formatCurrency(payment.amount, payment.currency)}
+                          <TableCell className="font-mono text-xs">
+                            {payment.id.slice(0, 8)}
                           </TableCell>
+                          <TableCell>{payment.userEmail}</TableCell>
+                          <TableCell>{formatCurrency(payment.amount, payment.currency)}</TableCell>
                           <TableCell>
                             <span className="flex items-center gap-1">
                               {getProviderIcon(payment.provider)} {payment.provider}
@@ -276,9 +273,7 @@ export default function PaymentsAdminPage() {
                               {payment.status}
                             </span>
                           </TableCell>
-                          <TableCell>
-                            {new Date(payment.createdAt).toLocaleDateString()}
-                          </TableCell>
+                          <TableCell>{new Date(payment.createdAt).toLocaleDateString()}</TableCell>
                           <TableCell>
                             <Button variant="ghost" size="sm">
                               View
@@ -357,4 +352,3 @@ export default function PaymentsAdminPage() {
     </div>
   );
 }
-

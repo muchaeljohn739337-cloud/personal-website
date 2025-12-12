@@ -47,12 +47,11 @@ export async function protectAPI(
   const pathname = request.nextUrl.pathname;
 
   // 1. Rate Limiting
-  const rateLimitConfig = maxRequests && windowMs
-    ? { windowMs, maxRequests }
-    : rateLimitConfigs[rateLimit];
+  const rateLimitConfig =
+    maxRequests && windowMs ? { windowMs, maxRequests } : rateLimitConfigs[rateLimit];
 
   const rateLimitResult = checkRateLimit(`${ip}:${pathname}`, rateLimitConfig);
-  
+
   if (!rateLimitResult.success) {
     return {
       allowed: false,
@@ -179,9 +178,7 @@ export function isPublicAPIRoute(pathname: string): boolean {
 /**
  * Admin-only API routes
  */
-export const ADMIN_API_ROUTES = [
-  '/api/admin',
-] as const;
+export const ADMIN_API_ROUTES = ['/api/admin'] as const;
 
 /**
  * Check if an API route requires admin access
@@ -250,4 +247,3 @@ export function getRouteProtectionConfig(pathname: string): APIProtectionConfig 
     checkIP: true,
   };
 }
-

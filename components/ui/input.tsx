@@ -14,7 +14,20 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, error, label, id, 'aria-label': ariaLabel, 'aria-describedby': ariaDescribedBy, required, ...props }, ref) => {
+  (
+    {
+      className,
+      type,
+      error,
+      label,
+      id,
+      'aria-label': ariaLabel,
+      'aria-describedby': ariaDescribedBy,
+      required,
+      ...props
+    },
+    ref
+  ) => {
     const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
     const errorId = error ? `${inputId}-error` : undefined;
     const labelId = label ? `${inputId}-label` : undefined;
@@ -23,9 +36,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={inputId} id={labelId} className="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">
+          <label
+            htmlFor={inputId}
+            id={labelId}
+            className="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
             {label}
-            {required && <span className="text-red-500 ml-1" aria-label="required">*</span>}
+            {required && (
+              <span className="text-red-500 ml-1" aria-label="required">
+                *
+              </span>
+            )}
           </label>
         )}
         <input

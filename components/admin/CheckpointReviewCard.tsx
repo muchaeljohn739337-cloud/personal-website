@@ -170,13 +170,15 @@ export function CheckpointReviewCard({
           </div>
         )}
 
-        {checkpoint.data && (
+        {checkpoint.data ? (
           <div>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
               className="w-full"
+              type="button"
+              aria-expanded={isExpanded}
             >
               {isExpanded ? 'Hide' : 'Show'} Checkpoint Data
             </Button>
@@ -186,7 +188,7 @@ export function CheckpointReviewCard({
               </pre>
             )}
           </div>
-        )}
+        ) : null}
 
         {logs.length > 0 && (
           <div>

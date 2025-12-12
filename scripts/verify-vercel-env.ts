@@ -116,14 +116,14 @@ function getVercelEnvVars(): Map<string, string> {
     // Note: Vercel CLI doesn't support --json flag, so we'll check locally
     // Users should set variables in Vercel Dashboard
     const envMap = new Map<string, string>();
-    
+
     // Check if user is logged in
     try {
       execSync('vercel whoami', { stdio: 'ignore' });
     } catch {
       throw new Error('Not logged in');
     }
-    
+
     // We can't easily fetch env vars via CLI, so return empty
     // User should verify in Vercel Dashboard
     return envMap;

@@ -9,6 +9,7 @@ Your Supabase project has been automatically configured for your Next.js SaaS ap
 ## 📊 Project Detection
 
 **Environment:**
+
 - ✅ **Type:** Next.js 14 with TypeScript
 - ✅ **Package Manager:** npm
 - ✅ **Node Version:** 20.x
@@ -110,11 +111,13 @@ Your Supabase project has been automatically configured for your Next.js SaaS ap
 ### Setup
 
 **Automated:**
+
 ```bash
 npm run setup:supabase:buckets
 ```
 
 **Manual:**
+
 1. Go to: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/storage/files
 2. Create each bucket with appropriate public/private settings
 
@@ -125,11 +128,13 @@ npm run setup:supabase:buckets
 ### API Schema Setup
 
 **Why API Schema?**
+
 - `public` schema is not accessible via Supabase REST API
 - `api` schema is required for API access
 - Better security isolation
 
 **Setup:**
+
 ```bash
 npm run setup:supabase:api:schema
 ```
@@ -137,6 +142,7 @@ npm run setup:supabase:api:schema
 **SQL Script:** `prisma/migrations/setup_api_schema.sql`
 
 **Required SQL:**
+
 ```sql
 -- Create api schema
 CREATE SCHEMA IF NOT EXISTS api;
@@ -151,6 +157,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE api.<table> TO authenticated;
 ```
 
 **⚠️ Important:** Update Prisma schema to use `api` schema:
+
 ```prisma
 model User {
   // ... fields ...
@@ -168,6 +175,7 @@ model User {
 **File:** `lib/supabase/wrappers/queries.ts`
 
 **Functions:**
+
 - ✅ `queryTable()` - Generic query with filtering, pagination
 - ✅ `getById()` - Get single record by ID
 - ✅ `insertRecord()` - Insert new record
@@ -175,6 +183,7 @@ model User {
 - ✅ `deleteRecord()` - Delete record
 
 **Usage:**
+
 ```typescript
 import { queryTable, getById, insertRecord } from '@/lib/supabase/wrappers/queries';
 
@@ -201,6 +210,7 @@ const { data, error } = await insertRecord('users', {
 ### Environment Variables
 
 **Required:**
+
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://xesecqcqzykvmrtxrzqi.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=sb_publishable_dj1xLuksqBUvn9O6AWU3Fg_bRYa6ohq
@@ -209,6 +219,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 **Setup:**
+
 ```bash
 npm run setup:supabase:env
 ```
@@ -218,11 +229,13 @@ npm run setup:supabase:env
 **Dashboard:** https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations/vault/secrets
 
 **Store Secrets:**
+
 ```sql
 SELECT vault.create_secret('secret_name', 'secret_value');
 ```
 
 **Access Secrets:**
+
 ```sql
 SELECT vault.get_secret('secret_name');
 ```
@@ -358,22 +371,26 @@ npm run migrate:prod
 ## 🎯 Next Steps
 
 1. **Run Auto-Setup:**
+
    ```bash
    npm run setup:supabase:auto
    ```
 
 2. **Set Up API Schema:**
+
    ```bash
    npm run setup:supabase:api:schema
    # Follow instructions to run SQL in Dashboard
    ```
 
 3. **Create Storage Buckets:**
+
    ```bash
    npm run setup:supabase:buckets
    ```
 
 4. **Test Authentication:**
+
    ```bash
    npm run test:supabase:auth
    ```
@@ -400,4 +417,3 @@ npm run migrate:prod
 All Supabase components have been automatically configured!
 
 **Run:** `npm run setup:supabase:auto` to verify everything is set up correctly.
-

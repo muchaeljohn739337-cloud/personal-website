@@ -11,6 +11,7 @@ Based on the project documentation, here are the default admin credentials:
 **Role:** `ADMIN`
 
 **⚠️ IMPORTANT SECURITY NOTES:**
+
 - These are default credentials - **CHANGE IMMEDIATELY** after first login
 - Use a strong, unique password (12+ characters, mixed case, numbers, symbols)
 - Enable 2FA for admin account
@@ -21,9 +22,11 @@ Based on the project documentation, here are the default admin credentials:
 ## Login URL
 
 **Development:**
+
 - http://localhost:3000/auth/login
 
 **Production:**
+
 - https://advanciapayledger.com/auth/login
 - https://www.advanciapayledger.com/auth/login
 
@@ -38,6 +41,7 @@ npm run check:admin
 ```
 
 This will show:
+
 - All admin users in the database
 - Their email addresses
 - Their roles and status
@@ -53,6 +57,7 @@ npm run create-admin
 ```
 
 **Follow the prompts:**
+
 1. Email: `admin@advanciapayledger.com`
 2. Name: `Admin User` (or your name)
 3. Password: `AdvanciaAdmin2024!Secure#` (or your secure password)
@@ -77,6 +82,7 @@ Then the setup script will use these values.
 **Admin Check:** Cannot verify (database required)
 
 **Next Steps:**
+
 1. Connect to database (update `DATABASE_URL` in `.env`)
 2. Run: `npm run check:admin` to verify admin exists
 3. If no admin: Run `npm run create-admin` to create one
@@ -87,6 +93,7 @@ Then the setup script will use these values.
 ## Security Reminder
 
 **After logging in:**
+
 - ✅ Change password immediately
 - ✅ Enable 2FA
 - ✅ Review admin settings
@@ -95,4 +102,3 @@ Then the setup script will use these values.
 ---
 
 **Status**: Admin credentials available, but database connection required to verify/create admin user.
-

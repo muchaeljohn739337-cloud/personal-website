@@ -93,7 +93,8 @@ function main() {
 
   // Generate copy-paste ready file
   let output = '# Vercel Environment Variables - Copy to Dashboard\n\n';
-  output += '**Go to:** https://vercel.com/dashboard → Your Project → Settings → Environment Variables\n\n';
+  output +=
+    '**Go to:** https://vercel.com/dashboard → Your Project → Settings → Environment Variables\n\n';
   output += '**For each variable:**\n';
   output += '1. Click "Add New"\n';
   output += '2. Enter variable name\n';
@@ -151,4 +152,3 @@ function main() {
 }
 
 main();
-

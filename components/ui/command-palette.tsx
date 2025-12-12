@@ -83,7 +83,9 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
             signOut({ callbackUrl: '/' });
             break;
           case 'theme': {
-            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            const currentTheme = document.documentElement.classList.contains('dark')
+              ? 'dark'
+              : 'light';
             document.documentElement.classList.toggle('dark');
             // Persist to localStorage
             localStorage.setItem('theme', currentTheme === 'dark' ? 'light' : 'dark');

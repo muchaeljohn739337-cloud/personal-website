@@ -129,10 +129,8 @@ export default function AnalyticsAdminPage() {
             <TrendingUp className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data?.users.newThisMonth.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">
-              +{data?.users.newThisWeek} this week
-            </p>
+            <div className="text-3xl font-bold">{data?.users.total.toLocaleString()}</div>
+            <p className="text-sm text-muted-foreground">+{data?.users.newThisWeek} this week</p>
           </CardContent>
         </Card>
 
@@ -169,12 +167,10 @@ export default function AnalyticsAdminPage() {
             <CardDescription>Monthly revenue metrics</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">
-              ${data?.revenue.thisMonth.toLocaleString()}
-            </div>
+            <div className="text-3xl font-bold">${data?.revenue.thisMonth.toLocaleString()}</div>
             <p className="text-sm text-muted-foreground">
-              {data?.revenue.growth > 0 ? '+' : ''}
-              {data?.revenue.growth}% from last month
+              {data?.revenue.growth && data.revenue.growth > 0 ? '+' : ''}
+              {data?.revenue.growth ?? 0}% from last month
             </p>
             <p className="text-xs text-muted-foreground mt-2">
               Total: ${data?.revenue.total.toLocaleString()}
@@ -329,4 +325,3 @@ export default function AnalyticsAdminPage() {
     </div>
   );
 }
-

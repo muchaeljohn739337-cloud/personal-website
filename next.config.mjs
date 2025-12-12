@@ -1,4 +1,8 @@
+import * as Sentry from '@sentry/nextjs';
 import { withSentryConfig } from '@sentry/nextjs';
+
+// Export router transition tracking for Sentry
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -32,6 +36,19 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  // Webpack configuration for client-side only modules
+  webpack: (config, { isServer }) => {
+    // Ignore Node.js modules during server-side rendering for client-only packages
+    if (isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    return config;
+  },
   // Security headers for production
   async headers() {
     return [
@@ -123,8 +140,16 @@ const sentryWebpackPluginOptions = {
   org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT,
 
-  // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
+  // Auth token for uploading source maps (optional)
+  // Only upload source maps if auth token is provided
+  // If not provided, source maps won't be uploaded (this is OK - error reporting still works)
+  ...(process.env.SENTRY_AUTH_TOKEN && {
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+  }),
+
+  // Suppress warnings if auth token is not provided (source maps are optional)
+  // Only show logs in CI if auth token is available
+  silent: !process.env.CI || !process.env.SENTRY_AUTH_TOKEN,
 
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,

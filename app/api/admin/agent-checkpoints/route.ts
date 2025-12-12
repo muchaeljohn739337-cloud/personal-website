@@ -11,6 +11,9 @@ import { authOptions } from '@/lib/auth';
 import { listPendingCheckpoints } from '@/lib/agents/checkpoint-manager';
 import { prisma } from '@/lib/prismaClient';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 async function checkAdminAccess() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {

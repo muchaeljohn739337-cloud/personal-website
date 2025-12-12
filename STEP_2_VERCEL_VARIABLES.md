@@ -94,6 +94,6 @@ npm run deploy:prod:safe
 ---
 
 **Quick Links:**
+
 - Vercel Dashboard: https://vercel.com/dashboard
 - Environment Variables: https://vercel.com/dashboard/[team]/personal-website/settings/environment-variables
-

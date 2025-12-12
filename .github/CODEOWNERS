@@ -1,0 +1,118 @@
+# CODEOWNERS file
+# 
+# This file defines code owners for this repository.
+# Code owners are automatically requested for review when someone opens a pull request
+# that modifies code that they own.
+#
+# More info: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+# Unless a later match takes precedence, these owners will be requested for review
+*       @muchaeljohn739337-cloud
+
+# Configuration files
+/.github/           @muchaeljohn739337-cloud
+/.vscode/           @muchaeljohn739337-cloud
+*.config.js         @muchaeljohn739337-cloud
+*.config.ts         @muchaeljohn739337-cloud
+*.config.mjs        @muchaeljohn739337-cloud
+
+# Root configuration files
+/.gitignore         @muchaeljohn739337-cloud
+/.eslintrc.json     @muchaeljohn739337-cloud
+/.prettierrc        @muchaeljohn739337-cloud
+/package.json       @muchaeljohn739337-cloud
+/package-lock.json  @muchaeljohn739337-cloud
+/tsconfig.json      @muchaeljohn739337-cloud
+
+# Environment and deployment
+/env.example        @muchaeljohn739337-cloud
+/vercel.json        @muchaeljohn739337-cloud
+/wrangler.toml      @muchaeljohn739337-cloud
+/open-next.config.ts @muchaeljohn739337-cloud
+/docker-compose*.yml @muchaeljohn739337-cloud
+
+# Documentation
+/README.md          @muchaeljohn739337-cloud
+/CONTRIBUTING.md    @muchaeljohn739337-cloud
+/SECURITY.md        @muchaeljohn739337-cloud
+/CHANGELOG.md       @muchaeljohn739337-cloud
+*.md                @muchaeljohn739337-cloud
+
+# Database and Prisma
+/prisma/            @muchaeljohn739337-cloud
+
+# API Routes
+/app/api/           @muchaeljohn739337-cloud
+
+# Authentication
+/app/auth/          @muchaeljohn739337-cloud
+/lib/auth/          @muchaeljohn739337-cloud
+/app/api/auth/      @muchaeljohn739337-cloud
+
+# Admin features
+/app/(admin)/       @muchaeljohn739337-cloud
+/app/api/admin/     @muchaeljohn739337-cloud
+/lib/admin.ts       @muchaeljohn739337-cloud
+/lib/admin/         @muchaeljohn739337-cloud
+
+# Security-related files
+/lib/security/      @muchaeljohn739337-cloud
+/app/api/auth/      @muchaeljohn739337-cloud
+/middleware*.ts     @muchaeljohn739337-cloud
+
+# Web3 and blockchain
+/lib/web3auth/      @muchaeljohn739337-cloud
+/lib/blockchain.ts  @muchaeljohn739337-cloud
+/app/crypto/        @muchaeljohn739337-cloud
+
+# Payment systems
+/lib/payments/      @muchaeljohn739337-cloud
+/lib/stripe*.ts     @muchaeljohn739337-cloud
+/app/api/payments/  @muchaeljohn739337-cloud
+/app/api/stripe/    @muchaeljohn739337-cloud
+
+# AI and Agent systems
+/lib/agents/        @muchaeljohn739337-cloud
+/app/api/agents/    @muchaeljohn739337-cloud
+/app/api/agent-jobs/ @muchaeljohn739337-cloud
+/scripts/agent-*.ts @muchaeljohn739337-cloud
+
+# Cloudflare integration
+/lib/cloudflare/    @muchaeljohn739337-cloud
+
+# Email systems
+/lib/email/         @muchaeljohn739337-cloud
+/app/api/email/     @muchaeljohn739337-cloud
+
+# Testing
+/__tests__/         @muchaeljohn739337-cloud
+/e2e/               @muchaeljohn739337-cloud
+/jest.config.js     @muchaeljohn739337-cloud
+/jest.setup.js      @muchaeljohn739337-cloud
+/playwright.config.ts @muchaeljohn739337-cloud
+
+# Scripts and automation
+/scripts/           @muchaeljohn739337-cloud
+/.github/workflows/ @muchaeljohn739337-cloud
+
+# UI Components
+/components/ui/     @muchaeljohn739337-cloud
+/components/dashboard/ @muchaeljohn739337-cloud
+/components/admin/  @muchaeljohn739337-cloud
+
+# Styling
+/app/globals.css    @muchaeljohn739337-cloud
+/tailwind.config.js @muchaeljohn739337-cloud
+/postcss.config.mjs @muchaeljohn739337-cloud
+
+# Monitoring and analytics
+/lib/monitoring/    @muchaeljohn739337-cloud
+/sentry*.ts         @muchaeljohn739337-cloud
+
+# Performance optimization
+/lib/performance/   @muchaeljohn739337-cloud
+
+# Accessibility
+/lib/accessibility/ @muchaeljohn739337-cloud
+/components/accessibility/ @muchaeljohn739337-cloud

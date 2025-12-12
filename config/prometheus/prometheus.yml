@@ -1,0 +1,41 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'personal-website-monitor'
+    environment: 'development'
+
+# Alertmanager configuration (optional)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+# Load rules once and periodically evaluate them
+rule_files: []
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Next.js application metrics (if you expose /metrics endpoint)
+  - job_name: 'nextjs'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['host.docker.internal:3000']
+    metrics_path: '/api/metrics'
+
+  # Redis exporter (optional - requires redis-exporter)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+
+  # MinIO metrics
+  - job_name: 'minio'
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: http
+    static_configs:
+      - targets: ['minio:9000']

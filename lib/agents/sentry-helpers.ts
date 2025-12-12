@@ -95,9 +95,9 @@ export function addCheckpointActionBreadcrumb(
 /**
  * Start a Sentry transaction for job execution
  */
-export function startJobTransaction(job: AIJob): Sentry.Transaction | undefined {
+export function startJobTransaction(job: AIJob): unknown {
   // Use Sentry.startSpan for newer API, fallback to manual transaction
-  let transaction: Sentry.Transaction | undefined;
+  let transaction: unknown;
 
   try {
     // Try using the newer Sentry API
@@ -109,7 +109,7 @@ export function startJobTransaction(job: AIJob): Sentry.Transaction | undefined 
     ) {
       // Fallback for older Sentry versions that have startTransaction
       const startTransaction = (
-        Sentry as unknown as { startTransaction: (options: unknown) => Sentry.Transaction }
+        Sentry as unknown as { startTransaction: (options: unknown) => unknown }
       ).startTransaction;
       transaction = startTransaction({
         op: 'agent.job',

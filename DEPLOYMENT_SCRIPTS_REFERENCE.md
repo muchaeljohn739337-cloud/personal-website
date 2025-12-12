@@ -10,15 +10,18 @@
 ### 🔐 **Secret Generation**
 
 #### `npm run generate:prod-secrets`
+
 **Purpose:** Generate secure production secrets for JWT, sessions, NextAuth, and cron jobs
 
 **Output:**
+
 - `JWT_SECRET` (128 hex characters)
 - `SESSION_SECRET` (128 hex characters)
 - `NEXTAUTH_SECRET` (44 base64 characters)
 - `CRON_SECRET` (44 base64 characters)
 
 **Usage:**
+
 ```bash
 npm run generate:prod-secrets
 ```
@@ -30,14 +33,17 @@ npm run generate:prod-secrets
 ### 🔧 **Environment Setup**
 
 #### `npm run setup:vercel-env`
+
 **Purpose:** Interactive script to set up Vercel environment variables
 
 **Usage:**
+
 ```bash
 npm run setup:vercel-env
 ```
 
 **What it does:**
+
 - Guides you through setting Vercel environment variables
 - Validates required variables
 - Provides setup instructions
@@ -47,14 +53,17 @@ npm run setup:vercel-env
 ### ✅ **Pre-Deployment Verification**
 
 #### `npm run deploy:checklist`
+
 **Purpose:** Comprehensive pre-deployment verification checklist
 
 **Usage:**
+
 ```bash
 npm run deploy:checklist
 ```
 
 **What it checks:**
+
 - 🔴 Security (key rotation, secrets)
 - 🟠 Environment variables
 - 🟡 Pre-deployment checks (build, lint, tests)
@@ -68,14 +77,17 @@ npm run deploy:checklist
 ---
 
 #### `npm run verify:vercel:env`
+
 **Purpose:** Verify all required Vercel environment variables are set
 
 **Usage:**
+
 ```bash
 npm run verify:vercel:env
 ```
 
 **What it checks:**
+
 - Required environment variables presence
 - Variable format validation
 - Provides missing variables list
@@ -83,14 +95,17 @@ npm run verify:vercel:env
 ---
 
 #### `npm run preprod:check`
+
 **Purpose:** Pre-production deployment validation
 
 **Usage:**
+
 ```bash
 npm run preprod:check
 ```
 
 **What it checks:**
+
 - Node.js version
 - Required files existence
 - Environment variables
@@ -102,28 +117,34 @@ npm run preprod:check
 ### 🚀 **Deployment**
 
 #### `npm run deploy:prod`
+
 **Purpose:** Standard production deployment to Vercel
 
 **Usage:**
+
 ```bash
 npm run deploy:prod
 ```
 
 **What it does:**
+
 1. Builds the project (`npm run build`)
 2. Deploys to Vercel production (`vercel --prod`)
 
 ---
 
 #### `npm run deploy:prod:safe`
+
 **Purpose:** Safe production deployment with additional checks
 
 **Usage:**
+
 ```bash
 npm run deploy:prod:safe
 ```
 
 **What it does:**
+
 - Runs pre-deployment checks
 - Validates environment variables
 - Builds the project
@@ -134,14 +155,17 @@ npm run deploy:prod:safe
 ---
 
 #### `npm run deploy:production`
+
 **Purpose:** Comprehensive production deployment orchestration
 
 **Usage:**
+
 ```bash
 npm run deploy:production
 ```
 
 **What it does:**
+
 - Environment variable checks
 - Prisma generation
 - Project build
@@ -154,14 +178,17 @@ npm run deploy:production
 ---
 
 #### `npm run deploy:full`
+
 **Purpose:** Full deployment with all safety checks
 
 **Usage:**
+
 ```bash
 npm run deploy:full
 ```
 
 **What it does:**
+
 1. Pre-production checks (`npm run preprod:check`)
 2. Security checks (`npm run security:check`)
 3. Production deployment (`npm run deploy:prod`)
@@ -171,14 +198,17 @@ npm run deploy:full
 ### 🔍 **Post-Deployment Verification**
 
 #### `npm run verify:prod`
+
 **Purpose:** Verify production deployment health
 
 **Usage:**
+
 ```bash
 npm run verify:prod
 ```
 
 **What it does:**
+
 - Checks health endpoint: `https://advanciapayledger.com/api/health`
 - Validates deployment is live and responding
 
@@ -187,14 +217,17 @@ npm run verify:prod
 ### 📊 **Database Management**
 
 #### `npm run migrate:prod`
+
 **Purpose:** Run database migrations in production
 
 **Usage:**
+
 ```bash
 npm run migrate:prod
 ```
 
 **What it does:**
+
 - Applies pending Prisma migrations to production database
 - Uses `prisma migrate deploy`
 
@@ -203,38 +236,48 @@ npm run migrate:prod
 ## 🎯 **Recommended Deployment Workflow**
 
 ### **Step 1: Generate Secrets**
+
 ```bash
 npm run generate:prod-secrets
 ```
+
 Copy the generated secrets to Vercel environment variables.
 
 ### **Step 2: Set Environment Variables**
+
 ```bash
 npm run setup:vercel-env
 ```
+
 Or manually set in Vercel Dashboard.
 
 ### **Step 3: Verify Setup**
+
 ```bash
 npm run verify:vercel:env
 npm run deploy:checklist
 ```
 
 ### **Step 4: Deploy**
+
 ```bash
 npm run deploy:prod:safe
 ```
+
 Or for full automated deployment:
+
 ```bash
 npm run deploy:production
 ```
 
 ### **Step 5: Run Migrations**
+
 ```bash
 npm run migrate:prod
 ```
 
 ### **Step 6: Verify Deployment**
+
 ```bash
 npm run verify:prod
 ```
@@ -288,4 +331,3 @@ npm run verify:prod            # Check health
 
 **Status:** ✅ All scripts tested and working  
 **Last Verified:** 2025-01-27
-

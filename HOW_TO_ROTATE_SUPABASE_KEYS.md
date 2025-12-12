@@ -214,6 +214,7 @@ DIRECT_URL=postgres://postgres.qbxugwctchtqwymhucpl:[NEW_PASSWORD]@aws-1-us-east
 ### Test Locally:
 
 1. **Start Development Server:**
+
    ```bash
    npm run dev
    ```
@@ -289,6 +290,7 @@ Use this checklist to ensure you've completed everything:
 ### Problem: "Invalid API key" errors
 
 **Solution:**
+
 - Double-check you copied the keys correctly (no extra spaces)
 - Verify keys are updated in both `.env.local` and Vercel
 - Restart development server after updating `.env.local`
@@ -297,6 +299,7 @@ Use this checklist to ensure you've completed everything:
 ### Problem: Database connection errors
 
 **Solution:**
+
 - Verify new password is correct in connection strings
 - Check `DATABASE_URL` and `DIRECT_URL` are updated
 - Ensure password is URL-encoded if it contains special characters
@@ -305,6 +308,7 @@ Use this checklist to ensure you've completed everything:
 ### Problem: Application still using old keys
 
 **Solution:**
+
 - Clear browser cache
 - Restart development server completely
 - Check Vercel deployment logs for errors
@@ -313,6 +317,7 @@ Use this checklist to ensure you've completed everything:
 ### Problem: Can't find "Rotate" button in Supabase
 
 **Solution:**
+
 - Look for "Reset" button instead
 - Check you're in the correct project
 - Ensure you have admin access to the project
@@ -332,16 +337,19 @@ Use this checklist to ensure you've completed everything:
 ## ⏱️ Timeline
 
 **Immediate (Now):**
+
 - Rotate Service Role Key
 - Rotate Anon Key
 - Change Database Password
 
 **Within 1 Hour:**
+
 - Update local environment variables
 - Update Vercel environment variables
 - Test locally
 
 **Within 24 Hours:**
+
 - Verify production deployment
 - Monitor for unauthorized access
 - Document any issues
@@ -361,4 +369,3 @@ If you encounter issues:
 
 **Status:** ⚠️ **ACTION REQUIRED**  
 **Last Updated:** 2025-12-09
-

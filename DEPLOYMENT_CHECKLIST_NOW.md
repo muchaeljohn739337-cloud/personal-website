@@ -10,11 +10,13 @@
 ## ✅ Pre-Deployment Checklist
 
 ### 1. Security Check
+
 - [x] `.gitignore` properly configured (env files excluded)
 - [ ] Verify no secrets in files to be committed
 - [ ] Remove `.env.local.backup` if exists (contains secrets)
 
 ### 2. Code Changes
+
 - [x] CI workflow improvements merged
 - [x] Test environment setup complete
 - [x] Documentation updated
@@ -38,6 +40,7 @@
 ```
 
 **Action:**
+
 ```powershell
 # Remove backup file if it exists (contains secrets)
 if (Test-Path .env.local.backup) {
@@ -51,19 +54,22 @@ if (Test-Path .env.local.backup) {
 ### Step 2: Commit Changes (Safe Files Only) ✅
 
 **Files Safe to Commit:**
-- ✅ Documentation files (*.md)
+
+- ✅ Documentation files (\*.md)
 - ✅ Configuration files (docker-compose.test.yml, etc.)
 - ✅ Scripts (without secrets)
-- ✅ Workflow files (.github/workflows/*.yml)
+- ✅ Workflow files (.github/workflows/\*.yml)
 - ✅ package.json, package-lock.json
 - ✅ env.example (template only)
 
 **Files to EXCLUDE:**
+
 - ❌ .env.local.backup
-- ❌ .env*.local
+- ❌ .env\*.local
 - ❌ Any file with actual passwords/secrets
 
 **Commit Command:**
+
 ```bash
 # Stage safe files
 git add .github/workflows/ci.yml
@@ -116,6 +122,7 @@ git push origin main
    - `NEXTAUTH_URL` - `https://advanciapayledger.com`
 
 **After Updating:**
+
 - Vercel will auto-redeploy
 - Wait 2-3 minutes for deployment to complete
 
@@ -124,17 +131,20 @@ git push origin main
 ### Step 4: Deploy Latest Changes 🚀
 
 **Option A: Automatic (via Git Push)**
+
 ```bash
 # After committing and pushing, Vercel auto-deploys
 git push origin main
 ```
 
 **Option B: Manual Deployment**
+
 ```bash
 npm run deploy:prod
 ```
 
 **Option C: Safe Deployment Script**
+
 ```bash
 npm run deploy:prod:safe
 ```
@@ -144,12 +154,14 @@ npm run deploy:prod:safe
 ### Step 5: Verify Deployment ✅
 
 **Check Deployment Status:**
+
 1. Go to: https://vercel.com/dashboard
 2. Check latest deployment
 3. Verify build succeeded
 4. Check deployment logs for errors
 
 **Test Production URL:**
+
 - https://advanciapayledger.com
 - Should load without errors
 
@@ -158,16 +170,19 @@ npm run deploy:prod:safe
 ### Step 6: Test Admin Login 🔐
 
 **Test Credentials:**
+
 - **Email:** `superadmin@advanciapayledger.com`
 - **Password:** `QAZwsxEDC1!?`
 
 **Steps:**
+
 1. Go to: https://advanciapayledger.com/auth/login
 2. Enter credentials
 3. Verify login succeeds
 4. Check admin dashboard loads
 
 **If Login Fails:**
+
 - Check Vercel logs for errors
 - Verify database connection
 - Check environment variables are set correctly
@@ -178,6 +193,7 @@ npm run deploy:prod:safe
 ### Step 7: Run Tests 🧪
 
 **Local Tests:**
+
 ```bash
 # Verify environment
 npm run test:env
@@ -190,6 +206,7 @@ npm run test:e2e
 ```
 
 **CI Tests:**
+
 - Check GitHub Actions after push
 - Verify all CI jobs pass
 - Review test results
@@ -221,17 +238,20 @@ npm run verify:prod
 ## ⚠️ Important Notes
 
 ### Security
+
 - ✅ Never commit `.env` files
 - ✅ Never commit backup files with secrets
 - ✅ Always verify `.gitignore` excludes sensitive files
 - ✅ Use Vercel dashboard for production secrets
 
 ### Database
+
 - ⚠️ Ensure `DATABASE_URL` is correct in Vercel
 - ⚠️ Use connection pooling URL (port 6543)
 - ⚠️ Include `sslmode=require` for security
 
 ### Testing
+
 - Test admin login after deployment
 - Verify database connections
 - Check for any console errors
@@ -249,4 +269,3 @@ npm run verify:prod
 
 **Status:** ✅ Ready to Deploy  
 **Last Updated:** 2024
-

@@ -24,6 +24,7 @@
 **Add these variables (select "Production" environment):**
 
 #### **A. Secrets (Generated - Copy from below):**
+
 ```
 JWT_SECRET=5a6b3412daf64d4faf6542597eb8908f412064878b1dfc3047119635a763cac1ba495b70b7875f4e4c38de3ad5b158a4208e862048bc393f992ec81bf24509f6
 
@@ -35,12 +36,14 @@ CRON_SECRET=0eG74xgFxSVwXJtl+V23XnHA1nclND5l87Fyz6FYG2Q=
 ```
 
 #### **B. URLs:**
+
 ```
 NEXT_PUBLIC_APP_URL=https://advanciapayledger.com
 NEXTAUTH_URL=https://advanciapayledger.com
 ```
 
 #### **C. Supabase (Use NEW rotated key from Step 1):**
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xesecqcqzykvmrtxrzqi.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=<your_publishable_key>
@@ -48,12 +51,14 @@ SUPABASE_SERVICE_ROLE_KEY=<NEW_KEY_FROM_STEP_1>
 ```
 
 #### **D. Database:**
+
 ```
 DATABASE_URL=<your_production_database_url>
 DIRECT_URL=<your_direct_database_url>  # Optional
 ```
 
 **After adding all variables, verify:**
+
 ```bash
 npm run verify:vercel:env
 ```
@@ -69,6 +74,7 @@ npm run deploy:prod:safe
 ```
 
 **What happens:**
+
 - ✅ Checks Vercel authentication
 - ✅ Validates environment variables
 - ✅ Builds the project
@@ -81,16 +87,19 @@ npm run deploy:prod:safe
 ## 📋 **Step 4: Post-Deployment (After deployment succeeds)**
 
 ### **4.1 Run Database Migrations:**
+
 ```bash
 npm run migrate:prod
 ```
 
 ### **4.2 Verify Deployment:**
+
 ```bash
 npm run verify:prod
 ```
 
 ### **4.3 Manual Testing:**
+
 - [ ] Visit: https://advanciapayledger.com
 - [ ] Test registration
 - [ ] Test login
@@ -102,14 +111,17 @@ npm run verify:prod
 ## ✅ **Quick Checklist**
 
 Before deploying:
+
 - [ ] ✅ Rotated Supabase Service Role Key
 - [ ] ✅ Set all Vercel environment variables
 - [ ] ✅ Verified variables: `npm run verify:vercel:env`
 
 Deploy:
+
 - [ ] ✅ Run: `npm run deploy:prod:safe`
 
 After deployment:
+
 - [ ] ✅ Run migrations: `npm run migrate:prod`
 - [ ] ✅ Verify health: `npm run verify:prod`
 - [ ] ✅ Test manually
@@ -126,4 +138,3 @@ After deployment:
 ---
 
 **Ready? Start with Step 1!** 🚀
-

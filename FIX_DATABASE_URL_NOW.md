@@ -7,6 +7,7 @@
 ## ❌ **Problem**
 
 The `DATABASE_URL` that was set in Vercel is invalid:
+
 - Current value: `Pi6icDrern3Kdszg` (not a valid database URL)
 - Required format: `postgresql://user:password@host:port/database`
 
@@ -34,6 +35,7 @@ npm run vercel:env:set
 ```
 
 **OR manually set in Vercel Dashboard:**
+
 1. Go to: https://vercel.com/dashboard → Your Project → Settings → Environment Variables
 2. Find `DATABASE_URL`
 3. Click "Edit"
@@ -49,6 +51,7 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 ```
 
 **Key points:**
+
 - ✅ Must start with `postgresql://` or `postgres://`
 - ✅ Port: `6543` (for connection pooling)
 - ✅ Include `?pgbouncer=true&sslmode=require`
@@ -74,4 +77,3 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 ---
 
 **⚠️ CRITICAL:** The deployment won't work until DATABASE_URL is a valid PostgreSQL connection string!
-

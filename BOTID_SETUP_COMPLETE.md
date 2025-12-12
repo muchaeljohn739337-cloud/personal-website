@@ -9,6 +9,7 @@ BotID has been integrated for bot protection on high-value pages and routes, wit
 ## 🔐 What is BotID?
 
 BotID is an invisible CAPTCHA solution that:
+
 - ✅ Challenges requests from non-browser sources
 - ✅ Excludes verified bots (search engines, monitoring tools)
 - ✅ Uses Deep Analysis powered by Kasada
@@ -22,21 +23,26 @@ BotID is an invisible CAPTCHA solution that:
 The following routes are protected with BotID:
 
 ### Admin Routes
+
 - `/admin/*` - All admin pages
 - `/api/admin/*` - Admin API endpoints
 
 ### Dashboard Routes
+
 - `/dashboard/*` - User dashboard pages
 
 ### Authentication Routes
+
 - `/api/auth/login` - Login endpoint
 - `/api/auth/register` - Registration endpoint
 
 ### Payment Routes
+
 - `/api/payments/*` - Payment processing
 - `/api/crypto/*` - Crypto payment endpoints
 
 ### Token & Rewards Routes
+
 - `/api/tokens/*` - Token operations
 - `/api/rewards/*` - Rewards system
 
@@ -45,17 +51,20 @@ The following routes are protected with BotID:
 ## 🚀 How It Works
 
 ### 1. Client-Side (Automatic)
+
 - BotID script loads on protected pages
 - Generates verification token automatically
 - Sends token with requests
 
 ### 2. Server-Side (Middleware)
+
 - Middleware checks BotID token on protected routes
 - Verifies token with BotID service
 - Challenges suspicious requests
 - Allows verified bots to pass
 
 ### 3. Verification Logic
+
 ```typescript
 // Challenges if:
 - BotID verification failed
@@ -73,16 +82,19 @@ The following routes are protected with BotID:
 ## 📁 Files Created/Modified
 
 ### 1. `lib/security/botid-protection.ts` (NEW)
+
 - BotID verification logic
 - Route protection configuration
 - Challenge decision logic
 
 ### 2. `middleware.ts` (MODIFIED)
+
 - Added BotID protection check
 - Integrated with existing authentication
 - Challenges suspicious requests
 
 ### 3. `components/BotIDProvider.tsx` (NEW)
+
 - Client-side BotID script loader
 - Optional component for pages that need it
 
@@ -95,6 +107,7 @@ The following routes are protected with BotID:
 BotID works automatically with Vercel's Bot Protection feature. No additional environment variables needed for basic setup.
 
 **Optional (for custom configuration):**
+
 - `BOTID_ENABLED` - Enable/disable BotID (default: true)
 - `BOTID_RISK_THRESHOLD` - Risk score threshold (default: 0.7)
 
@@ -139,16 +152,19 @@ curl -H "User-Agent: Googlebot/2.1" \
 ## 📊 Protection Levels
 
 ### High Protection (Default)
+
 - Admin routes
 - Payment endpoints
 - Authentication endpoints
 - Token/rewards endpoints
 
 ### Medium Protection
+
 - Dashboard routes
 - User-specific API endpoints
 
 ### No Protection
+
 - Public pages (`/`, `/faq`, `/privacy`, etc.)
 - Public API endpoints (`/api/health`, `/api/verification`)
 
@@ -214,6 +230,7 @@ export async function GET(request: NextRequest) {
 ### Log Challenges
 
 BotID challenges are logged automatically. Check:
+
 - Vercel Dashboard → Logs
 - Application logs for `X-BotID-Challenge` header
 
@@ -265,6 +282,7 @@ BotID challenges are logged automatically. Check:
    - Configure challenge settings
 
 2. **Deploy:**
+
    ```bash
    git add .
    git commit -m "feat: Add BotID protection for high-value routes"
@@ -286,5 +304,3 @@ BotID challenges are logged automatically. Check:
 **Status:** ✅ **BotID Protection Integrated**
 
 **Next Action:** Enable Bot Protection in Vercel Dashboard, then deploy.
-
-

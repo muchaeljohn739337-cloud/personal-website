@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/admin/blockchain/stats - Get blockchain statistics
 export async function GET(_req: NextRequest) {
   try {

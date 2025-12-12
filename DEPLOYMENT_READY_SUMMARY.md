@@ -71,6 +71,7 @@ Your project is now fully configured for deployment on Vercel and Cloudflare wit
 ### Cloudflare Deployment
 
 1. **Set Secrets:**
+
    ```bash
    wrangler secret put NEXT_PUBLIC_SUPABASE_URL --env production
    wrangler secret put NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY --env production
@@ -92,6 +93,7 @@ Your project is now fully configured for deployment on Vercel and Cloudflare wit
 **IMPORTANT:** The `public` schema is not accessible via Supabase API. You must use the `api` schema.
 
 **Run this now:**
+
 ```bash
 npm run setup:supabase:api:schema
 ```
@@ -105,4 +107,3 @@ Then follow the SQL instructions in Supabase Dashboard.
 Your project is configured and ready for production deployment.
 
 **Next:** Run `npm run setup:supabase:api:schema` and follow the instructions.
-

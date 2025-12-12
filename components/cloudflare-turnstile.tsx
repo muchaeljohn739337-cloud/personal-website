@@ -70,10 +70,20 @@ export function CloudflareTurnstile({
 
     return () => {
       if (widgetIdRef.current && window.turnstile) {
-        window.turnstile.remove(widgetIdRef.current);
+        try {
+          window.turnstile.remove(widgetIdRef.current);
+        } catch (error) {
+          // Widget may have already been removed
+          console.debug('Turnstile widget already removed');
+        }
       }
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
+      if (script && script.parentNode) {
+        try {
+          script.parentNode.removeChild(script);
+        } catch (error) {
+          // Script may have already been removed
+          console.debug('Turnstile script already removed');
+        }
       }
     };
   }, [siteKey, onVerify, onError, onExpire, theme, size]);

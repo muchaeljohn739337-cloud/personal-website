@@ -7,6 +7,7 @@
 ## ❌ **Current Issue**
 
 Vercel logs show:
+
 ```
 error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
 ```
@@ -18,11 +19,13 @@ error: Error validating datasource `db`: the URL must start with the protocol `p
 ## ✅ **Fix Steps (Do This Now)**
 
 ### **1. Go to Vercel Dashboard**
+
 - https://vercel.com/dashboard
 - Select project: `personal-website`
 - Settings → Environment Variables
 
 ### **2. Add DATABASE_URL**
+
 - Click **"Add New"**
 - Variable name: `DATABASE_URL`
 - Value: Your production database connection string
@@ -31,16 +34,19 @@ error: Error validating datasource `db`: the URL must start with the protocol `p
 - Click **"Save"**
 
 ### **3. Example Format (Supabase)**
+
 ```
 postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require
 ```
 
 **Replace:**
+
 - `[PASSWORD]` with your actual Supabase database password
 - Use port `6543` for connection pooling
 - Include `pgbouncer=true` for Supabase
 
 ### **4. Also Add DIRECT_URL (Optional but Recommended)**
+
 - Variable name: `DIRECT_URL`
 - Value: Same as DATABASE_URL but:
   - Use port `5432` (not 6543)
@@ -69,6 +75,7 @@ After fixing DATABASE_URL, verify these are also set:
 ## 🔄 **After Setting Variables**
 
 1. **Redeploy** (Vercel will automatically redeploy when you add variables, or manually trigger):
+
    ```bash
    npm run deploy:prod:safe
    ```
@@ -89,4 +96,3 @@ After fixing DATABASE_URL, verify these are also set:
 ---
 
 **⚠️ IMPORTANT:** The deployment will not work until `DATABASE_URL` is set correctly in Vercel!
-

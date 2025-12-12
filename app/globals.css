@@ -20,12 +20,64 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) scale(1);
+    opacity: 0.3;
+  }
+  33% {
+    transform: translateY(-20px) translateX(10px) scale(1.1);
+    opacity: 0.5;
+  }
+  66% {
+    transform: translateY(-10px) translateX(-10px) scale(0.9);
+    opacity: 0.4;
+  }
+}
+
+@keyframes water-drop {
+  0% {
+    transform: translateY(-100%) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(100vh) scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
 .animate-spin-slow {
   animation: spin-slow 3s linear infinite;
 }
 
 .animate-spin-reverse {
   animation: spin-reverse 2s linear infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-water-drop {
+  animation: water-drop 8s linear infinite;
+}
+
+.animate-ripple {
+  animation: ripple 1s ease-out;
 }
 
 :root {

@@ -31,7 +31,7 @@ function fixDatabaseConnection() {
     const updatedLines = lines.map((line) => {
       if (line.startsWith('DATABASE_URL=')) {
         let url = line.substring('DATABASE_URL='.length).trim();
-        
+
         // Check if it's using wrong port or missing pooling
         if (url.includes(':5432/') && !url.includes('pooler')) {
           // Replace port 5432 with 6543 and add pgbouncer
@@ -63,16 +63,13 @@ function fixDatabaseConnection() {
   if (!content.includes('DIRECT_URL=') && content.includes('DATABASE_URL=')) {
     const dbUrlMatch = content.match(/DATABASE_URL=(.+)/);
     if (dbUrlMatch) {
-      let directUrl = dbUrlMatch[1]
+      const directUrl = dbUrlMatch[1]
         .replace(':6543/', ':5432/')
         .replace(/[?&]pgbouncer=true/, '')
         .replace(/[?&]sslmode=[^&]*/, '');
-      
+
       // Add DIRECT_URL after DATABASE_URL
-      content = content.replace(
-        /(DATABASE_URL=.+)/,
-        `$1\nDIRECT_URL=${directUrl}`
-      );
+      content = content.replace(/(DATABASE_URL=.+)/, `$1\nDIRECT_URL=${directUrl}`);
       console.log('✅ Added DIRECT_URL for migrations');
       updated = true;
     }
@@ -91,4 +88,3 @@ function fixDatabaseConnection() {
 }
 
 fixDatabaseConnection();
-

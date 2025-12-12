@@ -35,6 +35,7 @@ npm run post-deploy
 ```
 
 This will:
+
 - ✅ Verify environment variables
 - ✅ Wait for deployment to be healthy
 - ✅ Check Vercel logs
@@ -67,6 +68,7 @@ npm run setup:vercel:env:auto
 ## ⚠️ **Missing Variable**
 
 **`SUPABASE_SERVICE_ROLE_KEY`** - You need to:
+
 1. Get it from: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/settings/api
 2. Use the **NEW rotated** service_role key
 3. Add it to `.env.local` first, then run `npm run vercel:env:copy` again
@@ -83,4 +85,3 @@ npm run setup:vercel:env:auto
 ---
 
 **💡 Tip:** After setting all variables, Vercel automatically redeploys. Then run `npm run post-deploy` to verify everything works!
-

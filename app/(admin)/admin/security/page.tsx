@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  AlertTriangle,
-  Ban,
-  CheckCircle2,
-  ExternalLink,
-  RefreshCw,
-  Shield,
-  ShieldAlert,
-  UserX,
-} from 'lucide-react';
+import { AlertTriangle, Ban, CheckCircle2, RefreshCw, Shield, ShieldAlert } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -194,9 +185,7 @@ export default function SecurityAdminPage() {
                       <div className="text-sm opacity-80">{alert.message}</div>
                     </div>
                   </div>
-                  <div className="text-sm">
-                    {new Date(alert.timestamp).toLocaleString()}
-                  </div>
+                  <div className="text-sm">{new Date(alert.timestamp).toLocaleString()}</div>
                 </div>
               ))
             )}
@@ -288,4 +277,3 @@ function LoginAttemptsTable({ attempts }: { attempts: LoginAttempt[] }) {
     </div>
   );
 }
-

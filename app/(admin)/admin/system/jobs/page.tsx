@@ -4,7 +4,7 @@ import { CheckCircle, Clock, Play, RefreshCw, StopCircle, XCircle } from 'lucide
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface BackgroundJob {
   id: string;
@@ -33,7 +33,7 @@ export default function BackgroundJobsPage() {
       // TODO: Replace with actual API call
       // const response = await fetch('/api/admin/system/jobs');
       // const data = await response.json();
-      
+
       // Mock data
       setJobs([
         {
@@ -212,9 +212,7 @@ export default function BackgroundJobsPage() {
                       <p className="mt-1 text-xs text-slate-500">{job.progress}% complete</p>
                     </div>
                   )}
-                  {job.error && (
-                    <p className="mt-2 text-sm text-red-600">Error: {job.error}</p>
-                  )}
+                  {job.error && <p className="mt-2 text-sm text-red-600">Error: {job.error}</p>}
                   {job.startedAt && (
                     <p className="mt-2 text-xs text-slate-500">
                       Started: {new Date(job.startedAt).toLocaleString()}
@@ -255,4 +253,3 @@ export default function BackgroundJobsPage() {
     </div>
   );
 }
-

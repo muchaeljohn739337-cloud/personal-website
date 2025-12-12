@@ -1,7 +1,6 @@
 'use client';
 
 import { AlertTriangle, CheckCircle, Eye, RefreshCw, XCircle } from 'lucide-react';
-import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,9 +17,6 @@ interface FlaggedContent {
 }
 
 export default function ContentModerationPage() {
-  const [flagged, setFlagged] = useState<FlaggedContent[]>([]);
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-
   // Mock data
   const mockFlagged: FlaggedContent[] = [
     {
@@ -139,10 +135,7 @@ export default function ContentModerationPage() {
                     </Button>
                     {item.status === 'PENDING' && (
                       <>
-                        <Button
-                          size="sm"
-                          onClick={() => handleModeration(item.id, 'approve')}
-                        >
+                        <Button size="sm" onClick={() => handleModeration(item.id, 'approve')}>
                           <CheckCircle className="mr-2 h-4 w-4" />
                           Approve
                         </Button>
@@ -168,4 +161,3 @@ export default function ContentModerationPage() {
     </div>
   );
 }
-

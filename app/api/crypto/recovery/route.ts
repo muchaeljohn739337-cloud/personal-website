@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { authOptions } from '@/lib/auth';
 import { getCryptoRecoverySystem } from '@/lib/crypto/recovery';
@@ -61,8 +61,15 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Payment ID and reason are required' }, { status: 400 });
       }
 
-      const recovery = await recoverySystem.recoverPayment(paymentId, reason);
-      return NextResponse.json({ success: true, recovery });
+      const { redirectTo } = body;
+      const recovery = await recoverySystem.recoverPayment(paymentId, reason, redirectTo);
+
+      return NextResponse.json({
+        success: true,
+        recovery,
+        redirectUrl: recovery.redirectUrl || '/dashboard/payments',
+        message: 'Payment recovered successfully. Redirecting to specified position...',
+      });
     }
 
     if (action === 'verify') {

@@ -4,7 +4,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prismaClient';
 
-export async function GET(req: NextRequest) {
+export const dynamic = 'force-dynamic';
+
+export async function GET(_req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -22,27 +24,26 @@ export async function GET(req: NextRequest) {
     }
 
     // Get security stats from AuditLog
-    const [totalAttempts, failedAttempts, suspiciousAttempts, twoFactorUsers] =
-      await Promise.all([
-        prisma.auditLog.count({
-          where: { eventType: 'LOGIN_ATTEMPT' },
-        }),
-        prisma.auditLog.count({
-          where: {
-            eventType: 'LOGIN_ATTEMPT',
-            severity: { in: ['ERROR', 'CRITICAL'] },
-          },
-        }),
-        prisma.auditLog.count({
-          where: {
-            eventType: 'LOGIN_ATTEMPT',
-            severity: 'CRITICAL',
-          },
-        }),
-        prisma.user.count({
-          where: { twoFactorEnabled: true },
-        }),
-      ]);
+    const [totalAttempts, failedAttempts, suspiciousAttempts, twoFactorUsers] = await Promise.all([
+      prisma.auditLog.count({
+        where: { eventType: 'LOGIN_ATTEMPT' },
+      }),
+      prisma.auditLog.count({
+        where: {
+          eventType: 'LOGIN_ATTEMPT',
+          severity: { in: ['ERROR', 'CRITICAL'] },
+        },
+      }),
+      prisma.auditLog.count({
+        where: {
+          eventType: 'LOGIN_ATTEMPT',
+          severity: 'CRITICAL',
+        },
+      }),
+      prisma.user.count({
+        where: { twoFactorEnabled: true },
+      }),
+    ]);
 
     return NextResponse.json({
       loginAttempts: {
@@ -60,4 +61,3 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

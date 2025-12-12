@@ -4,16 +4,16 @@
 
 ### ✅ Payment & Services (Set)
 
-| Variable | Environment | Status | Notes |
-|----------|-------------|--------|-------|
-| `STRIPE_SECRET_KEY` | Production | ✅ Set | Payment processing |
-| `RESEND_API_KEY` | Production | ✅ Set | Email service |
-| `GOOGLE_CLIENT_ID` | All Environments | ✅ Set | OAuth authentication |
+| Variable               | Environment      | Status | Notes                |
+| ---------------------- | ---------------- | ------ | -------------------- |
+| `STRIPE_SECRET_KEY`    | Production       | ✅ Set | Payment processing   |
+| `RESEND_API_KEY`       | Production       | ✅ Set | Email service        |
+| `GOOGLE_CLIENT_ID`     | All Environments | ✅ Set | OAuth authentication |
 | `GOOGLE_CLIENT_SECRET` | All Environments | ✅ Set | OAuth authentication |
-| `GITHUB_CLIENT_ID` | Production | ✅ Set | OAuth authentication |
-| `GITHUB_CLIENT_SECRET` | Production | ✅ Set | OAuth authentication |
-| `GITHUB_CLIENT_ID` | Pre-Production | ✅ Set | OAuth authentication |
-| `GITHUB_CLIENT_SECRET` | Pre-Production | ✅ Set | OAuth authentication |
+| `GITHUB_CLIENT_ID`     | Production       | ✅ Set | OAuth authentication |
+| `GITHUB_CLIENT_SECRET` | Production       | ✅ Set | OAuth authentication |
+| `GITHUB_CLIENT_ID`     | Pre-Production   | ✅ Set | OAuth authentication |
+| `GITHUB_CLIENT_SECRET` | Pre-Production   | ✅ Set | OAuth authentication |
 
 ---
 
@@ -21,45 +21,45 @@
 
 ### Database Connection (REQUIRED)
 
-| Variable | Environment | Status | Priority |
-|----------|-------------|--------|----------|
-| `DATABASE_URL` | Production | ❌ **MISSING** | 🔴 **CRITICAL** |
-| `DIRECT_URL` | Production | ❌ **MISSING** | 🔴 **CRITICAL** |
+| Variable       | Environment | Status         | Priority        |
+| -------------- | ----------- | -------------- | --------------- |
+| `DATABASE_URL` | Production  | ❌ **MISSING** | 🔴 **CRITICAL** |
+| `DIRECT_URL`   | Production  | ❌ **MISSING** | 🔴 **CRITICAL** |
 
 **Without these, the application cannot connect to the database!**
 
 ### Authentication Secrets (REQUIRED)
 
-| Variable | Environment | Status | Priority |
-|----------|-------------|--------|----------|
-| `NEXTAUTH_SECRET` | Production | ❌ **MISSING** | 🔴 **CRITICAL** |
-| `JWT_SECRET` | Production | ❌ **MISSING** | 🔴 **CRITICAL** |
-| `SESSION_SECRET` | Production | ❌ **MISSING** | 🔴 **CRITICAL** |
+| Variable          | Environment | Status         | Priority        |
+| ----------------- | ----------- | -------------- | --------------- |
+| `NEXTAUTH_SECRET` | Production  | ❌ **MISSING** | 🔴 **CRITICAL** |
+| `JWT_SECRET`      | Production  | ❌ **MISSING** | 🔴 **CRITICAL** |
+| `SESSION_SECRET`  | Production  | ❌ **MISSING** | 🔴 **CRITICAL** |
 
 ### Application URLs (REQUIRED)
 
-| Variable | Environment | Status | Priority |
-|----------|-------------|--------|----------|
-| `NEXT_PUBLIC_APP_URL` | Production | ❌ **MISSING** | 🔴 **CRITICAL** |
-| `NEXTAUTH_URL` | Production | ❌ **MISSING** | 🔴 **CRITICAL** |
+| Variable              | Environment | Status         | Priority        |
+| --------------------- | ----------- | -------------- | --------------- |
+| `NEXT_PUBLIC_APP_URL` | Production  | ❌ **MISSING** | 🔴 **CRITICAL** |
+| `NEXTAUTH_URL`        | Production  | ❌ **MISSING** | 🔴 **CRITICAL** |
 
 ### Supabase (REQUIRED)
 
-| Variable | Environment | Status | Priority |
-|----------|-------------|--------|----------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Production | ❌ **MISSING** | 🔴 **CRITICAL** |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Production | ⚠️ **CHECK** | 🔴 **CRITICAL** |
+| Variable                                       | Environment | Status         | Priority        |
+| ---------------------------------------------- | ----------- | -------------- | --------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`                     | Production  | ❌ **MISSING** | 🔴 **CRITICAL** |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Production  | ⚠️ **CHECK**   | 🔴 **CRITICAL** |
 
 **Note:** You mentioned this was set earlier. Please verify it's still there.
 
 ### Optional but Recommended
 
-| Variable | Environment | Status | Priority |
-|----------|-------------|--------|----------|
-| `CRON_SECRET` | Production | ⚠️ **NEEDS TO BE ADDED** | 🟡 **RECOMMENDED** |
-| `ANTHROPIC_API_KEY` | Production | ❌ **MISSING** | 🟡 **OPTIONAL** |
-| `SUPABASE_SERVICE_ROLE_KEY` | Production | ❌ **MISSING** | 🟡 **OPTIONAL** |
-| `SENTRY_AUTH_TOKEN` | Production | ❌ **MISSING** | 🟢 **OPTIONAL** |
+| Variable                    | Environment | Status                   | Priority           |
+| --------------------------- | ----------- | ------------------------ | ------------------ |
+| `CRON_SECRET`               | Production  | ⚠️ **NEEDS TO BE ADDED** | 🟡 **RECOMMENDED** |
+| `ANTHROPIC_API_KEY`         | Production  | ❌ **MISSING**           | 🟡 **OPTIONAL**    |
+| `SUPABASE_SERVICE_ROLE_KEY` | Production  | ❌ **MISSING**           | 🟡 **OPTIONAL**    |
+| `SENTRY_AUTH_TOKEN`         | Production  | ❌ **MISSING**           | 🟢 **OPTIONAL**    |
 
 **Note:** `CRON_SECRET` value: `3EjhHTG2BIx82Yvbo1xAuyWNBxnXLsLc` (add to Vercel)
 
@@ -72,11 +72,13 @@
 **Go to:** Vercel Dashboard → Settings → Environment Variables → Add New
 
 #### DATABASE_URL (Production)
+
 ```
 postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require
 ```
 
 #### DIRECT_URL (Production)
+
 ```
 postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require
 ```
@@ -86,11 +88,13 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[YOUR-PASSWORD]@aws-1-us-east-1.poole
 ### Step 2: Generate and Add Authentication Secrets
 
 **Run locally:**
+
 ```bash
 npm run generate:prod-secrets
 ```
 
 This will generate:
+
 - `JWT_SECRET`
 - `SESSION_SECRET`
 - `NEXTAUTH_SECRET`
@@ -100,11 +104,13 @@ This will generate:
 ### Step 3: Add Application URLs
 
 #### NEXT_PUBLIC_APP_URL (Production)
+
 ```
 https://advanciapayledger.com
 ```
 
 #### NEXTAUTH_URL (Production)
+
 ```
 https://advanciapayledger.com
 ```
@@ -112,11 +118,13 @@ https://advanciapayledger.com
 ### Step 4: Add Supabase Variables
 
 #### NEXT_PUBLIC_SUPABASE_URL (Production)
+
 ```
 https://xesecqcqzykvmrtxrzqi.supabase.co
 ```
 
 #### NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY (Production)
+
 ```
 sb_publishable_dj1xLuksqBUvn9O6AWU3Fg_bRYa6ohq
 ```
@@ -206,4 +214,3 @@ sb_publishable_dj1xLuksqBUvn9O6AWU3Fg_bRYa6ohq
 **Status:** ⚠️ **9 Critical Variables Missing** - App will not work until these are added.
 
 **Next Action:** Add `DATABASE_URL` and `DIRECT_URL` first, then add authentication secrets.
-

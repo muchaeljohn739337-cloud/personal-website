@@ -1,0 +1,90 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'Etc/UTC'
+    open-pull-requests-limit: 10
+    assignees:
+      - 'muchaeljohn739337-cloud'
+    labels:
+      - 'dependencies'
+      - 'javascript'
+      - 'automated'
+    commit-message:
+      prefix: 'chore(deps)'
+      include: 'scope'
+    # Group updates by type
+    groups:
+      development-dependencies:
+        patterns:
+          - '@types/*'
+          - 'eslint*'
+          - 'prettier'
+          - 'jest*'
+          - '@testing-library/*'
+          - 'playwright'
+        update-types:
+          - 'minor'
+          - 'patch'
+      production-dependencies:
+        patterns:
+          - 'next'
+          - 'react*'
+          - '@prisma/*'
+          - 'prisma'
+        update-types:
+          - 'patch'
+    # Ignore specific updates
+    ignore:
+      # Ignore major version updates for stable dependencies
+      - dependency-name: 'next'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-dom'
+        update-types: ['version-update:semver-major']
+    # Allow dependencies
+    allow:
+      - dependency-type: 'direct'
+      - dependency-type: 'indirect'
+    # Rebase strategy
+    rebase-strategy: 'auto'
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'Etc/UTC'
+    open-pull-requests-limit: 5
+    labels:
+      - 'dependencies'
+      - 'github-actions'
+      - 'automated'
+    commit-message:
+      prefix: 'chore(ci)'
+      include: 'scope'
+
+  # Enable version updates for Docker (if using)
+  - package-ecosystem: 'docker'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'Etc/UTC'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+      - 'docker'
+      - 'automated'
+    commit-message:
+      prefix: 'chore(docker)'
+      include: 'scope'

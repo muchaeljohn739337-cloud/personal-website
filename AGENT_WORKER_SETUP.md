@@ -23,6 +23,7 @@ npm run worker:start
 ```
 
 This will:
+
 - Start the worker in the foreground
 - Process jobs continuously
 - Log all activity to console
@@ -56,6 +57,7 @@ AGENT_WORKER_MAX_JOBS=3
 ```
 
 Then import in your app initialization:
+
 ```typescript
 import '@/lib/agents/init-worker';
 ```
@@ -65,12 +67,14 @@ import '@/lib/agents/init-worker';
 Before starting the worker, ensure:
 
 1. **Database is running and accessible**
+
    ```bash
    # Check database connection
    npm run prisma:studio
    ```
 
 2. **Migrations are applied**
+
    ```bash
    npm run prisma:migrate
    ```
@@ -142,9 +146,9 @@ AGENT_WORKER_MAX_JOBS=3               # Max concurrent jobs
 import { startWorker } from '@/lib/agents/worker';
 
 startWorker({
-  pollInterval: 5000,        // milliseconds
-  maxConcurrentJobs: 3,      // concurrent jobs
-  enableSentry: true,        // Sentry integration
+  pollInterval: 5000, // milliseconds
+  maxConcurrentJobs: 3, // concurrent jobs
+  enableSentry: true, // Sentry integration
 });
 ```
 
@@ -158,6 +162,7 @@ curl http://localhost:3000/api/admin/agent-worker
 ```
 
 Response:
+
 ```json
 {
   "success": true,
@@ -179,6 +184,7 @@ Response:
 ### Prometheus Metrics
 
 Available at `/api/metrics`:
+
 - `agent_jobs_total{status="..."}` - Job counts by status
 - `agent_jobs_duration_seconds` - Job duration histogram
 - `agent_checkpoints_total{status="..."}` - Checkpoint counts
@@ -188,6 +194,7 @@ Available at `/api/metrics`:
 ## 🎯 Available Job Types
 
 ### 1. `simple-task`
+
 Simple task with info checkpoint (non-blocking)
 
 ```json
@@ -199,6 +206,7 @@ Simple task with info checkpoint (non-blocking)
 ```
 
 ### 2. `code-generation`
+
 Code generation with approval checkpoint
 
 ```json
@@ -217,6 +225,7 @@ Code generation with approval checkpoint
 ```
 
 ### 3. `data-processing`
+
 Data processing with multiple checkpoints
 
 ```json
@@ -235,11 +244,13 @@ Data processing with multiple checkpoints
 ### Worker Not Processing Jobs
 
 1. **Check worker is running:**
+
    ```bash
    curl http://localhost:3000/api/admin/agent-worker
    ```
 
 2. **Check database connection:**
+
    ```bash
    npm run prisma:studio
    ```
@@ -264,6 +275,7 @@ Data processing with multiple checkpoints
 ## 📝 Next Steps
 
 1. **Start the worker:**
+
    ```bash
    npm run worker:start
    ```
@@ -286,7 +298,7 @@ Your agent worker system is ready to process jobs with checkpoint approval workf
 ---
 
 **Need Help?** Check:
+
 - `AGENT_WORKER_SYSTEM_COMPLETE.md` - Full implementation details
 - `lib/agents/worker.ts` - Worker implementation
 - `__tests__/agents/` - Test examples
-

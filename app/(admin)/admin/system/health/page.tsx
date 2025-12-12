@@ -4,7 +4,7 @@ import { Activity, CheckCircle, Clock, Database, RefreshCw, Server, XCircle } fr
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface HealthStatus {
   status: 'HEALTHY' | 'DEGRADED' | 'DOWN';
@@ -131,9 +131,7 @@ export default function SystemHealthPage() {
                 <span className="text-slate-500">Status</span>
                 <span
                   className={
-                    healthData.database.status === 'CONNECTED'
-                      ? 'text-emerald-600'
-                      : 'text-red-600'
+                    healthData.database.status === 'CONNECTED' ? 'text-emerald-600' : 'text-red-600'
                   }
                 >
                   {healthData.database.status}
@@ -221,4 +219,3 @@ export default function SystemHealthPage() {
     </div>
   );
 }
-

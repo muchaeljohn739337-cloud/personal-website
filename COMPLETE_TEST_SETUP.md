@@ -18,6 +18,7 @@ Follow these steps to complete your test environment setup:
 **Status:** Template created, ready to copy
 
 **Action:**
+
 ```bash
 # Copy template
 cp .env.test.local.example .env.test.local
@@ -29,6 +30,7 @@ Copy-Item .env.test.local.example .env.test.local
 **File Location:** `.env.test.local` (already configured with defaults)
 
 **Default Values:**
+
 ```
 DATABASE_URL_TEST=postgresql://test:test@localhost:5433/test
 TEST_USER_EMAIL=test@example.com
@@ -43,6 +45,7 @@ NODE_ENV=test
 ### Option A: Docker (Recommended)
 
 **If Docker is installed:**
+
 ```bash
 # Automatic setup
 npm run test:db:setup
@@ -52,6 +55,7 @@ docker-compose -f docker-compose.test.yml up -d
 ```
 
 **If Docker is NOT installed:**
+
 1. Install Docker Desktop: https://www.docker.com/products/docker-desktop
 2. Or use Option B (Local PostgreSQL)
 
@@ -66,6 +70,7 @@ psql -U postgres -c "CREATE DATABASE test;"
 ```
 
 **Update `.env.test.local`:**
+
 ```
 DATABASE_URL_TEST=postgresql://test:test@localhost:5432/test
 ```
@@ -142,12 +147,14 @@ npm test
 ## Current Status
 
 ✅ **Ready:**
+
 - Package installed (`pg`)
 - Scripts created
 - Templates ready
 - Documentation complete
 
 ⬜ **Action Required:**
+
 - Create `.env.test.local` (copy from template)
 - Set up test database (Docker or local)
 - Verify connection
@@ -165,4 +172,3 @@ npm test
 
 **Status:** ✅ Ready to Complete Setup  
 **Last Updated:** 2024
-

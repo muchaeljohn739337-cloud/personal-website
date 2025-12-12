@@ -1,31 +1,34 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import {
+  Activity,
   ArrowDownRight,
   ArrowUpRight,
+  Banknote,
+  BarChart3,
+  CheckCircle2,
+  ChevronRight,
+  Clock,
+  CreditCard,
   DollarSign,
+  Globe,
+  PieChart,
+  RefreshCw,
+  Shield,
+  Sparkles,
+  Target,
   TrendingUp,
   Users,
   Wallet,
-  CreditCard,
-  Globe,
-  Shield,
-  Zap,
-  Activity,
-  BarChart3,
-  PieChart,
-  RefreshCw,
-  Clock,
-  CheckCircle2,
   XCircle,
-  ChevronRight,
-  Sparkles,
-  Target,
-  Banknote,
+  Zap,
 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
+// eslint-disable-next-line import/no-unresolved
+import { BalanceVisibility } from '@/components/dashboard/BalanceVisibility';
 
 // Mock data - in production, this would come from API
 const generateMockData = () => ({
@@ -198,17 +201,39 @@ export default function DashboardPage() {
 
       {/* Main Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {/* Total Balance */}
-        <div className="col-span-2 lg:col-span-1 bg-gradient-to-br from-violet-500/20 to-blue-500/20 rounded-2xl border border-violet-500/30 p-6 relative overflow-hidden">
+        {/* Total Balance with Water Drop Effects */}
+        <div className="col-span-2 lg:col-span-1 bg-gradient-to-br from-violet-500/20 to-blue-500/20 rounded-2xl border border-violet-500/30 p-6 relative overflow-hidden backdrop-blur-sm">
+          {/* Water Drop Animation Background */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full bg-cyan-400/10 blur-xl animate-float"
+                style={{
+                  width: `${15 + Math.random() * 25}px`,
+                  height: `${15 + Math.random() * 25}px`,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 3}s`,
+                  animationDuration: `${4 + Math.random() * 2}s`,
+                }}
+              />
+            ))}
+          </div>
           <div className="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl" />
           <div className="relative">
             <div className="flex items-center gap-2 text-violet-400 mb-2">
               <Wallet className="w-5 h-5" />
               <span className="text-sm font-medium">Total Balance</span>
             </div>
-            <p className="text-3xl lg:text-4xl font-bold mb-2">
-              {formatCurrency(data.totalBalance)}
-            </p>
+            <BalanceVisibility
+              value={data.totalBalance}
+              currency="USD"
+              size="lg"
+              variant="gradient"
+              iconPosition="right"
+              className="mb-2"
+            />
             <div className="flex items-center gap-1 text-sm">
               <ArrowUpRight className="w-4 h-4 text-violet-400" />
               <span className="text-violet-400">+{data.growthRate}%</span>
@@ -218,14 +243,19 @@ export default function DashboardPage() {
         </div>
 
         {/* Monthly Revenue */}
-        <div className="bg-slate-900/50 rounded-2xl border border-slate-800 p-6">
+        <div className="bg-slate-900/50 rounded-2xl border border-slate-800 p-6 backdrop-blur-sm">
           <div className="flex items-center gap-2 text-blue-400 mb-2">
             <DollarSign className="w-5 h-5" />
             <span className="text-sm font-medium">Monthly Revenue</span>
           </div>
-          <p className="text-2xl lg:text-3xl font-bold mb-2">
-            {formatCurrency(data.monthlyRevenue)}
-          </p>
+          <BalanceVisibility
+            value={data.monthlyRevenue}
+            currency="USD"
+            size="lg"
+            variant="default"
+            iconPosition="right"
+            className="mb-2"
+          />
           <div className="flex items-center gap-1 text-sm">
             <ArrowUpRight className="w-4 h-4 text-violet-400" />
             <span className="text-violet-400">+18.2%</span>
@@ -275,22 +305,34 @@ export default function DashboardPage() {
             <p className="text-xl font-bold">{formatNumber(data.activeUsers)}</p>
           </div>
         </div>
-        <div className="bg-slate-900/50 rounded-xl border border-slate-800 p-4 flex items-center gap-4">
+        <div className="bg-slate-900/50 rounded-xl border border-slate-800 p-4 flex items-center gap-4 backdrop-blur-sm">
           <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
             <Clock className="w-6 h-6 text-amber-400" />
           </div>
-          <div>
-            <p className="text-sm text-slate-400">Pending Payouts</p>
-            <p className="text-xl font-bold">{formatCurrency(data.pendingPayouts)}</p>
+          <div className="flex-1">
+            <p className="text-sm text-slate-400 mb-1">Pending Payouts</p>
+            <BalanceVisibility
+              value={data.pendingPayouts}
+              currency="USD"
+              size="md"
+              variant="default"
+              showIcon={false}
+            />
           </div>
         </div>
-        <div className="bg-slate-900/50 rounded-xl border border-slate-800 p-4 flex items-center gap-4">
+        <div className="bg-slate-900/50 rounded-xl border border-slate-800 p-4 flex items-center gap-4 backdrop-blur-sm">
           <div className="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center">
             <Shield className="w-6 h-6 text-red-400" />
           </div>
-          <div>
-            <p className="text-sm text-slate-400">Fraud Blocked</p>
-            <p className="text-xl font-bold">{formatCurrency(data.fraudBlocked)}</p>
+          <div className="flex-1">
+            <p className="text-sm text-slate-400 mb-1">Fraud Blocked</p>
+            <BalanceVisibility
+              value={data.fraudBlocked}
+              currency="USD"
+              size="md"
+              variant="default"
+              showIcon={false}
+            />
           </div>
         </div>
         <div className="bg-slate-900/50 rounded-xl border border-slate-800 p-4 flex items-center gap-4">

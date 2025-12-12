@@ -74,6 +74,15 @@ interface EnvConfig {
 
   // Cron Jobs
   CRON_SECRET?: string;
+
+  // Slack Integration
+  SLACK_CLIENT_ID?: string;
+  SLACK_CLIENT_SECRET?: string;
+  SLACK_SIGNING_SECRET?: string;
+  SLACK_BOT_TOKEN?: string;
+  SLACK_TEAM_ID?: string;
+  SLACK_WEBHOOK_URL?: string;
+  SLACK_APP_TOKEN?: string;
 }
 
 const requiredEnvVars = [
@@ -189,6 +198,13 @@ ${missing.map((v) => `║  • ${v.padEnd(56)}║`).join('\n')}
     CRON_SECRET: process.env.CRON_SECRET,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
+    SLACK_CLIENT_ID: process.env.SLACK_CLIENT_ID,
+    SLACK_CLIENT_SECRET: process.env.SLACK_CLIENT_SECRET,
+    SLACK_SIGNING_SECRET: process.env.SLACK_SIGNING_SECRET,
+    SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN,
+    SLACK_TEAM_ID: process.env.SLACK_TEAM_ID,
+    SLACK_WEBHOOK_URL: process.env.SLACK_WEBHOOK_URL,
+    SLACK_APP_TOKEN: process.env.SLACK_APP_TOKEN,
   };
 }
 

@@ -58,7 +58,9 @@ secrets.forEach((secret, index) => {
 
 console.log('\n' + '='.repeat(80));
 console.log('\n📝 Instructions:');
-console.log('1. Go to: https://vercel.com/dashboard → Your Project → Settings → Environment Variables');
+console.log(
+  '1. Go to: https://vercel.com/dashboard → Your Project → Settings → Environment Variables'
+);
 console.log('2. Add each variable above for "Production" environment');
 console.log('3. After adding all variables, trigger a new deployment');
 console.log('\n💡 Tip: You can also copy the values below as a quick reference:\n');

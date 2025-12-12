@@ -16,6 +16,7 @@ The Supabase Service Role Key was exposed in the following files:
 4. `SUPABASE_SETUP_NEXT_STEPS.md` (Line 44) - Truncated version
 
 **Exposed Key:**
+
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhlc2VjcWNxenlrdm1ydHhyenFpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTAyMzk4NCwiZXhwIjoyMDgwNTk5OTg0fQ.kTrbrQVb0YotyXs9LdYDe-kHx5v5ztp-a2EIM-1bToQ
 ```
@@ -27,6 +28,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhlc2VjcWN
 ### Risk Level: 🔴 **CRITICAL**
 
 The Supabase Service Role Key provides **FULL DATABASE ACCESS** with:
+
 - Bypass of Row Level Security (RLS) policies
 - Ability to read, write, and delete any data
 - Ability to modify database schema
@@ -54,6 +56,7 @@ The Supabase Service Role Key provides **FULL DATABASE ACCESS** with:
 ### ✅ 2. Security Warnings Added
 
 All key locations now include:
+
 - ⚠️ Warning about keeping keys secret
 - Instructions to get keys from Supabase Dashboard
 - Clear indication that keys should never be committed
@@ -89,6 +92,7 @@ All key locations now include:
 **CONFIRMED:** The service role key was committed to git history.
 
 **Evidence:**
+
 - Key found in commit history for `env.example`
 - Key was added in commit: `cb0d85d` (feat: Complete Supabase Auth, Storage, Database & Integrations setup)
 
@@ -101,10 +105,11 @@ All key locations now include:
 2. **Clean Git History (Choose One):**
 
    **Option A: Using git-filter-repo (Recommended)**
+
    ```bash
    # Install git-filter-repo
    pip install git-filter-repo
-   
+
    # Remove key from all history
    git filter-repo --path env.example --invert-paths
    # OR replace the key in history
@@ -112,6 +117,7 @@ All key locations now include:
    ```
 
    **Option B: Using BFG Repo-Cleaner**
+
    ```bash
    # Download BFG: https://rtyley.github.io/bfg-repo-cleaner/
    java -jar bfg.jar --replace-text passwords.txt
@@ -268,4 +274,3 @@ npm run setup:supabase:storage
 
 **Last Updated:** 2025-01-27  
 **Next Review:** After key rotation is complete
-

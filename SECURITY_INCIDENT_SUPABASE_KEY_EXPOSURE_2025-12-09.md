@@ -16,6 +16,7 @@ Supabase API keys and database credentials were exposed in documentation files c
 4. **Publishable Key** - Exposed in 3 markdown files
 
 **Exposed Files:**
+
 - `SUPABASE_QUICK_START.md`
 - `SUPABASE_NEW_CREDENTIALS.md`
 - `SUPABASE_NOTES_SETUP.md`
@@ -27,11 +28,13 @@ Supabase API keys and database credentials were exposed in documentation files c
 ### Risk Level: 🔴 **CRITICAL**
 
 **Anon Key Exposure:**
+
 - Can be used to access public data
 - Limited by Row Level Security (RLS) policies
 - **Lower risk** if RLS is properly configured
 
 **Service Role Key Exposure:**
+
 - **FULL DATABASE ACCESS** - bypasses all RLS policies
 - Can read, write, and delete any data
 - Can modify database schema
@@ -39,6 +42,7 @@ Supabase API keys and database credentials were exposed in documentation files c
 - **CRITICAL RISK** - must rotate immediately
 
 **Database Password Exposure:**
+
 - Direct database access
 - Can bypass application layer
 - **HIGH RISK** - should change password
@@ -57,6 +61,7 @@ Supabase API keys and database credentials were exposed in documentation files c
 ### ✅ 2. Security Warnings Added
 
 All key locations now include:
+
 - ⚠️ Warning about keeping keys secret
 - Instructions to get keys from Supabase Dashboard
 - Clear indication that keys should never be committed
@@ -225,6 +230,7 @@ After rotating keys, monitor for:
 **Current Status:** ⚠️ **ACTION REQUIRED**
 
 **Next Steps:**
+
 1. Rotate all exposed keys in Supabase Dashboard
 2. Update environment variables
 3. Test application
@@ -236,4 +242,3 @@ After rotating keys, monitor for:
 
 **Last Updated:** 2025-12-09  
 **Incident Owner:** Development Team
-

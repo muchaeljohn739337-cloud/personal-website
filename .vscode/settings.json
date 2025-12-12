@@ -1,4 +1,7 @@
 {
+  // Prisma - Use local version to avoid extension version mismatch
+  "prisma.useLocalPrisma": true,
+
   // Git Configuration
   "git.autofetch": true,
   "git.autoStash": true,
@@ -103,5 +106,52 @@
   // Jest Configuration
   "jest.jestCommandLine": "npm test --",
   "jest.rootPath": ".",
-  "jest.disabledWorkspaceFolders": [".next", ".open-next", "node_modules"]
+  "jest.disabledWorkspaceFolders": [".next", ".open-next", "node_modules"],
+
+  // Settings Sync for Windsurf, Cursor, and VS Code
+  "settingsSync.ignoredExtensions": [],
+  "settingsSync.ignoredSettings": [],
+  "settingsSync.keybindingsPerPlatform": true,
+
+  // AI Assistant Settings (Shared across editors)
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+
+  // Windsurf/Cursor Compatibility
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.startupEditor": "none",
+
+  // Terminal Sync
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    }
+  },
+
+  // PowerShell Extension Settings
+  "powershell.enableProfileLoading": true,
+  "powershell.scriptAnalysis.enable": true,
+  "powershell.codeFormatting.preset": "OTBS",
+  "powershell.integratedConsole.showOnStartup": false,
+  "powershell.powerShellDefaultVersion": "PowerShell",
+  "powershell.developer.bundledModulesPath": "",
+  "powershell.developer.editorServicesLogLevel": "Normal",
+  "powershell.developer.editorServicesWaitForDebugger": false,
+  "[powershell]": {
+    "editor.defaultFormatter": "ms-vscode.PowerShell",
+    "editor.formatOnSave": true
+  },
+
+  // Cline Extension Settings
+  "cline.enabled": true,
+  "cline.autoApprove": false,
+  "cline.showNotifications": true
 }

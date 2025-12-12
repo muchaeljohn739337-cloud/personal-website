@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
   SelectContent,
@@ -48,7 +48,7 @@ export default function BillingManagementPage() {
       // TODO: Replace with actual API call
       // const response = await fetch(`/api/admin/billing/stats?timeframe=${timeframe}`);
       // const data = await response.json();
-      
+
       // Mock data for now
       setStats({
         totalRevenue: 125000,
@@ -123,7 +123,9 @@ export default function BillingManagementPage() {
               <TrendingUp className="h-6 w-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold">${stats?.monthlyRecurringRevenue.toLocaleString()}</p>
+              <p className="text-2xl font-bold">
+                ${stats?.monthlyRecurringRevenue.toLocaleString()}
+              </p>
               <p className="text-sm text-slate-500">MRR</p>
             </div>
           </CardContent>
@@ -223,4 +225,3 @@ export default function BillingManagementPage() {
     </div>
   );
 }
-

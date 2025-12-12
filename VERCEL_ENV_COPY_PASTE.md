@@ -3,6 +3,7 @@
 **Go to:** https://vercel.com/dashboard → Your Project → Settings → Environment Variables
 
 **For each variable:**
+
 1. Click "Add New"
 2. Enter variable name
 3. Paste the value below
@@ -59,7 +60,7 @@ https://xesecqcqzykvmrtxrzqi.supabase.c
 sb_publishable_dj1xLuksqBUvn9O6AWU3Fg_bRYa6ohq
 ```
 
-## DIRECT_URL ⚠️  OPTIONAL
+## DIRECT_URL ⚠️ OPTIONAL
 
 ```
 Pi6icDrern3Kdszg\n

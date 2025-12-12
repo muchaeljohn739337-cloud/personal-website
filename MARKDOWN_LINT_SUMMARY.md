@@ -39,6 +39,7 @@ The linting found issues in many documentation files, including:
 Most of these issues can be auto-fixed. You can:
 
 1. **Fix automatically** (if markdownlint supports it):
+
    ```bash
    npx markdownlint-cli2-fix "**/*.md" --ignore node_modules
    ```
@@ -58,4 +59,3 @@ Since these are mostly formatting issues and don't affect functionality:
 ---
 
 **Status**: Linting complete. Issues found are formatting-related, not functional. ✅
-

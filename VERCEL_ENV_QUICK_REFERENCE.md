@@ -33,8 +33,8 @@ CRON_SECRET=iAIOBJkFBvRmgpOwb/tZuG/AwGw9DczmqXJq7orx2YM=
 
 ### 2. Database Connection
 
-| Variable       | Value (Replace [PASSWORD] with your actual password)                                                                     |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Variable       | Value (Replace [PASSWORD] with your actual password)                                                                                     |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | `DATABASE_URL` | `postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require` |
 | `DIRECT_URL`   | `postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require`                |
 

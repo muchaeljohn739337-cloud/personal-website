@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle, Globe, Plus, RefreshCw, Shield, XCircle } from 'lucide-react';
+import { CheckCircle, Globe, Plus, Shield, XCircle } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,9 @@ interface WhitelistEntry {
 }
 
 export default function IPWhitelistPage() {
-  const [entries, setEntries] = useState<WhitelistEntry[]>([]);
+  const [_entries, _setEntries] = useState<WhitelistEntry[]>([]);
+  void _entries;
+  void _setEntries;
   const [showAddForm, setShowAddForm] = useState(false);
 
   // Mock data
@@ -74,9 +76,7 @@ export default function IPWhitelistPage() {
               <Globe className="h-6 w-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold">
-                {mockEntries.filter((e) => e.lastUsed).length}
-              </p>
+              <p className="text-2xl font-bold">{mockEntries.filter((e) => e.lastUsed).length}</p>
               <p className="text-sm text-slate-500">Active IPs</p>
             </div>
           </CardContent>
@@ -102,12 +102,16 @@ export default function IPWhitelistPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-sm font-medium">IP Address</label>
-              <Input placeholder="192.168.1.1" className="mt-1" />
+              <label htmlFor="ip-address" className="text-sm font-medium">
+                IP Address
+              </label>
+              <Input id="ip-address" placeholder="192.168.1.1" className="mt-1" />
             </div>
             <div>
-              <label className="text-sm font-medium">Description</label>
-              <Input placeholder="Office network, VPN, etc." className="mt-1" />
+              <label htmlFor="ip-description" className="text-sm font-medium">
+                Description
+              </label>
+              <Input id="ip-description" placeholder="Office network, VPN, etc." className="mt-1" />
             </div>
             <div className="flex gap-2">
               <Button>Add IP</Button>
@@ -162,4 +166,3 @@ export default function IPWhitelistPage() {
     </div>
   );
 }
-

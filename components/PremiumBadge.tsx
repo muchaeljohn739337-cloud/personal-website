@@ -1,6 +1,6 @@
 'use client';
 
-import { Crown, Sparkles, Star } from 'lucide-react';
+import { Crown, Sparkles } from 'lucide-react';
 import * as React from 'react';
 
 interface PremiumBadgeProps {
@@ -69,4 +69,3 @@ export function PremiumBadge({
     </span>
   );
 }
-

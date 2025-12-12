@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Type Check",
+      "type": "shell",
+      "command": "npm run type-check",
+      "problemMatcher": "$tsc",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Lint",
+      "type": "shell",
+      "command": "npm run lint",
+      "problemMatcher": "$eslint-stylish",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Test Database",
+      "type": "shell",
+      "command": "npm run test:db",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "npm run build",
+      "problemMatcher": "$tsc",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Dev Server",
+      "type": "shell",
+      "command": "npm run dev",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}

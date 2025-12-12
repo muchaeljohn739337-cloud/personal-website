@@ -19,11 +19,13 @@ The database connection has been successfully established.
 ## 📋 Connection Details
 
 **Connection Pooling (Application):**
+
 ```
 DATABASE_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
 ```
 
 **Direct Connection (Migrations):**
+
 ```
 DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres
 ```
@@ -33,6 +35,7 @@ DIRECT_URL=postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1
 ## ✅ Verification
 
 **Test Connection:**
+
 ```bash
 npm run worker:check-db
 ```
@@ -44,16 +47,19 @@ npm run worker:check-db
 ## 🎯 Next Steps
 
 1. **Check Admin User:**
+
    ```bash
    npm run check:admin
    ```
 
 2. **Create Admin (if needed):**
+
    ```bash
    npm run create-admin
    ```
 
 3. **Run Migrations (if needed):**
+
    ```bash
    npm run prisma:migrate
    ```
@@ -68,4 +74,3 @@ npm run worker:check-db
 **Status**: ✅ **DATABASE CONNECTED**
 
 The database is now ready for use! 🚀
-

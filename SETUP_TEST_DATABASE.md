@@ -9,16 +9,19 @@
 **Steps:**
 
 1. **Start test database:**
+
    ```bash
    npm run test:db:setup
    ```
 
    Or manually:
+
    ```bash
    docker-compose -f docker-compose.test.yml up -d
    ```
 
 2. **Verify it's running:**
+
    ```bash
    docker ps | grep test-postgres
    ```
@@ -29,6 +32,7 @@
    ```
 
 **Connection String:**
+
 ```
 DATABASE_URL_TEST=postgresql://test:test@localhost:5433/test
 ```
@@ -61,11 +65,13 @@ npm run test:db
 **Steps:**
 
 1. **Create test database:**
+
    ```bash
    createdb test
    ```
 
    Or using psql:
+
    ```bash
    psql -U postgres -c "CREATE DATABASE test;"
    psql -U postgres -c "CREATE USER test WITH PASSWORD 'test';"
@@ -73,6 +79,7 @@ npm run test:db
    ```
 
 2. **Update `.env.test.local`:**
+
    ```
    DATABASE_URL_TEST=postgresql://test:test@localhost:5432/test
    ```
@@ -100,6 +107,7 @@ npm run test:db
 ## Setup .env.test.local
 
 1. **Copy template:**
+
    ```bash
    cp .env.test.local.example .env.test.local
    ```
@@ -126,6 +134,7 @@ DATABASE_URL=$(grep DATABASE_URL_TEST .env.test.local | cut -d '=' -f2) npx pris
 ```
 
 Or set it manually:
+
 ```bash
 DATABASE_URL=postgresql://test:test@localhost:5433/test npx prisma migrate deploy
 ```
@@ -168,14 +177,17 @@ docker-compose -f docker-compose.test.yml down -v
 ## Troubleshooting
 
 ### Docker not found
+
 - Install Docker Desktop: https://www.docker.com/products/docker-desktop
 - Or use Option 3 (Local PostgreSQL)
 
 ### Port 5433 already in use
+
 - Change port in `docker-compose.test.yml` to `5434:5432`
 - Update `DATABASE_URL_TEST` to use port 5434
 
 ### Connection refused
+
 - Ensure database is running: `docker ps`
 - Check port is correct
 - Verify credentials match
@@ -183,4 +195,3 @@ docker-compose -f docker-compose.test.yml down -v
 ---
 
 **Last Updated:** 2024
-

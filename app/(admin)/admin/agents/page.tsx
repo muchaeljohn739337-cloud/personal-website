@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Activity,
   Bot,
   CheckCircle,
   Clock,
@@ -14,7 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface Agent {
   id: string;
@@ -41,7 +40,7 @@ export default function AgentsAdminPage() {
       // TODO: Replace with actual API call
       // const response = await fetch('/api/admin/agents');
       // const data = await response.json();
-      
+
       // Mock data
       setAgents([
         {
@@ -194,10 +193,7 @@ export default function AgentsAdminPage() {
                   </div>
                   <div className="flex gap-2">
                     {agent.status === 'PAUSED' ? (
-                      <Button
-                        size="sm"
-                        onClick={() => handleAgentAction(agent.id, 'start')}
-                      >
+                      <Button size="sm" onClick={() => handleAgentAction(agent.id, 'start')}>
                         <Play className="mr-2 h-4 w-4" />
                         Start
                       </Button>
@@ -235,4 +231,3 @@ export default function AgentsAdminPage() {
     </div>
   );
 }
-

@@ -4,7 +4,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prismaClient';
 
-export async function GET(req: NextRequest) {
+export const dynamic = 'force-dynamic';
+
+export async function GET(_req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -26,13 +28,7 @@ export async function GET(req: NextRequest) {
     const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const [
-      totalUsers,
-      activeUsers,
-      newToday,
-      newThisWeek,
-      newThisMonth,
-    ] = await Promise.all([
+    const [totalUsers, activeUsers, newToday, newThisWeek, newThisMonth] = await Promise.all([
       prisma.user.count(),
       prisma.user.count({
         where: {
@@ -85,4 +81,3 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

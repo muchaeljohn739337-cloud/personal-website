@@ -9,6 +9,7 @@ Automated Supabase configuration for SaaS application with Vercel and Cloudflare
 ## 📋 Project Detection
 
 **Detected Environment:**
+
 - ✅ Framework: Next.js
 - ✅ Language: TypeScript
 - ✅ Package Manager: npm
@@ -83,6 +84,7 @@ Automated Supabase configuration for SaaS application with Vercel and Cloudflare
 ### Environment Variables
 
 **Required Variables:**
+
 - ✅ `NEXT_PUBLIC_SUPABASE_URL` - Set
 - ⏳ `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` - Needs to be set
 - ✅ `SUPABASE_SERVICE_ROLE_KEY` - Set (server-side only)
@@ -90,6 +92,7 @@ Automated Supabase configuration for SaaS application with Vercel and Cloudflare
 - ✅ `DIRECT_URL` - Set
 
 **Vault Access:**
+
 - Dashboard: https://supabase.com/dashboard/project/xesecqcqzykvmrtxrzqi/integrations/vault/secrets
 - SQL Access: `SELECT vault.get_secret('secret_name');`
 
@@ -183,6 +186,7 @@ The `public` schema is not accessible via Supabase API. You must use the `api` s
 **Setup Steps:**
 
 1. **Run setup script:**
+
    ```bash
    npm run setup:supabase:api:schema
    ```
@@ -192,10 +196,11 @@ The `public` schema is not accessible via Supabase API. You must use the `api` s
    - Run the SQL script provided
 
 3. **Grant permissions:**
+
    ```sql
    -- Grant SELECT to anon (public read access)
    GRANT SELECT ON TABLE api.<table_name> TO anon;
-   
+
    -- Grant full CRUD to authenticated users
    GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE api.<table_name> TO authenticated;
    ```

@@ -6,6 +6,9 @@
 import { AIJobStatus, CheckpointStatus, CheckpointType, Prisma } from '@prisma/client';
 import * as Sentry from '@sentry/nextjs';
 
+import { prisma } from '../prismaClient';
+import { getBlockingCheckpoint, getCheckpoint, requiresApproval } from './checkpoint-manager';
+import { getJobHandler, type JobHandlerContext } from './job-handlers';
 import {
   addAgentLogBreadcrumb,
   addCheckpointBreadcrumb,
@@ -13,9 +16,6 @@ import {
   captureJobError,
   startJobTransaction,
 } from './sentry-helpers';
-import { getBlockingCheckpoint, getCheckpoint, requiresApproval } from './checkpoint-manager';
-import { getJobHandler, type JobHandlerContext } from './job-handlers';
-import { prisma } from '../prismaClient';
 
 export interface WorkerConfig {
   pollInterval?: number; // milliseconds
@@ -155,7 +155,7 @@ export class AgentWorker {
     }
 
     // Start Sentry transaction
-    let transaction: Sentry.Transaction | undefined;
+    let transaction: unknown;
     if (this.enableSentry) {
       transaction = startJobTransaction(job);
     }
@@ -207,13 +207,15 @@ export class AgentWorker {
         data: {
           status: AIJobStatus.COMPLETED,
           completedAt: new Date(),
-          outputData,
+          outputData: outputData as Prisma.InputJsonValue,
         },
       });
 
       if (this.enableSentry) {
         addJobStatusBreadcrumb(jobId, AIJobStatus.RUNNING, AIJobStatus.COMPLETED);
-        transaction?.finish();
+        if (transaction && typeof transaction === 'object' && 'finish' in transaction) {
+          (transaction as { finish: () => void }).finish();
+        }
       }
 
       console.log(`[AgentWorker] Job ${jobId} completed successfully`);
@@ -232,7 +234,9 @@ export class AgentWorker {
 
       if (this.enableSentry) {
         addJobStatusBreadcrumb(jobId, AIJobStatus.RUNNING, AIJobStatus.FAILED, errorMessage);
-        transaction?.finish();
+        if (transaction && typeof transaction === 'object' && 'finish' in transaction) {
+          (transaction as { finish: () => void }).finish();
+        }
       }
 
       // Check if we should retry
@@ -299,8 +303,8 @@ export class AgentWorker {
         jobId,
         checkpointType: type,
         message,
-        data: data || null,
-        metadata: metadata || null,
+        data: data as Prisma.InputJsonValue,
+        metadata: metadata as Prisma.InputJsonValue,
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
         status: CheckpointStatus.PENDING,
       },

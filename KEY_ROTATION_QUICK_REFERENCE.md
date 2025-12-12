@@ -8,21 +8,28 @@
 ## 🚀 Quick Steps (5 Minutes)
 
 ### 1️⃣ Rotate Service Role Key
+
 **Link:** https://app.supabase.com/project/qbxugwctchtqwymhucpl/settings/api
+
 - Find **"service_role"** → Click **"Reset"**
 - **Copy new key immediately!**
 
 ### 2️⃣ Rotate Anon Key
+
 **Same page as above**
+
 - Find **"anon/public"** → Click **"Reset"**
 - **Copy new key immediately!**
 
 ### 3️⃣ Change Database Password
+
 **Link:** https://app.supabase.com/project/qbxugwctchtqwymhucpl/settings/database
+
 - Click **"Reset Database Password"**
 - **Copy new password immediately!**
 
 ### 4️⃣ Update `.env.local`
+
 ```bash
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<NEW_ANON_KEY>
 SUPABASE_SERVICE_ROLE_KEY=<NEW_SERVICE_ROLE_KEY>
@@ -31,7 +38,9 @@ DIRECT_URL=postgres://postgres.qbxugwctchtqwymhucpl:[NEW_PASSWORD]@aws-1-us-east
 ```
 
 ### 5️⃣ Update Vercel
+
 **Link:** https://vercel.com/dashboard → Your Project → Settings → Environment Variables
+
 - Update all Supabase variables with new keys
 - Redeploy
 
@@ -55,4 +64,3 @@ DIRECT_URL=postgres://postgres.qbxugwctchtqwymhucpl:[NEW_PASSWORD]@aws-1-us-east
 ---
 
 **For detailed instructions, see:** `HOW_TO_ROTATE_SUPABASE_KEYS.md`
-

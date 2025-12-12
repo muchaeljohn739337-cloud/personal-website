@@ -1,0 +1,21 @@
+feat: Enhance admin user management, improve loading UI, and add payment card component
+
+Admin Features:
+- Add comprehensive user management (block, suspend, delete, add user)
+- Create dedicated Add User page with form validation
+- Enhance user action buttons with color-coded UI
+- Add double confirmation for destructive actions
+
+UI Improvements:
+- Create professional loading spinner component (larger, gradient animations)
+- Add PaymentCard component with multiple card type support
+- Fix MedBed page layout and color scheme (indigo/pink theme)
+- Improve form accessibility with proper label associations
+
+Backend Security:
+- Fix API protection import path
+- Enhance rate limiting and access control
+
+Other:
+- Add spin animation keyframes to globals.css
+- Fix ESLint import resolution false positives

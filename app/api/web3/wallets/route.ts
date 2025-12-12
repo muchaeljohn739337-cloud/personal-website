@@ -23,10 +23,7 @@ export async function GET(req: NextRequest) {
     });
 
     if (!protection.allowed) {
-      return protection.response || NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      );
+      return protection.response || NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
     const session = await getServerSession(authOptions);
@@ -77,10 +74,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (!protection.allowed) {
-      return protection.response || NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      );
+      return protection.response || NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
     const session = await getServerSession(authOptions);

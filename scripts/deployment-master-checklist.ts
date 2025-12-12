@@ -167,13 +167,16 @@ const checklist: ChecklistItem[] = [
   },
 ];
 
-function checkCommand(command: string, timeout: number = 30000): { success: boolean; output?: string; error?: string } {
+function checkCommand(
+  command: string,
+  timeout: number = 30000
+): { success: boolean; output?: string; error?: string } {
   try {
-    const output = execSync(command, { 
-      encoding: 'utf-8', 
+    const output = execSync(command, {
+      encoding: 'utf-8',
       stdio: 'pipe',
       timeout,
-      killSignal: 'SIGTERM'
+      killSignal: 'SIGTERM',
     });
     return { success: true, output };
   } catch (error: unknown) {

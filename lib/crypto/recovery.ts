@@ -21,8 +21,13 @@ export interface CryptoRecovery {
 class CryptoRecoverySystem {
   /**
    * Recover expired or stuck crypto payments
+   * Redirects user to specified position after recovery
    */
-  async recoverPayment(paymentId: string, reason: string): Promise<CryptoRecovery> {
+  async recoverPayment(
+    paymentId: string,
+    reason: string,
+    redirectTo?: string
+  ): Promise<CryptoRecovery & { redirectUrl?: string }> {
     const payment = await prisma.cryptoPayment.findUnique({
       where: { id: paymentId },
       include: { user: true },
@@ -53,6 +58,12 @@ class CryptoRecoverySystem {
         where: { id: paymentId },
         data: {
           status: recovery.recoveryType === 'REFUND' ? 'REFUNDED' : 'EXPIRED',
+          metadata: {
+            ...((payment.metadata as Record<string, unknown>) || {}),
+            recoveryId: recovery.id,
+            recoveredAt: new Date().toISOString(),
+            redirectTo: redirectTo || '/dashboard/payments',
+          },
         },
       });
 
@@ -60,16 +71,32 @@ class CryptoRecoverySystem {
       if (recovery.recoveryType === 'REFUND') {
         // Add refund logic here
         // This would integrate with payment provider APIs
+        // Refund would be processed and user redirected to specified position
       }
 
       recovery.status = 'COMPLETED';
       recovery.completedAt = new Date();
 
+      // Determine redirect URL
+      const redirectUrl =
+        redirectTo ||
+        (payment.metadata &&
+        typeof payment.metadata === 'object' &&
+        !Array.isArray(payment.metadata) &&
+        'redirectTo' in payment.metadata
+          ? String((payment.metadata as Record<string, unknown>).redirectTo)
+          : null) ||
+        (process.env.NEXT_PUBLIC_APP_URL
+          ? `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/payments`
+          : '/dashboard/payments');
+
       // Log recovery (if AdminAction model exists)
+      // Note: Using userId as adminId for system-initiated recoveries
       try {
         const { logAdminAction } = await import('../admin');
-        await logAdminAction('system', {
-          action: 'USER_UPDATE',
+        await logAdminAction(payment.userId, {
+          action: 'CRYPTO_RECOVERY',
+          targetUserId: payment.userId,
           description: `Recovered payment ${paymentId}: ${reason}`,
           metadata: {
             recoveryId: recovery.id,
@@ -77,18 +104,19 @@ class CryptoRecoverySystem {
             amount: recovery.amount,
             currency: recovery.currency,
             type: 'CRYPTO_RECOVERY',
+            redirectUrl,
           },
         });
       } catch (error) {
         // Log to console if logging fails
         console.log(`[CryptoRecovery] Recovered payment ${paymentId}: ${reason}`);
       }
+
+      return { ...recovery, redirectUrl };
     } catch (error) {
       recovery.status = 'FAILED';
       throw error;
     }
-
-    return recovery;
   }
 
   /**

@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -25,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -37,15 +41,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - name: Configure Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - name: Configure test database URL
+        run: |
+          db_url="${{ secrets.DATABASE_URL_TEST }}"
+          if [ -z "$db_url" ]; then
+            db_url="postgresql://test:test@localhost:5432/test"
+          fi
+          echo "DATABASE_URL=$db_url" >> $GITHUB_ENV
+        shell: bash
       - run: npm run test -- --coverage --watchAll=false
         env:
           NODE_ENV: test
-          DATABASE_URL: ${{ secrets.DATABASE_URL_TEST || 'postgresql://test:test@localhost:5432/test' }}
           NEXTAUTH_SECRET: test-secret
           JWT_SECRET: test-jwt-secret
           SESSION_SECRET: test-session-secret
@@ -55,22 +70,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - name: Configure Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - name: Configure E2E test environment
+        id: set-env
+        env:
+          DB_SECRET: ${{ secrets.DATABASE_URL_TEST }}
+          EMAIL_SECRET: ${{ secrets.TEST_USER_EMAIL }}
+          PWD_SECRET: ${{ secrets.TEST_USER_PASSWORD }}
+        run: |
+          echo "DATABASE_URL=${DB_SECRET:-postgresql://test:test@localhost:5432/test}" >> $GITHUB_ENV
+          [ -n "$EMAIL_SECRET" ] && echo "TEST_USER_EMAIL=$EMAIL_SECRET" >> $GITHUB_ENV || true
+          [ -n "$PWD_SECRET" ] && echo "TEST_USER_PASSWORD=$PWD_SECRET" >> $GITHUB_ENV || true
+        shell: bash
       - run: npm run test:e2e
         env:
           NODE_ENV: test
-          DATABASE_URL: ${{ secrets.DATABASE_URL_TEST || 'postgresql://test:test@localhost:5432/test' }}
           NEXTAUTH_SECRET: test-secret
           JWT_SECRET: test-jwt-secret
           SESSION_SECRET: test-session-secret
-          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
@@ -82,6 +109,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/setup-node@v4
         with:
           node-version: '20'

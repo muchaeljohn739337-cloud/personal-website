@@ -19,14 +19,14 @@ Notes table has been created with Row Level Security (RLS) policies for public r
 
 ### Add to Vercel (Production):
 
-| Variable                               | Value                                                                                                                                                                                                                         |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`             | `https://qbxugwctchtqwymhucpl.supabase.co`                                                                                                                                                                                    |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY`        | `⚠️ Get from Supabase Dashboard → Settings → API → anon/public key`                                                                                                                                    |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `⚠️ Get from Supabase Dashboard → Settings → API → publishable key`                                                                                                                                                          |
-| `SUPABASE_SERVICE_ROLE_KEY`            | `⚠️ CRITICAL: Get from Supabase Dashboard → Settings → API → service_role key (NEVER expose!)`                                                                                                                               |
-| `DATABASE_URL`                         | `⚠️ Get from Supabase Dashboard → Settings → Database → Connection Pooling`                                                                                                                                    |
-| `DIRECT_URL`                           | `⚠️ Get from Supabase Dashboard → Settings → Database → Direct Connection`                                                                                                                                    |
+| Variable                               | Value                                                                                          |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`             | `https://qbxugwctchtqwymhucpl.supabase.co`                                                     |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`        | `⚠️ Get from Supabase Dashboard → Settings → API → anon/public key`                            |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `⚠️ Get from Supabase Dashboard → Settings → API → publishable key`                            |
+| `SUPABASE_SERVICE_ROLE_KEY`            | `⚠️ CRITICAL: Get from Supabase Dashboard → Settings → API → service_role key (NEVER expose!)` |
+| `DATABASE_URL`                         | `⚠️ Get from Supabase Dashboard → Settings → Database → Connection Pooling`                    |
+| `DIRECT_URL`                           | `⚠️ Get from Supabase Dashboard → Settings → Database → Direct Connection`                     |
 
 ---
 

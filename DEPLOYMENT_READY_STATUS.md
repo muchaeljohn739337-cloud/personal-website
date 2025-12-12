@@ -18,6 +18,7 @@
 ## ⚠️ **Environment Variables Status**
 
 ### **Set Locally (✅):**
+
 - `JWT_SECRET`
 - `SESSION_SECRET`
 - `NEXTAUTH_SECRET`
@@ -29,10 +30,12 @@
 - `DIRECT_URL`
 
 ### **Missing in Vercel (⚠️ Need to Set):**
+
 - `SUPABASE_SERVICE_ROLE_KEY` - **CRITICAL** (use NEW rotated key)
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Optional (you have publishable key)
 
 ### **Optional:**
+
 - `CRON_SECRET` - Recommended
 - `REDIS_URL` - Optional
 - `SMTP_HOST` - Optional
@@ -71,11 +74,13 @@ npm run deploy:prod:safe
 After successful deployment:
 
 1. **Run Migrations:**
+
    ```bash
    npm run migrate:prod
    ```
 
 2. **Verify Health:**
+
    ```bash
    npm run verify:prod
    ```
@@ -96,4 +101,3 @@ After successful deployment:
 ---
 
 **Ready to deploy!** 🚀
-

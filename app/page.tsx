@@ -110,6 +110,15 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
+  const [particlePositions, setParticlePositions] = useState<
+    Array<{
+      left: number;
+      top: number;
+      delay: number;
+      duration: number;
+    }>
+  >([]);
+  const [particlesMounted, setParticlesMounted] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,6 +134,19 @@ export default function Home() {
       setActiveFeature((prev) => (prev + 1) % 4);
     }, 4000);
     return () => clearInterval(interval);
+  }, []);
+
+  // Generate particle positions on client only (avoid hydration mismatch)
+  useEffect(() => {
+    setParticlePositions(
+      Array.from({ length: 20 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        delay: Math.random() * 2,
+        duration: 2 + Math.random() * 2,
+      }))
+    );
+    setParticlesMounted(true);
   }, []);
 
   const features = [
@@ -847,20 +869,22 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden bg-gradient-to-r from-violet-500/10 via-blue-500/10 to-violet-500/10 rounded-3xl border border-white/10 p-12">
             {/* Animated background particles */}
-            <div className="absolute inset-0 overflow-hidden">
-              {[...Array(20)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-1 h-1 bg-violet-400/30 rounded-full animate-pulse"
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    animationDelay: `${Math.random() * 2}s`,
-                    animationDuration: `${2 + Math.random() * 2}s`,
-                  }}
-                />
-              ))}
-            </div>
+            {particlesMounted && (
+              <div className="absolute inset-0 overflow-hidden">
+                {particlePositions.map((particle, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1 h-1 bg-violet-400/30 rounded-full animate-pulse"
+                    style={{
+                      left: `${particle.left}%`,
+                      top: `${particle.top}%`,
+                      animationDelay: `${particle.delay}s`,
+                      animationDuration: `${particle.duration}s`,
+                    }}
+                  />
+                ))}
+              </div>
+            )}
             <div className="relative grid md:grid-cols-4 gap-8">
               {[
                 {

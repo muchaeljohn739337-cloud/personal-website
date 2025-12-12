@@ -86,6 +86,7 @@ All tables in your Supabase database currently have **Row Level Security (RLS) d
 ### Current Risk
 
 With RLS disabled:
+
 - ❌ No automatic row-level access control
 - ❌ All data accessible if someone has database access
 - ❌ No user-based data isolation
@@ -231,4 +232,3 @@ Enable RLS on remaining tables as needed.
 ---
 
 **Status**: RLS disabled on all tables. Consider enabling for production security. 🔒
-

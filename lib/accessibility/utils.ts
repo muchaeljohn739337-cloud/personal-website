@@ -101,8 +101,8 @@ export function getAccessibleName(element: HTMLElement): string {
  * Check color contrast ratio (WCAG AA: 4.5:1 for normal text, 3:1 for large)
  */
 export function checkContrastRatio(
-  foreground: string,
-  background: string
+  _foreground: string,
+  _background: string
 ): { ratio: number; passesAA: boolean; passesAAA: boolean } {
   // Simplified contrast check - in production, use a library like 'color-contrast-checker'
   // This is a placeholder that should be replaced with actual contrast calculation
@@ -114,4 +114,3 @@ export function checkContrastRatio(
     passesAAA: ratio >= 7,
   };
 }
-

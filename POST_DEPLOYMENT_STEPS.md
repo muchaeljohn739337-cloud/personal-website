@@ -58,6 +58,7 @@ npm run verify:prod
 ```
 
 Or check manually:
+
 - https://advanciapayledger.com/api/health
 - https://personal-website-425qil78l-advanciapayledger.vercel.app/api/health
 
@@ -68,6 +69,7 @@ vercel inspect personal-website-425qil78l-advanciapayledger.vercel.app --logs
 ```
 
 Or in Vercel Dashboard:
+
 - Go to Deployments → Latest → Functions tab
 - Check for any errors
 
@@ -112,4 +114,3 @@ npm run migrate:prod
 ---
 
 **Status:** Deployment successful, troubleshooting 503 error. Most likely needs environment variables or warm-up time.
-

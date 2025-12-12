@@ -35,4 +35,3 @@ export function Announcement({ message, priority = 'polite', timeout = 5000 }: A
     </div>
   );
 }
-

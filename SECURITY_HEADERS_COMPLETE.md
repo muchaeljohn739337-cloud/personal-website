@@ -19,6 +19,7 @@ All requested security and functionality headers have been successfully implemen
 **Location:** `middleware.ts`
 
 **Headers Added:**
+
 - `X-TLS-Client-Auth` - Status of TLS client authentication (`verified` or `not-verified`)
 - `X-TLS-Client-Issuer` - Certificate issuer (from Cloudflare)
 - `X-TLS-Client-Subject` - Certificate subject
@@ -26,6 +27,7 @@ All requested security and functionality headers have been successfully implemen
 - `X-TLS-Client-Fingerprint` - Certificate fingerprint
 
 **Source:** Cloudflare headers:
+
 - `cf-client-auth-cert-issuer`
 - `cf-client-auth-cert-subject`
 - `cf-client-auth-cert-serial`
@@ -41,6 +43,7 @@ All requested security and functionality headers have been successfully implemen
 **Location:** `middleware.ts`
 
 **Headers Added:**
+
 - `X-Visitor-City` - Visitor's city
 - `X-Visitor-Country` - Visitor's country code
 - `X-Visitor-Latitude` - Visitor's latitude
@@ -52,6 +55,7 @@ All requested security and functionality headers have been successfully implemen
 - `X-Visitor-ASN-Org` - Visitor's ASN organization
 
 **Source:** Cloudflare headers (automatically provided when using Cloudflare):
+
 - `cf-ipcity`
 - `cf-ipcountry`
 - `cf-iplatitude`
@@ -63,6 +67,7 @@ All requested security and functionality headers have been successfully implemen
 - `cf-ipasn-org`
 
 **Usage:** These headers are available in your application code and can be used for:
+
 - Geographic analytics
 - Content localization
 - Fraud detection
@@ -75,15 +80,18 @@ All requested security and functionality headers have been successfully implemen
 **Location:** `middleware.ts`
 
 **Header Added:**
+
 - `True-Client-IP` - Visitor's real IP address
 
 **Source:** Extracted from (in priority order):
+
 1. `cf-connecting-ip` (Cloudflare)
 2. `x-forwarded-for` (first IP in chain)
 3. `x-real-ip` (nginx/proxy)
 4. `request.ip` (Next.js)
 
 **Also Sets:**
+
 - `X-Forwarded-For` - For compatibility with other systems
 
 **Usage:** Use this header to get the visitor's real IP address, bypassing proxy/CDN layers.
@@ -95,6 +103,7 @@ All requested security and functionality headers have been successfully implemen
 **Location:** Multiple files
 
 **Implementation:**
+
 1. **`next.config.mjs`**: `poweredByHeader: false` - Disables Next.js default header
 2. **`middleware.ts`**: Explicitly deletes `X-Powered-By` and `X-Powered-By-Next.js`
 3. **`vercel.json`**: Sets `X-Powered-By` to empty string
@@ -108,12 +117,14 @@ All requested security and functionality headers have been successfully implemen
 **Location:** `next.config.mjs`
 
 #### XSS Protection Headers:
+
 - `X-XSS-Protection: 1; mode=block` - Enables browser XSS filter
 - `Content-Security-Policy` - Comprehensive CSP policy
 - `X-Content-Type-Options: nosniff` - Prevents MIME type sniffing
 - `X-Frame-Options: SAMEORIGIN` - Prevents clickjacking
 
 #### CORS Policies:
+
 - `Access-Control-Allow-Origin` - Set to your app URL
 - `Access-Control-Allow-Methods` - GET, POST, PUT, DELETE, OPTIONS, PATCH
 - `Access-Control-Allow-Headers` - Content-Type, Authorization, X-Requested-With, X-API-Key, True-Client-IP
@@ -121,6 +132,7 @@ All requested security and functionality headers have been successfully implemen
 - `Access-Control-Max-Age: 86400` - Caches preflight requests for 24 hours
 
 #### Additional Security Headers:
+
 - `Strict-Transport-Security` - HSTS with 2-year max-age
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `Permissions-Policy` - Restricts browser features
@@ -134,17 +146,20 @@ All requested security and functionality headers have been successfully implemen
 ## 📁 Files Modified
 
 ### 1. `next.config.mjs`
+
 - ✅ Added CORS policies
 - ✅ Enhanced security headers
 - ✅ Already had `poweredByHeader: false`
 
 ### 2. `middleware.ts`
+
 - ✅ Enhanced TLS client auth headers (comprehensive)
 - ✅ Enhanced visitor location headers (9 headers)
 - ✅ Enhanced True-Client-IP extraction
 - ✅ Explicit X-Powered-By removal
 
 ### 3. `vercel.json`
+
 - ✅ Added X-Powered-By removal
 - ✅ Added Permissions-Policy header
 
@@ -162,13 +177,13 @@ export async function GET(request: NextRequest) {
   // Get visitor location
   const city = request.headers.get('x-visitor-city');
   const country = request.headers.get('x-visitor-country');
-  
+
   // Get real IP
   const clientIp = request.headers.get('true-client-ip');
-  
+
   // Check TLS client auth
   const tlsAuth = request.headers.get('x-tls-client-auth');
-  
+
   return Response.json({
     city,
     country,
@@ -189,7 +204,7 @@ export default async function Dashboard() {
   const city = headersList.get('x-visitor-city');
   const country = headersList.get('x-visitor-country');
   const clientIp = headersList.get('true-client-ip');
-  
+
   return (
     <div>
       <p>Location: {city}, {country}</p>
@@ -226,6 +241,7 @@ curl -I https://advanciapayledger.com
 ## 🚀 Next Steps
 
 1. **Deploy to Production:**
+
    ```bash
    npm run deploy:to-production
    ```
@@ -257,4 +273,3 @@ curl -I https://advanciapayledger.com
 **Status:** ✅ **All Headers Implemented and Ready for Production**
 
 **Last Updated:** 2024-12-XX
-

@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, RefreshCw, Settings, Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -19,8 +19,6 @@ interface BillingOverride {
 }
 
 export default function BillingOverridesPage() {
-  const [overrides, setOverrides] = useState<BillingOverride[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
 
   // Mock data - replace with actual API call
@@ -61,29 +59,43 @@ export default function BillingOverridesPage() {
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-medium">User Email</label>
-                <Input placeholder="user@example.com" className="mt-1" />
+                <label htmlFor="user-email" className="text-sm font-medium">
+                  User Email
+                </label>
+                <Input id="user-email" placeholder="user@example.com" className="mt-1" />
               </div>
               <div>
-                <label className="text-sm font-medium">Type</label>
-                <select className="mt-1 flex h-11 w-full rounded-lg border bg-white px-4 py-2 text-sm">
+                <label htmlFor="override-type" className="text-sm font-medium">
+                  Type
+                </label>
+                <select
+                  id="override-type"
+                  className="mt-1 flex h-11 w-full rounded-lg border bg-white px-4 py-2 text-sm"
+                >
                   <option>DISCOUNT</option>
                   <option>CREDIT</option>
                   <option>WAIVE</option>
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium">Amount ($)</label>
-                <Input type="number" placeholder="0.00" className="mt-1" />
+                <label htmlFor="override-amount" className="text-sm font-medium">
+                  Amount ($)
+                </label>
+                <Input id="override-amount" type="number" placeholder="0.00" className="mt-1" />
               </div>
               <div>
-                <label className="text-sm font-medium">Expires At (optional)</label>
-                <Input type="date" className="mt-1" />
+                <label htmlFor="expires-at" className="text-sm font-medium">
+                  Expires At (optional)
+                </label>
+                <Input id="expires-at" type="date" className="mt-1" />
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium">Reason</label>
+              <label htmlFor="override-reason" className="text-sm font-medium">
+                Reason
+              </label>
               <textarea
+                id="override-reason"
                 className="mt-1 flex min-h-[80px] w-full rounded-lg border bg-white px-4 py-2 text-sm"
                 placeholder="Reason for this override..."
               />
@@ -123,8 +135,7 @@ export default function BillingOverridesPage() {
                   <div className="flex items-center gap-4">
                     <div className="text-right">
                       <p className="font-semibold">
-                        {override.type === 'DISCOUNT' && '-'}
-                        ${override.amount}
+                        {override.type === 'DISCOUNT' && '-'}${override.amount}
                       </p>
                       <p className="text-xs text-slate-500">{override.type}</p>
                     </div>
@@ -143,4 +154,3 @@ export default function BillingOverridesPage() {
     </div>
   );
 }
-

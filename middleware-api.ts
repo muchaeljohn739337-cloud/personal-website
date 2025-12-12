@@ -27,7 +27,7 @@ export default async function apiMiddleware(request: NextRequest) {
   if (isPublicAPIRoute(pathname)) {
     const config = getRouteProtectionConfig(pathname);
     const protection = await protectAPI(request, config);
-    
+
     if (!protection.allowed && protection.response) {
       return protection.response;
     }
@@ -70,15 +70,12 @@ export default async function apiMiddleware(request: NextRequest) {
   const protection = await protectAPI(request, config);
 
   if (!protection.allowed) {
-    return protection.response || NextResponse.json(
-      { error: 'Access denied' },
-      { status: 403 }
-    );
+    return protection.response || NextResponse.json({ error: 'Access denied' }, { status: 403 });
   }
 
   // Create response with protection headers
   const response = NextResponse.next();
-  
+
   // Add rate limit headers
   if (protection.headers) {
     Object.entries(protection.headers).forEach(([key, value]) => {
@@ -94,4 +91,3 @@ export default async function apiMiddleware(request: NextRequest) {
 
   return response;
 }
-

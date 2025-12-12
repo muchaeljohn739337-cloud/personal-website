@@ -13,6 +13,7 @@ npm run generate:prod-secrets
 ```
 
 This will generate secure random secrets for:
+
 - `JWT_SECRET`
 - `SESSION_SECRET`
 - `NEXTAUTH_SECRET`
@@ -29,6 +30,7 @@ npm run setup:vercel-env
 ```
 
 This will:
+
 - Read your local `.env.local` file
 - Generate a comprehensive list of all required variables
 - Show which values you already have
@@ -52,27 +54,27 @@ This will:
 
 These are **REQUIRED** for the application to build and run:
 
-| Variable | Description | How to Get |
-|----------|-------------|------------|
-| `JWT_SECRET` | Secret for JWT token signing | Generate with `npm run generate:prod-secrets` |
-| `SESSION_SECRET` | Secret for session encryption | Generate with `npm run generate:prod-secrets` |
-| `NEXTAUTH_SECRET` | Secret for NextAuth.js | Generate with `npm run generate:prod-secrets` |
-| `DATABASE_URL` | PostgreSQL connection (pooling) | From Supabase dashboard |
-| `NEXT_PUBLIC_APP_URL` | Public application URL | `https://advanciapayledger.com` |
-| `NEXTAUTH_URL` | NextAuth callback URL | `https://advanciapayledger.com` |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | From Supabase dashboard |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Supabase publishable key | From Supabase dashboard |
+| Variable                                       | Description                     | How to Get                                    |
+| ---------------------------------------------- | ------------------------------- | --------------------------------------------- |
+| `JWT_SECRET`                                   | Secret for JWT token signing    | Generate with `npm run generate:prod-secrets` |
+| `SESSION_SECRET`                               | Secret for session encryption   | Generate with `npm run generate:prod-secrets` |
+| `NEXTAUTH_SECRET`                              | Secret for NextAuth.js          | Generate with `npm run generate:prod-secrets` |
+| `DATABASE_URL`                                 | PostgreSQL connection (pooling) | From Supabase dashboard                       |
+| `NEXT_PUBLIC_APP_URL`                          | Public application URL          | `https://advanciapayledger.com`               |
+| `NEXTAUTH_URL`                                 | NextAuth callback URL           | `https://advanciapayledger.com`               |
+| `NEXT_PUBLIC_SUPABASE_URL`                     | Supabase project URL            | From Supabase dashboard                       |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Supabase publishable key        | From Supabase dashboard                       |
 
 ### ⚠️ Important - Should Set
 
 These are recommended for full functionality:
 
-| Variable | Description | How to Get |
-|----------|-------------|------------|
-| `DIRECT_URL` | PostgreSQL direct connection | From Supabase dashboard (port 5432) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key | From Supabase dashboard |
-| `CRON_SECRET` | Secret for cron jobs | Generate with `npm run generate:prod-secrets` |
-| `ANTHROPIC_API_KEY` | Anthropic Claude API key | From https://console.anthropic.com/ |
+| Variable                    | Description                  | How to Get                                    |
+| --------------------------- | ---------------------------- | --------------------------------------------- |
+| `DIRECT_URL`                | PostgreSQL direct connection | From Supabase dashboard (port 5432)           |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key    | From Supabase dashboard                       |
+| `CRON_SECRET`               | Secret for cron jobs         | Generate with `npm run generate:prod-secrets` |
+| `ANTHROPIC_API_KEY`         | Anthropic Claude API key     | From https://console.anthropic.com/           |
 
 ---
 
@@ -164,6 +166,7 @@ After setting all variables:
 ## Security Best Practices
 
 ✅ **DO:**
+
 - Generate unique secrets for production
 - Use Vercel's environment variable encryption
 - Set variables for specific environments (Production/Preview/Development)
@@ -171,6 +174,7 @@ After setting all variables:
 - Use strong, random passwords
 
 ❌ **DON'T:**
+
 - Commit secrets to git
 - Share secrets in plain text
 - Reuse development secrets in production
@@ -197,4 +201,3 @@ npm run migrate:prod
 ---
 
 **Status**: Ready to set up production environment variables! 🚀
-

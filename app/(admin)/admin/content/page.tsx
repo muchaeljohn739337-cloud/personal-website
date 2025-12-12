@@ -1,6 +1,6 @@
 'use client';
 
-import { FileText, Filter, Plus, RefreshCw, Search } from 'lucide-react';
+import { FileText, Filter, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,6 @@ interface ContentItem {
 }
 
 export default function ContentManagementPage() {
-  const [content, setContent] = useState<ContentItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
@@ -170,4 +169,3 @@ export default function ContentManagementPage() {
     </div>
   );
 }
-

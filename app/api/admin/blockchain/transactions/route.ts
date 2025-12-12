@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/admin/blockchain/transactions - Get recent transactions
 export async function GET(req: NextRequest) {
   try {

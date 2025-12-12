@@ -76,11 +76,14 @@ export async function POST(req: NextRequest) {
         success: true,
         payment: {
           id: result.payment.id,
+          paymentId: result.paymentDetails.payment_id,
+          paymentUrl: `https://nowpayments.io/payment/?iid=${result.paymentDetails.payment_id}`,
           payAddress: result.paymentDetails.pay_address,
           payAmount: result.paymentDetails.pay_amount,
           payCurrency: currency.toUpperCase(),
           expiresAt: result.payment.expiresAt,
         },
+        paymentDetails: result.paymentDetails,
       });
     } else if (provider === 'ALCHEMY_PAY') {
       if (!walletAddress) {

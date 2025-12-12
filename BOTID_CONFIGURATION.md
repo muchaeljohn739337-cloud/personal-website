@@ -7,7 +7,7 @@ Bot protection is now properly configured and **disabled by default**. You can e
 ✅ Bot protection code is functional  
 ✅ Disabled by default (`BOTID_ENABLED=false`)  
 ✅ Works with Cloudflare Bot Management  
-✅ Supports Cloudflare Turnstile, reCAPTCHA, hCaptcha  
+✅ Supports Cloudflare Turnstile, reCAPTCHA, hCaptcha
 
 ## How It Works
 
@@ -41,7 +41,7 @@ Modify `lib/security/botid-protection.ts` to integrate your preferred service.
 By default, these routes are protected when enabled:
 
 - `/admin/*` - Admin dashboard
-- `/dashboard/*` - User dashboard  
+- `/dashboard/*` - User dashboard
 - `/api/admin/*` - Admin API endpoints
 - `/api/auth/login` - Login endpoint
 - `/api/auth/register` - Registration
@@ -67,7 +67,7 @@ NEXT_PUBLIC_BOTID_SITE_KEY=your_turnstile_site_key
 vercel env add BOTID_ENABLED production
 # Enter: true
 
-vercel env add BOTID_SECRET_KEY production  
+vercel env add BOTID_SECRET_KEY production
 # Enter: your_secret_key
 
 vercel env add NEXT_PUBLIC_BOTID_SITE_KEY production
@@ -89,7 +89,7 @@ vercel --prod
 **Status**: ✅ Disabled (safe for login)  
 **Mode**: Fail-open (allows traffic on error)  
 **Cloudflare Integration**: ✅ Ready  
-**Custom Integration**: ✅ Supported  
+**Custom Integration**: ✅ Supported
 
 ## Next Steps
 

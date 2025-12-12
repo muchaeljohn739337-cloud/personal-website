@@ -69,9 +69,23 @@ next-env.d.ts
 *.key
 id_rsa*
 *.secret
+.vercel-secrets.txt
+.vercel-secrets*.txt
 
-# MCP Configuration (optional - safe to commit if only contains public project ref)
-# .cursor/mcp.json
+# MCP Configuration (safe to commit - only contains public project ref)
+# .cursor/mcp.json - tracked for team sync
+# .windsurf/settings.json - tracked for team sync
+
+# Editor-specific workspace state (user-specific, don't commit)
+.vscode/.ropeproject
+.vscode/settings.local.json
+.cursor/state.json
+.windsurf/state.json
+.cursor/workspace.json
+.windsurf/workspace.json
 
 .vercel
 .env*.local
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.github/instructions/snyk_rules.instructions.md

@@ -9,12 +9,10 @@ import type { NextRequest } from 'next/server';
 // Environment configuration
 const BOTID_ENABLED = process.env.BOTID_ENABLED === 'true';
 const BOTID_SECRET_KEY = process.env.BOTID_SECRET_KEY;
-const BOTID_SITE_KEY = process.env.NEXT_PUBLIC_BOTID_SITE_KEY;
 
 // Cloudflare Turnstile (Web3) - Primary bot protection
 const TURNSTILE_ENABLED = !!process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
 const TURNSTILE_SECRET_KEY = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
-const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY;
 
 export interface BotIdResult {
   verified: boolean;
@@ -224,7 +222,7 @@ export async function shouldChallengeRequest(request: NextRequest): Promise<bool
 /**
  * Get BotID challenge response
  */
-export function getBotIdChallengeResponse(request: NextRequest): Response {
+export function getBotIdChallengeResponse(_request: NextRequest): Response {
   return new Response(
     JSON.stringify({
       error: 'Bot verification required',

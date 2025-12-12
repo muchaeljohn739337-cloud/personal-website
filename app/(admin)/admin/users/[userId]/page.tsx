@@ -4,20 +4,16 @@ import {
   ArrowLeft,
   Ban,
   CheckCircle,
-  CreditCard,
   Crown,
-  Edit,
   Mail,
   Phone,
   RefreshCw,
   Shield,
-  Sparkles,
   Trash2,
   UserCheck,
   Wallet,
   XCircle,
 } from 'lucide-react';
-import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -106,6 +102,7 @@ export default function UserDetailPage() {
     if (userId) {
       fetchUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const handleAction = async (action: string, data?: Record<string, unknown>) => {
@@ -185,13 +182,13 @@ export default function UserDetailPage() {
 
       {/* User Info Card */}
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card className={`lg:col-span-2 ${user.role === 'SUPER_ADMIN' ? 'border-amber-500/20 shadow-lg shadow-amber-500/10' : ''}`}>
+        <Card
+          className={`lg:col-span-2 ${user.role === 'SUPER_ADMIN' ? 'border-amber-500/20 shadow-lg shadow-amber-500/10' : ''}`}
+        >
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               User Information
-              {user.role === 'SUPER_ADMIN' && (
-                <PremiumBadge variant="icon" />
-              )}
+              {user.role === 'SUPER_ADMIN' && <PremiumBadge variant="icon" />}
             </CardTitle>
             <CardDescription>Basic user details and account status</CardDescription>
           </CardHeader>
@@ -209,10 +206,8 @@ export default function UserDetailPage() {
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   {/* Premium Badge for SUPER_ADMIN */}
-                  {user.role === 'SUPER_ADMIN' && (
-                    <PremiumBadge variant="default" />
-                  )}
-                  
+                  {user.role === 'SUPER_ADMIN' && <PremiumBadge variant="default" />}
+
                   {/* Role Badge */}
                   <span
                     className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${
@@ -228,7 +223,7 @@ export default function UserDetailPage() {
                     {user.role === 'SUPER_ADMIN' && <Crown className="h-3.5 w-3.5" />}
                     {user.role === 'SUPER_ADMIN' ? 'Super Admin' : user.role}
                   </span>
-                  
+
                   {user.isSuspended && (
                     <span className="flex items-center gap-1 rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-800 dark:bg-red-950 dark:text-red-300">
                       <Ban className="h-4 w-4" />
@@ -252,7 +247,7 @@ export default function UserDetailPage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-medium text-slate-500">Email</label>
+                <span className="text-sm font-medium text-slate-500">Email</span>
                 <div className="mt-1 flex items-center gap-2">
                   <Mail className="h-4 w-4 text-slate-400" />
                   <span>{user.email}</span>
@@ -260,7 +255,7 @@ export default function UserDetailPage() {
               </div>
               {user.phone && (
                 <div>
-                  <label className="text-sm font-medium text-slate-500">Phone</label>
+                  <span className="text-sm font-medium text-slate-500">Phone</span>
                   <div className="mt-1 flex items-center gap-2">
                     <Phone className="h-4 w-4 text-slate-400" />
                     <span>{user.phone}</span>
@@ -268,12 +263,12 @@ export default function UserDetailPage() {
                 </div>
               )}
               <div>
-                <label className="text-sm font-medium text-slate-500">Joined</label>
+                <span className="text-sm font-medium text-slate-500">Joined</span>
                 <p className="mt-1">{new Date(user.createdAt).toLocaleDateString()}</p>
               </div>
               {user.lastLoginAt && (
                 <div>
-                  <label className="text-sm font-medium text-slate-500">Last Login</label>
+                  <span className="text-sm font-medium text-slate-500">Last Login</span>
                   <p className="mt-1">{new Date(user.lastLoginAt).toLocaleDateString()}</p>
                 </div>
               )}
@@ -391,7 +386,9 @@ export default function UserDetailPage() {
             <Button
               variant="outline"
               onClick={() => {
-                const amount = prompt('Token amount to adjust (positive to add, negative to remove):');
+                const amount = prompt(
+                  'Token amount to adjust (positive to add, negative to remove):'
+                );
                 if (amount) {
                   handleAction('adjustBalance', { amount: parseFloat(amount) });
                 }
@@ -404,7 +401,11 @@ export default function UserDetailPage() {
             <Button
               variant="destructive"
               onClick={() => {
-                if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                if (
+                  confirm(
+                    'Are you sure you want to delete this user? This action cannot be undone.'
+                  )
+                ) {
                   handleAction('delete');
                 }
               }}
@@ -503,4 +504,3 @@ export default function UserDetailPage() {
     </div>
   );
 }
-

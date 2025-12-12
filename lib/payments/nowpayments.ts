@@ -134,6 +134,9 @@ export async function createPayment(params: {
       metadata: {
         orderId: data.order_id,
         purchaseId: data.purchase_id,
+        paymentId: data.payment_id,
+        paymentUrl: `https://nowpayments.io/payment/?iid=${data.payment_id}`,
+        invoiceId: data.payment_id, // Store as invoice ID for easy lookup
       },
     },
   });

@@ -39,16 +39,19 @@ Click **"New repository secret"** for each secret:
 **Options:**
 
 **Option A: Docker Test Database (Local CI)**
+
 ```
 postgresql://test:test@localhost:5432/test
 ```
 
 **Option B: Supabase Test Database (Recommended)**
+
 ```
 postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/test_db?pgbouncer=true
 ```
 
 **Option C: Cloud Test Database**
+
 ```
 postgresql://user:password@host:5432/test_db
 ```
@@ -63,11 +66,13 @@ postgresql://user:password@host:5432/test_db
 - **Value:** Test user email for E2E tests
 
 **Example:**
+
 ```
 test@example.com
 ```
 
 **Or:**
+
 ```
 e2e-test@advanciapayledger.com
 ```
@@ -80,6 +85,7 @@ e2e-test@advanciapayledger.com
 - **Value:** Test user password for E2E tests
 
 **Example:**
+
 ```
 test_password_123
 ```
@@ -119,6 +125,7 @@ env:
 ```
 
 **Fallback Values:**
+
 - If secrets are not set, the workflow uses default fallback values
 - Tests will still run, but may have limited functionality
 
@@ -129,33 +136,39 @@ env:
 ### 1. Separate Test Database
 
 ✅ **DO:**
+
 - Use a dedicated test database
 - Create separate test database in Supabase/cloud provider
 - Use Docker for local testing
 
 ❌ **DON'T:**
+
 - Use production database for tests
 - Share test database with production
 
 ### 2. Test User Management
 
 ✅ **DO:**
+
 - Create dedicated test users
 - Use simple, predictable credentials
 - Clean up test data after tests
 
 ❌ **DON'T:**
+
 - Use production user credentials
 - Commit test credentials to code
 
 ### 3. Security
 
 ✅ **DO:**
+
 - Store secrets in GitHub Secrets (not in code)
 - Rotate secrets periodically
 - Use least-privilege access
 
 ❌ **DON'T:**
+
 - Commit secrets to repository
 - Share secrets in public channels
 - Use production credentials for tests
@@ -167,6 +180,7 @@ env:
 ### Issue: Tests fail with "Database connection error"
 
 **Solution:**
+
 1. Verify `DATABASE_URL_TEST` is correct
 2. Check database is accessible from GitHub Actions
 3. Verify credentials are correct
@@ -175,6 +189,7 @@ env:
 ### Issue: E2E tests fail with "Authentication error"
 
 **Solution:**
+
 1. Verify `TEST_USER_EMAIL` and `TEST_USER_PASSWORD` are set
 2. Ensure test user exists in database
 3. Check if email verification is required (disable in test mode)
@@ -182,6 +197,7 @@ env:
 ### Issue: Secrets not being used
 
 **Solution:**
+
 1. Verify secret names match exactly (case-sensitive)
 2. Check workflow file uses correct secret names
 3. Ensure secrets are set in correct repository
@@ -202,6 +218,7 @@ TEST_USER_PASSWORD
 ### Default Fallback Values
 
 If secrets are not set, workflow uses:
+
 - `DATABASE_URL_TEST`: `postgresql://test:test@localhost:5432/test`
 - `TEST_USER_EMAIL`: Not set (tests may fail)
 - `TEST_USER_PASSWORD`: Not set (tests may fail)
@@ -218,4 +235,3 @@ If secrets are not set, workflow uses:
 
 **Last Updated:** 2024  
 **Status:** ✅ Ready to Configure
-

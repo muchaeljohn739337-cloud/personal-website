@@ -4,12 +4,16 @@
  */
 
 import { Resend } from 'resend';
+import { isSMTPConfigured, sendEmailViaSMTP } from './email/smtp';
 
 import { prisma } from './prismaClient';
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 const FROM_EMAIL = process.env.EMAIL_FROM || 'noreply@example.com';
 const FROM_NAME = process.env.EMAIL_FROM_NAME || 'Personal Website';
+
+// Email provider preference: 'api' (Resend REST API) or 'smtp' (SMTP)
+const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || (isSMTPConfigured() ? 'smtp' : 'api');
 
 // Initialize Resend client (will be null if no API key)
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
@@ -124,6 +128,9 @@ interface SendEmailOptions {
   userId?: string;
   templateId?: string;
   tags?: { name: string; value: string }[];
+  // Resend template support
+  resendTemplateId?: string;
+  resendTemplateData?: Record<string, string | number>;
 }
 
 // Replace template variables
@@ -137,18 +144,90 @@ function replaceVariables(template: string, variables: Record<string, string>): 
 
 // Send email via Resend
 export async function sendEmail(options: SendEmailOptions) {
-  const { to, subject, html, text, from, replyTo, userId, templateId, tags } = options;
+  const {
+    to,
+    subject,
+    html,
+    text,
+    from,
+    replyTo,
+    userId,
+    templateId,
+    tags,
+    resendTemplateId,
+    resendTemplateData,
+  } = options;
 
   const toAddresses = Array.isArray(to) ? to : [to];
   const fromAddress = from || `${FROM_NAME} <${FROM_EMAIL}>`;
 
-  // Check if Resend is configured
+  // Use SMTP if configured and preferred
+  if (EMAIL_PROVIDER === 'smtp' || (EMAIL_PROVIDER === 'auto' && isSMTPConfigured())) {
+    return sendEmailViaSMTP({
+      to: toAddresses,
+      subject,
+      html,
+      text,
+      from: fromAddress,
+      replyTo,
+      userId,
+      templateId,
+    });
+  }
+
+  // Use Resend REST API
   if (!resend) {
-    console.warn('Resend not configured - email not sent');
+    console.warn('Resend API not configured - trying SMTP fallback');
+    if (isSMTPConfigured()) {
+      return sendEmailViaSMTP({
+        to: toAddresses,
+        subject,
+        html,
+        text,
+        from: fromAddress,
+        replyTo,
+        userId,
+        templateId,
+      });
+    }
     return { success: false, error: 'Email service not configured' };
   }
 
   try {
+    // Use Resend template if provided
+    if (resendTemplateId && resendTemplateData) {
+      const response = await resend.emails.send({
+        from: fromAddress,
+        to: toAddresses,
+        template: {
+          id: resendTemplateId,
+          variables: resendTemplateData,
+        },
+        replyTo: replyTo,
+        tags,
+      });
+
+      // Log email
+      for (const email of toAddresses) {
+        await prisma.emailLog.create({
+          data: {
+            toEmail: email,
+            toUserId: userId,
+            fromEmail: FROM_EMAIL,
+            subject: subject || 'Template Email',
+            templateId: templateId || resendTemplateId,
+            provider: 'RESEND',
+            externalId: response.data?.id,
+            status: 'SENT',
+            sentAt: new Date(),
+          },
+        });
+      }
+
+      return { success: true, messageId: response.data?.id };
+    }
+
+    // Standard email send
     const response = await resend.emails.send({
       from: fromAddress,
       to: toAddresses,

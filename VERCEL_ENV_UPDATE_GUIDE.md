@@ -15,6 +15,7 @@
 **Current Status:** May be incorrect or missing
 
 **Action:**
+
 1. Find `DATABASE_URL` in the list
 2. Click **Edit** (or **Add** if missing)
 3. Update value to:
@@ -26,6 +27,7 @@
 6. Click **Save**
 
 **Where to get password:**
+
 - Supabase Dashboard → Settings → Database
 - Or check your Supabase project settings
 
@@ -63,11 +65,13 @@
 ### Step 5: Redeploy
 
 **After saving variables:**
+
 - Vercel automatically redeploys
 - Wait 2-3 minutes
 - Check deployment status in dashboard
 
 **Or trigger manual redeploy:**
+
 - Go to **Deployments** tab
 - Click **Redeploy** on latest deployment
 
@@ -97,6 +101,7 @@
 ### Issue: "Database connection error"
 
 **Solution:**
+
 - Verify `DATABASE_URL` is correct
 - Check password is correct
 - Ensure port is `6543` for pooling
@@ -105,6 +110,7 @@
 ### Issue: "Invalid URL format"
 
 **Solution:**
+
 - Must start with `postgresql://` or `postgres://`
 - Check for typos in connection string
 - Verify all parameters are correct
@@ -112,6 +118,7 @@
 ### Issue: "Authentication failed"
 
 **Solution:**
+
 - Verify database password is correct
 - Check user has proper permissions
 - Verify database exists
@@ -121,21 +128,25 @@
 ## 📋 Connection String Format
 
 ### DATABASE_URL (Connection Pooling)
+
 ```
 postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require
 ```
 
 **Key Points:**
+
 - Port: `6543` (pooler)
 - Include: `pgbouncer=true`
 - Include: `sslmode=require`
 
 ### DIRECT_URL (Direct Connection)
+
 ```
 postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require
 ```
 
 **Key Points:**
+
 - Port: `5432` (direct)
 - No `pgbouncer=true`
 - Include: `sslmode=require`
@@ -144,4 +155,3 @@ postgresql://postgres.xesecqcqzykvmrtxrzqi:[PASSWORD]@aws-1-us-east-1.pooler.sup
 
 **Status:** ✅ Ready to Update  
 **Last Updated:** 2024
-

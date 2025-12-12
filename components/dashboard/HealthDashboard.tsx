@@ -129,7 +129,7 @@ export function HealthDashboard() {
   }
 
   const { profile, recentReadings, activeGoals, unacknowledgedAlerts, stats } = data;
-  const latestReading = recentReadings[0];
+  const latestReading = recentReadings && recentReadings.length > 0 ? recentReadings[0] : null;
 
   // Calculate health score color
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

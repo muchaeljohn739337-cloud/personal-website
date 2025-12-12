@@ -3,5 +3,12 @@
     "supabase": {
       "url": "https://mcp.supabase.com/mcp?project_ref=xesecqcqzykvmrtxrzqi"
     }
+  },
+  "settings": {
+    "sync": {
+      "enabled": true,
+      "sharedWithVSCode": true,
+      "sharedWithWindsurf": true
+    }
   }
 }

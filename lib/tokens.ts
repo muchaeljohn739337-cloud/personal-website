@@ -73,6 +73,10 @@ export async function addTokens(
   description?: string,
   metadata?: Record<string, unknown>
 ) {
+  if (amount <= 0) {
+    throw new Error('Amount must be positive');
+  }
+
   const wallet = await getOrCreateTokenWallet(userId);
   const newBalance = Number(wallet.balance) + amount;
 

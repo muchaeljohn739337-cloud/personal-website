@@ -7,6 +7,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getPrometheusMetrics } from '@/lib/monitoring/prometheus-exporter';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 /**
  * GET /api/metrics - Returns Prometheus metrics
  *

@@ -38,9 +38,8 @@ test.describe('Admin Login', () => {
 
     // Navigate to admin dashboard
     await page.goto('/admin');
-    
+
     // Verify admin dashboard loads
     await expect(page).toHaveURL(/\/admin/);
   });
 });
-

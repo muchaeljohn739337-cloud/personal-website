@@ -7,17 +7,20 @@ A complete agent worker system with checkpoint support has been implemented. Thi
 ## ✅ Completed Implementation
 
 ### 1. Database Schema
+
 - ✅ `AgentCheckpoint` model added to Prisma schema
 - ✅ Migration file created: `prisma/migrations/20250101000000_add_agent_checkpoints/migration.sql`
 - ✅ Prisma client generated
 
 ### 2. Core Worker System
+
 - ✅ `lib/agents/worker.ts` - Background worker that processes jobs
 - ✅ `lib/agents/job-handlers.ts` - Sample job handlers with checkpoint examples
 - ✅ `lib/agents/checkpoint-manager.ts` - Checkpoint management utilities
 - ✅ `lib/agents/sentry-helpers.ts` - Sentry integration helpers
 
 ### 3. API Endpoints
+
 - ✅ `POST /api/agent-jobs` - Enqueue new jobs
 - ✅ `GET /api/agent-jobs` - List jobs with filters
 - ✅ `GET /api/agent-jobs/[jobId]` - Get job details
@@ -31,14 +34,17 @@ A complete agent worker system with checkpoint support has been implemented. Thi
 - ✅ `DELETE /api/admin/agent-worker` - Stop worker
 
 ### 4. Admin UI
+
 - ✅ `app/(admin)/admin/agent-checkpoints/page.tsx` - Admin review page
 - ✅ `components/admin/CheckpointReviewCard.tsx` - Checkpoint card component
 
 ### 5. Monitoring
+
 - ✅ `lib/monitoring/prometheus-exporter.ts` - Prometheus metrics exporter
 - ✅ `GET /api/metrics` - Metrics endpoint
 
 ### 6. Testing
+
 - ✅ `__tests__/agents/worker.test.ts` - Worker tests (6 tests, all passing)
 - ✅ `__tests__/agents/checkpoints.test.ts` - Checkpoint tests (9 tests, all passing)
 
@@ -47,6 +53,7 @@ A complete agent worker system with checkpoint support has been implemented. Thi
 ### Step 1: Start the Worker
 
 **Option A: Via API (Recommended)**
+
 ```bash
 # Start the worker
 curl -X POST http://localhost:3000/api/admin/agent-worker \
@@ -58,6 +65,7 @@ curl http://localhost:3000/api/admin/agent-worker
 
 **Option B: Auto-start in code**
 Add to your app initialization:
+
 ```typescript
 import { startWorker } from '@/lib/agents/worker';
 
@@ -108,24 +116,27 @@ The system includes sample handlers for:
 import { startWorker } from '@/lib/agents/worker';
 
 startWorker({
-  pollInterval: 5000,        // Poll every 5 seconds
-  maxConcurrentJobs: 3,      // Process up to 3 jobs concurrently
-  enableSentry: true,        // Enable Sentry integration
+  pollInterval: 5000, // Poll every 5 seconds
+  maxConcurrentJobs: 3, // Process up to 3 jobs concurrently
+  enableSentry: true, // Enable Sentry integration
 });
 ```
 
 ### Environment Variables
 
 No new environment variables required. Uses existing:
+
 - `DATABASE_URL` - Database connection
 - `NEXT_PUBLIC_SENTRY_DSN` - Sentry DSN (optional)
 
 Optional:
+
 - `ENABLE_AGENT_WORKER=true` - Auto-start worker on app init
 
 ## 📝 API Examples
 
 ### Create Job
+
 ```typescript
 POST /api/agent-jobs
 {
@@ -144,11 +155,13 @@ POST /api/agent-jobs
 ```
 
 ### Approve Checkpoint
+
 ```typescript
-POST /api/admin/agent-checkpoints/[checkpointId]
+POST / api / admin / agent - checkpoints / [checkpointId];
 ```
 
 ### Reject Checkpoint
+
 ```typescript
 DELETE /api/admin/agent-checkpoints/[checkpointId]
 {
@@ -159,11 +172,13 @@ DELETE /api/admin/agent-checkpoints/[checkpointId]
 ## 🧪 Testing
 
 All tests pass:
+
 ```bash
 npm test -- __tests__/agents/
 ```
 
 Test coverage:
+
 - ✅ Job enqueueing
 - ✅ Worker processing
 - ✅ Checkpoint creation
@@ -176,6 +191,7 @@ Test coverage:
 ### Prometheus Metrics
 
 Available at `/api/metrics`:
+
 - `agent_jobs_total` - Total jobs by status
 - `agent_jobs_duration_seconds` - Job duration histogram
 - `agent_checkpoints_total` - Total checkpoints by status
@@ -217,4 +233,3 @@ Available at `/api/metrics`:
 ---
 
 **Status**: ✅ Complete and ready for use!
-

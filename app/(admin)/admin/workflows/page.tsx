@@ -1,6 +1,6 @@
 'use client';
 
-import { Bot, Calendar, CheckCircle2, Clock, Play, RefreshCw, Settings, XCircle } from 'lucide-react';
+import { Bot, Calendar, CheckCircle2, Clock, Play, Settings, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -31,6 +31,7 @@ interface Workflow {
 export default function WorkflowsAdminPage() {
   const [workflows, setWorkflows] = useState<Workflow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  void isLoading; // Used for loading state management
 
   useEffect(() => {
     // Fetch workflows from API
@@ -262,4 +263,3 @@ function WorkflowsTable({ workflows }: { workflows: Workflow[] }) {
     </div>
   );
 }
-
