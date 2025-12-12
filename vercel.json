@@ -4,11 +4,5 @@
   "framework": "nextjs",
   "installCommand": "cd frontend && npm install --legacy-peer-deps",
   "buildCommand": "cd frontend && npm run build",
-  "outputDirectory": "frontend/.next",
-  "functions": {
-    "frontend/src/app/api/**/*.ts": {
-      "runtime": "nodejs20.x",
-      "maxDuration": 30
-    }
-  }
+  "outputDirectory": "frontend/.next"
 }
