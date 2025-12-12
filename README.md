@@ -2,89 +2,48 @@
 
 A modern, enterprise-grade SaaS platform with Web3 integration, AI-powered features, and comprehensive payment solutions.
 
-## 🚀 Features
-
-- **Authentication**: Multi-factor authentication with NextAuth.js
-- **Web3 Integration**: Crypto wallet support via Web3Auth
-- **Payment Processing**: Stripe, LemonSqueezy, and crypto payments
-- **AI Agents**: Autonomous task execution with Claude AI
-- **Admin Dashboard**: Comprehensive management console
-- **Real-time Communication**: Live chat and notifications
-- **Health & Rewards**: Gamification and wellness tracking
-- **Security**: Enterprise-grade security with rate limiting, CSRF protection, and more
-
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 14+ (App Router)
-- **Language**: TypeScript 5
-- **Database**: PostgreSQL (via Supabase)
-- **ORM**: Prisma
-- **Authentication**: NextAuth.js, Web3Auth
-- **Styling**: Tailwind CSS 4
-- **Payments**: Stripe, LemonSqueezy, NowPayments
-- **AI**: Anthropic Claude
-- **Monitoring**: Sentry, Vercel Analytics
-- **Testing**: Jest, Playwright, Testing Library
-- **Deployment**: Vercel, Cloudflare
-
-## 📋 Prerequisites
-
-Before you begin, ensure you have:
-
-- **Node.js**: Version 20.x or higher
-- **npm**: Version 9.x or higher
-- **PostgreSQL**: Version 14+ or Supabase account
-- **Git**: Latest version
-
 ## 🚀 Quick Start
 
-### 1. Clone the Repository
-
 ```bash
-git clone https://github.com/muchaeljohn739337-cloud/personal-website.git
-cd personal-website
-```
-
-### 2. Install Dependencies
-
-```bash
+# Install dependencies
 npm install
-```
 
-### 3. Set Up Environment Variables
-
-```bash
-# Copy the example environment file
-cp env.example .env.local
-
+# Set up environment variables
+cp .env.example .env.local
 # Edit .env.local with your credentials
-# NEVER commit this file!
-```
 
-### 4. Set Up Database
-
-```bash
 # Generate Prisma client
 npx prisma generate
 
-# Run migrations
-npx prisma migrate dev
-
-# Seed database (optional)
-npm run db:seed
-```
-
-### 5. Run Development Server
-
-```bash
+# Run development server
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14+ (App Router)
+- **Language**: TypeScript 5
+- **Database**: PostgreSQL (via Supabase) with Prisma ORM
+- **Authentication**: NextAuth.js, Web3Auth
+- **Styling**: Tailwind CSS 4
+- **Payments**: Stripe, LemonSqueezy, Crypto (NowPayments)
+- **AI**: Anthropic Claude
+- **Monitoring**: Sentry
+- **Testing**: Jest, Playwright
+- **Deployment**: Vercel, Cloudflare
+
+## 📋 Prerequisites
+
+- **Node.js**: Version 20.x
+- **npm**: Version 9.x or higher
+- **PostgreSQL**: Via Supabase (recommended)
+- **Git**: Latest version
+
 ## 🔐 Environment Variables
 
-### Required Variables
+### Required
 
 | Variable          | Description                  | How to Get                                                                         |
 | ----------------- | ---------------------------- | ---------------------------------------------------------------------------------- |
@@ -94,19 +53,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 | `JWT_SECRET`      | JWT secret for tokens        | Run: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` |
 | `SESSION_SECRET`  | Session secret               | Run: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` |
 
-### Optional Variables
+### Optional
 
-| Variable                         | Description                        | Required For         |
-| -------------------------------- | ---------------------------------- | -------------------- |
-| `NEXT_PUBLIC_WEB3AUTH_CLIENT_ID` | Web3Auth client ID                 | Web3 wallet features |
-| `WEB3AUTH_NETWORK`               | Web3Auth network (mainnet/testnet) | Web3 wallet features |
-| `STRIPE_SECRET_KEY`              | Stripe secret key                  | Payment processing   |
-| `STRIPE_WEBHOOK_SECRET`          | Stripe webhook secret              | Payment webhooks     |
-| `ANTHROPIC_API_KEY`              | Claude AI API key                  | AI features          |
-| `SENTRY_DSN`                     | Sentry Data Source Name            | Error monitoring     |
-| `CLOUDFLARE_API_TOKEN`           | Cloudflare API token               | CDN and security     |
+- `NEXT_PUBLIC_WEB3AUTH_CLIENT_ID` - Web3 wallet features
+- `STRIPE_SECRET_KEY` - Payment processing
+- `ANTHROPIC_API_KEY` - AI features
+- `SENTRY_DSN` - Error monitoring
 
-See `env.example` for the complete list of environment variables.
+See `.env.example` for the complete list.
 
 ## 📚 Available Commands
 
@@ -124,10 +78,10 @@ npm run type-check   # Check TypeScript types
 ### Database
 
 ```bash
-npm run db:generate  # Generate Prisma client
-npm run db:migrate   # Run database migrations
-npm run db:seed      # Seed database
-npm run db:studio    # Open Prisma Studio
+npx prisma generate  # Generate Prisma client
+npm run prisma:migrate  # Run database migrations
+npm run prisma:seed  # Seed database
+npm run prisma:studio  # Open Prisma Studio
 ```
 
 ### Testing
@@ -135,140 +89,39 @@ npm run db:studio    # Open Prisma Studio
 ```bash
 npm test             # Run all tests
 npm run test:watch   # Run tests in watch mode
-npm run test:coverage # Generate coverage report
 npm run test:e2e     # Run E2E tests
-```
-
-### Deployment
-
-```bash
-npm run deploy:prod  # Deploy to production
-npm run setup:vercel # Set up Vercel environment
-npm run setup:github # Set up GitHub secrets
 ```
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
 
-1. **Connect Repository**
-   - Go to [Vercel Dashboard](https://vercel.com/dashboard)
-   - Import your GitHub repository
-   - Configure project settings
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel Dashboard
+3. Deploy automatically on push to main branch
 
-2. **Set Environment Variables**
-
-   ```bash
-   # Use the automated script
-   npm run setup:vercel
-
-   # Or manually in Vercel Dashboard:
-   # Project Settings > Environment Variables
-   ```
-
-3. **Deploy**
-
-   ```bash
-   # Automatic deployment on push to main branch
-   git push origin main
-
-   # Or manual deployment
-   npm run deploy:prod
-   ```
-
-### Cloudflare (Alternative)
+### Cloudflare
 
 ```bash
-# Build for Cloudflare Workers
-npm run build
-
-# Deploy to Cloudflare
-wrangler deploy
+npm run build:worker
+npm run deploy:worker:prod
 ```
 
-## 🔧 Configuration
+## 🔒 Security
 
-### Security Setup
-
-1. **Rotate Secrets** (Do this immediately after cloning):
-
-   ```bash
-   # Run the secret rotation script
-   .\scripts\setup-vercel-secrets.ps1
-   ```
-
-2. **Set Up Monitoring**:
-
-   ```bash
-   # Set up Sentry and analytics
-   .\scripts\setup-monitoring.ps1
-   ```
-
-3. **Configure GitHub Secrets**:
-
-   ```bash
-   # Set up CI/CD secrets
-   .\scripts\setup-github-secrets.ps1
-   ```
-
-### Database Configuration
-
-The application uses PostgreSQL via Supabase. Configuration steps:
-
-1. Create a Supabase project
-2. Copy connection string to `DATABASE_URL`
-3. Run migrations: `npx prisma migrate dev`
-4. Enable Row Level Security (RLS) in Supabase Dashboard
-
-## 🧪 Testing
-
-### Unit Tests
-
-```bash
-# Run all unit tests
-npm test
-
-# Run specific test file
-npm test -- path/to/test
-
-# Watch mode
-npm run test:watch
-```
-
-### E2E Tests
-
-```bash
-# Run all E2E tests
-npm run test:e2e
-
-# Run in UI mode
-npm run test:e2e:ui
-
-# Debug mode
-npm run test:e2e:debug
-```
-
-### Test Coverage
-
-```bash
-npm run test:coverage
-```
-
-Aim for 80%+ code coverage.
+- **Never commit sensitive information** like API keys, passwords, or private keys
+- All secrets should be stored in environment variables
+- Rotate secrets regularly
+- See [SECURITY.md](SECURITY.md) for security guidelines
 
 ## 📖 Documentation
 
+- [Quick Start Guide](QUICK_START_GUIDE.md) - Getting started guide
 - [Contributing Guide](CONTRIBUTING.md) - How to contribute
-- [Security Policy](SECURITY.md) - Security guidelines
 - [Architecture](ARCHITECTURE.md) - System architecture
-- [API Documentation](docs/api/README.md) - API reference
 - [Deployment Guide](DEPLOYMENT_CHECKLIST.md) - Production deployment
 
 ## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Quick Contribution Steps
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -278,47 +131,9 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 6. Push to the branch (`git push origin feature/amazing-feature`)
 7. Open a Pull Request
 
-## 🔒 Security
-
-Security is a top priority. Please review our [Security Policy](SECURITY.md) for:
-
-- Reporting vulnerabilities
-- Security best practices
-- Supported versions
-
-**Never commit sensitive information** like API keys, passwords, or private keys.
-
-## 📊 Project Status
-
-- ✅ Core features implemented
-- ✅ Authentication system complete
-- ✅ Payment integration complete
-- ✅ Admin dashboard complete
-- ✅ AI agent system complete
-- 🚧 Mobile app (in progress)
-- 📋 Analytics dashboard (planned)
-
-## 🗺️ Roadmap
-
-See [ROADMAP.md](ROADMAP.md) for planned features and improvements.
-
-## 📞 Support
-
-- **Email**: support@advanciapayledger.com
-- **Security**: security@advanciapayledger.com
-- **GitHub Issues**: [Report a bug](https://github.com/muchaeljohn739337-cloud/personal-website/issues/new?template=bug_report.md)
-- **Discussions**: [GitHub Discussions](https://github.com/muchaeljohn739337-cloud/personal-website/discussions)
-
 ## 📄 License
 
-This project is private and proprietary. All rights reserved.
-
-## 🙏 Acknowledgments
-
-- Next.js team for the amazing framework
-- Vercel for hosting and deployment
-- Supabase for database infrastructure
-- All contributors and supporters
+Private project - All rights reserved.
 
 ---
 

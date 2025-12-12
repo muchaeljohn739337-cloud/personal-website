@@ -20,7 +20,7 @@ BFNxdvITF4K95t3m0W704IllAlQ5xxwsmOJDXp9PNbISrzF2LPve6moMn3Cdukcz5kQv1ftp7SsP7q13
 ### Client Secret (Private)
 
 ```
-564a33d58a7f42a10c2855685faa9b2882aa0a3b9f9d689cca03defaf7b6e8d0
+[REDACTED - stored in environment variables]
 ```
 
 **Usage:** Server-side JWT verification (NEVER expose to client)  
@@ -66,7 +66,7 @@ For production deployment, add these to Vercel:
      - Environment: Production, Preview, Development
 
    - **WEB3AUTH_CLIENT_SECRET** (Optional - for server-side JWT verification)
-     - Value: `564a33d58a7f42a10c2855685faa9b2882aa0a3b9f9d689cca03defaf7b6e8d0`
+     - Value: `[YOUR_CLIENT_SECRET_HERE]` (Get from Web3Auth Dashboard)
      - Environment: Production, Preview, Development
      - ⚠️ Mark as **Secret**
 
