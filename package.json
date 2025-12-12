@@ -40,7 +40,7 @@
     "docker:down": "docker-compose down",
     "docker:build": "docker-compose build",
     "docker:logs": "docker-compose logs -f",
-    "prepare": "husky install",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') console.log('Husky not installed') }\"",
     "deploy:prod": "npm run build && vercel --prod",
     "deploy:prod:safe": "npx tsx scripts/deploy-to-production.ts",
     "deploy:worker:prod": "npm run build:worker && npx wrangler pages deploy .vercel/output/static --env production",

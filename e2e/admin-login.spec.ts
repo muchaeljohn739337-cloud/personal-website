@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+/* eslint-disable @typescript-eslint/no-require-imports */
+const { test, expect } = require('@playwright/test');
 
 /**
  * Admin Login Test
