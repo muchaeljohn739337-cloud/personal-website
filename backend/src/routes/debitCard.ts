@@ -67,7 +67,8 @@ router.post("/admin/price", authenticateToken as any, requireAdmin as any, async
 
 // Place an order: creates a support ticket and returns a Stripe Checkout session to pay the configured price
 router.post("/order", authenticateToken as any, async (req: any, res) => {
-  const stripeClient = config.stripeSecretKey ? new Stripe(config.stripeSecretKey, { apiVersion: "2023-10-16" }) : null;
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  const stripeClient = stripeSecretKey ? new Stripe(stripeSecretKey, { apiVersion: "2023-10-16" }) : null;
   if (!stripeClient) return res.status(503).json({ error: "Stripe is not configured" });
   const { fullName, address, phone, notes } = req.body || {};
   if (!fullName || !address || !phone)
@@ -102,8 +103,8 @@ router.post("/order", authenticateToken as any, async (req: any, res) => {
         },
       ],
       metadata: { userId: userId || "", type: "debit_card", ticketId: ticket.id },
-      success_url: `${config.frontendUrl}/payments/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${config.frontendUrl}/payments/cancel`,
+      success_url: `${process.env.FRONTEND_URL || "http://localhost:3000"}/payments/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.FRONTEND_URL || "http://localhost:3000"}/payments/cancel`,
     });
     // Notify admins new order submitted (pending payment)
     try {

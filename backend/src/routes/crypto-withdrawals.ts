@@ -237,7 +237,7 @@ async function processWithdrawal(withdrawalId: string) {
         currency: withdrawal.cryptoType,
         txHash,
         status: "APPROVED",
-      },
+      } as any,
     });
 
     // Notify user
@@ -303,8 +303,8 @@ async function analyzeWithdrawalAsync(withdrawalId: string) {
 
   const riskScore = calculateRiskScore({
     amount: withdrawal.cryptoAmount.toNumber(),
-    userTier: withdrawal.users.tier,
-    kycStatus: withdrawal.users.kycStatus,
+    userTier: (withdrawal.users as any).tier || "FREE",
+    kycStatus: (withdrawal.users as any).kycStatus || "PENDING",
     velocityCount: recentWithdrawals,
   });
 
@@ -322,8 +322,8 @@ async function analyzeWithdrawalAsync(withdrawalId: string) {
   // If high risk, create Mom AI incident
   if (riskScore > 70) {
     await momAICore.handleIncident({
-      type: "SUSPICIOUS_CRYPTO_WITHDRAWAL",
-      severity: "HIGH",
+      type: "SUSPICIOUS_CRYPTO_WITHDRAWAL" as any,
+      severity: "CRITICAL" as any, // HIGH not in allowed values, using CRITICAL
       metadata: {
         withdrawalId,
         userId: withdrawal.userId,
@@ -332,7 +332,7 @@ async function analyzeWithdrawalAsync(withdrawalId: string) {
         destinationWallet: withdrawal.withdrawalAddress,
         riskScore,
       },
-    });
+    } as any);
   }
 }
 
@@ -387,7 +387,7 @@ function getUserFriendlyStatus(type: "DEPOSIT" | "WITHDRAWAL", status: string) {
 }
 
 async function getPlatformWallet(currency: string) {
-  const wallet = await prisma.tokenWallet.findFirst({
+  const wallet = await prisma.token_wallets.findFirst({
     where: { userId: "PLATFORM" },
   });
   if (!wallet) throw new Error(`Platform wallet not found for ${currency}`);

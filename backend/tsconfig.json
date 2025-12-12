@@ -36,7 +36,6 @@
     "src/services/DeploymentMonitor.ts",
     "src/services/fraudDetection.ts",
     "src/services/rpaService.ts",
-    "src/services/VaultService.ts",
     "src/services/UnifiedAIGateway.ts",
     "src/ai/mapperAI.ts",
     "src/ai/recordCleanupAI.ts",
@@ -53,13 +52,6 @@
     "src/routes/authAdmin.ts",
     "src/routes/blog.ts",
     "src/routes/copilot.ts",
-    "src/routes/exchange.ts",
-    "src/routes/google-auth.ts",
-    "src/routes/governance.ts",
-    "src/routes/health.ts",
-    "src/routes/payments.ts",
-    "src/routes/project.ts",
-    "src/routes/socialMedia.ts",
     "src/routes/tailscale-admin.ts",
     "src/rpa/notificationAutomation.ts",
     "src/ai/copilot/CopilotService.ts",
@@ -70,7 +62,6 @@
     "src/middleware/ipFilter.ts",
     "src/middleware/secretProtection.ts",
     "src/middleware/tailscale.ts",
-    "src/services/EmailService.ts",
     "src/ai-brain"
   ]
 }

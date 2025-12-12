@@ -248,16 +248,17 @@ export class EmailService {
         data: {
           action: "EMAIL_SEND_FAILED",
           userId: undefined,
+          adminId: undefined,
           resourceType: "EMAIL",
           resourceId: options.template,
-          changes: options,
+          changes: options as any,
           metadata: {
             error: error.message,
             timestamp: new Date().toISOString(),
           },
           ipAddress: "127.0.0.1",
           userAgent: "EmailService",
-        },
+        } as any,
       });
     } catch (dbError) {
       // Silent fail - don't throw on logging errors

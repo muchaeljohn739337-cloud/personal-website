@@ -69,10 +69,14 @@ router.get("/callback", async (req: Request, res: Response) => {
     const { code, state, error, error_description } = req.query;
     const clientIP = req.ip || req.socket.remoteAddress || "unknown";
 
+    // Ensure code and state are strings
+    const codeStr = typeof code === "string" ? code : undefined;
+    const stateStr = typeof state === "string" ? state : undefined;
+
     // Debug: Log what Google sent
     console.log("Google OAuth Callback received:", {
-      hasCode: !!code,
-      hasState: !!state,
+      hasCode: !!codeStr,
+      hasState: !!stateStr,
       error,
       error_description,
       queryParams: req.query,
@@ -87,7 +91,7 @@ router.get("/callback", async (req: Request, res: Response) => {
       });
     }
 
-    if (!code) {
+    if (!codeStr) {
       return res.status(400).json({
         error: "Missing authorization code",
         debug: req.query, // Show what was actually received
@@ -105,7 +109,10 @@ router.get("/callback", async (req: Request, res: Response) => {
     // Verify state token
     let stateData: any = {};
     try {
-      stateData = JSON.parse(Buffer.from(state, "base64").toString());
+      if (!stateStr) {
+        throw new Error("Missing state parameter");
+      }
+      stateData = JSON.parse(Buffer.from(stateStr, "base64").toString());
     } catch (e) {
       return res.status(400).json({
         error: "Invalid state parameter",
@@ -113,7 +120,7 @@ router.get("/callback", async (req: Request, res: Response) => {
     }
 
     // Exchange code for tokens
-    const { userInfo, accessToken, refreshToken, expiryDate } = await exchangeCodeForTokens(code);
+    const { userInfo, accessToken, refreshToken, expiryDate } = await exchangeCodeForTokens(codeStr);
 
     if (!userInfo || !userInfo.email_verified) {
       return res.status(400).json({

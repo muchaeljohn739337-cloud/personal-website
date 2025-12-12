@@ -527,7 +527,12 @@ router.post("/:projectId/boards", authenticateToken, async (req: Request, res: R
       name: validated.name,
       description: validated.description,
       isDefault: validated.isDefault,
-      columns: validated.columns,
+      columns: validated.columns.map(col => ({
+        name: col.name || "",
+        position: col.position || 0,
+        limit: col.limit,
+        color: col.color,
+      })),
     });
     res.status(201).json(board);
   } catch (error: any) {

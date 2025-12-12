@@ -160,6 +160,7 @@ router.post("/refund-request", authenticateToken as any, aiRateLimiter("stripe")
       data: {
         action: "REFUND_REQUESTED",
         userId: String(userId),
+        adminId: undefined,
         resourceType: "PAYMENT",
         resourceId: String(paymentId),
         changes: {
@@ -169,7 +170,7 @@ router.post("/refund-request", authenticateToken as any, aiRateLimiter("stripe")
         },
         ipAddress: req.ip || "127.0.0.1",
         userAgent: req.headers["user-agent"] || "Unknown",
-      },
+      } as any,
     });
 
     return res.json({
@@ -328,7 +329,7 @@ export const handleStripeWebhook = async (req: any, res: any) => {
 
     const event = stripeClient.webhooks.constructEvent(rawBody, sig as string, stripeWebhookSecret);
 
-    switch (event.type) {
+    switch (event.type as string) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.metadata?.userId;
@@ -432,6 +433,7 @@ export const handleStripeWebhook = async (req: any, res: any) => {
             data: {
               action: "PAYMENT_FAILED",
               userId: String(userId),
+              adminId: undefined,
               resourceType: "PAYMENT",
               resourceId: String(paymentIntent.id),
               changes: {
@@ -440,7 +442,7 @@ export const handleStripeWebhook = async (req: any, res: any) => {
               },
               ipAddress: "127.0.0.1",
               userAgent: "Stripe Webhook",
-            },
+            } as any,
           });
 
           // Emit socket event
