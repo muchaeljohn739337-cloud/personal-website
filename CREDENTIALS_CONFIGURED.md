@@ -11,7 +11,7 @@
 ### Web3Auth Integration
 
 - ✅ **Client ID:** Configured (Complete ID with 88 characters)
-- ✅ **Client Secret:** `564a33d58a7f42a10c2855685faa9b2882aa0a3b9f9d689cca03defaf7b6e8d0`
+- ✅ **Client Secret:** `[REDACTED - stored in environment variables]`
 - ✅ **Network:** `mainnet`
 - ✅ **JWKS Endpoint:** `https://api-auth.web3auth.io/.well-known/jwks.json`
 - ✅ **Verifier Name:** `advanciapay`
@@ -20,9 +20,9 @@
 ### Sentry Error Monitoring
 
 - ✅ **DSN:** `https://0314003446dd77ca8c91be09fd19bae9@o4510495968002048.ingest.us.sentry.io/4510496006471680`
-- ✅ **Auth Token:** `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`
+- ✅ **Auth Token:** `[REDACTED - stored in environment variables]`
 - ✅ **Project ID:** `4510496006471680`
-- ✅ **Security Token:** `f3b71344d3be11f0bc0e8e1527e99f8e`
+- ✅ **Security Token:** `[REDACTED - stored in environment variables]`
 - ✅ **Public Key:** `0314003446dd77ca8c91be09fd19bae9`
 - ✅ **Organization:** `advancia-pay`
 - ✅ **Project:** `javascript-nextjs`
@@ -43,8 +43,8 @@
 
 ### Additional Credentials
 
-- ✅ **OAuth App Token:** `7af2d3b780aa8ecc442f4167338a04b08739b1b5`
-- ✅ **Vercel Token:** `7zRuIE4avlyj780IJ9tGsRzw`
+- ✅ **OAuth App Token:** `[REDACTED - stored in environment variables]`
+- ✅ **Vercel Token:** `[REDACTED - stored in environment variables]`
 - ✅ **MetaMask Password:** Configured (for wallet operations)
 - ✅ **Primary Domain:** `advanciapayledger.com`
 
